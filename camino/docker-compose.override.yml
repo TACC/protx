@@ -3,10 +3,10 @@ services:
   nginx:
     image: nginx
     volumes:
-      - /etc/ssl/certs/pprd.protx.tacc.utexas.edu.cer:/etc/ssl/certs/portal.cer
-      - /etc/ssl/private/pprd.protx.tacc.utexas.edu.key:/etc/ssl/private/portal.key
+      - /etc/ssl/pprd.protx.tacc.utexas.edu.cer:/etc/ssl/certs/portal.cer
+      - /etc/ssl/pprd.protx.tacc.utexas.edu.key:/etc/ssl/private/portal.key
 
   websockets:
     volumes:
-      - /etc/ssl/certs/pprd.protx.tacc.utexas.edu.cer:/etc/ssl/certs/portal.cer
-      - /etc/ssl/private/pprd.protx.tacc.utexas.edu.key:/etc/ssl/private/portal.key
+      - /etc/ssl/pprd.protx.tacc.utexas.edu.cer:/etc/ssl/certs/portal.cer
+      - /etc/ssl/pprd.protx.tacc.utexas.edu.key:/etc/ssl/private/portal.key
