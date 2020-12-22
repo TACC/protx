@@ -94,6 +94,9 @@ INSTALLED_APPS = [
     'portal.apps.system_creation',
     'portal.apps.site_search',
     'portal.apps.jupyter_mounts',
+
+    # Custom protx apps
+    'protx.data'
 ]
 
 MIDDLEWARE = [

@@ -7,6 +7,7 @@ import * as ROUTES from '../../constants/routes';
 import TicketStandaloneCreate from '../Tickets/TicketStandaloneCreate';
 import GoogleDrivePrivacyPolicy from '../ManageAccount/GoogleDrivePrivacyPolicy/GoogleDrivePrivacyPolicy';
 import SiteSearch from '../SiteSearch';
+import ProTx from '../ProTx';
 
 function AppRouter() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function AppRouter() {
       <Route path="/search/:filter?" component={SiteSearch} />
       <Route path={ROUTES.WORKBENCH} component={Workbench} />
       <Route path="/tickets/new" component={TicketStandaloneCreate} />
+      <Route path="/protx" component={ProTx} />
       <Route
         path="/googledrive-privacy-policy"
         component={GoogleDrivePrivacyPolicy}
