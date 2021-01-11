@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import MapProviders from "./MapProviders";
 import L from 'leaflet';
 import './MainMap.css';
 import 'leaflet/dist/leaflet.css';
@@ -15,25 +16,17 @@ function MainMap() {
       maxZoom: 17
     };
 
-    // eslint-disable-next-line no-unused-vars
     const map = L.map(mapContainer).setView(
       [initialState.lat, initialState.lng],
       initialState.zoom
     );
 
-    const basemapOsm = L.tileLayer(
-      'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      {
-        attribution:
-          'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        minZoom: 0,
-        maxZoom: 17,
-        name: 'OSM - Default',
-        type: 'png'
-      }
-    );
+    // Create Layers Control.
+    const { providers, layers: baseMaps } = MapProviders();
+    providers[3].addTo(map);
+    const overlayMaps = {}
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-    basemapOsm.addTo(map);
   }, [mapContainer]);
 
   return <div className="map-container" ref={el => (mapContainer = el)} />;
