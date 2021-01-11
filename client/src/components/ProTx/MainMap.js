@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import MapProviders from "./MapProviders";
 import L from 'leaflet';
+import MapProviders from './MapProviders';
 import './MainMap.css';
 import 'leaflet/dist/leaflet.css';
 
@@ -24,9 +24,8 @@ function MainMap() {
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
     providers[3].addTo(map);
-    const overlayMaps = {}
+    const overlayMaps = {};
     L.control.layers(baseMaps, overlayMaps).addTo(map);
-
   }, [mapContainer]);
 
   return <div className="map-container" ref={el => (mapContainer = el)} />;
