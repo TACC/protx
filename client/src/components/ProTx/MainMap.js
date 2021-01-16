@@ -39,14 +39,27 @@ function MainMap() {
     providers[3].addTo(map);
     const overlayMaps = {};
     L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+    // Add example geojson
+    const texasData = L.geoJson(data, {
+      onEachFeature(f, l) {
+        l.bindPopup(
+          `<pre>${JSON.stringify(f.properties, null, ' ').replace(
+            /[{}"]/g,
+            ''
+          )}</pre>`
+        );
+      }
+    }).addTo(map);
+
+    // fit to texas
+    map.fitBounds(texasData.getBounds());
   }, [loading, data, mapContainer]);
 
   if (error) {
     return (
       <div styleName="root">
-        <Message type="error">
-          There was a problem loading the map.
-        </Message>
+        <Message type="error">There was a problem loading the map.</Message>
       </div>
     );
   }
