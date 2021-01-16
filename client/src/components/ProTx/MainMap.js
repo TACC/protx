@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import L from 'leaflet';
-import { DropdownSelector } from '_common';
+import { Message, LoadingSpinner, DropdownSelector } from '_common';
 import MapProviders from './MapProviders';
 import './MainMap.css';
 import './MainMap.module.scss';
@@ -8,8 +9,18 @@ import 'leaflet/dist/leaflet.css';
 
 function MainMap() {
   let mapContainer;
+  const dispatch = useDispatch();
+  const { loading, error, data } = useSelector(state => state.protx);
+
+  // Get systems and any other initial data we need from the backend
+  useEffect(() => {
+    dispatch({ type: 'FETCH_PROTX' });
+  }, []);
 
   useEffect(() => {
+    if (loading === true) {
+      return;
+    }
     const initialState = {
       lat: 32.7767,
       lng: -96.797,
@@ -28,7 +39,25 @@ function MainMap() {
     providers[3].addTo(map);
     const overlayMaps = {};
     L.control.layers(baseMaps, overlayMaps).addTo(map);
-  }, [mapContainer]);
+  }, [loading, data, mapContainer]);
+
+  if (error) {
+    return (
+      <div styleName="root">
+        <Message type="error">
+          There was a problem loading the map.
+        </Message>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div styleName="root">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div styleName="root">
@@ -74,7 +103,6 @@ function MainMap() {
         className="map-container"
         ref={el => (mapContainer = el)}
       />
-      ;
     </div>
   );
 }
