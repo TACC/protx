@@ -7,6 +7,45 @@ import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
+const coldToHotColors = [
+  '#ffffb2',
+  '#fed976',
+  '#feb24c',
+  '#fd8d3c',
+  '#f03b20',
+  '#bd0026'
+];
+
+function getColor(value) {
+  if (value < 1) {
+    return coldToHotColors[0];
+  }
+  if (value < 2) {
+    return coldToHotColors[1];
+  }
+  if (value < 3) {
+    return coldToHotColors[2];
+  }
+  if (value < 4) {
+    return coldToHotColors[3];
+  }
+  if (value < 5) {
+    return coldToHotColors[4];
+  }
+  return coldToHotColors[5];
+}
+
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties['2015']),
+    weight: 2,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  };
+}
+
 function MainMap() {
   let mapContainer;
   const dispatch = useDispatch();
@@ -42,6 +81,7 @@ function MainMap() {
 
     // Add example geojson
     const texasData = L.geoJson(data, {
+      style,
       onEachFeature(f, l) {
         l.bindPopup(
           `<pre>${JSON.stringify(f.properties, null, ' ').replace(
