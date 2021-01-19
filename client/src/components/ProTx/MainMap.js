@@ -66,9 +66,9 @@ function MainMap() {
       return;
     }
     const initialState = {
-      lat: 32.7767,
-      lng: -96.797,
-      zoom: 7,
+      lat: 31.0686,
+      lng: -99.9018,
+      zoom: 6,
       minZoom: 5,
       maxZoom: 17
     };
