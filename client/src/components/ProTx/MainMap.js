@@ -36,18 +36,20 @@ function getColor(value) {
   return coldToHotColors[5];
 }
 
-function style(feature) {
-  return {
-    fillColor: getColor(feature.properties['2015']),
-    weight: 2,
-    opacity: 1,
-    color: 'white',
-    dashArray: '3',
-    fillOpacity: 0.7
-  };
-}
-
 const selectedYear = '2015';
+
+const getContent = properties => {
+  let content = '<pre>';
+  const allowedProperties = ['GEOID10', selectedYear];
+  Object.keys(properties).forEach(k => {
+    if (allowedProperties.includes(k)) {
+      const displayValue = properties[k] ? properties[k] : '------';
+      content += `${k}: ${displayValue}\n`;
+    }
+  });
+  content += '</pre>';
+  return content;
+};
 
 function MainMap() {
   let mapContainer;
@@ -76,26 +78,57 @@ function MainMap() {
       initialState.zoom
     );
 
-    const dataLayer = L.vectorGrid.slicer(data, {
-      rendererFactory: L.svg.tile,
-      vectorTileLayerStyles: {
-        sliced(properties, zoom) {
-          const color = getColor(properties[selectedYear]);
-          return {
-            fillColor: color,
-            fillOpacity: 0.7,
-            stroke: true,
-            fill: true,
-            color: 'black',
-            weight: 1
-          };
-        }
-      },
-      interactive: true,
-      getFeatureId(f) {
-        return f.properties.GEOID10;
+    let highlight;
+    const clearHighlight = function() {
+      if (highlight) {
+        dataLayer.resetFeatureStyle(highlight);
       }
-    }).;
+      highlight = null;
+    };
+
+    const dataLayer = L.vectorGrid
+      .slicer(data, {
+        rendererFactory: L.svg.tile,
+        vectorTileLayerStyles: {
+          sliced(properties, zoom) {
+            const color = getColor(properties[selectedYear]);
+            return {
+              fillColor: color,
+              fillOpacity: 0.7,
+              stroke: true,
+              fill: true,
+              color: 'black',
+              weight: 1
+            };
+          }
+        },
+        interactive: true,
+        getFeatureId(f) {
+          return f.properties.GEOID10;
+        }
+      })
+      .on('mouseover', function(e) {
+        const { properties } = e.layer;
+        L.popup()
+          .setContent(getContent(properties))
+          .setLatLng(e.latlng)
+          .openOn(map);
+
+        clearHighlight();
+        highlight = properties.GEOID10;
+
+        const selectedStyle = {
+          fillColor: getColor(properties[selectedYear]),
+          fillOpacity: 1,
+          stroke: true,
+          fill: true,
+          color: 'red',
+          opacity: 1,
+          weight: 2
+        };
+
+        dataLayer.setFeatureStyle(properties.GEOID10, selectedStyle);
+      });
 
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
@@ -103,21 +136,6 @@ function MainMap() {
     const overlayMaps = { '2015': dataLayer };
     dataLayer.addTo(map);
     L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-    // Add example geojson
-    /*
-    const texasData = L.geoJson(data), {
-      style,
-      onEachFeature(f, l) {
-        l.bindPopup(
-          `<pre>${JSON.stringify(f.properties, null, ' ').replace(
-            /[{}"]/g,
-            ''
-          )}</pre>`
-        );
-      }
-    }).addTo(map);
-    */
   }, [loading, data, mapContainer]);
 
   if (error) {
