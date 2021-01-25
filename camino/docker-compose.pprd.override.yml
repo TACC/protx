@@ -1,10 +1,11 @@
-version: "3"
+version: "3.8"
 services:
   nginx:
     image: nginx
     volumes:
       - /etc/ssl/pprd.protx.tacc.utexas.edu.cer:/etc/ssl/certs/portal.cer
       - /etc/ssl/pprd.protx.tacc.utexas.edu.key:/etc/ssl/private/portal.key
+      - ./conf/camino/protx.location.conf:/etc/nginx/conf.d/protx.location.conf
 
   websockets:
     volumes:
