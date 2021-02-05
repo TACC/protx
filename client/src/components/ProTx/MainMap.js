@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
@@ -36,9 +36,7 @@ function getColor(value) {
   return coldToHotColors[5];
 }
 
-const selectedYear = '2015';
-
-const getContent = properties => {
+const getContent = (properties, selectedYear) => {
   let content = '<pre>';
   const allowedProperties = ['GEOID10', selectedYear];
   Object.keys(properties).forEach(k => {
@@ -55,6 +53,7 @@ function MainMap() {
   let mapContainer;
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
+  const [selectedYear, setSelectedYear] = useState('2015');
 
   // Get systems and any other initial data we need from the backend
   useEffect(() => {
@@ -110,7 +109,7 @@ function MainMap() {
       .on('mouseover', function(e) {
         const { properties } = e.layer;
         L.popup()
-          .setContent(getContent(properties))
+          .setContent(getContent(properties, selectedYear))
           .setLatLng(e.latlng)
           .openOn(map);
 
@@ -159,7 +158,7 @@ function MainMap() {
       <div styleName="control-bar-container">
         <div styleName="control">
           <span styleName="label">Select Area</span>
-          <DropdownSelector>
+          <DropdownSelector value="censusTracts" disabled>
             <optgroup label="Select Areas">
               <option value="dfpsRegions">DFPS Regions</option>
               <option value="counties">Counties</option>
@@ -173,7 +172,7 @@ function MainMap() {
         </div>
         <div styleName="control">
           <span styleName="label">Select Display</span>
-          <DropdownSelector>
+          <DropdownSelector value="allCIs" disabled>
             <optgroup label="Select Display">
               <option value="allCIs">All CIs</option>
               <option value="selectCIs">Select CIs</option>
@@ -188,9 +187,20 @@ function MainMap() {
         </div>
         <div styleName="control">
           <span styleName="label">Select TimeFrame</span>
-          <DropdownSelector disabled>
+          <DropdownSelector value={selectedYear} onChange={setSelectedYear}>
             <optgroup label="Select Timeframe" />
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
             <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
           </DropdownSelector>
         </div>
       </div>
