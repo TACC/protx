@@ -49,11 +49,15 @@ const getContent = (properties, selectedYear) => {
   return content;
 };
 
+let mapContainer;
+
 function MainMap() {
-  let mapContainer;
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const [selectedYear, setSelectedYear] = useState('2015');
+  const [layersControl, setLayersControl] = useState(null);
+  const [dataLayer, setDataLayer] = useState(null);
+  const [map, setMap] = useState(null);
 
   // Get systems and any other initial data we need from the backend
   useEffect(() => {
@@ -61,7 +65,7 @@ function MainMap() {
   }, []);
 
   useEffect(() => {
-    if (loading === true) {
+    if (map || loading === true) {
       return;
     }
     const initialState = {
@@ -72,70 +76,63 @@ function MainMap() {
       maxZoom: 17
     };
 
-    const map = L.map(mapContainer).setView(
+    const newMap = L.map(mapContainer).setView(
       [initialState.lat, initialState.lng],
       initialState.zoom
     );
-
-    let highlight;
-    const clearHighlight = function() {
-      if (highlight) {
-        dataLayer.resetFeatureStyle(highlight);
-      }
-      highlight = null;
-    };
-
-    const dataLayer = L.vectorGrid
-      .slicer(data, {
-        rendererFactory: L.svg.tile,
-        vectorTileLayerStyles: {
-          sliced(properties, zoom) {
-            const color = getColor(properties[selectedYear]);
-            return {
-              fillColor: color,
-              fillOpacity: 0.7,
-              stroke: true,
-              fill: true,
-              color: 'black',
-              weight: 1
-            };
-          }
-        },
-        interactive: true,
-        getFeatureId(f) {
-          return f.properties.GEOID10;
-        }
-      })
-      .on('mouseover', function(e) {
-        const { properties } = e.layer;
-        L.popup()
-          .setContent(getContent(properties, selectedYear))
-          .setLatLng(e.latlng)
-          .openOn(map);
-
-        clearHighlight();
-        highlight = properties.GEOID10;
-
-        const selectedStyle = {
-          fillColor: getColor(properties[selectedYear]),
-          fillOpacity: 1,
-          stroke: true,
-          fill: true,
-          color: 'red',
-          opacity: 1,
-          weight: 2
-        };
-
-        dataLayer.setFeatureStyle(properties.GEOID10, selectedStyle);
-      });
-
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
-    providers[3].addTo(map);
-    const overlayMaps = { '2015': dataLayer };
-    dataLayer.addTo(map);
-    L.control.layers(baseMaps, overlayMaps).addTo(map);
+    providers[3].addTo(newMap);
+    setLayersControl(L.control.layers(baseMaps).addTo(newMap));
+    setMap(newMap);
   }, [loading, data, mapContainer]);
+
+  useEffect(() => {
+    if (map && layersControl) {
+      const newDataLayer = L.vectorGrid
+        .slicer(data, {
+          rendererFactory: L.svg.tile,
+          vectorTileLayerStyles: {
+            sliced(properties, zoom) {
+              return {
+                fillColor: getColor(properties[selectedYear]),
+                fillOpacity: 0.7,
+                stroke: true,
+                fill: true,
+                color: 'black',
+                weight: 1
+              };
+            }
+          },
+          interactive: true,
+          getFeatureId(f) {
+            return f.properties.GEOID10;
+          }
+        })
+        .on('mouseover', e => {
+          const { properties } = e.layer;
+          // todo need to close when switching years
+          L.popup()
+            .setContent(getContent(properties, selectedYear))
+            .setLatLng(e.latlng)
+            .openOn(map);
+        });
+      if (dataLayer && layersControl) {
+        // we will remove data layer from mapand from control
+        layersControl.removeLayer(dataLayer);
+        dataLayer.remove();
+      }
+
+      // add new data layer to map and controls
+      newDataLayer.addTo(map);
+      layersControl.addOverlay(newDataLayer, 'Data');
+      setDataLayer(newDataLayer);
+    }
+  }, [selectedYear, layersControl, map]);
+
+  const changeYear = event => {
+    setSelectedYear(event.target.value);
+  };
 
   if (error) {
     return (
@@ -187,7 +184,7 @@ function MainMap() {
         </div>
         <div styleName="control">
           <span styleName="label">Select TimeFrame</span>
-          <DropdownSelector value={selectedYear} onChange={setSelectedYear}>
+          <DropdownSelector value={selectedYear} onChange={changeYear}>
             <optgroup label="Select Timeframe" />
             <option value="2008">2008</option>
             <option value="2009">2009</option>
