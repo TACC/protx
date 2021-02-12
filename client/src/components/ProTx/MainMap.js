@@ -97,10 +97,8 @@ function MainMap() {
               return {
                 fillColor: getColor(properties[selectedYear]),
                 fillOpacity: 0.7,
-                stroke: true,
                 fill: true,
-                color: 'black',
-                weight: 1
+                stroke: false
               };
             }
           },
