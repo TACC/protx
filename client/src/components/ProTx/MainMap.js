@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
@@ -36,9 +36,7 @@ function getColor(value) {
   return coldToHotColors[5];
 }
 
-const selectedYear = '2015';
-
-const getContent = properties => {
+const getContent = (properties, selectedYear) => {
   let content = '<pre>';
   const allowedProperties = ['GEOID10', selectedYear];
   Object.keys(properties).forEach(k => {
@@ -51,10 +49,15 @@ const getContent = properties => {
   return content;
 };
 
+let mapContainer;
+
 function MainMap() {
-  let mapContainer;
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
+  const [selectedYear, setSelectedYear] = useState('2015');
+  const [layersControl, setLayersControl] = useState(null);
+  const [dataLayer, setDataLayer] = useState(null);
+  const [map, setMap] = useState(null);
 
   // Get systems and any other initial data we need from the backend
   useEffect(() => {
@@ -62,7 +65,7 @@ function MainMap() {
   }, []);
 
   useEffect(() => {
-    if (loading === true) {
+    if (map || loading === true) {
       return;
     }
     const initialState = {
@@ -73,70 +76,61 @@ function MainMap() {
       maxZoom: 17
     };
 
-    const map = L.map(mapContainer).setView(
+    const newMap = L.map(mapContainer).setView(
       [initialState.lat, initialState.lng],
       initialState.zoom
     );
-
-    let highlight;
-    const clearHighlight = function() {
-      if (highlight) {
-        dataLayer.resetFeatureStyle(highlight);
-      }
-      highlight = null;
-    };
-
-    const dataLayer = L.vectorGrid
-      .slicer(data, {
-        rendererFactory: L.svg.tile,
-        vectorTileLayerStyles: {
-          sliced(properties, zoom) {
-            const color = getColor(properties[selectedYear]);
-            return {
-              fillColor: color,
-              fillOpacity: 0.7,
-              stroke: true,
-              fill: true,
-              color: 'black',
-              weight: 1
-            };
-          }
-        },
-        interactive: true,
-        getFeatureId(f) {
-          return f.properties.GEOID10;
-        }
-      })
-      .on('mouseover', function(e) {
-        const { properties } = e.layer;
-        L.popup()
-          .setContent(getContent(properties))
-          .setLatLng(e.latlng)
-          .openOn(map);
-
-        clearHighlight();
-        highlight = properties.GEOID10;
-
-        const selectedStyle = {
-          fillColor: getColor(properties[selectedYear]),
-          fillOpacity: 1,
-          stroke: true,
-          fill: true,
-          color: 'red',
-          opacity: 1,
-          weight: 2
-        };
-
-        dataLayer.setFeatureStyle(properties.GEOID10, selectedStyle);
-      });
-
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
-    providers[3].addTo(map);
-    const overlayMaps = { '2015': dataLayer };
-    dataLayer.addTo(map);
-    L.control.layers(baseMaps, overlayMaps).addTo(map);
+    providers[3].addTo(newMap);
+    setLayersControl(L.control.layers(baseMaps).addTo(newMap));
+    setMap(newMap);
   }, [loading, data, mapContainer]);
+
+  useEffect(() => {
+    if (map && layersControl) {
+      const newDataLayer = L.vectorGrid
+        .slicer(data, {
+          rendererFactory: L.svg.tile,
+          vectorTileLayerStyles: {
+            sliced(properties, zoom) {
+              return {
+                fillColor: getColor(properties[selectedYear]),
+                fillOpacity: 0.7,
+                fill: true,
+                stroke: false
+              };
+            }
+          },
+          interactive: true,
+          getFeatureId(f) {
+            return f.properties.GEOID10;
+          }
+        })
+        .on('mouseover', e => {
+          const { properties } = e.layer;
+          // todo need to close when switching years
+          L.popup()
+            .setContent(getContent(properties, selectedYear))
+            .setLatLng(e.latlng)
+            .openOn(map);
+        });
+      if (dataLayer && layersControl) {
+        // we will remove data layer from mapand from control
+        layersControl.removeLayer(dataLayer);
+        dataLayer.remove();
+      }
+
+      // add new data layer to map and controls
+      newDataLayer.addTo(map);
+      layersControl.addOverlay(newDataLayer, 'Data');
+      setDataLayer(newDataLayer);
+    }
+  }, [selectedYear, layersControl, map]);
+
+  const changeYear = event => {
+    setSelectedYear(event.target.value);
+  };
 
   if (error) {
     return (
@@ -159,7 +153,7 @@ function MainMap() {
       <div styleName="control-bar-container">
         <div styleName="control">
           <span styleName="label">Select Area</span>
-          <DropdownSelector>
+          <DropdownSelector value="censusTracts" disabled>
             <optgroup label="Select Areas">
               <option value="dfpsRegions">DFPS Regions</option>
               <option value="counties">Counties</option>
@@ -173,7 +167,7 @@ function MainMap() {
         </div>
         <div styleName="control">
           <span styleName="label">Select Display</span>
-          <DropdownSelector>
+          <DropdownSelector value="allCIs" disabled>
             <optgroup label="Select Display">
               <option value="allCIs">All CIs</option>
               <option value="selectCIs">Select CIs</option>
@@ -188,9 +182,20 @@ function MainMap() {
         </div>
         <div styleName="control">
           <span styleName="label">Select TimeFrame</span>
-          <DropdownSelector disabled>
+          <DropdownSelector value={selectedYear} onChange={changeYear}>
             <optgroup label="Select Timeframe" />
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
             <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
           </DropdownSelector>
         </div>
       </div>
