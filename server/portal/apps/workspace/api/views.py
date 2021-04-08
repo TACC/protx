@@ -231,7 +231,9 @@ class JobsView(BaseApiView):
             if user_job_ids:
                 data = agave.jobs.list(query={'id.in': ','.join(user_job_ids)})
                 # re-order agave job info to match our time-ordered jobs
-                data = [next(job for job in data if job["id"] == id) for id in user_job_ids]
+                # while also taking care that tapis in rare cases might no longer
+                # have that job (see https://jira.tacc.utexas.edu/browse/FP-975)
+                data = list(filter(None, [next((job for job in data if job["id"] == id), None) for id in user_job_ids]))
             else:
                 data = []
 
@@ -520,6 +522,13 @@ class AppsTrayView(BaseApiView):
                 "title": "My Apps",
                 "apps": my_apps
             }
+        )
+        # Only return tabs that are non-empty
+        tabs = list(
+            filter(
+                lambda tab: len(tab["apps"]) > 0,
+                tabs
+            )
         )
 
         return JsonResponse({"tabs": tabs, "definitions": definitions})
