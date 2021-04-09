@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
-import { Message, LoadingSpinner, DropdownSelector } from '_common';
+import { SectionMessage, LoadingSpinner, DropdownSelector } from '_common';
 import MapProviders from './MapProviders';
 import './MainMap.css';
 import './MainMap.module.scss';
@@ -134,8 +134,10 @@ function MainMap() {
 
   if (error) {
     return (
-      <div styleName="root">
-        <Message type="error">There was a problem loading the map.</Message>
+      <div styleName="error">
+        <SectionMessage type="warn">
+          There was a problem loading the map.
+        </SectionMessage>
       </div>
     );
   }
