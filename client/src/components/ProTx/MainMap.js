@@ -52,9 +52,11 @@ const getContent = (properties, selectedYear) => {
 let mapContainer;
 
 function MainMap() {
+  const dataServer = window.location.origin; // 'https://prod.cep.tacc.utexas.edu/'
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
-  const [selectedYear, setSelectedYear] = useState('2015');
+  const [selectedGeography, setSelectedGeography] = useState('county');
+  const [selectedYear, setSelectedYear] = useState('2019');
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
@@ -72,8 +74,8 @@ function MainMap() {
       lat: 31.0686,
       lng: -99.9018,
       zoom: 6,
-      minZoom: 5,
-      maxZoom: 17
+      minZoom: 0,
+      maxZoom: 12 // max zoom of generated tile sets
     };
 
     const newMap = L.map(mapContainer).setView(
@@ -88,15 +90,14 @@ function MainMap() {
   }, [loading, data, mapContainer]);
 
   useEffect(() => {
+    const vectorTile = `${dataServer}/static/data/vector/${selectedGeography}/${selectedYear}/{z}/{x}/{y}.pbf`;
     if (map && layersControl) {
       const newDataLayer = L.vectorGrid
-        .slicer(data, {
-          rendererFactory: L.svg.tile,
+        .protobuf(vectorTile, {
           vectorTileLayerStyles: {
-            sliced(properties, zoom) {
+            single_layer: properties => {
               return {
-                fillColor: getColor(properties[selectedYear]),
-                fillOpacity: 0.7,
+                fillColor: getColor(2), // TODO getColor(properties[selectedYear]),
                 fill: true,
                 stroke: false
               };
@@ -105,7 +106,8 @@ function MainMap() {
           interactive: true,
           getFeatureId(f) {
             return f.properties.GEOID10;
-          }
+          },
+          maxNativeZoom: 12 // TODO update from tiles are be consistent in tile generation
         })
         .on('mouseover', e => {
           const { properties } = e.layer;
@@ -126,7 +128,11 @@ function MainMap() {
       layersControl.addOverlay(newDataLayer, 'Data');
       setDataLayer(newDataLayer);
     }
-  }, [selectedYear, layersControl, map]);
+  }, [selectedYear, selectedGeography, layersControl, map]);
+
+  const changeGeography = event => {
+    setSelectedGeography(event.target.value);
+  };
 
   const changeYear = event => {
     setSelectedYear(event.target.value);
@@ -155,15 +161,17 @@ function MainMap() {
       <div styleName="control-bar-container">
         <div styleName="control">
           <span styleName="label">Select Area</span>
-          <DropdownSelector value="censusTracts" disabled>
+          <DropdownSelector
+            value={selectedGeography}
+            onChange={changeGeography}
+          >
             <optgroup label="Select Areas">
-              <option value="dfpsRegions">DFPS Regions</option>
-              <option value="counties">Counties</option>
-              <option value="metropolitanAreas">Metropolitan Areas</option>
-              <option value="cities">Cities</option>
-              <option value="zipCodes">Zip Codes</option>
-              <option value="schoolDistricts">School Districts</option>
-              <option value="censusTracts">Census Tracts</option>
+              <option value="dfps">DFPS Regions</option>
+              <option value="county">Counties</option>
+              <option value="cbsa">Core base statistical areas</option>
+              <option value="urban_areas">Urban Areas</option>
+              <option value="zcta">Zip Codes</option>
+              <option value="census_tracts">Census Tracts</option>
             </optgroup>
           </DropdownSelector>
         </div>
@@ -184,19 +192,8 @@ function MainMap() {
         </div>
         <div styleName="control">
           <span styleName="label">Select TimeFrame</span>
-          <DropdownSelector value={selectedYear} onChange={changeYear}>
+          <DropdownSelector value={selectedYear} onChange={changeYear} disabled>
             <optgroup label="Select Timeframe" />
-            <option value="2008">2008</option>
-            <option value="2009">2009</option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
-            <option value="2012">2012</option>
-            <option value="2013">2013</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
             <option value="2019">2019</option>
           </DropdownSelector>
         </div>
