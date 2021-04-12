@@ -31,7 +31,7 @@ export const GEOID_KEY = {
   cbsa: 'GEOID_left',
   census_tract: 'GEOID',
   county: 'GEO_ID',
-  dfps_region: 'Sheetl__Re',
+  dfps_region: 'Sheet1__Re',
   urban_area: 'GEOID10',
   zcta: 'GEOID10'
 };
