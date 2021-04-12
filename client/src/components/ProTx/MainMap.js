@@ -5,6 +5,7 @@ import 'leaflet.vectorgrid';
 import { SectionMessage, LoadingSpinner, DropdownSelector } from '_common';
 import MapProviders from './MapProviders';
 import './MainMap.css';
+import { OBSERVED_FEATURES } from './meta';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
@@ -166,27 +167,22 @@ function MainMap() {
             onChange={changeGeography}
           >
             <optgroup label="Select Areas">
-              <option value="dfps">DFPS Regions</option>
+              <option value="dfps_region">DFPS Regions</option>
               <option value="county">Counties</option>
               <option value="cbsa">Core base statistical areas</option>
-              <option value="urban_areas">Urban Areas</option>
+              <option value="urban_area">Urban Areas</option>
               <option value="zcta">Zip Codes</option>
-              <option value="census_tracts">Census Tracts</option>
+              <option value="census_tract">Census Tracts</option>
             </optgroup>
           </DropdownSelector>
         </div>
         <div styleName="control">
           <span styleName="label">Select Display</span>
-          <DropdownSelector value="allCIs" disabled>
+          <DropdownSelector value="allCIs">
             <optgroup label="Select Display">
-              <option value="allCIs">All CIs</option>
-              <option value="selectCIs">Select CIs</option>
-              <option value="trendOverTime">Trend Over Time</option>
-              <option value="thresholds">Thresholds</option>
-              <option value="nbhdSocialTapestry">Nbhd SocialTapestry</option>
-              <option value="socialCorrelates">Social Correlates</option>
-              <option value="predictions">Predictions</option>
-              <option value="resources">Sesources</option>
+              {OBSERVED_FEATURES.map(feature => (
+                <option key={feature.field}>{feature.name}</option>
+              ))}
             </optgroup>
           </DropdownSelector>
         </div>
