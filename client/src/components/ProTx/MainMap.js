@@ -91,40 +91,31 @@ function MainMap() {
   useEffect(() => {
     const vectorTile = `${dataServer}/static/data/vector/${selectedGeography}/${selectedYear}/{z}/{x}/{y}.pbf`;
     if (map && layersControl) {
-      const newDataLayer = L.vectorGrid
-        .protobuf(vectorTile, {
-          vectorTileLayerStyles: {
-            singleLayer: properties => {
-              const geoid = properties[GEOID_KEY[selectedGeography]];
-              const dataSet = data.observedFeatures[selectedGeography];
-              // TODO confirm that we don't have values for all elements
-              const hasElement = geoid in dataSet;
-              const hasElementAndProperty =
-                hasElement && selectedObservedFeature in dataSet[geoid];
-              const observedFeatureValue = hasElementAndProperty
-                ? dataSet[geoid][selectedObservedFeature]
-                : 0;
-              return {
-                fillColor: getColor(observedFeatureValue),
-                fill: hasElementAndProperty,
-                stroke: false
-              };
-            }
-          },
-          interactive: true,
-          getFeatureId(f) {
-            return f.properties[GEOID_KEY[selectedGeography]];
-          },
-          maxNativeZoom: 14 // All tiles generated up to 14 zoom level
-        })
-        .on('mouseover', e => {
-          const { properties } = e.layer;
-          // todo need to close when switching years
-          L.popup()
-            .setContent(getContent(properties, selectedYear))
-            .setLatLng(e.latlng)
-            .openOn(map);
-        });
+      const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
+        vectorTileLayerStyles: {
+          singleLayer: properties => {
+            const geoid = properties[GEOID_KEY[selectedGeography]];
+            const dataSet = data.observedFeatures[selectedGeography];
+            // TODO confirm that we don't have values for all elements
+            const hasElement = geoid in dataSet;
+            const hasElementAndProperty =
+              hasElement && selectedObservedFeature in dataSet[geoid];
+            const observedFeatureValue = hasElementAndProperty
+              ? dataSet[geoid][selectedObservedFeature]
+              : 0;
+            return {
+              fillColor: getColor(observedFeatureValue),
+              fill: hasElementAndProperty,
+              stroke: false
+            };
+          }
+        },
+        interactive: true,
+        getFeatureId(f) {
+          return f.properties[GEOID_KEY[selectedGeography]];
+        },
+        maxNativeZoom: 14 // All tiles generated up to 14 zoom level
+      });
       if (dataLayer && layersControl) {
         // we will remove data layer from mapand from control
         layersControl.removeLayer(dataLayer);
