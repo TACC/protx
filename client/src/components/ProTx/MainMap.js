@@ -5,7 +5,7 @@ import 'leaflet.vectorgrid';
 import { SectionMessage, LoadingSpinner, DropdownSelector } from '_common';
 import MapProviders from './MapProviders';
 import './MainMap.css';
-import { OBSERVED_FEATURES, GEOID_KEY } from './meta';
+import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
@@ -53,10 +53,14 @@ const getContent = (properties, selectedYear) => {
 let mapContainer;
 
 function MainMap() {
-  const dataServer = window.location.origin; // 'https://prod.cep.tacc.utexas.edu/'
+  const dataServer = window.location.origin; // 'https://prod.cep.tacc.utexas.edu'
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
+  const [mapType, setMapType] = useState('maltreatment');
   const [selectedGeography, setSelectedGeography] = useState('county');
+  const [selectedMaltreatmentType, setSelectedMaltreatmentType] = useState(
+    MALTREATMENT[0].field
+  );
   const [selectedObservedFeature, setSelectedObservedFeature] = useState(
     OBSERVED_FEATURES[0].field
   );
@@ -94,17 +98,35 @@ function MainMap() {
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
           singleLayer: properties => {
+            let featureValue;
+            let hasElementAndProperty;
             const geoid = properties[GEOID_KEY[selectedGeography]];
-            const dataSet = data.observedFeatures[selectedGeography];
-            // TODO confirm that we don't have values for all elements
-            const hasElement = geoid in dataSet;
-            const hasElementAndProperty =
-              hasElement && selectedObservedFeature in dataSet[geoid];
-            const observedFeatureValue = hasElementAndProperty
-              ? dataSet[geoid][selectedObservedFeature]
-              : 0;
+            // TODO refactor into two style functions
+            if (mapType === 'observedFeatures') {
+              const dataSet = data.observedFeatures[selectedGeography];
+              // TODO confirm that we don't have values for all elements
+              const hasElement = geoid in dataSet;
+              hasElementAndProperty =
+                hasElement && selectedObservedFeature in dataSet[geoid];
+              featureValue = hasElementAndProperty
+                ? dataSet[geoid][selectedObservedFeature]
+                : 0;
+            } else {
+              // TODO only county data provided
+              const countyData = data.maltreatment.county;
+              // TODO confirm that we don't have values for all elements
+              const hasElement = geoid in countyData;
+              hasElementAndProperty =
+                hasElement &&
+                '2019' in countyData[geoid] &&
+                selectedMaltreatmentType in countyData[geoid]['2019'];
+              featureValue = hasElementAndProperty
+                ? countyData[geoid]['2019'][selectedMaltreatmentType]
+                    .MALTREATMENT_COUNT
+                : 0;
+            }
             return {
-              fillColor: getColor(observedFeatureValue),
+              fillColor: getColor(featureValue),
               fill: hasElementAndProperty,
               stroke: false
             };
@@ -129,9 +151,11 @@ function MainMap() {
     }
   }, [
     data,
-    selectedYear,
+    mapType,
     selectedGeography,
     selectedObservedFeature,
+    selectedMaltreatmentType,
+    selectedYear,
     layersControl,
     map
   ]);
@@ -158,7 +182,19 @@ function MainMap() {
     <div styleName="root">
       <div styleName="control-bar-container">
         <div styleName="control">
-          <span styleName="label">Select Area</span>
+          <span styleName="label">Map</span>
+          <DropdownSelector
+            value={mapType}
+            onChange={event => setMapType(event.target.value)}
+          >
+            <optgroup label="Select Map">
+              <option value="maltreatment">Maltreatment</option>
+              <option value="observedFeatures">Observed Features</option>
+            </optgroup>
+          </DropdownSelector>
+        </div>
+        <div styleName="control">
+          <span styleName="label">Area</span>
           <DropdownSelector
             value={selectedGeography}
             onChange={event => setSelectedGeography(event.target.value)}
@@ -173,21 +209,40 @@ function MainMap() {
             </optgroup>
           </DropdownSelector>
         </div>
-        <div styleName="control">
-          <span styleName="label">Select Display</span>
-          <DropdownSelector
-            value={selectedObservedFeature}
-            onChange={event => setSelectedObservedFeature(event.target.value)}
-          >
-            <optgroup label="Select Observed Feature">
-              {OBSERVED_FEATURES.map(feature => (
-                <option key={feature.field} value={feature.field}>
-                  {feature.name}
-                </option>
-              ))}
-            </optgroup>
-          </DropdownSelector>
-        </div>
+        {mapType === 'maltreatment' && (
+          <div styleName="control">
+            <span styleName="label">Display</span>
+            <DropdownSelector
+              value={selectedMaltreatmentType}
+              onChange={event => setSelectedMaltreatmentType(event.target.value)}
+            >
+              <optgroup label="Select Maltreatment Type">
+                {MALTREATMENT.map(feature => (
+                  <option key={feature.field} value={feature.field}>
+                    {feature.name}
+                  </option>
+                ))}
+              </optgroup>
+            </DropdownSelector>
+          </div>
+        )}
+        {mapType === 'observedFeatures' && (
+          <div styleName="control">
+            <span styleName="label">Display</span>
+            <DropdownSelector
+              value={selectedObservedFeature}
+              onChange={event => setSelectedObservedFeature(event.target.value)}
+            >
+              <optgroup label="Select Observed Feature">
+                {OBSERVED_FEATURES.map(feature => (
+                  <option key={feature.field} value={feature.field}>
+                    {feature.name}
+                  </option>
+                ))}
+              </optgroup>
+            </DropdownSelector>
+          </div>
+        )}
         <div styleName="control">
           <span styleName="label">Select TimeFrame</span>
           <DropdownSelector
