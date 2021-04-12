@@ -5,7 +5,7 @@ import 'leaflet.vectorgrid';
 import { SectionMessage, LoadingSpinner, DropdownSelector } from '_common';
 import MapProviders from './MapProviders';
 import './MainMap.css';
-import { OBSERVED_FEATURES } from './meta';
+import { OBSERVED_FEATURES, GEOID_KEY } from './meta';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
@@ -57,6 +57,9 @@ function MainMap() {
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const [selectedGeography, setSelectedGeography] = useState('county');
+  const [selectedObservedFeature, setSelectedObservedFeature] = useState(
+    OBSERVED_FEATURES[0].field
+  );
   const [selectedYear, setSelectedYear] = useState('2019');
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
@@ -92,16 +95,25 @@ function MainMap() {
         .protobuf(vectorTile, {
           vectorTileLayerStyles: {
             singleLayer: properties => {
+              const geoid = properties[GEOID_KEY[selectedGeography]];
+              const dataSet = data.observedFeatures[selectedGeography];
+              // TODO confirm that we don't have values for all elements
+              const hasElement = geoid in dataSet;
+              const hasElementAndProperty =
+                hasElement && selectedObservedFeature in dataSet[geoid];
+              const observedFeatureValue = hasElementAndProperty
+                ? dataSet[geoid][selectedObservedFeature]
+                : 0;
               return {
-                fillColor: getColor(2), // TODO getColor(properties[selectedYear]),
-                fill: true,
+                fillColor: getColor(observedFeatureValue),
+                fill: hasElementAndProperty,
                 stroke: false
               };
             }
           },
           interactive: true,
           getFeatureId(f) {
-            return f.properties.GEOID10;
+            return f.properties[GEOID_KEY[selectedGeography]];
           },
           maxNativeZoom: 14 // All tiles generated up to 14 zoom level
         })
@@ -124,15 +136,14 @@ function MainMap() {
       layersControl.addOverlay(newDataLayer, 'Data');
       setDataLayer(newDataLayer);
     }
-  }, [selectedYear, selectedGeography, layersControl, map]);
-
-  const changeGeography = event => {
-    setSelectedGeography(event.target.value);
-  };
-
-  const changeYear = event => {
-    setSelectedYear(event.target.value);
-  };
+  }, [
+    data,
+    selectedYear,
+    selectedGeography,
+    selectedObservedFeature,
+    layersControl,
+    map
+  ]);
 
   if (error) {
     return (
@@ -159,7 +170,7 @@ function MainMap() {
           <span styleName="label">Select Area</span>
           <DropdownSelector
             value={selectedGeography}
-            onChange={changeGeography}
+            onChange={event => setSelectedGeography(event.target.value)}
           >
             <optgroup label="Select Areas">
               <option value="dfps_region">DFPS Regions</option>
@@ -173,17 +184,26 @@ function MainMap() {
         </div>
         <div styleName="control">
           <span styleName="label">Select Display</span>
-          <DropdownSelector value="allCIs">
-            <optgroup label="Select Display">
+          <DropdownSelector
+            value={selectedObservedFeature}
+            onChange={event => setSelectedObservedFeature(event.target.value)}
+          >
+            <optgroup label="Select Observed Feature">
               {OBSERVED_FEATURES.map(feature => (
-                <option key={feature.field}>{feature.name}</option>
+                <option key={feature.field} value={feature.field}>
+                  {feature.name}
+                </option>
               ))}
             </optgroup>
           </DropdownSelector>
         </div>
         <div styleName="control">
           <span styleName="label">Select TimeFrame</span>
-          <DropdownSelector value={selectedYear} onChange={changeYear} disabled>
+          <DropdownSelector
+            value={selectedYear}
+            onChange={event => setSelectedYear(event.target.value)}
+            disabled
+          >
             <optgroup label="Select Timeframe" />
             <option value="2019">2019</option>
           </DropdownSelector>

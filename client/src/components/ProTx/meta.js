@@ -25,3 +25,13 @@ export const OBSERVED_FEATURES = [
   { field: 'E_UNINSUR', name: 'Estimated uninsured population' },
   { field: 'E_MINRTY', name: 'Estimated minority population' }
 ];
+
+// TOOO: we should correct vector files to all be the same thing (GEOID)
+export const GEOID_KEY = {
+  cbsa: 'GEOID_left',
+  census_tract: 'GEOID',
+  county: 'GEO_ID',
+  dfps_region: 'Sheetl__Re',
+  urban_area: 'GEOID10',
+  zcta: 'GEOID10'
+};
