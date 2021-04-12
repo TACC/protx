@@ -71,18 +71,13 @@ function MainMap() {
     if (map || loading === true) {
       return;
     }
-    const initialState = {
-      lat: 31.0686,
-      lng: -99.9018,
-      zoom: 6,
-      minZoom: 0,
-      maxZoom: 12 // max zoom of generated tile sets
-    };
 
-    const newMap = L.map(mapContainer).setView(
-      [initialState.lat, initialState.lng],
-      initialState.zoom
-    );
+    const newMap = L.map(mapContainer, {
+      zoom: 6,
+      minZoom: 6,
+      maxZoom: 16
+    }).setView([31.0686, -99.9018]);
+
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
     providers[3].addTo(newMap);
@@ -96,7 +91,7 @@ function MainMap() {
       const newDataLayer = L.vectorGrid
         .protobuf(vectorTile, {
           vectorTileLayerStyles: {
-            single_layer: properties => {
+            singleLayer: properties => {
               return {
                 fillColor: getColor(2), // TODO getColor(properties[selectedYear]),
                 fill: true,
@@ -108,7 +103,7 @@ function MainMap() {
           getFeatureId(f) {
             return f.properties.GEOID10;
           },
-          maxNativeZoom: 12 // TODO update from tiles are be consistent in tile generation
+          maxNativeZoom: 14 // All tiles generated up to 14 zoom level
         })
         .on('mouseover', e => {
           const { properties } = e.layer;
