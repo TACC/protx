@@ -26,6 +26,21 @@ export const OBSERVED_FEATURES = [
   { field: 'E_MINRTY', name: 'Estimated minority population' }
 ];
 
+export const MALTREATMENT = [
+  { field: 'ALL', name: 'All' },
+  { field: 'ABAN', name: 'Abandonment' },
+  { field: 'EMAB', name: 'Emotional abuse' },
+  { field: 'LBTR', name: 'Labor trafficking' },
+  { field: 'MDNG', name: 'Medical neglect' },
+  { field: 'NSUP', name: 'Neglectful supervision' },
+  { field: 'PHAB', name: 'Physical abuse' },
+  { field: 'PHNG', name: 'Physical neglect' },
+  { field: 'RAPR', name: 'Refusal to accept parental responsibility' },
+  { field: 'SXAB', name: 'Sexual abuse' },
+  { field: 'SXTR', name: 'Sex trafficking' },
+  { field: 'NA', name: 'Missing (NA)' } // TODO confirm this can be changed to Missing (N
+];
+
 // TOOO: we should correct vector files to all be the same thing (GEOID)
 export const GEOID_KEY = {
   cbsa: 'GEOID_left',
