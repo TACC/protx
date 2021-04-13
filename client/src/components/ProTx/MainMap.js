@@ -209,7 +209,7 @@ function MainMap() {
           >
             <optgroup label="Select Map">
               <option value="maltreatment">Maltreatment</option>
-              <option value="observedFeatures">Observed Features</option>
+              <option value="observedFeatures">Demographic Features</option>
             </optgroup>
           </DropdownSelector>
         </div>
