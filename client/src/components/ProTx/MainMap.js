@@ -141,7 +141,9 @@ function MainMap() {
             return {
               fillColor,
               fill: hasElementAndProperty,
-              stroke: false
+              stroke: false,
+              opacity: 1,
+              fillOpacity: 0.9
             };
           }
         },
