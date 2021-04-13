@@ -9,6 +9,7 @@ import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
+/*
 const coldToHotColors = [
   `#ffffcc`,
   `#ffeda0`,
@@ -20,9 +21,19 @@ const coldToHotColors = [
   `#bd0026`,
   `#800026`,
 ];
+*/
+
+const coldToHotColors = [
+  `#ffffb2`,
+  `#fed976`,
+  `#feb24c`,
+  `#fd8d3c`,
+  `#f03b20`,
+  `#bd0026`,
+];
 
 function getColor(value, min, max) {
-  const binValue = Math.floor(8 * ((value - min) / (max - min)));
+  const binValue = Math.min(Math.floor(6 * ((value - min) / (max - min))), 5);
   return coldToHotColors[binValue];
 }
 
