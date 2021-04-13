@@ -211,10 +211,12 @@ function MainMap() {
         </div>
         {mapType === 'maltreatment' && (
           <div styleName="control">
-            <span styleName="label">Display</span>
+            <span styleName="label">Type</span>
             <DropdownSelector
               value={selectedMaltreatmentType}
-              onChange={event => setSelectedMaltreatmentType(event.target.value)}
+              onChange={event =>
+                setSelectedMaltreatmentType(event.target.value)
+              }
             >
               <optgroup label="Select Maltreatment Type">
                 {MALTREATMENT.map(feature => (
@@ -228,7 +230,7 @@ function MainMap() {
         )}
         {mapType === 'observedFeatures' && (
           <div styleName="control">
-            <span styleName="label">Display</span>
+            <span styleName="label">Feature</span>
             <DropdownSelector
               value={selectedObservedFeature}
               onChange={event => setSelectedObservedFeature(event.target.value)}
