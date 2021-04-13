@@ -92,7 +92,7 @@ function MainMap() {
   }, [loading, data, mapContainer]);
 
   useEffect(() => {
-    const vectorTile = `${dataServer}/static/data/vector/${selectedGeography}/${selectedYear}/{z}/{x}/{y}.pbf`;
+    const vectorTile = `${dataServer}/static/data/vector/${selectedGeography}/2019/{z}/{x}/{y}.pbf`;
     if (map && layersControl) {
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
@@ -180,6 +180,18 @@ function MainMap() {
     map
   ]);
 
+  const changeMapType = event => {
+    const newMapType = event.target.value;
+    if(newMapType === 'maltreatment') {
+      // maltreatment only has county data
+      setSelectedGeography('county');
+    } else {
+      // observedFeatures (i.e. Demographic Features only has 2019 data)
+      setSelectedYear(2019);
+    }
+    setMapType(event.target.value);
+  };
+
   if (error) {
     return (
       <div styleName="error">
@@ -205,7 +217,7 @@ function MainMap() {
           <span styleName="label">Map</span>
           <DropdownSelector
             value={mapType}
-            onChange={event => setMapType(event.target.value)}
+            onChange={changeMapType}
           >
             <optgroup label="Select Map">
               <option value="maltreatment">Maltreatment</option>
@@ -218,6 +230,7 @@ function MainMap() {
           <DropdownSelector
             value={selectedGeography}
             onChange={event => setSelectedGeography(event.target.value)}
+            disabled={mapType === 'maltreatment'}
           >
             <optgroup label="Select Areas">
               <option value="dfps_region">DFPS Regions</option>
@@ -270,7 +283,7 @@ function MainMap() {
           <DropdownSelector
             value={selectedYear}
             onChange={event => setSelectedYear(event.target.value)}
-            disabled
+            disabled={mapType === 'observedFeatures'}
           >
             <optgroup label="Select Timeframe" />
             <option value="2019">2019</option>
