@@ -10,31 +10,20 @@ import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
 const coldToHotColors = [
-  '#ffffb2',
-  '#fed976',
-  '#feb24c',
-  '#fd8d3c',
-  '#f03b20',
-  '#bd0026'
+  `#ffffcc`,
+  `#ffeda0`,
+  `#fed976`,
+  `#feb24c`,
+  `#fd8d3c`,
+  `#fc4e2a`,
+  `#e31a1c`,
+  `#bd0026`,
+  `#800026`,
 ];
 
-function getColor(value) {
-  if (value < 1) {
-    return coldToHotColors[0];
-  }
-  if (value < 2) {
-    return coldToHotColors[1];
-  }
-  if (value < 3) {
-    return coldToHotColors[2];
-  }
-  if (value < 4) {
-    return coldToHotColors[3];
-  }
-  if (value < 5) {
-    return coldToHotColors[4];
-  }
-  return coldToHotColors[5];
+function getColor(value, min, max) {
+  const binValue = Math.floor(8 * ((value - min) / (max - min)));
+  return coldToHotColors[binValue];
 }
 
 const getContent = (properties, selectedYear) => {
@@ -98,7 +87,7 @@ function MainMap() {
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
           singleLayer: properties => {
-            let featureValue;
+            let fillColor;
             let hasElementAndProperty;
             const geoid = properties[GEOID_KEY[selectedGeography]];
             // TODO refactor into two style functions
@@ -108,10 +97,15 @@ function MainMap() {
               const hasElement = geoid in dataSet;
               hasElementAndProperty =
                 hasElement && selectedObservedFeature in dataSet[geoid];
-              featureValue = hasElementAndProperty
+              const featureValue = hasElementAndProperty
                 ? dataSet[geoid][selectedObservedFeature]
                 : 0;
+              if (hasElementAndProperty) {
+                const meta = data.observedFeaturesMeta[selectedGeography][selectedObservedFeature];
+                fillColor = getColor(featureValue, meta.min, meta.max);
+              }
             } else {
+              // TODO REWORK (place into different function and remove workarounds for MALTREATMENT_COUNT)
               // TODO only county data provided for 2019
               const mal = data.maltreatment;
               hasElementAndProperty =
@@ -123,13 +117,18 @@ function MainMap() {
                   mal[selectedGeography][selectedYear][
                     selectedMaltreatmentType
                   ];
-              featureValue = hasElementAndProperty
-                ? mal[selectedGeography][selectedYear][selectedMaltreatmentType]
-                    .MALTREATMENT_COUNT
+              const featureValue = hasElementAndProperty
+                ? mal[selectedGeography][selectedYear][
+                    selectedMaltreatmentType
+                  ][geoid].MALTREATMENT_COUNT
                 : 0;
+              if (hasElementAndProperty) {
+                const meta = data.maltreatmentMeta[selectedGeography][selectedYear][selectedMaltreatmentType].MALTREATMENT_COUNT;
+                fillColor = getColor(featureValue, meta.min, meta.max);
+              }
             }
             return {
-              fillColor: getColor(featureValue),
+              fillColor,
               fill: hasElementAndProperty,
               stroke: false
             };
