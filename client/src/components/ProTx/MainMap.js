@@ -112,16 +112,19 @@ function MainMap() {
                 ? dataSet[geoid][selectedObservedFeature]
                 : 0;
             } else {
-              // TODO only county data provided
-              const countyData = data.maltreatment.county;
-              // TODO confirm that we don't have values for all elements
-              const hasElement = geoid in countyData;
+              // TODO only county data provided for 2019
+              const mal = data.maltreatment;
               hasElementAndProperty =
-                hasElement &&
-                '2019' in countyData[geoid] &&
-                selectedMaltreatmentType in countyData[geoid]['2019'];
+                selectedGeography in mal &&
+                selectedYear in mal[selectedGeography] &&
+                selectedMaltreatmentType in
+                  mal[selectedGeography][selectedYear] &&
+                geoid in
+                  mal[selectedGeography][selectedYear][
+                    selectedMaltreatmentType
+                  ];
               featureValue = hasElementAndProperty
-                ? countyData[geoid]['2019'][selectedMaltreatmentType]
+                ? mal[selectedGeography][selectedYear][selectedMaltreatmentType]
                     .MALTREATMENT_COUNT
                 : 0;
             }
@@ -254,6 +257,15 @@ function MainMap() {
           >
             <optgroup label="Select Timeframe" />
             <option value="2019">2019</option>
+            <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+            <option value="2013">2013</option>
+            <option value="2012">2012</option>
+            <option value="2011">2011</option>
+            <option value="2010">2010</option>
           </DropdownSelector>
         </div>
       </div>
