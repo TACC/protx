@@ -9,8 +9,7 @@ import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
-/*
-const coldToHotColors = [
+const coldToHotColors8 = [
   `#ffffcc`,
   `#ffeda0`,
   `#fed976`,
@@ -21,20 +20,20 @@ const coldToHotColors = [
   `#bd0026`,
   `#800026`,
 ];
-*/
 
-const coldToHotColors = [
+// eslint-disable-next-line no-unused-vars
+const coldToHotColors6 = [
   `#ffffb2`,
   `#fed976`,
   `#feb24c`,
   `#fd8d3c`,
   `#f03b20`,
-  `#bd0026`,
+  `#bd0026`
 ];
 
 function getColor(value, min, max) {
   const binValue = Math.min(Math.floor(6 * ((value - min) / (max - min))), 5);
-  return coldToHotColors[binValue];
+  return coldToHotColors6[binValue];
 }
 
 const getContent = (properties, selectedYear) => {
