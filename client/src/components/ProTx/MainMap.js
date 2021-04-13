@@ -52,7 +52,7 @@ const getContent = (properties, selectedYear) => {
 let mapContainer;
 
 function MainMap() {
-  const dataServer = window.location.origin; // 'https://prod.cep.tacc.utexas.edu'
+  const dataServer = window.location.origin;
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const [mapType, setMapType] = useState('maltreatment');
@@ -111,7 +111,10 @@ function MainMap() {
                 ? dataSet[geoid][selectedObservedFeature]
                 : 0;
               if (hasElementAndProperty) {
-                const meta = data.observedFeaturesMeta[selectedGeography][selectedObservedFeature];
+                const meta =
+                  data.observedFeaturesMeta[selectedGeography][
+                    selectedObservedFeature
+                  ];
                 fillColor = getColor(featureValue, meta.min, meta.max);
               }
             } else {
@@ -133,7 +136,10 @@ function MainMap() {
                   ][geoid].MALTREATMENT_COUNT
                 : 0;
               if (hasElementAndProperty) {
-                const meta = data.maltreatmentMeta[selectedGeography][selectedYear][selectedMaltreatmentType].MALTREATMENT_COUNT;
+                const meta =
+                  data.maltreatmentMeta[selectedGeography][selectedYear][
+                    selectedMaltreatmentType
+                  ].MALTREATMENT_COUNT;
                 fillColor = getColor(featureValue, meta.min, meta.max);
               }
             }
