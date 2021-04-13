@@ -33,15 +33,25 @@ export const OBSERVED_FEATURES = [
 export const MALTREATMENT = [
   { field: 'ALL', name: 'All' },
   { field: 'ABAN', name: 'Abandonment' },
+  { field: 'ABAN_PCT', name: 'Abandonment (%)' },
   { field: 'EMAB', name: 'Emotional abuse' },
+  { field: 'EMAB_PCT', name: 'Emotional abuse  (%)' },
   { field: 'LBTR', name: 'Labor trafficking' },
+  { field: 'LBTR_PCT', name: 'Labor trafficking  (%)' },
   { field: 'MDNG', name: 'Medical neglect' },
+  { field: 'MDNG_PCT', name: 'Medical neglect  (%)' },
   { field: 'NSUP', name: 'Neglectful supervision' },
+  { field: 'NSUP_PCT', name: 'Neglectful supervision  (%)' },
   { field: 'PHAB', name: 'Physical abuse' },
+  { field: 'PHAB_PCT', name: 'Physical abuse  (%)' },
   { field: 'PHNG', name: 'Physical neglect' },
+  { field: 'PHNG_PCT', name: 'Physical neglect  (%)' },
   { field: 'RAPR', name: 'Refusal to accept parental responsibility' },
+  { field: 'RAPR_PCT', name: 'Refusal to accept parental responsibility  (%)' },
   { field: 'SXAB', name: 'Sexual abuse' },
+  { field: 'SXAB_PCT', name: 'Sexual abuse  (%)' },
   { field: 'SXTR', name: 'Sex trafficking' },
+  { field: 'SXTR_PCT', name: 'Sex trafficking  (%)' },
   { field: 'NA', name: 'Missing (NA)' } // TODO confirm this can be changed to Missing (N
 ];
 
