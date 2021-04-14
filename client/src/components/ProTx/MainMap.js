@@ -148,7 +148,7 @@ function MainMap() {
               fill: hasElementAndProperty,
               stroke: false,
               opacity: 1,
-              fillOpacity: 0.9
+              fillOpacity: 0.5
             };
           }
         },
