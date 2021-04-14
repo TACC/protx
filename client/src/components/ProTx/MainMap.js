@@ -220,8 +220,8 @@ function MainMap() {
             onChange={changeMapType}
           >
             <optgroup label="Select Map">
-              <option value="maltreatment">Maltreatment</option>
               <option value="observedFeatures">Demographic Features</option>
+              <option value="maltreatment">Maltreatment</option>
             </optgroup>
           </DropdownSelector>
         </div>
@@ -234,11 +234,11 @@ function MainMap() {
           >
             <optgroup label="Select Areas">
               <option value="dfps_region">DFPS Regions</option>
+              <option value="census_tract">Census Tracts</option>
               <option value="county">Counties</option>
               <option value="cbsa">Core base statistical areas</option>
               <option value="urban_area">Urban Areas</option>
               <option value="zcta">Zip Codes</option>
-              <option value="census_tract">Census Tracts</option>
             </optgroup>
           </DropdownSelector>
         </div>
