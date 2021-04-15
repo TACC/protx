@@ -6,7 +6,7 @@ import { SectionMessage, LoadingSpinner, DropdownSelector } from '_common';
 import MapProviders from './MapProviders';
 import './MainMap.css';
 import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
-import { getIntervalValues, getColor, colorMapInformation } from './colors';
+import { IntervalColorScale, getColor } from './intervalColorScale';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
@@ -125,12 +125,13 @@ function MainMap() {
           const div = L.DomUtil.create('div', 'color legend');
 
           // get numeric values between intervals
-          const intervalValues = getIntervalValues(meta);
+          const colorScale = new IntervalColorScale(meta);
+          const intervalValues = colorScale.getIntervalValues();
 
           // loop through our density intervals and generate a label with a colored square for each interval
-          for (let i = 0; i < colorMapInformation.numberIntervals; i += 1) {
+          for (let i = 0; i < colorScale.numberIntervals; i += 1) {
             div.innerHTML += `<i style="background:${
-              colorMapInformation.colors[i]
+              colorScale.colors[i]
             }"></i> ${intervalValues[i]}&ndash;${intervalValues[i + 1]}<br>`;
           }
 
