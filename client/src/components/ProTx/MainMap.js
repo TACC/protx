@@ -9,6 +9,7 @@ import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
+// eslint-disable-next-line no-unused-vars
 const coldToHotColors8 = [
   `#ffffcc`,
   `#ffeda0`,
@@ -18,10 +19,9 @@ const coldToHotColors8 = [
   `#fc4e2a`,
   `#e31a1c`,
   `#bd0026`,
-  `#800026`,
+  `#800026`
 ];
 
-// eslint-disable-next-line no-unused-vars
 const coldToHotColors6 = [
   `#ffffb2`,
   `#fed976`,
@@ -55,15 +55,19 @@ function MainMap() {
   const dataServer = window.location.origin;
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
+
+  // Map type and selected types (i.e. geography, year etc)
   const [mapType, setMapType] = useState('maltreatment');
-  const [selectedGeography, setSelectedGeography] = useState('county');
-  const [selectedMaltreatmentType, setSelectedMaltreatmentType] = useState(
+  const [geography, setGeography] = useState('county');
+  const [maltreatmentType, setMaltreatmentType] = useState(
     MALTREATMENT[0].field
   );
-  const [selectedObservedFeature, setSelectedObservedFeature] = useState(
+  const [observedFeature, setObservedFeature] = useState(
     OBSERVED_FEATURES[0].field
   );
-  const [selectedYear, setSelectedYear] = useState('2019');
+  const [year, setYear] = useState('2019');
+
+  // Leaflet related layers, controls, and map
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
@@ -99,22 +103,20 @@ function MainMap() {
           singleLayer: properties => {
             let fillColor;
             let hasElementAndProperty;
-            const geoid = properties[GEOID_KEY[selectedGeography]];
+            const geoid = properties[GEOID_KEY[geography]];
             // TODO refactor into two style functions
             if (mapType === 'observedFeatures') {
-              const dataSet = data.observedFeatures[selectedGeography];
+              const dataSet = data.observedFeatures[geography];
               // TODO confirm that we don't have values for all elements
               const hasElement = geoid in dataSet;
               hasElementAndProperty =
-                hasElement && selectedObservedFeature in dataSet[geoid];
+                hasElement && observedFeature in dataSet[geoid];
               const featureValue = hasElementAndProperty
-                ? dataSet[geoid][selectedObservedFeature]
+                ? dataSet[geoid][observedFeature]
                 : 0;
               if (hasElementAndProperty) {
                 const meta =
-                  data.observedFeaturesMeta[selectedGeography][
-                    selectedObservedFeature
-                  ];
+                  data.observedFeaturesMeta[geography][observedFeature];
                 fillColor = getColor(featureValue, meta.min, meta.max);
               }
             } else {
@@ -122,24 +124,18 @@ function MainMap() {
               // TODO only county data provided for 2019
               const mal = data.maltreatment;
               hasElementAndProperty =
-                selectedGeography in mal &&
-                selectedYear in mal[selectedGeography] &&
-                selectedMaltreatmentType in
-                  mal[selectedGeography][selectedYear] &&
-                geoid in
-                  mal[selectedGeography][selectedYear][
-                    selectedMaltreatmentType
-                  ];
+                geography in mal &&
+                year in mal[geography] &&
+                maltreatmentType in mal[geography][year] &&
+                geoid in mal[geography][year][maltreatmentType];
               const featureValue = hasElementAndProperty
-                ? mal[selectedGeography][selectedYear][
-                    selectedMaltreatmentType
-                  ][geoid].MALTREATMENT_COUNT
+                ? mal[geography][year][maltreatmentType][geoid]
+                    .MALTREATMENT_COUNT
                 : 0;
               if (hasElementAndProperty) {
                 const meta =
-                  data.maltreatmentMeta[selectedGeography][selectedYear][
-                    selectedMaltreatmentType
-                  ].MALTREATMENT_COUNT;
+                  data.maltreatmentMeta[geography][year][maltreatmentType]
+                    .MALTREATMENT_COUNT;
                 fillColor = getColor(featureValue, meta.min, meta.max);
               }
             }
@@ -154,7 +150,7 @@ function MainMap() {
         },
         interactive: true,
         getFeatureId(f) {
-          return f.properties[GEOID_KEY[selectedGeography]];
+          return f.properties[GEOID_KEY[geography]];
         },
         maxNativeZoom: 14 // All tiles generated up to 14 zoom level
       });
@@ -172,22 +168,22 @@ function MainMap() {
   }, [
     data,
     mapType,
-    selectedGeography,
-    selectedObservedFeature,
-    selectedMaltreatmentType,
-    selectedYear,
+    geography,
+    observedFeature,
+    maltreatmentType,
+    year,
     layersControl,
     map
   ]);
 
   const changeMapType = event => {
     const newMapType = event.target.value;
-    if(newMapType === 'maltreatment') {
+    if (newMapType === 'maltreatment') {
       // maltreatment only has county data
-      setSelectedGeography('county');
+      setGeography('county');
     } else {
       // observedFeatures (i.e. Demographic Features only has 2019 data)
-      setSelectedYear(2019);
+      setYear(2019);
     }
     setMapType(event.target.value);
   };
@@ -215,10 +211,7 @@ function MainMap() {
       <div styleName="control-bar-container">
         <div styleName="control">
           <span styleName="label">Map</span>
-          <DropdownSelector
-            value={mapType}
-            onChange={changeMapType}
-          >
+          <DropdownSelector value={mapType} onChange={changeMapType}>
             <optgroup label="Select Map">
               <option value="observedFeatures">Demographic Features</option>
               <option value="maltreatment">Maltreatment</option>
@@ -228,8 +221,8 @@ function MainMap() {
         <div styleName="control">
           <span styleName="label">Area</span>
           <DropdownSelector
-            value={selectedGeography}
-            onChange={event => setSelectedGeography(event.target.value)}
+            value={geography}
+            onChange={event => setGeography(event.target.value)}
             disabled={mapType === 'maltreatment'}
           >
             <optgroup label="Select Areas">
@@ -246,10 +239,8 @@ function MainMap() {
           <div styleName="control">
             <span styleName="label">Type</span>
             <DropdownSelector
-              value={selectedMaltreatmentType}
-              onChange={event =>
-                setSelectedMaltreatmentType(event.target.value)
-              }
+              value={maltreatmentType}
+              onChange={event => setMaltreatmentType(event.target.value)}
             >
               <optgroup label="Select Maltreatment Type">
                 {MALTREATMENT.map(feature => (
@@ -265,8 +256,8 @@ function MainMap() {
           <div styleName="control">
             <span styleName="label">Feature</span>
             <DropdownSelector
-              value={selectedObservedFeature}
-              onChange={event => setSelectedObservedFeature(event.target.value)}
+              value={observedFeature}
+              onChange={event => setObservedFeature(event.target.value)}
             >
               <optgroup label="Select Observed Feature">
                 {OBSERVED_FEATURES.map(feature => (
@@ -281,8 +272,8 @@ function MainMap() {
         <div styleName="control">
           <span styleName="label">Select TimeFrame</span>
           <DropdownSelector
-            value={selectedYear}
-            onChange={event => setSelectedYear(event.target.value)}
+            value={year}
+            onChange={event => setYear(event.target.value)}
             disabled={mapType === 'observedFeatures'}
           >
             <optgroup label="Select Timeframe" />
