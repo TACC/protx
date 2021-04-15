@@ -18,7 +18,12 @@ export function* fetchProtx(action) {
     });
     yield put({
       type: 'PROTX_SUCCESS',
-      payload: { observedFeatures, observedFeaturesMeta, maltreatment, maltreatmentMeta}
+      payload: {
+        observedFeatures,
+        observedFeaturesMeta,
+        maltreatment,
+        maltreatmentMeta
+      }
     });
   } catch (error) {
     yield put({
