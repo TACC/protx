@@ -6,48 +6,46 @@ import { SectionMessage, LoadingSpinner, DropdownSelector } from '_common';
 import MapProviders from './MapProviders';
 import './MainMap.css';
 import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
+import { getIntervalValues, getColor, colorMapInformation } from './colors';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
-// eslint-disable-next-line no-unused-vars
-const coldToHotColors8 = [
-  `#ffffcc`,
-  `#ffeda0`,
-  `#fed976`,
-  `#feb24c`,
-  `#fd8d3c`,
-  `#fc4e2a`,
-  `#e31a1c`,
-  `#bd0026`,
-  `#800026`
-];
-
-const coldToHotColors6 = [
-  `#ffffb2`,
-  `#fed976`,
-  `#feb24c`,
-  `#fd8d3c`,
-  `#f03b20`,
-  `#bd0026`
-];
-
-function getColor(value, min, max) {
-  const binValue = Math.min(Math.floor(6 * ((value - min) / (max - min))), 5);
-  return coldToHotColors6[binValue];
+function hasMetaData(
+  data,
+  mapType,
+  geography,
+  year,
+  observedFeature,
+  maltreatmentType
+) {
+  if (mapType === 'observedFeatures') {
+    return (
+      geography in data.observedFeaturesMeta &&
+      observedFeature in data.observedFeaturesMeta[geography]
+    );
+  }
+  return (
+    geography in data.maltreatmentMeta &&
+    year in data.maltreatmentMeta[geography] &&
+    maltreatmentType in data.maltreatmentMeta[geography][year]
+  );
 }
 
-const getContent = (properties, selectedYear) => {
-  let content = '<pre>';
-  const allowedProperties = ['GEOID10', selectedYear];
-  Object.keys(properties).forEach(k => {
-    if (allowedProperties.includes(k)) {
-      const displayValue = properties[k] ? properties[k] : '------';
-      content += `${k}: ${displayValue}\n`;
-    }
-  });
-  content += '</pre>';
-  return content;
-};
+function getMetaData(
+  data,
+  mapType,
+  geography,
+  year,
+  observedFeature,
+  maltreatmentType
+) {
+  const meta =
+    mapType === 'observedFeatures'
+      ? data.observedFeaturesMeta[geography][observedFeature]
+      : data.maltreatmentMeta[geography][year][maltreatmentType]
+          .MALTREATMENT_COUNT;
+  return meta;
+}
 
 let mapContainer;
 
@@ -68,6 +66,7 @@ function MainMap() {
   const [year, setYear] = useState('2019');
 
   // Leaflet related layers, controls, and map
+  const [legendControl, setLegendControl] = useState(null);
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
@@ -96,7 +95,56 @@ function MainMap() {
   }, [loading, data, mapContainer]);
 
   useEffect(() => {
-    const vectorTile = `${dataServer}/static/data/vector/${selectedGeography}/2019/{z}/{x}/{y}.pbf`;
+    if (map) {
+      // remove old legend
+      if (legendControl) {
+        legendControl.remove();
+      }
+
+      const hasValues = hasMetaData(
+        data,
+        mapType,
+        geography,
+        year,
+        observedFeature,
+        maltreatmentType
+      );
+
+      if (hasValues) {
+        const newLegend = L.control({ position: 'bottomright' });
+
+        newLegend.onAdd = () => {
+          const meta = getMetaData(
+            data,
+            mapType,
+            geography,
+            year,
+            observedFeature,
+            maltreatmentType
+          );
+          const div = L.DomUtil.create('div', 'color legend');
+
+          // get numeric values between intervals
+          const intervalValues = getIntervalValues(meta);
+
+          // loop through our density intervals and generate a label with a colored square for each interval
+          for (let i = 0; i < colorMapInformation.numberIntervals; i += 1) {
+            div.innerHTML += `<i style="background:${
+              colorMapInformation.colors[i]
+            }"></i> ${intervalValues[i]}&ndash;${intervalValues[i + 1]}<br>`;
+          }
+
+          return div;
+        };
+        // add new data layer to map and controls
+        newLegend.addTo(map);
+        setLegendControl(newLegend);
+      }
+    }
+  }, [data, mapType, observedFeature, geography, maltreatmentType, year, map]);
+
+  useEffect(() => {
+    const vectorTile = `${dataServer}/static/data/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
     if (map && layersControl) {
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
