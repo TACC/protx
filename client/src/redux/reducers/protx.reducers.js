@@ -14,7 +14,7 @@ export default function protx(state = initialState, action) {
     case 'PROTX_SUCCESS':
       return {
         ...state,
-        ...action.payload,
+        data: { ...action.payload },
         loading: false
       };
     case 'PROTX_FAILURE':
