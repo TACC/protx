@@ -7,6 +7,7 @@ import MapProviders from './MapProviders';
 import './MainMap.css';
 import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
 import { IntervalColorScale, getColor } from './intervalColorScale';
+import texasBounds from './texasBoundary';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 
@@ -84,8 +85,10 @@ function MainMap() {
     const newMap = L.map(mapContainer, {
       zoom: 6,
       minZoom: 6,
-      maxZoom: 16
-    }).setView([31.0686, -99.9018]);
+      maxZoom: 16,
+      maxBounds: texasBounds,
+      maxBoundsViscosity: 1.0
+    }).fitBounds(texasBounds);
 
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
