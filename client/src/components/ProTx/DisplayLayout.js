@@ -7,15 +7,11 @@ function DisplayLayout() {
   return (
     <div className="display-layout-root">
       <div className="display-layout-row">
-        <div className="display-layout-column">
-          <div className="chart-layout">
-            <MainChart />
-          </div>
+        <div className="chart-layout">
+          <MainChart />
         </div>
-        <div className="display-layout-column">
-          <div className="map-layout">
-            <MainMap />
-          </div>
+        <div className="map-layout">
+          <MainMap />
         </div>
       </div>
     </div>
