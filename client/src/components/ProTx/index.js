@@ -1,14 +1,14 @@
 // export { default } from './MainMap';
 
 import React from 'react';
-import Layout from './Layout';
+import AnalyticsDashboard from './AnalyticsDashboard';
 
-function App() {
+function Dashboard() {
   return (
     <>
-      <Layout />
+      <AnalyticsDashboard />
     </>
   );
 }
 
-export default App;
+export default Dashboard;
