@@ -1,6 +1,7 @@
 .main-chart {
     width: 100vw;
-    height: 100vh;
+    /* height: 100vh; */
+    height: 300px;
     border: 1px solid #000000;
     background-color: #666666;
 }

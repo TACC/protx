@@ -5,12 +5,8 @@ import MainChart from './MainChart';
 function Layout() {
   return (
     <>
-      {/* <div styleName="chart-root"> */}
-        <MainChart />
-      {/* </div> */}
-      {/* <div styleName="map-root"> */}
-        <MainMap />
-      {/* </div> */}
+      <MainChart />
+      <MainMap />
     </>
   );
 }
