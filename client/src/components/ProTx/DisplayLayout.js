@@ -6,13 +6,11 @@ import MainChart from './MainChart';
 function DisplayLayout() {
   return (
     <div className="display-layout-root">
-      <div className="display-layout-row">
-        <div className="chart-layout">
-          <MainChart />
-        </div>
-        <div className="map-layout">
-          <MainMap />
-        </div>
+      <div className="chart-layout">
+        <MainChart />
+      </div>
+      <div className="map-layout">
+        <MainMap />
       </div>
     </div>
   );

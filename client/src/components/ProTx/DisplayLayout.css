@@ -1,23 +1,13 @@
 .display-layout-root {
     /* background-color: #0f0; */
-}
-
-.display-layout-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
 }
 
-.display-layout-column {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
-}
-
 .chart-layout {
-    height: 82vh;
+    height: 80vh;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -25,7 +15,7 @@
 
 .map-layout {
     width: 65vw;
-    height: 82vh;
+    height: 80vh;
     flex-grow: 1;
     display: flex;
     flex-direction: column;

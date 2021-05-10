@@ -4,12 +4,9 @@ import './DisplaySelectors.css';
 function DisplaySelectors() {
   return (
     <div className="display-selectors-root">
-      <p>
-        Dropdown menu for data selections.
-      </p>
+      Dropdown menu for data selections
     </div>
   );
 }
 
 export default DisplaySelectors;
-// 
