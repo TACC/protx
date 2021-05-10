@@ -6,14 +6,14 @@
     /* background-color: #0f0; */
 }
 
-.row {
+.display-layout-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
 }
 
-.column {
+.display-layout-column {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
@@ -21,7 +21,7 @@
 }
 
 .chart-layout {
-    // width: 40vw;
+    /* width: 40vw; */
     /* height: 100vh; */
     flex-grow: 1;
     display: flex;
@@ -29,7 +29,7 @@
 }
 
 .map-layout {
-    // width: 60vw;
+    width: 50vw;
     /* height: 100%; */
     flex-grow: 1;
     display: flex;
