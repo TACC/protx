@@ -1,22 +1,22 @@
 import React from 'react';
-import './DisplayLayout.css';
+import './DisplayLayout.scss';
 import MainMap from './MainMap';
 import MainChart from './MainChart';
 
 function DisplayLayout() {
   return (
-    <div className="display-layout-root">
+    <div styleName="display-layout-root">
       {/* <MainChart className="chart-layout" /> */}
       {/* <MainMap className="map-layout" /> */}
-      <div className="row">
-        <div className="column">
-          <div className="blue-column">
-            <MainChart className="chart-layout" />
+      <div styleName="row">
+        <div styleName="column">
+          <div styleName="chart-layout">
+            <MainChart />
           </div>
         </div>
-        <div className="column">
-          <div className="green-column">
-            <MainMap className="map-layout" />
+        <div styleName="column">
+          <div styleName="map-layout">
+            <MainMap />
           </div>
         </div>
       </div>
