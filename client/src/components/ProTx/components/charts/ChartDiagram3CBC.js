@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
-class CircleGraph extends React.Component {
+class ChartDiagram3CBC extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,19 +13,24 @@ class CircleGraph extends React.Component {
         }
       ],
       layout: {
-        height: 400,
-        width: 400,
-        title: 'Pie chart'
+        width: '100%',
+        height: '100%',
+        autosize: true,
+        title: 'Pie Chart Example'
+      },
+      config: {
+        responsive: true
       }
     };
   }
 
   render() {
     return (
-      <div style={{ width: '100%', height: 'auto' }}>
+      <div className="chart-diagram-3cbc">
         <Plot
           data={this.state.data}
           layout={this.state.layout}
+          config={this.state.config}
           onInitialized={figure => this.setState(figure)}
           onUpdate={figure => this.setState(figure)}
         />
@@ -34,4 +39,4 @@ class CircleGraph extends React.Component {
   }
 }
 
-export default CircleGraph;
+export default ChartDiagram3CBC;

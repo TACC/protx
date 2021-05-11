@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
-class AreaGraph extends React.Component {
+class ChartDiagram2CBC extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,19 +22,24 @@ class AreaGraph extends React.Component {
         }
       ],
       layout: {
-        height: 400,
-        width: 400,
-        title: 'Area chart'
+        width: '100%',
+        height: '100%',
+        autosize: true,
+        title: 'Area Chart Example'
+      },
+      config: {
+        responsive: true
       }
     };
   }
 
   render() {
     return (
-      <div style={{ width: '100%', height: 'auto' }}>
+      <div className="chart-diagram-2cbc">
         <Plot
           data={this.state.data}
           layout={this.state.layout}
+          config={this.state.config}
           onInitialized={figure => this.setState(figure)}
           onUpdate={figure => this.setState(figure)}
         />
@@ -43,4 +48,4 @@ class AreaGraph extends React.Component {
   }
 }
 
-export default AreaGraph;
+export default ChartDiagram2CBC;
