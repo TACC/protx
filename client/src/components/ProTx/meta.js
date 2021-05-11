@@ -1,3 +1,16 @@
+export const SUPPORTED_YEARS = [
+  '2019',
+  '2018',
+  '2017',
+  '2016',
+  '2015',
+  '2014',
+  '2013',
+  '2012',
+  '2011',
+  '2010'
+];
+
 export const OBSERVED_FEATURES = [
   { field: 'E_AGE17', name: 'Estimated population age 17 or younger' },
   { field: 'E_AGE65', name: 'Estimated population age 65 or older' },
