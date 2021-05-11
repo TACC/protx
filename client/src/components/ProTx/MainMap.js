@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
-import { SectionMessage, LoadingSpinner, DropdownSelector } from '_common';
+import PropTypes from 'prop-types';
 import MapProviders from './MapProviders';
 import './MainMap.css';
-import { OBSERVED_FEATURES, GEOID_KEY, MALTREATMENT } from './meta';
+import { GEOID_KEY } from './meta';
 import { IntervalColorScale, getColor } from './intervalColorScale';
 import texasBounds from './texasBoundary';
 import './MainMap.module.scss';
@@ -50,21 +49,15 @@ function getMetaData(
 
 let mapContainer;
 
-function MainMap() {
+function MainMap({
+  mapType,
+  geography,
+  maltreatmentType,
+  observedFeature,
+  year,
+  data
+}) {
   const dataServer = window.location.origin;
-  const dispatch = useDispatch();
-  const { loading, error, data } = useSelector(state => state.protx);
-
-  // Map type and selected types (i.e. geography, year etc)
-  const [mapType, setMapType] = useState('maltreatment');
-  const [geography, setGeography] = useState('county');
-  const [maltreatmentType, setMaltreatmentType] = useState(
-    MALTREATMENT[0].field
-  );
-  const [observedFeature, setObservedFeature] = useState(
-    OBSERVED_FEATURES[0].field
-  );
-  const [year, setYear] = useState('2019');
 
   // Leaflet related layers, controls, and map
   const [legendControl, setLegendControl] = useState(null);
@@ -72,13 +65,8 @@ function MainMap() {
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
 
-  // Get systems and any other initial data we need from the backend
   useEffect(() => {
-    dispatch({ type: 'FETCH_PROTX' });
-  }, []);
-
-  useEffect(() => {
-    if (map || loading === true) {
+    if (map) {
       return;
     }
 
@@ -95,7 +83,7 @@ function MainMap() {
     providers[3].addTo(newMap);
     setLayersControl(L.control.layers(baseMaps).addTo(newMap));
     setMap(newMap);
-  }, [loading, data, mapContainer]);
+  }, [data, mapContainer]);
 
   useEffect(() => {
     if (map) {
@@ -228,120 +216,8 @@ function MainMap() {
     map
   ]);
 
-  const changeMapType = event => {
-    const newMapType = event.target.value;
-    if (newMapType === 'maltreatment') {
-      // maltreatment only has county data
-      setGeography('county');
-    } else {
-      // observedFeatures (i.e. Demographic Features only has 2019 data)
-      setYear(2019);
-    }
-    setMapType(event.target.value);
-  };
-
-  if (error) {
-    return (
-      <div styleName="error">
-        <SectionMessage type="warn">
-          There was a problem loading the map.
-        </SectionMessage>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div styleName="root">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
   return (
     <div styleName="root">
-      <div styleName="control-bar-container">
-        <div styleName="control">
-          <span styleName="label">Map</span>
-          <DropdownSelector value={mapType} onChange={changeMapType}>
-            <optgroup label="Select Map">
-              <option value="observedFeatures">Demographic Features</option>
-              <option value="maltreatment">Maltreatment</option>
-            </optgroup>
-          </DropdownSelector>
-        </div>
-        <div styleName="control">
-          <span styleName="label">Area</span>
-          <DropdownSelector
-            value={geography}
-            onChange={event => setGeography(event.target.value)}
-            disabled={mapType === 'maltreatment'}
-          >
-            <optgroup label="Select Areas">
-              <option value="dfps_region">DFPS Regions</option>
-              <option value="census_tract">Census Tracts</option>
-              <option value="county">Counties</option>
-              <option value="cbsa">Core base statistical areas</option>
-              <option value="urban_area">Urban Areas</option>
-              <option value="zcta">Zip Codes</option>
-            </optgroup>
-          </DropdownSelector>
-        </div>
-        {mapType === 'maltreatment' && (
-          <div styleName="control">
-            <span styleName="label">Type</span>
-            <DropdownSelector
-              value={maltreatmentType}
-              onChange={event => setMaltreatmentType(event.target.value)}
-            >
-              <optgroup label="Select Maltreatment Type">
-                {MALTREATMENT.map(feature => (
-                  <option key={feature.field} value={feature.field}>
-                    {feature.name}
-                  </option>
-                ))}
-              </optgroup>
-            </DropdownSelector>
-          </div>
-        )}
-        {mapType === 'observedFeatures' && (
-          <div styleName="control">
-            <span styleName="label">Feature</span>
-            <DropdownSelector
-              value={observedFeature}
-              onChange={event => setObservedFeature(event.target.value)}
-            >
-              <optgroup label="Select Observed Feature">
-                {OBSERVED_FEATURES.map(feature => (
-                  <option key={feature.field} value={feature.field}>
-                    {feature.name}
-                  </option>
-                ))}
-              </optgroup>
-            </DropdownSelector>
-          </div>
-        )}
-        <div styleName="control">
-          <span styleName="label">Select TimeFrame</span>
-          <DropdownSelector
-            value={year}
-            onChange={event => setYear(event.target.value)}
-            disabled={mapType === 'observedFeatures'}
-          >
-            <optgroup label="Select Timeframe" />
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
-            <option value="2016">2016</option>
-            <option value="2015">2015</option>
-            <option value="2014">2014</option>
-            <option value="2013">2013</option>
-            <option value="2012">2012</option>
-            <option value="2011">2011</option>
-            <option value="2010">2010</option>
-          </DropdownSelector>
-        </div>
-      </div>
       <div
         styleName="map"
         className="map-container"
@@ -350,5 +226,15 @@ function MainMap() {
     </div>
   );
 }
+
+MainMap.propTypes = {
+  mapType: PropTypes.string.isRequired,
+  geography: PropTypes.string.isRequired,
+  maltreatmentType: PropTypes.string.isRequired,
+  observedFeature: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object.isRequired
+};
 
 export default MainMap;
