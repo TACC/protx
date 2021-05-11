@@ -4,10 +4,7 @@ import './ChartDiagram.css';
 
 function ChartDiagram() {
   return (
-    <div className="chart-diagram">
-      <h2>
-        <b>React-Plotly Chart Rendering</b>
-      </h2>
+    <div style={{ width: "100%", height: "auto" }}>
       <Plot
         data={[
           {

@@ -1,5 +1,5 @@
-import React from "react";
-import Plot from "react-plotly.js";
+import React from 'react';
+import Plot from 'react-plotly.js';
 
 class AreaGraph extends React.Component {
   constructor(props) {
@@ -19,22 +19,24 @@ class AreaGraph extends React.Component {
           fill: 'tonexty',
           type: 'scatter',
           name: 'Provider'
-        }],
+        }
+      ],
       layout: {
         height: 400,
         width: 400,
-        title: "Area chart"
+        title: 'Area chart'
       }
     };
   }
+
   render() {
     return (
-      <div style={{ width: "100%", height: "auto" }}>
+      <div style={{ width: '100%', height: 'auto' }}>
         <Plot
           data={this.state.data}
           layout={this.state.layout}
-          onInitialized={(figure) => this.setState(figure)}
-          onUpdate={(figure) => this.setState(figure)}
+          onInitialized={figure => this.setState(figure)}
+          onUpdate={figure => this.setState(figure)}
         />
       </div>
     );

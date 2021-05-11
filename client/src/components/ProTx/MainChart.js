@@ -1,6 +1,7 @@
 import React from 'react';
 import ChartHeader from './ChartHeader';
-import ChartDiagram from './ChartDiagram';
+// import ChartDiagram from './ChartDiagram';
+import BarScatterGraph from './ChartDiagram1';
 import AreaGraph from './ChartDiagram2';
 import CircleGraph from './ChartDiagram3';
 import './MainChart.css';
@@ -9,7 +10,8 @@ function MainChart() {
   return (
     <div className="main-chart">
       <ChartHeader className="chart-header" />
-      <ChartDiagram className="chart-diagram" />
+      {/* <ChartDiagram className="chart-diagram" /> */}
+      <BarScatterGraph className="chart-diagram" />
       <AreaGraph className="chart-diagram" />
       <CircleGraph className="chart-diagram" />
     </div>

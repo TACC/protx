@@ -9,6 +9,9 @@ function ChartHeader() {
       </h2>
       <p>Details about the chart being displayed.</p>
       <hr />
+      <h2>
+        <b>React-Plotly Chart Rendering</b>
+      </h2>
     </div>
   );
 }
