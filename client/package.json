@@ -128,5 +128,9 @@
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^4.2.2"
   },
-  "browser": { "fs": false, "path": false, "os": false}
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  }
 }

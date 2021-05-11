@@ -17,3 +17,14 @@
     /* font-family: 'Lobster', cursive; */
     /* font-family: 'Work Sans', sans-serif; */
 }
+
+.chart-info {
+    margin-top: 2rem;
+    line-height: 0.5;
+    font-size: 10px;
+}
+
+.dev-info {
+    line-height: 0.5;
+    font-size: 10px;
+}

@@ -13,9 +13,9 @@ class ChartDiagram3CBC extends React.Component {
         }
       ],
       layout: {
-        width: '100%',
-        height: '100%',
-        autosize: true,
+        // width: '100%',
+        // height: '100%',
+        // autosize: true,
         title: 'Pie Chart Example'
       },
       config: {
