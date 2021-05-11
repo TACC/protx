@@ -28,7 +28,7 @@ function DisplaySelectors({
     setMapType(event.target.value);
   };
   return (
-    <div styleName="control-bar-container">
+    <div styleName="root">
       <div styleName="control">
         <span styleName="label">Map</span>
         <DropdownSelector value={mapType} onChange={changeMapType}>
