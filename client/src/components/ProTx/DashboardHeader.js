@@ -5,7 +5,8 @@ function DashboardHeader() {
   return (
     <div className="dashboard-header-root">
       <p>
-        <b>COOKS PRE-PRODUCTION PORTAL</b> Geospatial data analytics dashboard displaying incomplete demonstration data.
+        <b>COOKS PRE-PRODUCTION PORTAL</b> Geospatial data analytics dashboard
+        displaying incomplete demonstration data.
       </p>
     </div>
   );
