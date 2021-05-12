@@ -8,7 +8,7 @@ function ChartHeader() {
         <h2>
           <b>Chart Information</b>
         </h2>
-        <p>Information relevant to the data selection.</p>
+        <p>Geospatial data analytics dashboard using incomplete demonstration data.</p>
       </div>
       <hr />
       {/* <div className="dev-status">
