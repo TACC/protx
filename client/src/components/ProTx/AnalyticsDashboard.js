@@ -7,7 +7,7 @@ import DashboardDisplay from './DashboardDisplay';
 function AnalyticsDashboard() {
   return (
     <div className="analytics-dashboard-root">
-      {/* <DashboardHeader /> */}
+      <DashboardHeader />
       {/* <DashboardNavigation /> */}
       <DashboardDisplay />
     </div>
