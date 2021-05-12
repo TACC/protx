@@ -14,7 +14,8 @@ function ChartDiagram1CBC() {
       { type: 'bar', x: [1, 2, 3, 4, 5, 6, 7], y: [2, 6, 3, 7, 4, 9, 15] }
     ],
     layout: {
-      autosize: true,
+      width: '100%',
+      height: '100%',
       title: 'Scatterplot w/Bar Chart Example'
     },
     config: {
