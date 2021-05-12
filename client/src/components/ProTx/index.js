@@ -1,1 +1,1 @@
-export { default } from './AnalyticsDashboard';
+export { default } from './components/dashboard/AnalyticsDashboard';
