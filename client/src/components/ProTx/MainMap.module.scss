@@ -1,36 +1,4 @@
-.root {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    font: 16px Roboto, sans-serif;
-}
-
-.control-bar-container {
-    display: flex;
-    align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.control {
-    display: flex;
-    align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-.label {
-    font-weight: bold;
-    padding-right: 5px;
-}
-
 .map {
-    height: 100%;
-    width: 100%;
-}
-
-.error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100%;
+  width: 100%;
 }

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './DashboardDisplay.css';
 import './DashboardDisplay.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
@@ -46,7 +45,7 @@ function DashboardDisplay() {
   }
 
   return (
-    <div className="dashboard-display-root">
+    <div styleName="root">
       <DisplaySelectors
         mapType={mapType}
         geography={geography}

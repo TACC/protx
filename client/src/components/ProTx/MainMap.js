@@ -216,15 +216,7 @@ function MainMap({
     map
   ]);
 
-  return (
-    <div styleName="root">
-      <div
-        styleName="map"
-        className="map-container"
-        ref={el => (mapContainer = el)}
-      />
-    </div>
-  );
+  return <div styleName="map" ref={el => (mapContainer = el)} />;
 }
 
 MainMap.propTypes = {
