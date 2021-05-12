@@ -24,11 +24,41 @@ class ChartDiagram2CBC extends React.Component {
       layout: {
         // width: '100%',
         // height: '100%',
-        // autosize: true,
+        autosize: true,
         title: 'Area Chart Example'
       },
       config: {
-        responsive: true
+        // scrollZoom: true,
+        // staticPlot: true,
+        // displayModeBar: false,
+        displaylogo: false,
+        modeBarButtonsToRemove: [
+          // 'toImage'
+        ],
+        modeBarButtonsToAdd: [
+          // {
+          //   name: 'color toggler',
+          //   icon: icon1,
+          //   click: function(gd) {
+          //     var newColor = colors[Math.floor(3 * Math.random())]
+          //     Plotly.restyle(gd, 'line.color', newColor)
+          //   }
+          // },
+          // {
+          //   name: 'button1',
+          //   icon: Plotly.Icons.pencil,
+          //   direction: 'up',
+          //   click: function(gd) {alert('button1')
+          //   }
+          // }
+        ],
+        // showLink: true,
+        showEditInChartStudio: true,
+        plotlyServerURL: 'https://chart-studio.plotly.com',
+        linkText: 'Edit Chart in Plotly Studio',
+        responsive: true,
+        doubleClickDelay: 1000,
+        useResizeHandler: true
       }
     };
   }
