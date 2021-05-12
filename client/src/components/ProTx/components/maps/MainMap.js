@@ -4,7 +4,7 @@ import 'leaflet.vectorgrid';
 import PropTypes from 'prop-types';
 import MapProviders from './MapProviders';
 import './MainMap.css';
-import { GEOID_KEY } from './meta';
+import { GEOID_KEY } from '../../meta';
 import { IntervalColorScale, getColor } from './intervalColorScale';
 import texasBounds from './texasBoundary';
 import './MainMap.module.scss';
