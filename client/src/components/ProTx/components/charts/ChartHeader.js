@@ -11,7 +11,7 @@ function ChartHeader() {
         <p>Information relevant to the data selection.</p>
       </div>
       <hr />
-      <div className="dev-status">
+      {/* <div className="dev-status">
         <h2>
           <b>Application Information</b>
         </h2>
@@ -24,7 +24,7 @@ function ChartHeader() {
         <p>
           Mapping: <b>Leaflet</b>
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }
