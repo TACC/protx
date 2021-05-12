@@ -10,7 +10,6 @@ import ChartDiagram1CBC from './ChartDiagram1CBC';
 // import ChartDiagram4CBC from './ChartDiagram4CBC';
 // import ChartDiagramFC from './ChartDiagramFC';
 
-
 function MainChart() {
   return (
     <div className="main-chart">
@@ -21,7 +20,7 @@ function MainChart() {
       {/* <ChartDiagram4CBC className="chart-diagram" /> */}
       {/* <ChartDiagram1FC className="chart-diagram" /> */}
       {/* <ChartDiagram2FC className="chart-diagram" /> */}
-      {/* <ChartDiagram3FC className="chart-diagram" /> */}      
+      {/* <ChartDiagram3FC className="chart-diagram" /> */}
       {/* <ChartDiagramFC /> */}
     </div>
   );
