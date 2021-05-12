@@ -1,0 +1,21 @@
+.root {
+    background-color: var(--global-color-primary--xx-light);
+    height: 38px;
+    font: 16px Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.control {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.label {
+    font-weight: bold;
+    padding-right: 5px;
+}
