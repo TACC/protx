@@ -1,6 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import './ScatterBarChart.module.scss';
+import './ScatterBarChart.css';
 
 function ScatterBarChart() {
   const state = {
