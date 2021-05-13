@@ -19,3 +19,8 @@
 .dev-status h2 {
     margin-bottom: 1rem;
 }
+
+.scatter-bar-chart {
+    width: 100%;
+    height: 100%;
+}

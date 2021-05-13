@@ -1,5 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
+import './ScatterBarChart.css';
 
 function ScatterBarChart() {
   const state = {
@@ -30,7 +31,16 @@ function ScatterBarChart() {
   };
 
   return (
-    <div className="chart-diagram-1cbc">
+    <div className="scatter-bar-chart">
+      <div className="chart-header">
+        <div className="chart-info">
+          <h2>
+            <b>Chart Information</b>
+          </h2>
+          <p>Information relevant to the data selection.</p>
+        </div>
+        <hr />
+      </div>
       <Plot data={state.data} layout={state.layout} config={state.config} />
     </div>
   );
