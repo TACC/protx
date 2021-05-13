@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import './MainMap.module.scss';
+import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import PropTypes from 'prop-types';
 import MapProviders from './MapProviders';
-import './MainMap.css';
 import { GEOID_KEY } from '../meta';
 import { IntervalColorScale, getColor } from './intervalColorScale';
 import texasBounds from './texasBoundary';
-import './MainMap.module.scss';
-import 'leaflet/dist/leaflet.css';
 
 function hasMetaData(
   data,
