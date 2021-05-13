@@ -1,5 +1,5 @@
 import React from 'react';
-import './MainChart.module.scss';
+import './MainChart.css';
 import ScatterBarChart from './ScatterBarChart';
 
 function MainChart() {
