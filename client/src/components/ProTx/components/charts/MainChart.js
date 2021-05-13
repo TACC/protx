@@ -1,13 +1,13 @@
 import React from 'react';
 import './MainChart.css';
 import ChartHeader from './ChartHeader';
-import ChartDiagram1CBC from './ChartDiagram1CBC';
+import ScatterBarChart from './ScatterBarChart';
 
 function MainChart() {
   return (
     <div className="main-chart">
       <ChartHeader />
-      <ChartDiagram1CBC className="chart-diagram" />
+      <ScatterBarChart className="chart-diagram" />
     </div>
   );
 }

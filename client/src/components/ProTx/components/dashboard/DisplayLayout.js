@@ -1,8 +1,8 @@
 import React from 'react';
 import './DisplayLayout.css';
 import PropTypes from 'prop-types';
-import MainMap from './MainMap';
-import MainChart from './components/charts/MainChart';
+import MainMap from '../maps/MainMap';
+import MainChart from '../charts/MainChart';
 
 function DisplayLayout({
   mapType,
