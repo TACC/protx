@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
-function ChartDiagram1CBC() {
+function ScatterBarChart() {
   const state = {
     data: [
       {
@@ -36,4 +36,4 @@ function ChartDiagram1CBC() {
   );
 }
 
-export default ChartDiagram1CBC;
+export default ScatterBarChart;
