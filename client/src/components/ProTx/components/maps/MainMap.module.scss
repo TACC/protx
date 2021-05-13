@@ -1,9 +1,13 @@
-@import '~leaflet/dist/leaflet.css';
+.map {
+    height: 100%;
+    width: 100%;
+}
 
 .legend {
     line-height: 18px;
-    color: #555;
+    color: #555555;
 }
+
 .legend i {
     width: 18px;
     height: 18px;

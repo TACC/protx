@@ -1,1 +1,1 @@
-export { default } from './MainMap';
+export { default } from './components/dashboard/AnalyticsDashboard';
