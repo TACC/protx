@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownSelector } from '_common';
-import { OBSERVED_FEATURES, MALTREATMENT, SUPPORTED_YEARS } from '../../meta';
+import { OBSERVED_FEATURES, MALTREATMENT, SUPPORTED_YEARS } from '../meta';
 import './DisplaySelectors.module.scss';
 
 function DisplaySelectors({

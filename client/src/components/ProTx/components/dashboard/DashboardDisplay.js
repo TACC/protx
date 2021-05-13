@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import DisplayLayout from './DisplayLayout';
-import { MALTREATMENT, OBSERVED_FEATURES } from '../../meta';
+import { MALTREATMENT, OBSERVED_FEATURES } from '../meta';
 
 function DashboardDisplay() {
   // Map type and selected types (i.e. geography, year etc)
