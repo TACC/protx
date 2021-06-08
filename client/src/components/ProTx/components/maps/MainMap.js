@@ -10,50 +10,14 @@ import texasBounds from './texasBoundary';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-
-function hasMetaData(
-  data,
-  mapType,
-  geography,
-  year,
-  observedFeature,
-  maltreatmentType
-) {
-  if (mapType === 'observedFeatures') {
-    return (
-      geography in data.observedFeaturesMeta &&
-      observedFeature in data.observedFeaturesMeta[geography]
-    );
-  }
-  return (
-    geography in data.maltreatmentMeta &&
-    year in data.maltreatmentMeta[geography] &&
-    maltreatmentType in data.maltreatmentMeta[geography][year]
-  );
-}
-
-function getMetaData(
-  data,
-  mapType,
-  geography,
-  year,
-  observedFeature,
-  maltreatmentType
-) {
-  const meta =
-    mapType === 'observedFeatures'
-      ? data.observedFeaturesMeta[geography][observedFeature]
-      : data.maltreatmentMeta[geography][year][maltreatmentType]
-          .MALTREATMENT_COUNT;
-  return meta;
-}
+import { getMetaData, getMaltreatmentAggregatedValue } from '../util';
 
 let mapContainer;
 
 function MainMap({
   mapType,
   geography,
-  maltreatmentType,
+  maltreatmentTypes,
   observedFeature,
   year,
   data
@@ -65,6 +29,7 @@ function MainMap({
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
+  const [metaData, setMetaData] = useState(null);
 
   useEffect(() => {
     if (map) {
@@ -93,27 +58,21 @@ function MainMap({
         legendControl.remove();
       }
 
-      const hasValues = hasMetaData(
+      const meta = getMetaData(
         data,
         mapType,
         geography,
         year,
         observedFeature,
-        maltreatmentType
+        maltreatmentTypes
       );
+      // set for use by vector layer
+      setMetaData(meta);
 
-      if (hasValues) {
+      if (meta) {
         const newLegend = L.control({ position: 'bottomright' });
 
         newLegend.onAdd = () => {
-          const meta = getMetaData(
-            data,
-            mapType,
-            geography,
-            year,
-            observedFeature,
-            maltreatmentType
-          );
           const div = L.DomUtil.create('div', 'color legend');
 
           // get numeric values between intervals
@@ -134,7 +93,7 @@ function MainMap({
         setLegendControl(newLegend);
       }
     }
-  }, [data, mapType, observedFeature, geography, maltreatmentType, year, map]);
+  }, [data, mapType, observedFeature, geography, maltreatmentTypes, year, map]);
 
   useEffect(() => {
     const vectorTile = `${dataServer}/static/data/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
@@ -156,33 +115,23 @@ function MainMap({
                 ? dataSet[geoid][observedFeature]
                 : 0;
               if (hasElementAndProperty) {
-                const meta =
-                  data.observedFeaturesMeta[geography][observedFeature];
-                fillColor = getColor(featureValue, meta.min, meta.max);
+                fillColor = getColor(featureValue, metaData.min, metaData.max);
               }
             } else {
-              // TODO REWORK (place into different function and remove workarounds for MALTREATMENT_COUNT)
-              // TODO only county data provided for 2019
-              const mal = data.maltreatment;
-              hasElementAndProperty =
-                geography in mal &&
-                year in mal[geography] &&
-                maltreatmentType in mal[geography][year] &&
-                geoid in mal[geography][year][maltreatmentType];
-              const featureValue = hasElementAndProperty
-                ? mal[geography][year][maltreatmentType][geoid]
-                    .MALTREATMENT_COUNT
-                : 0;
-              if (hasElementAndProperty) {
-                const meta =
-                  data.maltreatmentMeta[geography][year][maltreatmentType]
-                    .MALTREATMENT_COUNT;
-                fillColor = getColor(featureValue, meta.min, meta.max);
+              const featureValue1 = getMaltreatmentAggregatedValue(
+                data,
+                geography,
+                year,
+                geoid,
+                maltreatmentTypes
+              );
+              if (featureValue1 !== 0 && metaData) {
+                fillColor = getColor(featureValue1, metaData.min, metaData.max);
               }
             }
             return {
               fillColor,
-              fill: hasElementAndProperty,
+              fill: fillColor,
               stroke: false,
               opacity: 1,
               fillOpacity: 0.5
@@ -208,10 +157,11 @@ function MainMap({
     }
   }, [
     data,
+    metaData,
     mapType,
     geography,
     observedFeature,
-    maltreatmentType,
+    maltreatmentTypes,
     year,
     layersControl,
     map
@@ -223,7 +173,7 @@ function MainMap({
 MainMap.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
-  maltreatmentType: PropTypes.string.isRequired,
+  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types

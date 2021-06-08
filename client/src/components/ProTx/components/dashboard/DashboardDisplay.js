@@ -10,9 +10,9 @@ function DashboardDisplay() {
   // Map type and selected types (i.e. geography, year etc)
   const [mapType, setMapType] = useState('maltreatment');
   const [geography, setGeography] = useState('county');
-  const [maltreatmentType, setMaltreatmentType] = useState(
+  const [maltreatmentTypes, setMaltreatmentTypes] = useState([
     MALTREATMENT[0].field
-  );
+  ]);
   const [observedFeature, setObservedFeature] = useState(
     OBSERVED_FEATURES[0].field
   );
@@ -49,19 +49,19 @@ function DashboardDisplay() {
       <DisplaySelectors
         mapType={mapType}
         geography={geography}
-        maltreatmentType={maltreatmentType}
+        maltreatmentTypes={maltreatmentTypes}
         observedFeature={observedFeature}
         year={year}
         setMapType={setMapType}
         setGeography={setGeography}
-        setMaltreatmentType={setMaltreatmentType}
+        setMaltreatmentTypes={setMaltreatmentTypes}
         setObservedFeature={setObservedFeature}
         setYear={setYear}
       />
       <DisplayLayout
         mapType={mapType}
         geography={geography}
-        maltreatmentType={maltreatmentType}
+        maltreatmentTypes={maltreatmentTypes}
         observedFeature={observedFeature}
         year={year}
         data={data}

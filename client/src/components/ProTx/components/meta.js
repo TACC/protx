@@ -94,7 +94,6 @@ export const OBSERVED_FEATURES = [
 ];
 
 export const MALTREATMENT = [
-  { field: 'ALL', name: 'All', valueType: 'count', valueTypeLabel: 'Count' },
   {
     field: 'ABAN',
     name: 'Abandonment',
