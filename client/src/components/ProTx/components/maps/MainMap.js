@@ -114,7 +114,7 @@ function MainMap({
               const featureValue = hasElementAndProperty
                 ? dataSet[geoid][observedFeature]
                 : 0;
-              if (hasElementAndProperty) {
+              if (hasElementAndProperty && metaData) {
                 fillColor = getColor(featureValue, metaData.min, metaData.max);
               }
             } else {
