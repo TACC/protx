@@ -1,13 +1,15 @@
 .rmsc {
-    --rmsc-bg: var(--global-color-primary--xx-light);
     --rmsc-h: 20px; /* Height */
-
+    --rmsc-radius: 0px;
     width: 200px;
 
     font-style: italic;
     font-size: 0.75rem;
 }
-
+.rmsc .dropdown-content .panel-content {
+    --rmsc-bg: var(--global-color-primary--light) !important;
+    color: var(--global-color-accent--normal) !important;
+}
 .dropdown-heading-value {
     color: var(--global-color-accent--normal);
 }
