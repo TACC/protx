@@ -1,0 +1,19 @@
+.rmsc {
+    --rmsc-bg: var(--global-color-primary--xx-light);
+    --rmsc-h: 20px; /* Height */
+
+    width: 200px;
+
+    font-style: italic;
+    font-size: 0.75rem;
+}
+
+.dropdown-heading-value {
+    color: var(--global-color-accent--normal);
+}
+
+.item-renderer{
+    font-style: normal;
+    font-weight: normal;
+    color: var(--global-color-primary--x-dark);
+}
