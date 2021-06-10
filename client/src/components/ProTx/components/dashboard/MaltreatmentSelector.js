@@ -17,7 +17,7 @@ const MaltreatmentSelector = ({ selectedTypes, setSelectedTypes }) => {
   const customValueRenderer = (currentSelectedTypes, _options) => {
     if (currentSelectedTypes.length) {
       if (currentSelectedTypes.length === 1) {
-        return currentSelectedTypes.map(({ label }) => label)
+        return currentSelectedTypes.map(({ label }) => label);
       }
       if (currentSelectedTypes.length === _options.length) {
         return [` All selected (${currentSelectedTypes.length})`];
