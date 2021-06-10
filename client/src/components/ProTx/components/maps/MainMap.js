@@ -10,7 +10,11 @@ import texasBounds from './texasBoundary';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import { getMetaData, getMaltreatmentAggregatedValue } from '../util';
+import {
+  getMetaData,
+  getMaltreatmentAggregatedValue,
+  getObservedFeatureValue
+} from '../util';
 
 let mapContainer;
 
@@ -102,31 +106,29 @@ function MainMap({
         vectorTileLayerStyles: {
           singleLayer: properties => {
             let fillColor;
-            let hasElementAndProperty;
             const geoid = properties[GEOID_KEY[geography]];
             // TODO refactor into two style functions
             if (mapType === 'observedFeatures') {
-              const dataSet = data.observedFeatures[geography];
-              // TODO confirm that we don't have values for all elements
-              const hasElement = geoid in dataSet;
-              hasElementAndProperty =
-                hasElement && observedFeature in dataSet[geoid];
-              const featureValue = hasElementAndProperty
-                ? dataSet[geoid][observedFeature]
-                : 0;
-              if (hasElementAndProperty && metaData) {
+              const featureValue = getObservedFeatureValue(
+                data,
+                geography,
+                year,
+                geoid,
+                observedFeature
+              );
+              if (featureValue && metaData) {
                 fillColor = getColor(featureValue, metaData.min, metaData.max);
               }
             } else {
-              const featureValue1 = getMaltreatmentAggregatedValue(
+              const featureValue = getMaltreatmentAggregatedValue(
                 data,
                 geography,
                 year,
                 geoid,
                 maltreatmentTypes
               );
-              if (featureValue1 !== 0 && metaData) {
-                fillColor = getColor(featureValue1, metaData.min, metaData.max);
+              if (featureValue !== 0 && metaData) {
+                fillColor = getColor(featureValue, metaData.min, metaData.max);
               }
             }
             return {
