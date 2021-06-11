@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownSelector } from '_common';
-import { OBSERVED_FEATURES, MALTREATMENT, SUPPORTED_YEARS } from '../meta';
+import MaltreatmentSelector from './MaltreatmentSelector';
+import { OBSERVED_FEATURES, SUPPORTED_YEARS } from '../meta';
 import './DisplaySelectors.module.scss';
 
 function DisplaySelectors({
   mapType,
   geography,
-  maltreatmentType,
+  maltreatmentTypes,
   observedFeature,
   year,
   setMapType,
   setGeography,
-  setMaltreatmentType,
+  setMaltreatmentTypes,
   setObservedFeature,
   setYear
 }) {
@@ -23,7 +24,7 @@ function DisplaySelectors({
       setGeography('county');
     } else {
       // observedFeatures (i.e. Demographic Features only has 2019 data)
-      setYear(2019);
+      setYear('2019');
     }
     setMapType(event.target.value);
   };
@@ -58,18 +59,10 @@ function DisplaySelectors({
       {mapType === 'maltreatment' && (
         <div styleName="control">
           <span styleName="label">Type</span>
-          <DropdownSelector
-            value={maltreatmentType}
-            onChange={event => setMaltreatmentType(event.target.value)}
-          >
-            <optgroup label="Select Maltreatment Type">
-              {MALTREATMENT.map(feature => (
-                <option key={feature.field} value={feature.field}>
-                  {feature.name}
-                </option>
-              ))}
-            </optgroup>
-          </DropdownSelector>
+          <MaltreatmentSelector
+            selectedTypes={maltreatmentTypes}
+            setSelectedTypes={setMaltreatmentTypes}
+          />
         </div>
       )}
       {mapType === 'observedFeatures' && (
@@ -111,12 +104,12 @@ function DisplaySelectors({
 DisplaySelectors.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
-  maltreatmentType: PropTypes.string.isRequired,
+  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   setMapType: PropTypes.func.isRequired,
   setGeography: PropTypes.func.isRequired,
-  setMaltreatmentType: PropTypes.func.isRequired,
+  setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
   setYear: PropTypes.func.isRequired
 };

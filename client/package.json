@@ -29,6 +29,7 @@
     "react-dom": "16.12.0",
     "react-dropzone": "^10.2.1",
     "react-hot-loader": "^4.12.18",
+    "react-multi-select-component": "^4.0.2",
     "react-plotly.js": "^2.5.1",
     "react-redux": "^7.2.1",
     "react-resize-detector": "^6.1.0",

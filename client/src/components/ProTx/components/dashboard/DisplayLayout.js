@@ -7,7 +7,7 @@ import MainChart from '../charts/MainChart';
 function DisplayLayout({
   mapType,
   geography,
-  maltreatmentType,
+  maltreatmentTypes,
   observedFeature,
   year,
   data
@@ -21,7 +21,7 @@ function DisplayLayout({
         <MainMap
           mapType={mapType}
           geography={geography}
-          maltreatmentType={maltreatmentType}
+          maltreatmentTypes={maltreatmentTypes}
           observedFeature={observedFeature}
           year={year}
           data={data}
@@ -34,7 +34,7 @@ function DisplayLayout({
 DisplayLayout.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
-  maltreatmentType: PropTypes.string.isRequired,
+  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
