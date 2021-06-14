@@ -14,10 +14,10 @@ function DisplayLayout({
 }) {
   return (
     <div className="display-layout-root">
-      <div className="chart-layout">
+      <div className="display-layout-chart">
         <MainChart />
       </div>
-      <div className="map-layout">
+      <div className="display-layout-map">
         <MainMap
           mapType={mapType}
           geography={geography}
