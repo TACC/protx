@@ -35,9 +35,9 @@ function ScatterBarChart() {
       <div className="chart-header">
         <div className="chart-info">
           <h2>
-            <b>Chart Information</b>
+            <b> Chart Information </b>
           </h2>
-          <p>Information relevant to the data selection.</p>
+          <p> Information relevant to the data selection. </p>
         </div>
         <hr />
       </div>
