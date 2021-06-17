@@ -36,7 +36,9 @@
   justify-content: space-between;
 }
 
-.chart-info-title, .chart-body-subtitle, .chart-links {
+.chart-info-title,
+.chart-body-subtitle,
+.chart-links {
   font-weight: 700;
   color: #aaaaaa;
 }
@@ -64,4 +66,12 @@
   line-height: 100%;
 }
 
-.chart-link-item a:before { content: "\00a0 "; }
+.chart-link-item a:before {
+  content: '\00a0 ';
+}
+.chart-link-item a {
+  color: #002200;
+}
+.chart-link-item a:visited {
+  color: #000000;
+}
