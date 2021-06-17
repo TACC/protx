@@ -1,7 +1,10 @@
 import React from 'react';
 import './MainChart.css';
 import PropTypes from 'prop-types';
-import ScatterBarChart from './ScatterBarChart';
+// import ScatterBarChart from './ScatterBarChart';
+// import ScatterBarChart from './ScatterBarChart';
+// import StackedBarChart from './StackedBarChart';
+import ConfigurableChart from './ConfigurableChart';
 
 function MainChart({
   mapType,
@@ -19,7 +22,9 @@ function MainChart({
         mapType: {mapType} geography: {} year: {year} selected feature:{' '}
         {selectedFeatureInfo}
       </span>
-      <ScatterBarChart className="chart-diagram" />
+      {/* <ScatterBarChart className="chart-diagram" /> */}
+      {/* <StackedBarChart className="chart-diagram" /> */}
+      <ConfigurableChart className="chart-diagram" />
     </div>
   );
 }

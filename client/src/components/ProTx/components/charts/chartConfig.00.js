@@ -1,4 +1,4 @@
-export const CONFIGURATION_01 = {
+export const CONFIGURATION_00 = {
   CHART_INFO: {
     chartLabels: [
       {
@@ -57,65 +57,38 @@ export const CONFIGURATION_01 = {
     width: '100%',
     height: '100%',
     barmode: 'stack',
-    title: ' DEMO Single Year Horizontal Stacked Bar Chart'
+    title: ' DEMO Basic Example Chart', // more about "layout.title": #layout-title
+    xaxis: {
+      // all "layout.xaxis" attributes: #layout-xaxis
+      title: 'time' // more about "layout.xaxis.title": #layout-xaxis-title
+    },
+    annotations: [
+      // all "annotation" attributes: #layout-annotations
+      {
+        text: 'simple annotation', // #layout-annotations-text
+        x: 0, // #layout-annotations-x
+        xref: 'paper', // #layout-annotations-xref
+        y: 0, // #layout-annotations-y
+        yref: 'paper' // #layout-annotations-yref
+      }
+    ]
   },
   CHART_DATA: [
     // Order objects in reverse of how you want them to populate the category key.
     {
-      x: [25],
-      y: ['YEAR'],
-      name: 'Maltreatment Type D',
-      type: 'bar',
-      orientation: 'h',
+      type: 'scatter', // all "scatter" attributes: https://plotly.com/javascript/reference/#scatter
+      x: [1, 2, 3], // more about "x": #scatter-x
+      y: [3, 1, 6], // #scatter-y
       marker: {
-        line: {
-          color: ['#111111'],
-          width: 1
-        },
-        color: ['#03071E']
+        // marker is an object, valid marker keys: #scatter-marker
+        color: 'rgb(16, 32, 77)' // more about "marker.color": #scatter-marker-color
       }
     },
     {
-      x: [30],
-      y: ['YEAR'],
-      name: 'Maltreatment Type C',
-      type: 'bar',
-      orientation: 'h',
-      marker: {
-        line: {
-          color: ['#111111'],
-          width: 1
-        },
-        color: ['#6A040F']
-      }
-    },
-    {
-      x: [70],
-      y: ['YEAR'],
-      name: 'Maltreatment Type B',
-      type: 'bar',
-      orientation: 'h',
-      marker: {
-        line: {
-          color: ['#111111'],
-          width: 1
-        },
-        color: ['#E85D04']
-      }
-    },
-    {
-      x: [5],
-      y: ['YEAR'],
-      name: 'Maltreatment Type A',
-      type: 'bar',
-      orientation: 'h',
-      marker: {
-        line: {
-          color: ['#111111'],
-          width: 1
-        },
-        color: ['#FFBA08']
-      }
+      type: 'bar', // all "bar" chart attributes: #bar
+      x: [1, 2, 3], // more about "x": #bar-x
+      y: [3, 1, 6], // #bar-y
+      name: 'bar chart example' // #bar-name
     }
   ]
 };
