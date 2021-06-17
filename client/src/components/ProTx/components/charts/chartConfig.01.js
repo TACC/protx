@@ -42,25 +42,37 @@ export const CONFIGURATION_01 = {
     responsive: true,
     useResizeHandler: true,
     displayModeBar: false,
-    modeBarButtonsToRemove: [
-      /* An array of interface buttons to remove, e.g. 'toImage'.
-      Docs: https://plotly.com/javascript/configuration-options/#remove-modebar-buttons
-      */
-    ],
+    modeBarButtonsToRemove: [],
     displaylogo: false,
-    showEditInChartStudio: false
-    // enable these values of you set showEditInChartStudio to true.
-    // plotlyServerURL: 'https://chart-studio.plotly.com',
-    // linkText: 'Edit Chart in Plotly Studio'
+    showEditInChartStudio: false,
+    plotlyServerURL: 'https://chart-studio.plotly.com',
+    linkText: 'Edit Chart in Plotly Studio'
   },
   CHART_LAYOUT: {
+    title: ' DEMO Single Year Horizontal Stacked Bar Chart',
     width: '100%',
     height: '100%',
     barmode: 'stack',
-    title: ' DEMO Single Year Horizontal Stacked Bar Chart'
+    margin: { t: 0, r: 0, b: 0, l: 20, pad: 10 },
+    xaxis: {
+      automargin: true,
+      tickangle: 0,
+      title: {
+        text: 'Total',
+        standoff: 30
+      }
+    },
+    yaxis: {
+      automargin: true,
+      tickangle: 0,
+      title: {
+        text: 'Years',
+        standoff: 30
+      }
+    },
+    annotations: []
   },
   CHART_DATA: [
-    // Order objects in reverse of how you want them to populate the category key.
     {
       x: [25],
       y: ['YEAR'],

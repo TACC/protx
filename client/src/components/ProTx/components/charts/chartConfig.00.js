@@ -48,47 +48,74 @@ export const CONFIGURATION_00 = {
       */
     ],
     displaylogo: false,
-    showEditInChartStudio: false
-    // enable these values of you set showEditInChartStudio to true.
-    // plotlyServerURL: 'https://chart-studio.plotly.com',
-    // linkText: 'Edit Chart in Plotly Studio'
+    showEditInChartStudio: false,
+    plotlyServerURL: 'https://chart-studio.plotly.com',
+    linkText: 'Edit Chart in Plotly Studio'
   },
   CHART_LAYOUT: {
+    // more about "layout.title": #layout-title
+    title: ' DEMO Basic Example Chart',
     width: '100%',
     height: '100%',
     barmode: 'stack',
-    title: ' DEMO Basic Example Chart', // more about "layout.title": #layout-title
+    margin: { t: 0, r: 0, b: 0, l: 20, pad: 10 },
+    // all "layout.xaxis" attributes: #layout-xaxis
     xaxis: {
-      // all "layout.xaxis" attributes: #layout-xaxis
-      title: 'time' // more about "layout.xaxis.title": #layout-xaxis-title
+      automargin: true,
+      tickangle: 0,
+      // more about "layout.xaxis.title": #layout-xaxis-title
+      title: {
+        text: 'Time',
+        standoff: 30
+      }
+    },
+    yaxis: {
+      automargin: true,
+      tickangle: 0,
+      title: {
+        text: 'Years',
+        standoff: 30
+      }
     },
     annotations: [
       // all "annotation" attributes: #layout-annotations
       {
-        text: 'simple annotation', // #layout-annotations-text
-        x: 0, // #layout-annotations-x
-        xref: 'paper', // #layout-annotations-xref
-        y: 0, // #layout-annotations-y
-        yref: 'paper' // #layout-annotations-yref
+        // #layout-annotations-text
+        text: 'simple annotation',
+        // #layout-annotations-x
+        x: 0,
+        // #layout-annotations-xref
+        xref: 'paper',
+        // #layout-annotations-y
+        y: 0,
+        // #layout-annotations-yref
+        yref: 'paper'
       }
     ]
   },
   CHART_DATA: [
-    // Order objects in reverse of how you want them to populate the category key.
     {
-      type: 'scatter', // all "scatter" attributes: https://plotly.com/javascript/reference/#scatter
-      x: [1, 2, 3], // more about "x": #scatter-x
-      y: [3, 1, 6], // #scatter-y
+      // all "scatter" attributes: https://plotly.com/javascript/reference/#scatter
+      type: 'scatter',
+      // more about "x": #scatter-x
+      x: [1, 2, 3],
+      // #scatter-y
+      y: [3, 1, 6],
+      // marker is an object, valid marker keys: #scatter-marker
       marker: {
-        // marker is an object, valid marker keys: #scatter-marker
-        color: 'rgb(16, 32, 77)' // more about "marker.color": #scatter-marker-color
+        // more about "marker.color": #scatter-marker-color
+        color: 'rgb(16, 32, 77)' 
       }
     },
     {
-      type: 'bar', // all "bar" chart attributes: #bar
-      x: [1, 2, 3], // more about "x": #bar-x
-      y: [3, 1, 6], // #bar-y
-      name: 'bar chart example' // #bar-name
+      // all "bar" chart attributes: #bar
+      type: 'bar',
+      // more about "x": #bar-x
+      x: [1, 2, 3],
+      // #bar-y
+      y: [3, 1, 6],
+      // #bar-name
+      name: 'bar chart example'
     }
   ]
 };

@@ -7,8 +7,8 @@ import { CONFIGURATION_01 } from './chartConfig.01';
 import { CONFIGURATION_02 } from './chartConfig.02';
 
 // const chartInputs = CONFIGURATION_00;
-// const chartInputs = CONFIGURATION_01;
-const chartInputs = CONFIGURATION_02;
+const chartInputs = CONFIGURATION_01;
+// const chartInputs = CONFIGURATION_02;
 
 // import {
 //   getMetaData,
@@ -70,7 +70,13 @@ function ConfigurableChart() {
           <div className="chart-body-subtitle">
             {chartInputs.CHART_INFO.chartSubtitle}
           </div>
-          <Plot data={state.data} layout={state.layout} config={state.config} />
+          <div className="chart-body-plot">
+            <Plot
+              data={state.data}
+              layout={state.layout}
+              config={state.config}
+            />
+          </div>
         </div>
         <div className="chart-footer">
           <div className="chart-links">
