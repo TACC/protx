@@ -53,13 +53,22 @@
   color: #000000;
 }
 
-/* .chart-body {} */
+.chart-body {
+  margin: 1rem 0 1rem;
+}
+
+.chart-body-plot {
+  margin: 2rem 0 1rem;
+}
 
 .chart-body-subtitle {
+  margin-bottom: 1rem;
   font-size: 1.4rem;
 }
 
-/* .chart-footer {} */
+.chart-footer {
+  margin: 2rem 0 1rem;
+}
 
 .chart-links {
   font-size: 1.4rem;
