@@ -63,3 +63,5 @@
   font-size: 1.4rem;
   line-height: 100%;
 }
+
+.chart-link-item a:before { content: "\00a0 "; }
