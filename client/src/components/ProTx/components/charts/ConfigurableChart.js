@@ -3,13 +3,46 @@ import Plot from 'react-plotly.js';
 // import PropTypes from 'prop-types';
 import './ConfigurableChart.css';
 
-import { CONFIGURATION_00 } from './chartConfig.00';
-import { CONFIGURATION_01 } from './chartConfig.01';
-import { CONFIGURATION_02 } from './chartConfig.02';
+/**
+ * Configuration Files for ConfigurableChart
+ *
+ * Configuration files live under configs/chartConfig.##.js.
+ *
+ * Notes:
+ * - chart info content is located in: configs/chart.info.js
+ * - chart configurations are located in: configs/chart.configs.js
+ * - chart layoutsares located in: configs/chart.layouts.js
+ * - trace data is located in: configs/trace.data.js.
+ *
+ * Each configuration provides a specific configuration of:
+ * - the charts text content.
+ * - the charts configuration.
+ * - the charts layout.
+ * - mock data for testing the component.
+ *
+ * Available Configurations
+ *
+ * Demo & Template:
+ * - chart.00.js - basic demo chart from the react-plotly documentation with detailed comments.
+ *
+ * Bar Charts:
+ *
+ * - chart.01.js - horizontal single stacked bar chart.
+ * - chart.02.js - horizontal multiples stacked bar chart.
+ * - chart.03.js - horizontal multiples grouped bar chart.
+ * - chart.04.js - vertical single stacked bar chart.
+ * - chart.05.js - vertical multiples stacked bar chart.
+ * - chart.06.js - vertical multiples grouped bar chart.
+ *
+ * Histograms:
+ *
+ * - chart.07.js - vertical histogram chart.
+ *
+ */
 
-// const chartInputs = CONFIGURATION_00;
-// const chartInputs = CONFIGURATION_01;
-const chartInputs = CONFIGURATION_02;
+import { default as CONFIGURATION } from './configs/chart.07';
+
+const chartInputs = CONFIGURATION;
 
 // import {
 //   getMetaData,
@@ -66,11 +99,12 @@ function ConfigurableChart() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="chart-body">
-          <div className="chart-body-subtitle">
+          <hr />
+          <div className="chart-info-subtitle">
             {chartInputs.CHART_INFO.chartSubtitle}
           </div>
+        </div>
+        <div className="chart-body">
           <div className="chart-body-plot">
             <Plot
               data={state.data}
