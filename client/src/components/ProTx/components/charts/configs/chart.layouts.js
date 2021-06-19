@@ -1,6 +1,6 @@
 // all "layout" attributes: https://plotly.com/javascript/reference/layout
 
-export const LAYOUT_00 = {
+export const LAYOUT_DEMO = {
   title: ' DEMO Example Chart',
   width: '100%',
   height: '100%',
