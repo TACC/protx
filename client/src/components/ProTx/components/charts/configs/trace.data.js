@@ -1,7 +1,7 @@
 export const TRACE_HORZ_SINGLE_A = {
   x: [25],
   y: ['YEAR'],
-  name: 'Maltreatment Type D',
+  name: 'Group A',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -16,7 +16,7 @@ export const TRACE_HORZ_SINGLE_A = {
 export const TRACE_HORZ_SINGLE_B = {
   x: [30],
   y: ['YEAR'],
-  name: 'Maltreatment Type C',
+  name: 'Group B',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -31,7 +31,7 @@ export const TRACE_HORZ_SINGLE_B = {
 export const TRACE_HORZ_SINGLE_C = {
   x: [70],
   y: ['YEAR'],
-  name: 'Maltreatment Type B',
+  name: 'Group C',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -46,7 +46,7 @@ export const TRACE_HORZ_SINGLE_C = {
 export const TRACE_HORZ_SINGLE_D = {
   x: [5],
   y: ['YEAR'],
-  name: 'Maltreatment Type A',
+  name: 'Group D',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -68,7 +68,7 @@ export const TRACE_HORZ_SINGLE_ALL = [
 export const TRACE_HORZ_MULTI_A = {
   x: [50, 100, 75, 25, 100, 30, 70, 60, 20, 90],
   y: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type D',
+  name: 'Group A',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -94,7 +94,7 @@ export const TRACE_HORZ_MULTI_A = {
 export const TRACE_HORZ_MULTI_B = {
   x: [10, 90, 25, 45, 50, 60, 30, 20, 40, 80],
   y: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type C',
+  name: 'Group B',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -120,7 +120,7 @@ export const TRACE_HORZ_MULTI_B = {
 export const TRACE_HORZ_MULTI_C = {
   x: [70, 10, 45, 50, 10, 20, 45, 15, 80, 20],
   y: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type B',
+  name: 'Group C',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -146,7 +146,7 @@ export const TRACE_HORZ_MULTI_C = {
 export const TRACE_HORZ_MULTI_D = {
   x: [5, 10, 7, 2, 10, 3, 7, 6, 2, 9],
   y: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type A',
+  name: 'Group D',
   type: 'bar',
   orientation: 'h',
   marker: {
@@ -179,7 +179,7 @@ export const TRACE_HORZ_MULTI_ALL = [
 export const TRACE_VERT_SINGLE_A = {
   y: [25],
   x: ['YEAR'],
-  name: 'Maltreatment Type D',
+  name: 'Group A',
   type: 'bar',
   orientation: 'v',
   marker: {
@@ -194,7 +194,7 @@ export const TRACE_VERT_SINGLE_A = {
 export const TRACE_VERT_SINGLE_B = {
   y: [30],
   x: ['YEAR'],
-  name: 'Maltreatment Type C',
+  name: 'Group B',
   type: 'bar',
   orientation: 'v',
   marker: {
@@ -209,7 +209,7 @@ export const TRACE_VERT_SINGLE_B = {
 export const TRACE_VERT_SINGLE_C = {
   y: [70],
   x: ['YEAR'],
-  name: 'Maltreatment Type B',
+  name: 'Group C',
   type: 'bar',
   orientation: 'v',
   marker: {
@@ -224,7 +224,7 @@ export const TRACE_VERT_SINGLE_C = {
 export const TRACE_VERT_SINGLE_D = {
   y: [5],
   x: ['YEAR'],
-  name: 'Maltreatment Type A',
+  name: 'Group D',
   type: 'bar',
   orientation: 'v',
   marker: {
@@ -246,7 +246,7 @@ export const TRACE_VERT_SINGLE_ALL = [
 export const TRACE_VERT_MULTI_A = {
   y: [50, 100, 75, 25, 100, 30, 70, 60, 20, 90],
   x: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type D',
+  name: 'Group A',
   type: 'bar',
   orientation: 'v',
   marker: {
@@ -272,7 +272,7 @@ export const TRACE_VERT_MULTI_A = {
 export const TRACE_VERT_MULTI_B = {
   y: [10, 90, 25, 45, 50, 60, 30, 20, 40, 80],
   x: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type C',
+  name: 'Group B',
   type: 'bar',
   orientation: 'v',
   marker: {
@@ -298,7 +298,7 @@ export const TRACE_VERT_MULTI_B = {
 export const TRACE_VERT_MULTI_C = {
   y: [70, 10, 45, 50, 10, 20, 45, 15, 80, 20],
   x: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type B',
+  name: 'Group C',
   type: 'bar',
   orientation: 'v',
   marker: {
@@ -324,7 +324,7 @@ export const TRACE_VERT_MULTI_C = {
 export const TRACE_VERT_MULTI_D = {
   y: [5, 10, 7, 2, 10, 3, 7, 6, 2, 9],
   x: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-  name: 'Maltreatment Type A',
+  name: 'Group D',
   type: 'bar',
   orientation: 'v',
   marker: {

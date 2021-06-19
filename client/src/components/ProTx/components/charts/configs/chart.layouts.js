@@ -233,7 +233,7 @@ export const LAYOUT_06 = {
 };
 
 export const LAYOUT_07 = {
-  title: 'Vertical Multiples Grouped Bar Chart',
+  title: 'Vertical Histogram Chart',
   width: '100%',
   height: '100%',
   // barmode: 'stack',
