@@ -1,4 +1,4 @@
-export const CONFIGURATION_00 = {
+{
   CHART_INFO: {
     chartLabels: [
       {
@@ -14,7 +14,7 @@ export const CONFIGURATION_00 = {
         labelValue: 'Demo'
       },
       {
-        labelTitle: 'Victims/1,000 Children',
+        labelTitle: 'Victims per 1000 Children',
         labelValue: '00.00'
       }
     ],
@@ -49,7 +49,7 @@ export const CONFIGURATION_00 = {
     ],
     displaylogo: false,
     showEditInChartStudio: false,
-    plotlyServerURL: 'https://chart-studio.plotly.com',
+    plotlyServerURL: 'https: //chart-studio.plotly.com',
     linkText: 'Edit Chart in Plotly Studio'
   },
   CHART_LAYOUT: {
@@ -58,7 +58,8 @@ export const CONFIGURATION_00 = {
     width: '100%',
     height: '100%',
     barmode: 'stack',
-    margin: { t: 0, r: 0, b: 0, l: 20, pad: 10 },
+    margin: { t: 0, r: 0, b: 0, l: 20, pad: 10
+    },
     // all "layout.xaxis" attributes: #layout-xaxis
     xaxis: {
       automargin: true,
@@ -98,22 +99,40 @@ export const CONFIGURATION_00 = {
       // all "scatter" attributes: https://plotly.com/javascript/reference/#scatter
       type: 'scatter',
       // more about "x": #scatter-x
-      x: [1, 2, 3],
+      x: [
+        1,
+        2,
+        3
+      ],
       // #scatter-y
-      y: [3, 1, 6],
+      y: [
+        3,
+        1,
+        6
+      ],
       // marker is an object, valid marker keys: #scatter-marker
       marker: {
         // more about "marker.color": #scatter-marker-color
-        color: 'rgb(16, 32, 77)' 
+        color: 'rgb(16,
+        32,
+        77)'
       }
     },
     {
       // all "bar" chart attributes: #bar
       type: 'bar',
       // more about "x": #bar-x
-      x: [1, 2, 3],
+      x: [
+        1,
+        2,
+        3
+      ],
       // #bar-y
-      y: [3, 1, 6],
+      y: [
+        3,
+        1,
+        6
+      ],
       // #bar-name
       name: 'bar chart example'
     }

@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
 
 .stacked-bar-chart {
   width: 100%;
@@ -15,20 +12,17 @@
   border-radius: 0.3rem;
 }
 
-.chart-layout * {
-  font-family: 'Open Sans Condensed', sans-serif;
-  line-height: 100%;
-}
+/* .chart-layout * {} */
 
 .chart-header {
   margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #222222;
 }
 
-.chart-info {
-  margin: 1rem 0;
+.chart-header hr {
+  border-bottom: 1px solid #000000;
 }
+
+/* .chart-info {} */
 
 .chart-info-item {
   display: flex;
@@ -36,7 +30,7 @@
 }
 
 .chart-info-title,
-.chart-body-subtitle,
+.chart-info-subtitle,
 .chart-links {
   font-weight: 700;
   color: #aaaaaa;
@@ -52,21 +46,16 @@
   color: #000000;
 }
 
-.chart-body {
-  margin: 1rem 0 1rem;
-}
-
-.chart-body-plot {
-  margin: 2rem 0 1rem;
-}
-
-.chart-body-subtitle {
-  margin-bottom: 1rem;
+.chart-info-subtitle {
   font-size: 1.4rem;
 }
 
+/* .chart-body {} */
+
+/* .chart-body-plot {} */
+
 .chart-footer {
-  margin: 2rem 0 1rem;
+  margin: 2rem 0 0;
 }
 
 .chart-links {
