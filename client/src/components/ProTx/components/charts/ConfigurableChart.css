@@ -24,6 +24,11 @@
 
 /* .chart-info {} */
 
+/* .chart-item {
+  display: flex;
+  justify-content: space-between;
+} */
+
 .chart-info-item {
   display: flex;
   justify-content: space-between;
