@@ -46,12 +46,32 @@ import { default as CONFIGURATION } from './configs/chart.07';
 
 const chartInputs = CONFIGURATION;
 
+// const CHARTSTATE = {
+//     data: CONFIGURATION.CHART_DATA,
+//     layout: CONFIGURATION.CHART_LAYOUT,
+//     config: CONFIGURATION.CHART_CONFIG
+//   };
+
+// ChartItem Component (for dev).
+// function ChartItem({ chartItem }) {
+//   return (
+//     <div className="chart-item">
+//       <div className="chart-info-title">{chartItem.labelTitle}</div>
+//       <div className="chart-info-value">{chartItem.labelValue}</div>
+//     </div>
+//   );
+// }
+
 function ConfigurableChart() {
   const state = {
     data: chartInputs.CHART_DATA,
     layout: chartInputs.CHART_LAYOUT,
     config: chartInputs.CHART_CONFIG
   };
+
+  // const state = CHARTSTATE;
+
+  // const [chartItems] = useState(chartInputs.CHART_DATA);
 
   return (
     <div className="stacked-bar-chart">
@@ -91,6 +111,45 @@ function ConfigurableChart() {
                 {chartInputs.CHART_INFO.chartLabels[3].labelValue}
               </div>
             </div>
+            {/* Approach 2  */}
+            {/*
+            <div className="chart-info-item">
+              <div className="chart-info-title">
+                {state.CHART_INFO.chartLabels[0].labelTitle}
+              </div>
+              <div className="chart-info-value">
+                {state.CHART_INFO.chartLabels[0].labelValue}
+              </div>
+            </div>
+            <div className="chart-info-item">
+              <div className="chart-info-title">
+                {state.CHART_INFO.chartLabels[1].labelTitle}
+              </div>
+              <div className="chart-info-value">
+                {state.CHART_INFO.chartLabels[1].labelValue}
+              </div>
+            </div>
+            <div className="chart-info-item">
+              <div className="chart-info-title">
+                {state.CHART_INFO.chartLabels[2].labelTitle}
+              </div>
+              <div className="chart-info-value">
+                {state.CHART_INFO.chartLabels[2].labelValue}
+              </div>
+            </div>
+            <div className="chart-info-item">
+              <div className="chart-info-title">
+                {state.CHART_INFO.chartLabels[3].labelTitle}
+              </div>
+              <div className="chart-info-value">
+                {state.CHART_INFO.chartLabels[3].labelValue}
+              </div>
+            </div> */}
+            {/* Approach 3  */}
+            {/*
+            {chartItems.map((chartItem) => (
+              <ChartItem key={index} index={index} chartItem={chartItem} />
+            ))} */}
           </div>
           <hr />
           <div className="chart-info-subtitle">
