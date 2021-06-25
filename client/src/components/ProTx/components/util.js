@@ -1,3 +1,5 @@
+import { getColor } from './maps/intervalColorScale';
+
 /**
  * Get meta data for observed features
  * @param {Object} data
@@ -145,4 +147,59 @@ export function getMaltreatmentAggregatedValue(
     });
   }
   return value;
+}
+
+/**
+ * Get style for feature
+ * @param {String} map type
+ * @param {Object} data
+ * @param {Object} metaData
+ * @param {String} geography
+ * @param {Number} year
+ * @param {Number} geoid
+ * @param {String} observedFeature
+ * @param Array<{String}> maltreatmentTypes
+ * @returns {Number} value (null if no value exists)
+ */
+export function getFeatureStyle(
+  mapType,
+  data,
+  metaData,
+  geography,
+  year,
+  geoid,
+  observedFeature,
+  maltreatmentTypes
+) {
+  let fillColor;
+  if (mapType === 'observedFeatures') {
+    const featureValue = getObservedFeatureValue(
+      data,
+      geography,
+      year,
+      geoid,
+      observedFeature
+    );
+    if (featureValue && metaData) {
+      fillColor = getColor(featureValue, metaData.min, metaData.max);
+    }
+  } else {
+    const featureValue = getMaltreatmentAggregatedValue(
+      data,
+      geography,
+      year,
+      geoid,
+      maltreatmentTypes
+    );
+    if (featureValue !== 0 && metaData) {
+      fillColor = getColor(featureValue, metaData.min, metaData.max);
+    }
+  }
+  return {
+    fillColor,
+    fill: fillColor,
+    stroke: false,
+    opacity: 1,
+    fillOpacity: 0.5
+  };
 }

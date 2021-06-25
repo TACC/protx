@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import PropTypes from 'prop-types';
 import MapProviders from './MapProviders';
 import { GEOID_KEY } from '../meta';
-import { IntervalColorScale, getColor } from './intervalColorScale';
+import { IntervalColorScale } from './intervalColorScale';
 import texasBounds from './texasBoundary';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import {
-  getMetaData,
-  getMaltreatmentAggregatedValue,
-  getObservedFeatureValue
-} from '../util';
+import { getMetaData, getFeatureStyle } from '../util';
 
 let mapContainer;
 
@@ -34,6 +30,16 @@ function MainMap({
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
   const [metaData, setMetaData] = useState(null);
+  const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
+    null
+  );
+
+  const refSelectedGeographicFeature = useRef(selectedGeographicFeature); // Make a ref of the selected feature
+
+  function updateSelectedGeographicFeature(newSelectedFeature) {
+    refSelectedGeographicFeature.current = newSelectedFeature;
+    setSelectedGeographicFeature(newSelectedFeature);
+  }
 
   useEffect(() => {
     if (map) {
@@ -105,39 +111,17 @@ function MainMap({
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
           singleLayer: properties => {
-            let fillColor;
             const geoid = properties[GEOID_KEY[geography]];
-            // TODO refactor into two style functions
-            if (mapType === 'observedFeatures') {
-              const featureValue = getObservedFeatureValue(
-                data,
-                geography,
-                year,
-                geoid,
-                observedFeature
-              );
-              if (featureValue && metaData) {
-                fillColor = getColor(featureValue, metaData.min, metaData.max);
-              }
-            } else {
-              const featureValue = getMaltreatmentAggregatedValue(
-                data,
-                geography,
-                year,
-                geoid,
-                maltreatmentTypes
-              );
-              if (featureValue !== 0 && metaData) {
-                fillColor = getColor(featureValue, metaData.min, metaData.max);
-              }
-            }
-            return {
-              fillColor,
-              fill: fillColor,
-              stroke: false,
-              opacity: 1,
-              fillOpacity: 0.5
-            };
+            return getFeatureStyle(
+              mapType,
+              data,
+              metaData,
+              geography,
+              year,
+              geoid,
+              observedFeature,
+              maltreatmentTypes
+            );
           }
         },
         interactive: true,
@@ -146,11 +130,48 @@ function MainMap({
         },
         maxNativeZoom: 14 // All tiles generated up to 14 zoom level
       });
+
+      // Handle
+
       if (dataLayer && layersControl) {
         // we will remove data layer from mapand from control
         layersControl.removeLayer(dataLayer);
         dataLayer.remove();
       }
+
+      newDataLayer.on('click', e => {
+        const clickedGeographicFeature =
+          e.layer.properties[GEOID_KEY[geography]];
+
+        if (refSelectedGeographicFeature.current) {
+          newDataLayer.resetFeatureStyle(refSelectedGeographicFeature.current);
+        }
+
+        if (clickedGeographicFeature !== refSelectedGeographicFeature.current) {
+          updateSelectedGeographicFeature(clickedGeographicFeature);
+          const highlightedStyle = {
+            ...getFeatureStyle(
+              mapType,
+              data,
+              metaData,
+              geography,
+              year,
+              clickedGeographicFeature,
+              observedFeature,
+              maltreatmentTypes
+            ),
+            color: 'red',
+            weight: 0.5,
+            stroke: true
+          };
+          newDataLayer.setFeatureStyle(
+            clickedGeographicFeature,
+            highlightedStyle
+          );
+        } else {
+          updateSelectedGeographicFeature(null);
+        }
+      });
 
       // add new data layer to map and controls
       newDataLayer.addTo(map);
