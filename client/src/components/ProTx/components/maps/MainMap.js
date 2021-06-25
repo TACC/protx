@@ -51,7 +51,8 @@ function MainMap({
       minZoom: 6,
       maxZoom: 16,
       maxBounds: texasBounds,
-      maxBoundsViscosity: 1.0
+      maxBoundsViscosity: 1.0,
+      doubleClickZoom: false
     }).fitBounds(texasBounds);
 
     // Create Layers Control.
