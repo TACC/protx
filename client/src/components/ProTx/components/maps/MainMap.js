@@ -161,7 +161,7 @@ function MainMap({
               maltreatmentTypes
             ),
             color: 'red',
-            weight: 0.5,
+            weight: 2.0,
             stroke: true
           };
           newDataLayer.setFeatureStyle(
