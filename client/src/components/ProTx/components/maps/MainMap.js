@@ -20,7 +20,8 @@ function MainMap({
   maltreatmentTypes,
   observedFeature,
   year,
-  data
+  data,
+  setSelectedGeographicFeature
 }) {
   const dataServer = window.location.origin;
 
@@ -30,14 +31,13 @@ function MainMap({
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
   const [metaData, setMetaData] = useState(null);
-  const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
-    null
-  );
+  const [selectedGeoid, setSelectedGeoid] = useState(null);
 
-  const refSelectedGeographicFeature = useRef(selectedGeographicFeature); // Make a ref of the selected feature
+  const refSelectedGeoid = useRef(selectedGeoid); // Make a ref of the selected feature
 
   function updateSelectedGeographicFeature(newSelectedFeature) {
-    refSelectedGeographicFeature.current = newSelectedFeature;
+    refSelectedGeoid.current = newSelectedFeature;
+    setSelectedGeoid(newSelectedFeature);
     setSelectedGeographicFeature(newSelectedFeature);
   }
 
@@ -143,11 +143,11 @@ function MainMap({
         const clickedGeographicFeature =
           e.layer.properties[GEOID_KEY[geography]];
 
-        if (refSelectedGeographicFeature.current) {
-          newDataLayer.resetFeatureStyle(refSelectedGeographicFeature.current);
+        if (refSelectedGeoid.current) {
+          newDataLayer.resetFeatureStyle(refSelectedGeoid.current);
         }
 
-        if (clickedGeographicFeature !== refSelectedGeographicFeature.current) {
+        if (clickedGeographicFeature !== refSelectedGeoid.current) {
           updateSelectedGeographicFeature(clickedGeographicFeature);
           const highlightedStyle = {
             ...getFeatureStyle(
@@ -204,6 +204,7 @@ MainMap.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
 };
