@@ -16,17 +16,6 @@ function DisplayLayout({
 }) {
   return (
     <div className="display-layout-root">
-      <div className="display-layout-chart">
-        <MainChart
-          mapType={mapType}
-          geography={geography}
-          maltreatmentTypes={maltreatmentTypes}
-          observedFeature={observedFeature}
-          year={year}
-          selectedGeographicFeature={selectedGeographicFeature}
-          data={data}
-        />
-      </div>
       <div className="display-layout-map">
         <MainMap
           mapType={mapType}
@@ -36,6 +25,17 @@ function DisplayLayout({
           year={year}
           data={data}
           setSelectedGeographicFeature={setSelectedGeographicFeature}
+        />
+      </div>
+      <div className="display-layout-chart">
+        <MainChart
+          mapType={mapType}
+          geography={geography}
+          maltreatmentTypes={maltreatmentTypes}
+          observedFeature={observedFeature}
+          year={year}
+          selectedGeographicFeature={selectedGeographicFeature}
+          data={data}
         />
       </div>
     </div>

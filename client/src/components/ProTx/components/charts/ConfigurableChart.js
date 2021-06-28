@@ -1,47 +1,7 @@
 import React from 'react';
-// import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-// import PropTypes from 'prop-types';
 import './ConfigurableChart.css';
-
-/**
- * Configuration Files for ConfigurableChart
- *
- * Configuration files live under configs/chartConfig.##.js.
- *
- * Notes:
- * - chart info content is located in: configs/chart.info.js
- * - chart configurations are located in: configs/chart.configs.js
- * - chart layoutsares located in: configs/chart.layouts.js
- * - trace data is located in: configs/trace.data.js.
- *
- * Each configuration provides a specific configuration of:
- * - the charts text content.
- * - the charts configuration.
- * - the charts layout.
- * - mock data for testing the component.
- *
- * Available Configurations
- *
- * Demo & Template:
- * - chart.00.js - basic demo chart from the react-plotly documentation with detailed comments.
- *
- * Bar Charts:
- *
- * - chart.01.js - horizontal single stacked bar chart.
- * - chart.02.js - horizontal multiples stacked bar chart.
- * - chart.03.js - horizontal multiples grouped bar chart.
- * - chart.04.js - vertical single stacked bar chart.
- * - chart.05.js - vertical multiples stacked bar chart.
- * - chart.06.js - vertical multiples grouped bar chart.
- *
- * Histograms:
- *
- * - chart.07.js - vertical histogram chart.
- *
- */
-
 import { default as CONFIGURATION } from './configs/chart.07';
 
 const chartInputs = CONFIGURATION;
@@ -54,7 +14,7 @@ function ConfigurableChart() {
   };
 
   return (
-    <div className="stacked-bar-chart">
+    <div className="configurable-chart">
       <div className="chart-layout">
         <div className="chart-header">
           <div className="chart-info">
@@ -103,6 +63,8 @@ function ConfigurableChart() {
               data={state.data}
               layout={state.layout}
               config={state.config}
+              useResizeHandler={true}
+              style={{ width:"100%", height:"100%" }}
             />
           </div>
         </div>
@@ -132,5 +94,16 @@ function ConfigurableChart() {
     </div>
   );
 }
+
+ConfigurableChart.propTypes = {
+  // mapType: PropTypes.string.isRequired,
+  // geography: PropTypes.string.isRequired,
+  // maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // observedFeature: PropTypes.string.isRequired,
+  // year: PropTypes.string.isRequired,
+  // selectedGeographicFeature: PropTypes.string.isRequired,
+  // // eslint-disable-next-line react/forbid-prop-types
+  // data: PropTypes.object.isRequired
+};
 
 export default ConfigurableChart;

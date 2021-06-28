@@ -18,6 +18,10 @@ export const CONFIG_BASE = {
   doubleClickDelay: 1000,
   responsive: true,
   useResizeHandler: true,
+  style: {
+    width: '100%',
+    height: '100%'
+  },
   displayModeBar: false,
   modeBarButtonsToRemove: [],
   displaylogo: false,
