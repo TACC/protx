@@ -2,13 +2,14 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 // import PropTypes from 'prop-types';
 import './ConfigurableChart.css';
+
 import { CONFIGURATION_00 } from './chartConfig.00';
 import { CONFIGURATION_01 } from './chartConfig.01';
 import { CONFIGURATION_02 } from './chartConfig.02';
 
 // const chartInputs = CONFIGURATION_00;
-const chartInputs = CONFIGURATION_01;
-// const chartInputs = CONFIGURATION_02;
+// const chartInputs = CONFIGURATION_01;
+const chartInputs = CONFIGURATION_02;
 
 // import {
 //   getMetaData,

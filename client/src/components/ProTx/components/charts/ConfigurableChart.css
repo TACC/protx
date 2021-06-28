@@ -26,10 +26,9 @@
   border-bottom: 1px solid #222222;
 }
 
-/* .chart-info {
-  min-height: 4vh;
-  padding: 1rem;
-} */
+.chart-info {
+  margin: 1rem 0;
+}
 
 .chart-info-item {
   display: flex;
