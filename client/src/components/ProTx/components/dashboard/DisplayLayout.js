@@ -10,12 +10,22 @@ function DisplayLayout({
   maltreatmentTypes,
   observedFeature,
   year,
+  selectedGeographicFeature,
+  setSelectedGeographicFeature,
   data
 }) {
   return (
     <div className="display-layout-root">
       <div className="chart-layout">
-        <MainChart />
+        <MainChart
+          mapType={mapType}
+          geography={geography}
+          maltreatmentTypes={maltreatmentTypes}
+          observedFeature={observedFeature}
+          year={year}
+          selectedGeographicFeature={selectedGeographicFeature}
+          data={data}
+        />
       </div>
       <div className="map-layout">
         <MainMap
@@ -25,6 +35,7 @@ function DisplayLayout({
           observedFeature={observedFeature}
           year={year}
           data={data}
+          setSelectedGeographicFeature={setSelectedGeographicFeature}
         />
       </div>
     </div>
@@ -37,6 +48,8 @@ DisplayLayout.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  selectedGeographicFeature: PropTypes.string.isRequired,
+  setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
 };

@@ -8,6 +8,7 @@ import { MALTREATMENT, OBSERVED_FEATURES } from '../meta';
 
 function DashboardDisplay() {
   // Map type and selected types (i.e. geography, year etc)
+  // TODO: control of this state should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
   const [mapType, setMapType] = useState('maltreatment');
   const [geography, setGeography] = useState('county');
   const [maltreatmentTypes, setMaltreatmentTypes] = useState([
@@ -17,6 +18,9 @@ function DashboardDisplay() {
     OBSERVED_FEATURES[0].field
   );
   const [year, setYear] = useState('2019');
+  const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
+    null
+  );
 
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
@@ -65,6 +69,8 @@ function DashboardDisplay() {
         observedFeature={observedFeature}
         year={year}
         data={data}
+        selectedGeographicFeature={selectedGeographicFeature}
+        setSelectedGeographicFeature={setSelectedGeographicFeature}
       />
     </div>
   );
