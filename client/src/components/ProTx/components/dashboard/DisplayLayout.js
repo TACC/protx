@@ -16,7 +16,7 @@ function DisplayLayout({
 }) {
   return (
     <div className="display-layout-root">
-      <div className="chart-layout">
+      <div className="display-layout-chart">
         <MainChart
           mapType={mapType}
           geography={geography}
@@ -27,7 +27,7 @@ function DisplayLayout({
           data={data}
         />
       </div>
-      <div className="map-layout">
+      <div className="display-layout-map">
         <MainMap
           mapType={mapType}
           geography={geography}
