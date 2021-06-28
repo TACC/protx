@@ -161,7 +161,7 @@ function MainMap({
               observedFeature,
               maltreatmentTypes
             ),
-            color: 'red',
+            color: 'black',
             weight: 2.0,
             stroke: true
           };
