@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import PropTypes from 'prop-types';
 import MapProviders from './MapProviders';
 import { GEOID_KEY } from '../meta';
-import { IntervalColorScale, getColor } from './intervalColorScale';
+import { IntervalColorScale } from './intervalColorScale';
 import texasBounds from './texasBoundary';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import {
-  getMetaData,
-  getMaltreatmentAggregatedValue,
-  getObservedFeatureValue
-} from '../util';
+import { getMetaData, getFeatureStyle } from '../util';
 
 let mapContainer;
 
@@ -24,7 +20,8 @@ function MainMap({
   maltreatmentTypes,
   observedFeature,
   year,
-  data
+  data,
+  setSelectedGeographicFeature
 }) {
   const dataServer = window.location.origin;
 
@@ -34,6 +31,15 @@ function MainMap({
   const [dataLayer, setDataLayer] = useState(null);
   const [map, setMap] = useState(null);
   const [metaData, setMetaData] = useState(null);
+  const [selectedGeoid, setSelectedGeoid] = useState(null);
+
+  const refSelectedGeoid = useRef(selectedGeoid); // Make a ref of the selected feature
+
+  function updateSelectedGeographicFeature(newSelectedFeature) {
+    refSelectedGeoid.current = newSelectedFeature;
+    setSelectedGeoid(newSelectedFeature);
+    setSelectedGeographicFeature(newSelectedFeature);
+  }
 
   useEffect(() => {
     if (map) {
@@ -45,7 +51,8 @@ function MainMap({
       minZoom: 6,
       maxZoom: 16,
       maxBounds: texasBounds,
-      maxBoundsViscosity: 1.0
+      maxBoundsViscosity: 1.0,
+      doubleClickZoom: false
     }).fitBounds(texasBounds);
 
     // Create Layers Control.
@@ -105,39 +112,17 @@ function MainMap({
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
           singleLayer: properties => {
-            let fillColor;
             const geoid = properties[GEOID_KEY[geography]];
-            // TODO refactor into two style functions
-            if (mapType === 'observedFeatures') {
-              const featureValue = getObservedFeatureValue(
-                data,
-                geography,
-                year,
-                geoid,
-                observedFeature
-              );
-              if (featureValue && metaData) {
-                fillColor = getColor(featureValue, metaData.min, metaData.max);
-              }
-            } else {
-              const featureValue = getMaltreatmentAggregatedValue(
-                data,
-                geography,
-                year,
-                geoid,
-                maltreatmentTypes
-              );
-              if (featureValue !== 0 && metaData) {
-                fillColor = getColor(featureValue, metaData.min, metaData.max);
-              }
-            }
-            return {
-              fillColor,
-              fill: fillColor,
-              stroke: false,
-              opacity: 1,
-              fillOpacity: 0.5
-            };
+            return getFeatureStyle(
+              mapType,
+              data,
+              metaData,
+              geography,
+              year,
+              geoid,
+              observedFeature,
+              maltreatmentTypes
+            );
           }
         },
         interactive: true,
@@ -146,11 +131,53 @@ function MainMap({
         },
         maxNativeZoom: 14 // All tiles generated up to 14 zoom level
       });
+
+      // Handle
+
       if (dataLayer && layersControl) {
         // we will remove data layer from mapand from control
         layersControl.removeLayer(dataLayer);
         dataLayer.remove();
       }
+
+      newDataLayer.on('click', e => {
+        const clickedGeographicFeature =
+          e.layer.properties[GEOID_KEY[geography]];
+
+        if (refSelectedGeoid.current) {
+          newDataLayer.resetFeatureStyle(refSelectedGeoid.current);
+        }
+
+        if (clickedGeographicFeature !== refSelectedGeoid.current) {
+          updateSelectedGeographicFeature(clickedGeographicFeature);
+          const highlightedStyle = {
+            ...getFeatureStyle(
+              mapType,
+              data,
+              metaData,
+              geography,
+              year,
+              clickedGeographicFeature,
+              observedFeature,
+              maltreatmentTypes
+            ),
+            color: 'black',
+            weight: 2.0,
+            stroke: true
+          };
+          if (mapType === 'maltreatment') {
+            // Simple zoom to point clicked and having fixed zoom level for counties
+            // See https://jira.tacc.utexas.edu/browse/COOKS-54
+            map.setView(e.latlng, 9);
+          }
+          newDataLayer.setFeatureStyle(
+            clickedGeographicFeature,
+            highlightedStyle
+          );
+        } else {
+          updateSelectedGeographicFeature(null);
+        }
+      });
 
       // add new data layer to map and controls
       newDataLayer.addTo(map);
@@ -178,6 +205,7 @@ MainMap.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
 };
