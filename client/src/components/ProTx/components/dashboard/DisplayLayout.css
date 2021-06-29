@@ -6,7 +6,9 @@
 
 .display-layout-chart {
     width: 35vw;
-    height: 80vh;
+    /* height: 70vh; */
+    min-height: 80vh;
+    height: 100%;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -16,7 +18,9 @@
 
 .display-layout-map {
     width: 65vw;
-    height: 80vh;
+    /* height: 80vh; */
+    min-height: 80vh;
+    height: 100%;
     flex-grow: 1;
     display: flex;
     flex-direction: column;

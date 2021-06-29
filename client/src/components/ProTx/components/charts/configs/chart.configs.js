@@ -17,7 +17,7 @@ export const CONFIG_DEMO = {
 export const CONFIG_BASE = {
   doubleClickDelay: 1000,
   responsive: true,
-  // useResizeHandler: true,
+  useResizeHandler: true,
   displayModeBar: false,
   modeBarButtonsToRemove: [],
   displaylogo: false,

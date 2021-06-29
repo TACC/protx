@@ -2,16 +2,27 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
 
+/* Use !important to override the plotly font settings in charts. */
+/* font-family: 'Open Sans Condensed', sans-serif !important; */
+
 .main-chart * {
-  /* Use !important to override the plotly font settings in charts. */
-  /* font-family: 'Open Sans Condensed', sans-serif !important; */
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   line-height: 100%;
 }
 
-.chart-message {
+.chart-message * {
+  font-family: 'Open Sans', sans-serif;
   margin: 1rem;
-  min-width: 35vw;
 }
 
-/* .chart-diagram {} */
+.chart-message-text {
+  font-weight: 500;
+}
+
+.debug-info {
+  margin: 1rem;
+}
+
+.debug-info * {
+  line-height: 1.5rem;
+}

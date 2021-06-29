@@ -12,29 +12,31 @@ function MainChart({
   selectedGeographicFeature,
   data
 }) {
-  // const selectedFeatureInfo = selectedGeographicFeature || 'NONE';
   const selectedFeatureInfo = selectedGeographicFeature;
+  const debugState = true;
   if (selectedFeatureInfo) {
+    if (debugState) {
+      return (
+        <div className="main-chart">
+          <p className="debug-info">
+            <ul>
+              <li>mapType: {mapType}</li>
+              <li>geography: {geography}</li>
+              <li>maltreatment types: {maltreatmentTypes}</li>
+              <li>observedFeature={observedFeature}</li>
+              <li>year: {year}</li>
+              <li>
+                selected feature:
+                {selectedGeographicFeature}
+              </li>
+              <li>selected feature info: {selectedFeatureInfo}</li>
+            </ul>
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="main-chart">
-        {/*
-        <!--
-        <p>
-          <ul>
-            <li>mapType: {mapType}</li>
-            <li>geography: {geography}</li>
-            <li>maltreatment types: {maltreatmentTypes}</li>
-            <li>observedFeature={observedFeature}</li>
-            <li>year: {year}</li>
-            <li>
-              selected feature:
-              {selectedGeographicFeature}
-            </li>
-            <li>selected feature info: {selectedFeatureInfo}</li>
-          </ul>
-        </p>
-        -->
-        */}
         <ConfigurableChart className="chart-diagram" />
       </div>
     );
@@ -42,7 +44,9 @@ function MainChart({
   return (
     <div className="main-chart">
       <p className="chart-message">
-        <h2>Please select a county on the map.</h2>
+        <div className="chart-message-content">
+          Please select an area on the map.
+        </div>
       </p>
     </div>
   );

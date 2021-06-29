@@ -2,8 +2,7 @@
 
 export const LAYOUT_DEMO = {
   title: ' DEMO Example Chart',
-  width: '100%',
-  height: '100%',
+  autosize: true,
   barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
   xaxis: {
@@ -84,8 +83,7 @@ export const LAYOUT_DEMO = {
 
 export const LAYOUT_01 = {
   title: 'Horizontal Single Stacked Bar Chart',
-  width: '100%',
-  height: '100%',
+  autosize: true,
   barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
   xaxis: {
@@ -109,8 +107,7 @@ export const LAYOUT_01 = {
 
 export const LAYOUT_02 = {
   title: 'Horizontal Multiples Stacked Bar Chart',
-  width: '100%',
-  height: '100%',
+  autosize: true,
   barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
   xaxis: {
@@ -134,8 +131,7 @@ export const LAYOUT_02 = {
 
 export const LAYOUT_03 = {
   title: 'Horizontal Multiples Grouped Bar Chart',
-  width: '100%',
-  height: '100%',
+  autosize: true,
   // barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
   xaxis: {
@@ -159,8 +155,7 @@ export const LAYOUT_03 = {
 
 export const LAYOUT_04 = {
   title: 'Vertical Single Stacked Bar Chart',
-  width: '100%',
-  height: '100%',
+  autosize: true,
   barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
   xaxis: {
@@ -184,8 +179,7 @@ export const LAYOUT_04 = {
 
 export const LAYOUT_05 = {
   title: 'Vertical Multiples Stacked Bar Chart',
-  width: '100%',
-  height: '100%',
+  autosize: true,
   barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
   xaxis: {
@@ -209,8 +203,7 @@ export const LAYOUT_05 = {
 
 export const LAYOUT_06 = {
   title: 'Vertical Multiples Grouped Bar Chart',
-  width: '100%',
-  height: '100%',
+  autosize: true,
   // barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
   xaxis: {
