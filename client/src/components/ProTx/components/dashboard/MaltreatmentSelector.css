@@ -8,6 +8,17 @@
 .rmsc .dropdown-heading {
     --rmsc-h: 20px; /* Height */
 }
+.rmsc .dropdown-container .dropdown-content {
+    z-index: 9999;
+}
+.rmsc .dropdown-container .dropdown-content .panel-content {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.rmsc .dropdown-container .dropdown-content * {
+    color: #fff;
+    background: #111;
+}
 .rmsc .dropdown-content .panel-content {
     --rmsc-bgdd: var(--global-color-primary--dark) !important;
     color: var(--global-color-accent--normal) !important;
@@ -15,7 +26,9 @@
 .dropdown-heading-value {
     color: var(--global-color-accent--normal);
 }
-
+.select-item {
+    height: 1rem;
+}
 .item-renderer{
     font-style: normal;
     font-weight: normal;

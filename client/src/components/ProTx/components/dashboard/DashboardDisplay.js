@@ -61,7 +61,6 @@ function DashboardDisplay() {
         setMaltreatmentTypes={setMaltreatmentTypes}
         setObservedFeature={setObservedFeature}
         setYear={setYear}
-        className="display-selectors"
       />
       <DisplayLayout
         mapType={mapType}
@@ -72,7 +71,6 @@ function DashboardDisplay() {
         data={data}
         selectedGeographicFeature={selectedGeographicFeature}
         setSelectedGeographicFeature={setSelectedGeographicFeature}
-        className="display-layout"
       />
     </div>
   );

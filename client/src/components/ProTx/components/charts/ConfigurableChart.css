@@ -1,9 +1,7 @@
-
 .stacked-bar-chart {
   width: 100%;
   height: 100%;
 }
-
 .chart-layout {
   margin: 1rem;
   padding: 1rem 2rem;
@@ -11,59 +9,45 @@
   border: 2px solid #333333;
   border-radius: 0.3rem;
 }
-
-/* .chart-layout * {} */
-
 .chart-header {
   margin-bottom: 1rem;
 }
-
 .chart-header hr {
   border-bottom: 1px solid #000000;
 }
-
 /* .chart-info {} */
-
 .chart-info-item {
   display: flex;
   justify-content: space-between;
 }
-
 .chart-info-title,
 .chart-info-subtitle,
 .chart-links {
   color: #aaaaaa;
 }
-
-.chart-info-title {
-  font-size: 1.2rem;
-  font-weight: 800;
-}
-
+.chart-info-title,
 .chart-info-value {
   font-size: 1.2rem;
+}
+.chart-info-title {
+  font-weight: 800;
+}
+.chart-info-value {
   font-weight: 900;
   color: #000000;
 }
-
 .chart-info-subtitle {
   font-size: 1.1rem;
   font-weight: 700;
 }
-
 /* .chart-body {} */
-
 /* .chart-body-plot {} */
-
 .chart-footer {
   margin: 2rem 0 0;
 }
-
 .chart-links {
   font-size: 1rem;
-  line-height: 100%;
 }
-
 .chart-link-item a {
   font-weight: 600;
   color: #002200;

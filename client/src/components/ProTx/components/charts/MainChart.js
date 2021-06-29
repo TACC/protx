@@ -45,7 +45,7 @@ function MainChart({
     <div className="main-chart">
       <p className="chart-message">
         <div className="chart-message-content">
-          Please select an area on the map.
+          Please select an area on the map
         </div>
       </p>
     </div>
