@@ -5,8 +5,7 @@
 }
 .display-layout-map,
 .display-layout-chart  {
-    min-height: 80vh;
-    height: auto;
+    min-height: 78vh;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
