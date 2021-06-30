@@ -89,12 +89,17 @@ function MainMap({
           // get numeric values between intervals
           const colorScale = new IntervalColorScale(meta);
           const intervalValues = colorScale.getIntervalValues();
+          const scaleRoundingValue = 0;
 
           // loop through our density intervals and generate a label with a colored square for each interval
           for (let i = 0; i < colorScale.numberIntervals; i += 1) {
-            div.innerHTML += `<i style="background:${
+            div.innerHTML += `<div class="scale-value"><i style="background:${
               colorScale.colors[i]
-            }"></i> ${intervalValues[i]}&ndash;${intervalValues[i + 1]}<br>`;
+            }"></i> <span>${intervalValues[i].toFixed(
+              scaleRoundingValue
+            )}&ndash;${intervalValues[i + 1].toFixed(
+              scaleRoundingValue
+            )}</span></div><br>`;
           }
 
           return div;

@@ -1,17 +1,55 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import './ConfigurableChart.css';
 import { default as CONFIGURATION } from './configs/chart.07';
 
 const chartInputs = CONFIGURATION;
 
-function ConfigurableChart() {
+function ConfigurableChart({
+  mapType,
+  geography,
+  maltreatmentTypes,
+  observedFeature,
+  year,
+  selectedGeographicFeature,
+  data
+}) {
   const state = {
     data: chartInputs.CHART_DATA,
     layout: chartInputs.CHART_LAYOUT,
     config: chartInputs.CHART_CONFIG
   };
+
+  const debugState = true;
+
+  if (debugState) {
+    return (
+      <div className="main-chart">
+        <div className="debug-info">
+          <ul>
+            <li>mapType: {mapType}</li>
+            <li>geography: {geography}</li>
+            <li>maltreatment types selected:</li>
+            <ul>
+              {maltreatmentTypes.map(type => (
+                <li key={type}>{type}</li>
+              ))}
+            </ul>
+            <li>observedFeature={observedFeature}</li>
+            <li>year: {year}</li>
+            <li>
+              selected feature:
+              {selectedGeographicFeature}
+            </li>
+            <li>data object:</li>
+            {/* Iterate through the data object here. */}
+            {/* <li>{ data.data.debugState }</li> */}
+          </ul>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="configurable-chart">
@@ -97,14 +135,14 @@ function ConfigurableChart() {
 }
 
 ConfigurableChart.propTypes = {
-  // mapType: PropTypes.string.isRequired,
-  // geography: PropTypes.string.isRequired,
-  // maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // observedFeature: PropTypes.string.isRequired,
-  // year: PropTypes.string.isRequired,
-  // selectedGeographicFeature: PropTypes.string.isRequired,
-  // // eslint-disable-next-line react/forbid-prop-types
-  // data: PropTypes.object.isRequired
+  mapType: PropTypes.string.isRequired,
+  geography: PropTypes.string.isRequired,
+  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  observedFeature: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  selectedGeographicFeature: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object.isRequired
 };
 
 export default ConfigurableChart;

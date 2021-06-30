@@ -13,51 +13,30 @@ function MainChart({
   data
 }) {
   const selectedFeatureInfo = selectedGeographicFeature;
-  const debugState = false;
-  // const datatest = { data };
-  // debugger;
 
   if (selectedFeatureInfo) {
-    if (debugState) {
-      return (
-        <div className="main-chart">
-          <p className="debug-info">
-            <ul>
-              <li>mapType: {mapType}</li>
-              <li>geography: {geography}</li>
-              <li>maltreatment types selected:</li>
-              <ul>
-                {maltreatmentTypes.map((type, index) => (
-                  <li>{type}</li>
-                ))}
-              </ul>
-              <li>observedFeature={observedFeature}</li>
-              <li>year: {year}</li>
-              <li>
-                selected feature:
-                {selectedGeographicFeature}
-              </li>
-              <li>selected feature info: {selectedFeatureInfo}</li>
-              <li>data object:</li>
-              {/* Iterate through the data object here. */}
-            </ul>
-          </p>
-        </div>
-      );
-    }
     return (
       <div className="main-chart">
-        <ConfigurableChart className="chart-diagram" />
+        <ConfigurableChart
+          className="chart-diagram"
+          mapType={mapType}
+          geography={geography}
+          maltreatmentTypes={maltreatmentTypes}
+          observedFeature={observedFeature}
+          year={year}
+          selectedGeographicFeature={selectedGeographicFeature}
+          data={data}
+        />
       </div>
     );
   }
   return (
     <div className="main-chart">
-      <p className="chart-message">
+      <div className="chart-message">
         <div className="chart-message-content">
           Please select an area on the map
         </div>
-      </p>
+      </div>
     </div>
   );
 }
