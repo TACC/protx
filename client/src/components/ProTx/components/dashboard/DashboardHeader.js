@@ -1,12 +1,15 @@
 import React from 'react';
 import './DashboardHeader.css';
 
+const hostName = 'COOKS PRE-PRODUCTION PORTAL';
+const messageString =
+  'Geospatial data analytics dashboard displaying incomplete demonstration data.';
+
 function DashboardHeader() {
   return (
     <div className="dashboard-header-root">
       <p>
-        <b>COOKS PRE-PRODUCTION PORTAL</b> Geospatial data analytics dashboard
-        displaying incomplete demonstration data.
+        <b>{hostName}</b> {messageString}
       </p>
     </div>
   );

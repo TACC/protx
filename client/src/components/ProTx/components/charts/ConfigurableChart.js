@@ -18,7 +18,7 @@ function ConfigurableChart() {
       <div className="chart-layout">
         <div className="chart-header">
           <div className="chart-info">
-            {/* Approach 1  */}
+            {/* Need to iterate over these values instead */}
             <div className="chart-info-item">
               <div className="chart-info-title">
                 {chartInputs.CHART_INFO.chartLabels[0].labelTitle}
@@ -27,30 +27,30 @@ function ConfigurableChart() {
                 {chartInputs.CHART_INFO.chartLabels[0].labelValue}
               </div>
             </div>
-            <div className="chart-info-item">
+            {/* <div className="chart-info-item">
               <div className="chart-info-title">
                 {chartInputs.CHART_INFO.chartLabels[1].labelTitle}
               </div>
               <div className="chart-info-value">
                 {chartInputs.CHART_INFO.chartLabels[1].labelValue}
               </div>
-            </div>
-            <div className="chart-info-item">
+            </div> */}
+            {/* <div className="chart-info-item">
               <div className="chart-info-title">
                 {chartInputs.CHART_INFO.chartLabels[2].labelTitle}
               </div>
               <div className="chart-info-value">
                 {chartInputs.CHART_INFO.chartLabels[2].labelValue}
               </div>
-            </div>
-            <div className="chart-info-item">
+            </div> */}
+            {/* <div className="chart-info-item">
               <div className="chart-info-title">
                 {chartInputs.CHART_INFO.chartLabels[3].labelTitle}
               </div>
               <div className="chart-info-value">
                 {chartInputs.CHART_INFO.chartLabels[3].labelValue}
               </div>
-            </div>
+            </div> */}
           </div>
           <hr />
           <div className="chart-info-subtitle">
@@ -70,24 +70,25 @@ function ConfigurableChart() {
         </div>
         <div className="chart-footer">
           <div className="chart-links">
+            {/* Need to iterate over these values instead */}
             <p className="chart-link-item">
               Show
               <a href={chartInputs.CHART_INFO.chartLinks[0].linkRef} target="">
                 {chartInputs.CHART_INFO.chartLinks[0].linkLabel}
               </a>
             </p>
-            <p className="chart-link-item">
+            {/* <p className="chart-link-item">
               Show
               <a href={chartInputs.CHART_INFO.chartLinks[1].linkRef} target="">
                 {chartInputs.CHART_INFO.chartLinks[1].linkLabel}
               </a>
-            </p>
-            <p className="chart-link-item">
+            </p> */}
+            {/* <p className="chart-link-item">
               Show
               <a href={chartInputs.CHART_INFO.chartLinks[2].linkRef} target="">
                 {chartInputs.CHART_INFO.chartLinks[2].linkLabel}
               </a>
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

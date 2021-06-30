@@ -13,7 +13,10 @@ function MainChart({
   data
 }) {
   const selectedFeatureInfo = selectedGeographicFeature;
-  const debugState = true;
+  const debugState = false;
+  // const datatest = { data };
+  // debugger;
+
   if (selectedFeatureInfo) {
     if (debugState) {
       return (
@@ -22,7 +25,12 @@ function MainChart({
             <ul>
               <li>mapType: {mapType}</li>
               <li>geography: {geography}</li>
-              <li>maltreatment types: {maltreatmentTypes}</li>
+              <li>maltreatment types selected:</li>
+              <ul>
+                {maltreatmentTypes.map((type, index) => (
+                  <li>{type}</li>
+                ))}
+              </ul>
               <li>observedFeature={observedFeature}</li>
               <li>year: {year}</li>
               <li>
@@ -30,6 +38,8 @@ function MainChart({
                 {selectedGeographicFeature}
               </li>
               <li>selected feature info: {selectedFeatureInfo}</li>
+              <li>data object:</li>
+              {/* Iterate through the data object here. */}
             </ul>
           </p>
         </div>

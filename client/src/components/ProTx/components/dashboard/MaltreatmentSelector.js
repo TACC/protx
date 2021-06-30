@@ -14,6 +14,7 @@ const MaltreatmentSelector = ({ selectedTypes, setSelectedTypes }) => {
   const overideStrings = {
     allItemsAreSelected: 'All'
   };
+
   const customValueRenderer = (currentSelectedTypes, _options) => {
     if (currentSelectedTypes.length) {
       if (currentSelectedTypes.length === 1) {
