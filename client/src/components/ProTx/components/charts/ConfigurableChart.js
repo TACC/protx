@@ -4,20 +4,11 @@ import Plot from 'react-plotly.js';
 import './ConfigurableChart.css';
 
 import { TRACE_VERT_MULTI_ALL } from './configs/trace.data';
-import { LAYOUT_07 } from './configs/chart.layouts';
-import { CONFIG_BASE } from './configs/chart.configs';
-
-import { MALTREATMENT } from '../meta'; /* GEOID_KEY, OBSERVED_FEATURES */
+import { MALTREATMENT } from '../meta';
 import {
-  // getMetaData,
-  // getObservedFeatureValue,
   getMaltreatmentAggregatedValue,
   getMaltreatmentSelectedValues
-  // getFeatureStyle
 } from '../util';
-
-// const observedFeaturesMeta = OBSERVED_FEATURES;
-const maltreatmentMeta = MALTREATMENT;
 
 function ConfigurableChart({
   mapType,
@@ -28,15 +19,7 @@ function ConfigurableChart({
   selectedGeographicFeature,
   data
 }) {
-  const debugState = true;
-
-  const plotState = {
-    data: TRACE_VERT_MULTI_ALL,
-    layout: LAYOUT_07,
-    config: CONFIG_BASE
-  };
-
-  const getMaltreatmentTypeNames = (maltreatmentTypeCodes) => {
+  const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
     const updatedMaltreatmentTypesList = [];
     if (maltreatmentTypeCodes.length === 0) {
       return ['None'];
@@ -51,18 +34,71 @@ function ConfigurableChart({
     return updatedMaltreatmentTypesList;
   };
 
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+  const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
+    const newMaltreatmentDataObject = [];
+    for (let i = 0; i < codeArray.length; i += 1) {
+      const dataObject = {};
+      dataObject.code = codeArray[i];
+      dataObject.name = nameArray[i];
+      dataObject.value = valueArray[i];
+      newMaltreatmentDataObject.push(dataObject);
+    }
+    return newMaltreatmentDataObject;
+  };
 
-  // const geoid = GEOID_KEY[geography];
+  const getDebugInfo = (
+    mapTypeSelected,
+    geographySelected,
+    yearSelected,
+    observedFeatureSelected,
+    selectedGeographicFeatureSelected,
+    geoidSelected,
+    maltreatmentTypesDataAggregateSelected,
+    maltreatmentTypesDataObjectSelected
+  ) => {
+    return (
+      <div className="configurable-chart">
+        <div className="debug-info">
+          <div className="debug-status">DEBUGGING MODE ACTIVE</div>
+          <div className="debug-header">ConfigurableChart Component Data</div>
+          <ul>
+            <li>mapType: {mapTypeSelected}</li>
+            <li>geography: {geographySelected}</li>
+            <li>year: {yearSelected}</li>
+            <li>observedFeature: {observedFeatureSelected}</li>
+            <li>
+              selected feature:
+              {selectedGeographicFeatureSelected}
+            </li>
+            <li>geoid: {geoidSelected}</li>
+            <li>
+              maltreatment types aggregate value:
+              {maltreatmentTypesDataAggregateSelected}
+            </li>
+          </ul>
+          <table className="debug-data-table">
+            <tr>
+              <th>type code</th>
+              <th>type name</th>
+              <th>type value</th>
+            </tr>
+            {maltreatmentTypesDataObjectSelected.map(maltreatmentTypeData => (
+              <tr>
+                <td>{maltreatmentTypeData.code}</td>
+                <td>{maltreatmentTypeData.name}</td>
+                <td>{maltreatmentTypeData.value}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
+      </div>
+    );
+  };
+
+  const debugState = true;
+  const maltreatmentMeta = MALTREATMENT;
   const geoid = selectedGeographicFeature;
-
-  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
+  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
 
   const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
     data,
@@ -72,58 +108,74 @@ function ConfigurableChart({
     maltreatmentTypes
   );
 
-  const maltreatmentTypesData = [
-    maltreatmentTypesDataAggregate,
-    maltreatmentTypesDataValues
-  ];
+  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
 
-  // console.log(maltreatmentTypesList);
-  // console.log(maltreatmentTypesDataAggregate);
-  // console.log(maltreatmentTypesDataValues);
-  console.log(maltreatmentTypesData);
+  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
+    maltreatmentTypes,
+    maltreatmentTypesList,
+    maltreatmentTypesDataValues
+  );
+
+  const debugInfo = getDebugInfo(
+    mapType,
+    geography,
+    year,
+    observedFeature,
+    selectedGeographicFeature,
+    geoid,
+    maltreatmentTypesDataAggregate,
+    maltreatmentTypesDataObject
+  );
+
+  const plotConfig = {
+    doubleClickDelay: 1000,
+    responsive: true,
+    displayModeBar: false,
+    modeBarButtonsToRemove: [],
+    displaylogo: false,
+    showEditInChartStudio: false
+    // plotlyServerURL: 'https://chart-studio.plotly.com',
+    // linkText: 'Edit Chart in Plotly Studio'
+  };
+
+  const plotLayout = {
+    // title: 'Bar Chart',
+    // barmode: 'stack',
+    autosize: true,
+    margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
+    xaxis: {
+      automargin: true,
+      tickangle: 0,
+      title: {
+        text: 'Total',
+        standoff: 30
+      }
+    },
+    yaxis: {
+      automargin: true,
+      tickangle: 0,
+      title: {
+        text: 'Years',
+        standoff: 30
+      }
+    },
+    annotations: []
+  };
+
+  const plotState = {
+    data: TRACE_VERT_MULTI_ALL,
+    layout: plotLayout,
+    config: plotConfig
+  };
 
   if (debugState) {
-    return (
-      <div className="main-chart">
-        <div className="debug-info">
-          <div className="debug-status">DEBUGGING MODE ACTIVE</div>
-          <div className="debug-header">ConfigurableChart Component Data</div>
-          <ul>
-            <li>mapType: {mapType}</li>
-            <li>geography: {geography}</li>
-            <li>year: {year}</li>
-            <li>observedFeature: {observedFeature}</li>
-            <li>
-              selected feature:
-              {selectedGeographicFeature}
-            </li>
-            <li>geoid: {geoid}</li>
-            <li>maltreatment types selected (tag):</li>
-            <ul>
-              {maltreatmentTypes.map(type => (
-                <li key={type}>{type}</li>
-              ))}
-            </ul>
-            <li>selected types translated:</li>
-            <ul>
-              {maltreatmentTypesList.map((maltype) => (
-                <li key={maltype}>{maltype}</li>
-              ))}
-            </ul>
-            <li>maltreatment types data array:</li>
-            <ul>
-              {maltreatmentTypesDataValues.map((value) => (
-                <li>{value}</li>
-              ))}
-            </ul>
-            <li>
-              maltreatment types aggregate value:
-              {maltreatmentTypesDataAggregate}
-            </li>
-          </ul>
-        </div>
-      </div>
-    );
+    return debugInfo;
   }
 
   return (
@@ -171,7 +223,7 @@ function ConfigurableChart({
           <div className="chart-filters">
             Maltreatment types currently selected:
             <div className="chart-filters-list">
-              {maltreatmentTypesList.map((type) => (
+              {maltreatmentTypesList.map(type => (
                 <span className="selected-type" key={type}>
                   {type}
                 </span>
@@ -196,7 +248,7 @@ function ConfigurableChart({
               This histogram is generated using {year} {mapType} data for{' '}
               {geography} {selectedGeographicFeature} using the data type(s)
             </span>
-            {maltreatmentTypesList.map((type) => (
+            {maltreatmentTypesList.map(type => (
               <span className="selected-type" key={type}>
                 {type}
               </span>

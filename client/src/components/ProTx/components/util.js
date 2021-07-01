@@ -170,7 +170,7 @@ export function getMaltreatmentSelectedValues(
   const valuesArray = [];
   if (hasYearAndGeography) {
     maltreatmentTypes.forEach(malType => {
-      let value = 'no value returned';
+      let value = 0; // Revisit this supposition about missing data values later with Kelly.
       if (
         malType in data.maltreatment[geography][year] &&
         geoid in data.maltreatment[geography][year][malType]

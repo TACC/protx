@@ -1,4 +1,12 @@
-/* .debug-info {} */
+.debug-data-table tr th,
+.debug-data-table tr td {
+  border: 1px solid hsl(0, 0%, 0%);
+  padding: 0.2vh 1vw;
+  text-align: center;
+}
+.debug-data-table tr th {
+  background: #dedede;
+}
 .debug-status {
   font-weight: 900;
   color: #900;

@@ -1,11 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './DashboardHeader.css';
 
-const hostName = 'COOKS PRE-PRODUCTION PORTAL';
-const messageString =
-  'Geospatial data analytics dashboard displaying incomplete demonstration data.';
-
-function DashboardHeader() {
+function DashboardHeader({ hostName, messageString }) {
   return (
     <div className="dashboard-header-root">
       <p>
@@ -14,5 +11,11 @@ function DashboardHeader() {
     </div>
   );
 }
+
+DashboardHeader.propTypes = {
+  hostName: PropTypes.string.isRequired,
+  messageString: PropTypes.string.isRequired
+  // eslint-disable-next-line react/forbid-prop-types
+};
 
 export default DashboardHeader;

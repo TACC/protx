@@ -3,16 +3,18 @@ import './AnalyticsDashboard.css';
 import DashboardHeader from './DashboardHeader';
 import DashboardDisplay from './DashboardDisplay';
 
-// Impacts the Styling in DisplayLayout.css on the min-height value on lines 9 & 11. Need to make this a passed in prop so the displayLayout component can adapt.
-// Add ability to pass in the header message string as well.
+// Need to find a way to set this value based on some external configuration value so it changes based on the hosts settings.
 // false for PROD, true for all non-PROD deployments.
 const showHeader = true;
+const hostName = 'COOKS PRE-PRODUCTION PORTAL';
+const messageString =
+  'Geospatial data analytics dashboard displaying incomplete demonstration data.';
 
 function AnalyticsDashboard() {
   if (showHeader) {
     return (
-      <div className="analytics-dashboard-root with-header">
-        <DashboardHeader />
+      <div className="analytics-dashboard-root-header">
+        <DashboardHeader hostName={hostName} messageString={messageString} />
         <DashboardDisplay />
       </div>
     );
