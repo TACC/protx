@@ -6,15 +6,17 @@ import './ConfigurableChart.css';
 import { TRACE_VERT_MULTI_ALL } from './configs/trace.data';
 import { LAYOUT_07 } from './configs/chart.layouts';
 import { CONFIG_BASE } from './configs/chart.configs';
-import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
+
+import { MALTREATMENT } from '../meta'; /* GEOID_KEY, OBSERVED_FEATURES */
 import {
-  getMetaData,
-  getObservedFeatureValue,
+  // getMetaData,
+  // getObservedFeatureValue,
   getMaltreatmentAggregatedValue,
-  getFeatureStyle
+  getMaltreatmentSelectedValues
+  // getFeatureStyle
 } from '../util';
 
-const observedFeaturesMeta = OBSERVED_FEATURES;
+// const observedFeaturesMeta = OBSERVED_FEATURES;
 const maltreatmentMeta = MALTREATMENT;
 
 function ConfigurableChart({
@@ -26,7 +28,7 @@ function ConfigurableChart({
   selectedGeographicFeature,
   data
 }) {
-  const debugState = false;
+  const debugState = true;
 
   const plotState = {
     data: TRACE_VERT_MULTI_ALL,
@@ -34,7 +36,7 @@ function ConfigurableChart({
     config: CONFIG_BASE
   };
 
-  const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
+  const getMaltreatmentTypeNames = (maltreatmentTypeCodes) => {
     const updatedMaltreatmentTypesList = [];
     if (maltreatmentTypeCodes.length === 0) {
       return ['None'];
@@ -51,33 +53,65 @@ function ConfigurableChart({
 
   const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
 
+  // const geoid = GEOID_KEY[geography];
+  const geoid = selectedGeographicFeature;
+
+  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  // console.log('test log');
+  console.log(maltreatmentTypesDataValues);
+
   if (debugState) {
     return (
       <div className="main-chart">
         <div className="debug-info">
+          <div className="debug-status">DEBUGGING MODE ACTIVE</div>
+          <div className="debug-header">ConfigurableChart Component Data</div>
           <ul>
-            <li>mapType: {mapType}</li>
-            <li>geography: {geography}</li>
-            <li>maltreatment types selected:</li>
+            {/* <li>mapType: {mapType}</li> */}
+            {/* <li>geography: {geography}</li> */}
+            {/* <li>year: {year}</li> */}
+            {/* <li>observedFeature={observedFeature}</li> */}
+            {/* <li>
+              selected feature:
+              {selectedGeographicFeature}
+            </li> */}
+            <li>geoid: {geoid}</li>
+            {/* <li>maltreatment types selected:</li>
             <ul>
               {maltreatmentTypes.map(type => (
                 <li key={type}>{type}</li>
               ))}
-            </ul>
-            <li>selected types translated</li>
+            </ul> */}
+            <li>selected types translated:</li>
             <ul>
               {maltreatmentTypesList.map(maltype => (
                 <li key={maltype}>{maltype}</li>
               ))}
             </ul>
-            <li>observedFeature={observedFeature}</li>
-            <li>year: {year}</li>
-            <li>
-              selected feature:
-              {selectedGeographicFeature}
+            <li>maltreatment types aggregate value:
+              {maltreatmentTypesDataAggregate}
             </li>
-            <li>data object:</li>
-            <ul>{/* Iterate through the data object here. */}</ul>
+            <li>maltreatment types data array:</li>
+            <ul>
+              {maltreatmentTypesDataValues.map(value => (
+                <li>{value}</li>
+              ))}
+            </ul>
           </ul>
         </div>
       </div>
@@ -129,7 +163,7 @@ function ConfigurableChart({
           <div className="chart-filters">
             Maltreatment types currently selected:
             <div className="chart-filters-list">
-              {maltreatmentTypesList.map(type => (
+              {maltreatmentTypesList.map((type) => (
                 <span className="selected-type" key={type}>
                   {type}
                 </span>
@@ -154,7 +188,7 @@ function ConfigurableChart({
               This histogram is generated using {year} {mapType} data for{' '}
               {geography} {selectedGeographicFeature} using the data type(s)
             </span>
-            {maltreatmentTypesList.map(type => (
+            {maltreatmentTypesList.map((type) => (
               <span className="selected-type" key={type}>
                 {type}
               </span>
