@@ -1,7 +1,6 @@
 export const CONFIG_DEMO = {
   doubleClickDelay: 1000,
   responsive: true,
-  useResizeHandler: true,
   displayModeBar: false,
   modeBarButtonsToRemove: [
     /* An array of interface buttons to remove, e.g. 'toImage'.
@@ -17,7 +16,6 @@ export const CONFIG_DEMO = {
 export const CONFIG_BASE = {
   doubleClickDelay: 1000,
   responsive: true,
-  // useResizeHandler: true,
   displayModeBar: false,
   modeBarButtonsToRemove: [],
   displaylogo: false,

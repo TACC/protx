@@ -226,7 +226,7 @@ export const LAYOUT_06 = {
 };
 
 export const LAYOUT_07 = {
-  title: 'Vertical Histogram Chart',
+  // title: 'Vertical Histogram Chart',
   autosize: true,
   // barmode: 'stack',
   margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },

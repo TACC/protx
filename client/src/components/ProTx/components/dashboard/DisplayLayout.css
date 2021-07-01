@@ -1,25 +1,28 @@
 .display-layout-root {
+    --map-width: 60vw;
+    --chart-width: 40vw;
+    --max-height-header: 80vh;
+    --max-height-no-header: 85.5vh;
+
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 100vw;
 }
 .display-layout-map,
 .display-layout-chart  {
-    /* With the header */
-    min-height: 80vh;
-    max-height: 80vh;
-    /* Without the header*/
-    /* min-height: 85.5vh; */
-    /* max-height: 85.5vh; */
+    min-height: var(--max-height-header);
+    max-height: var(--max-height-header);
+    /* min-height: var(--max-height-no-header); */
+    /* max-height: var(--max-height-no-header); */
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 .display-layout-map {
-    width: 60vw;
+    width: var(--map-width);
     border-right: 1px solid #000000;
 }
 .display-layout-chart {
-    width: 40vw;
-    background-color: #eeeeee;
+    width: var(--chart-width);
+    /* border-right: 1px solid #000000; */
 }
