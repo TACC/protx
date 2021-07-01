@@ -72,8 +72,15 @@ function ConfigurableChart({
     maltreatmentTypes
   );
 
-  // console.log('test log');
-  console.log(maltreatmentTypesDataValues);
+  const maltreatmentTypesData = [
+    maltreatmentTypesDataAggregate,
+    maltreatmentTypesDataValues
+  ];
+
+  // console.log(maltreatmentTypesList);
+  // console.log(maltreatmentTypesDataAggregate);
+  // console.log(maltreatmentTypesDataValues);
+  console.log(maltreatmentTypesData);
 
   if (debugState) {
     return (
@@ -82,36 +89,37 @@ function ConfigurableChart({
           <div className="debug-status">DEBUGGING MODE ACTIVE</div>
           <div className="debug-header">ConfigurableChart Component Data</div>
           <ul>
-            {/* <li>mapType: {mapType}</li> */}
-            {/* <li>geography: {geography}</li> */}
-            {/* <li>year: {year}</li> */}
-            {/* <li>observedFeature={observedFeature}</li> */}
-            {/* <li>
+            <li>mapType: {mapType}</li>
+            <li>geography: {geography}</li>
+            <li>year: {year}</li>
+            <li>observedFeature: {observedFeature}</li>
+            <li>
               selected feature:
               {selectedGeographicFeature}
-            </li> */}
+            </li>
             <li>geoid: {geoid}</li>
-            {/* <li>maltreatment types selected:</li>
+            <li>maltreatment types selected (tag):</li>
             <ul>
               {maltreatmentTypes.map(type => (
                 <li key={type}>{type}</li>
               ))}
-            </ul> */}
+            </ul>
             <li>selected types translated:</li>
             <ul>
-              {maltreatmentTypesList.map(maltype => (
+              {maltreatmentTypesList.map((maltype) => (
                 <li key={maltype}>{maltype}</li>
               ))}
             </ul>
-            <li>maltreatment types aggregate value:
-              {maltreatmentTypesDataAggregate}
-            </li>
             <li>maltreatment types data array:</li>
             <ul>
-              {maltreatmentTypesDataValues.map(value => (
+              {maltreatmentTypesDataValues.map((value) => (
                 <li>{value}</li>
               ))}
             </ul>
+            <li>
+              maltreatment types aggregate value:
+              {maltreatmentTypesDataAggregate}
+            </li>
           </ul>
         </div>
       </div>
