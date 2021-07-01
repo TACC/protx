@@ -11,7 +11,7 @@ const showHeader = true;
 function AnalyticsDashboard() {
   if (showHeader) {
     return (
-      <div className="analytics-dashboard-root">
+      <div className="analytics-dashboard-root with-header">
         <DashboardHeader />
         <DashboardDisplay />
       </div>
