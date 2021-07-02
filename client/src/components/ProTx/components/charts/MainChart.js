@@ -1,7 +1,7 @@
 import React from 'react';
-import './MainChart.css';
 import PropTypes from 'prop-types';
-import ScatterBarChart from './ScatterBarChart';
+import ConfigurableChart from './ConfigurableChart';
+import './MainChart.css';
 
 function MainChart({
   mapType,
@@ -12,14 +12,32 @@ function MainChart({
   selectedGeographicFeature,
   data
 }) {
-  const selectedFeatureInfo = selectedGeographicFeature || 'NONE';
+  const selectedFeatureInfo = selectedGeographicFeature;
+
+  if (selectedFeatureInfo && maltreatmentTypes.length !== 0) {
+    return (
+      <div className="main-chart">
+        <ConfigurableChart
+          className="chart-diagram"
+          mapType={mapType}
+          geography={geography}
+          maltreatmentTypes={maltreatmentTypes}
+          observedFeature={observedFeature}
+          year={year}
+          selectedGeographicFeature={selectedGeographicFeature}
+          data={data}
+        />
+      </div>
+    );
+  }
   return (
     <div className="main-chart">
-      <span style={{ color: 'red' }}>
-        mapType: {mapType} geography: {} year: {year} selected feature:{' '}
-        {selectedFeatureInfo}
-      </span>
-      <ScatterBarChart className="chart-diagram" />
+      <div className="chart-message">
+        <div className="chart-message-content">
+          Please select an area on the map, at least one maltreatment type and a
+          year.
+        </div>
+      </div>
     </div>
   );
 }

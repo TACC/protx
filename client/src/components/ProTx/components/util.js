@@ -150,6 +150,41 @@ export function getMaltreatmentAggregatedValue(
 }
 
 /**
+ * Get array of values for the selected maltreatment types for a feature
+ * @param {Object} data
+ * @param {String} geography
+ * @param {Number} year
+ * @param {Number} geoid
+ * @param Array<{String}> maltreatmentTypes
+ * @returns Array<{Number}> of values
+ */
+export function getMaltreatmentSelectedValues(
+  data,
+  geography,
+  year,
+  geoid,
+  maltreatmentTypes
+) {
+  const hasYearAndGeography =
+    geography in data.maltreatment && year in data.maltreatment[geography];
+  const valuesArray = [];
+  if (hasYearAndGeography) {
+    maltreatmentTypes.forEach(malType => {
+      let value = 0; // Revisit this supposition about missing data values later with Kelly.
+      if (
+        malType in data.maltreatment[geography][year] &&
+        geoid in data.maltreatment[geography][year][malType]
+      ) {
+        value =
+          data.maltreatment[geography][year][malType][geoid].MALTREATMENT_COUNT;
+      }
+      valuesArray.push(value);
+    });
+  }
+  return valuesArray;
+}
+
+/**
  * Get style for feature
  * @param {String} map type
  * @param {Object} data

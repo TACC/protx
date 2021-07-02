@@ -1,14 +1,25 @@
 @import '~leaflet/dist/leaflet.css';
 
-.legend {
-    line-height: 18px;
-    color: #555555;
+.color {
+    padding: 1rem 1rem 0.5rem;
+    border: 1px solid #000000;
+    background: rgba(255,255,255,0.7);
 }
-
-.legend i {
+.legend {
+    line-height: 10px;
+}
+.scale-value * {
+    vertical-align: sub;
+}
+.scale-value i {
     width: 18px;
     height: 18px;
     float: left;
     margin-right: 8px;
     opacity: 0.7;
+    border: 1px solid #000000;
+}
+.scale-value span {
+    font-weight: 400;
+    font-size: 12px;
 }
