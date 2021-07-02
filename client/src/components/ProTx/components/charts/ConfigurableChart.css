@@ -1,3 +1,10 @@
+.demographics-map {
+  margin: 2vh 1vw;
+}
+.temp-message {
+  text-align: center;
+}
+/* .maltreatment-map {} */
 .debug-data-table tr th,
 .debug-data-table tr td {
   border: 1px solid hsl(0, 0%, 0%);
@@ -29,10 +36,10 @@
 .chart-info-item {
   display: flex;
   /* justify-content: left; */
+  justify-content:space-between; 
 }
 .chart-info-title,
-.chart-info-subtitle,
-.chart-links {
+.chart-info-subtitle {
   color: #777777;
 }
 /* .chart-info-title,
@@ -48,6 +55,20 @@
 .chart-info-table tr td:last-child {
   font-weight: 700;
 }
+.selected-map,
+.selected-area,
+.selected-year {
+  margin: 0 0 1vh;
+  padding: 0 0.2vw 0.5vh;
+  border-bottom: 1px solid #333333;
+}
+.selected-map-label,
+.selected-area-label,
+.selected-year-label {
+  font-weight: 600;
+  color: #777777;
+}
+
 .selected-region,
 .aggregated-count {
   /* height: 5rem; */
@@ -56,7 +77,11 @@
   text-align: center;
 }
 .aggregated-count {
-  border-left: 2px solid #000000;
+  border-left: 1px solid #333333;
+}
+.selected-region-label,
+.aggregated-count-label {
+  color: #777777;
 }
 .selected-region-label,
 .aggregated-count-label {
@@ -70,36 +95,28 @@
   font-weight: 900;
 }
 .chart-filters {
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid #777777;
   padding: 1vh 0;
+  font-weight: 600;
+  color: #777777;
 }
 .chart-filters-list {
   margin-top: 0.5vw;
+  color: #000000;
 }
 /* .chart-body {} */
 /* .chart-body-plot {} */
 .chart-footer {
-  margin: 1rem 0 0;
+  margin: 0.5vh 0 0;
   border-top: 1px solid #222222;
   padding-top: 1vh;
   text-align: center;
   font-size: 0.8rem;
 }
-.chart-links {
-  font-size: 1rem;
-}
-.chart-link-item a {
-  color: #002200;
-}
-.chart-link-item a:before {
-  content: '\00a0 ';
-}
-.chart-link-item a:visited {
-  color: #000000;
-}
 .chart-summary:after {
   content: '\00a0 ';
 }
+.selected-type-value,
 .selected-type {
   font-weight: 600;
 }

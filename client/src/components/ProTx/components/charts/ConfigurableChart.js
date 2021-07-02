@@ -2,13 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import './ConfigurableChart.css';
-
-// import { TRACE_VERT_SINGLE_ALL } from './configs/trace.data';
-import { MALTREATMENT } from '../meta';
+import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
 import {
+  getObservedFeatureValue,
   getMaltreatmentAggregatedValue,
   getMaltreatmentSelectedValues
 } from '../util';
+
+/**
+ * TODO: Complete the chart design for the demographics selections.
+ * TODO: Add a method to iterate over OBSERVED_FEATURES label values.
+ * TODO: Add any util.js methods required to munge the data arrays.
+ * TODO: Create additional plotTrace methods basedon chart needs.
+ * TODO: Cleanup the CSS, very redundant, use --vars.
+ * TODO: Think about how to extend the Chart for other data usecases.
+ */
 
 function ConfigurableChart({
   mapType,
@@ -19,7 +27,7 @@ function ConfigurableChart({
   selectedGeographicFeature,
   data
 }) {
-  const getMaltreatmentTypeNames = (maltreatmentTypeCodes) => {
+  const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
     const updatedMaltreatmentTypesList = [];
     if (maltreatmentTypeCodes.length === 0) {
       return ['None'];
@@ -63,7 +71,7 @@ function ConfigurableChart({
     };
   };
 
-  const getPlotData = (typesDataArray) => {
+  const getPlotDataVertBars = typesDataArray => {
     const newPlotData = [];
     for (let i = 0; i < typesDataArray.length; i += 1) {
       const yData = typesDataArray[i].value;
@@ -76,73 +84,280 @@ function ConfigurableChart({
     return newPlotData;
   };
 
-  const randomHexColorCode = () => {
-    const n = (Math.random() * 0xfffff * 1000000).toString(16);
-    const hexVal = '#' + n.slice(0, 6);
-    return hexVal;
+  // const randomHexColorCode = () => {
+  //   const n = (Math.random() * 0xfffff * 1000000).toString(16);
+  //   const subn = n.slice(0, 6);
+  //   const hexVal = `# ${subn}`;
+  //   return hexVal;
+  // };
+
+  // const getColorScales = (arrayLength) => {
+  //   const newColorScalesArray = [];
+  //   for (let i = 0; i < arrayLength; i += 1) {
+  //     const newColor = randomHexColorCode();
+  //     newColorScalesArray.push(newColor);
+  //   }
+  //   return newColorScalesArray;
+  // };
+
+  const getMaltreatmentDataTable = maltreatmentTypesDataObjectDebug => {
+    return (
+      <table className="debug-data-table">
+        <tr>
+          <th>type code</th>
+          <th>type name</th>
+          <th>type value</th>
+        </tr>
+        {maltreatmentTypesDataObjectDebug.map(maltreatmentTypeData => (
+          <tr>
+            <td>{maltreatmentTypeData.code}</td>
+            <td>{maltreatmentTypeData.name}</td>
+            <td>{maltreatmentTypeData.value}</td>
+          </tr>
+        ))}
+      </table>
+    );
   };
 
-  const getColorScales = (arrayLength) => {
-    const newColorScalesArray = [];
-    for (let i = 0; i < arrayLength; i += 1) {
-      const newColor = randomHexColorCode();
-      newColorScalesArray.push(newColor);
-    }
-    return newColorScalesArray;
-  };
-
-  const getDebugInfo = (
-    mapTypeSelected,
-    geographySelected,
-    yearSelected,
-    observedFeatureSelected,
-    selectedGeographicFeatureSelected,
-    geoidSelected,
-    maltreatmentTypesDataAggregateSelected,
-    maltreatmentTypesDataObjectSelected
+  const getSelectionData = (
+    mapTypeDebug,
+    geographyDebug,
+    yearDebug,
+    observedFeatureDebug,
+    observedGeographicFeatureDebug,
+    geoidDebug,
+    observedFeatureValueDebug,
+    maltreatmentTypesDataAggregateDebug
   ) => {
+    return (
+      <ul>
+        <li>mapType: {mapTypeDebug}</li>
+        <li>geography: {geographyDebug}</li>
+        <li>observedFeature: {observedFeatureDebug}</li>
+        <li>observedFeatureValue: {observedFeatureValueDebug}</li>
+        <li>
+          observedGeographicFeature:
+          {observedGeographicFeatureDebug}
+        </li>
+        <li>geoid: {geoidDebug}</li>
+        <li>year: {yearDebug}</li>
+        <li>
+          maltreatmentTypesDataAggregate:
+          {maltreatmentTypesDataAggregateDebug}
+        </li>
+      </ul>
+    );
+  };
+
+  const getDebugInfo = (selectionDataDebug, maltreatmentDataTableDebug) => {
     return (
       <div className="configurable-chart">
         <div className="debug-info">
           <div className="debug-status">DEBUGGING MODE ACTIVE</div>
           <div className="debug-header">ConfigurableChart Component Data</div>
-          <ul>
-            <li>mapType: {mapTypeSelected}</li>
-            <li>geography: {geographySelected}</li>
-            <li>year: {yearSelected}</li>
-            <li>observedFeature: {observedFeatureSelected}</li>
-            <li>
-              selected feature:
-              {selectedGeographicFeatureSelected}
-            </li>
-            <li>geoid: {geoidSelected}</li>
-            <li>
-              maltreatment types aggregate value:
-              {maltreatmentTypesDataAggregateSelected}
-            </li>
-          </ul>
-          <table className="debug-data-table">
-            <tr>
-              <th>type code</th>
-              <th>type name</th>
-              <th>type value</th>
-            </tr>
-            {maltreatmentTypesDataObjectSelected.map((maltreatmentTypeData) => (
-              <tr>
-                <td>{maltreatmentTypeData.code}</td>
-                <td>{maltreatmentTypeData.name}</td>
-                <td>{maltreatmentTypeData.value}</td>
-              </tr>
-            ))}
-          </table>
+          {selectionDataDebug}
+          {maltreatmentDataTableDebug}
         </div>
       </div>
     );
   };
 
+  const getObservedFeaturesChartLayout = (
+    mapTypeObservedFeatures,
+    geographyObservedFeatures,
+    yearObservedFeatures,
+    selectedGeographicFeatureObservedFeatures,
+    maltreatmentTypesDataAggregateObservedFeatures,
+    maltreatmentTypesListObservedFeatures,
+    plotStateObservedFeatures
+  ) => {
+    return (
+      <div className="demographics-map">
+        <div className="temp-message">
+          The demographic features chart is currently under development.
+        </div>
+        {/* <div className="chart-layout">
+        <div className="chart-header">
+          <div className="chart-info">
+            <div className="chart-info-item">
+              <div className="selected-map">
+                <span className="selected-map-label">Map Type: </span>
+                <span className="selected-type-value">{mapType}</span>
+              </div>
+              <div className="selected-area">
+                <span className="selected-area-label">Area: </span>
+                <span className="selected-type-value">{geography}</span>
+              </div>
+              <div className="selected-year">
+                <span className="selected-year-label">Year: </span>
+                <span className="selected-type-value">{year}</span>
+              </div>
+            </div>
+            <div className="chart-info-item">
+              <div className="selected-region">
+                <span className="selected-region-label">
+                  Selected {geography}
+                </span>
+                <span className="selected-region-value">
+                  {selectedGeographicFeature}
+                </span>
+              </div>
+              <div className="aggregated-count">
+                <span className="aggregated-count-label">Aggregated Count</span>
+                <span className="aggregated-count-value">
+                  {maltreatmentTypesDataAggregate}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="chart-filters">
+            Selected Maltreatment Types
+            <div className="chart-filters-list">
+              {maltreatmentTypesList.map((type) => (
+                <span className="selected-type" key={type}>
+                  {type}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="chart-body">
+          <div className="chart-body-plot">
+            <Plot
+              data={plotState.data}
+              layout={plotState.layout}
+              config={plotState.config}
+              useResizeHandler
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
+        <div className="chart-footer">
+          <div>
+            <span className="chart-summary">
+              This chart is generated using {year} {mapType} data for{' '}
+              {geography} {selectedGeographicFeature} using the data type(s)
+            </span>
+            {maltreatmentTypesList.map((type) => (
+              <span className="selected-type-summary" key={type}>
+                {type}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div> */}
+      </div>
+    );
+  };
+
+  const getMaltreatmentChartLayout = (
+    mapTypeMaltreatment,
+    geographyMaltreatment,
+    yearMaltreatment,
+    selectedGeographicFeatureMaltreatment,
+    maltreatmentTypesDataAggregateMaltreatment,
+    maltreatmentTypesListMaltreatment,
+    plotStateMaltreatment
+  ) => {
+    return (
+      <div className="maltreatment-map">
+        <div className="chart-layout">
+          <div className="chart-header">
+            <div className="chart-info">
+              <div className="chart-info-item">
+                <div className="selected-map">
+                  <span className="selected-map-label">Map Type: </span>
+                  <span className="selected-type-value">
+                    {mapTypeMaltreatment}
+                  </span>
+                </div>
+                <div className="selected-area">
+                  <span className="selected-area-label">Area: </span>
+                  <span className="selected-type-value">
+                    {geographyMaltreatment}
+                  </span>
+                </div>
+                <div className="selected-year">
+                  <span className="selected-year-label">Year: </span>
+                  <span className="selected-type-value">
+                    {yearMaltreatment}
+                  </span>
+                </div>
+              </div>
+              <div className="chart-info-item">
+                <div className="selected-region">
+                  <span className="selected-region-label">
+                    Selected {geographyMaltreatment}
+                  </span>
+                  <span className="selected-region-value">
+                    {selectedGeographicFeatureMaltreatment}
+                  </span>
+                </div>
+                <div className="aggregated-count">
+                  <span className="aggregated-count-label">
+                    Aggregated Count
+                  </span>
+                  <span className="aggregated-count-value">
+                    {maltreatmentTypesDataAggregateMaltreatment}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="chart-filters">
+              Selected Maltreatment Types
+              <div className="chart-filters-list">
+                {maltreatmentTypesListMaltreatment.map(type => (
+                  <span className="selected-type" key={type}>
+                    {type}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="chart-body">
+            <div className="chart-body-plot">
+              <Plot
+                data={plotStateMaltreatment.data}
+                layout={plotStateMaltreatment.layout}
+                config={plotStateMaltreatment.config}
+                useResizeHandler
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+          </div>
+          <div className="chart-footer">
+            <div>
+              <span className="chart-summary">
+                This chart is generated using {yearMaltreatment}{' '}
+                {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
+                {selectedGeographicFeatureMaltreatment} using the data type(s)
+              </span>
+              {maltreatmentTypesListMaltreatment.map(type => (
+                <span className="selected-type-summary" key={type}>
+                  {type}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Set this to true to inspect the component data in a tabular view.
+  // This will hide he chart rendering.
   const debugState = false;
   const maltreatmentMeta = MALTREATMENT;
   const geoid = selectedGeographicFeature;
+
+  const observedFeatureValue = getObservedFeatureValue(
+    data,
+    geography,
+    year,
+    geoid,
+    observedFeature
+  );
+
   const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
 
   const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
@@ -167,18 +382,29 @@ function ConfigurableChart({
     maltreatmentTypesDataValues
   );
 
-  const debugInfo = getDebugInfo(
+  const selectionData = getSelectionData(
     mapType,
     geography,
     year,
     observedFeature,
     selectedGeographicFeature,
     geoid,
-    maltreatmentTypesDataAggregate,
+    observedFeatureValue,
+    maltreatmentTypesDataAggregate
+  );
+
+  const maltreatmentDataTable = getMaltreatmentDataTable(
     maltreatmentTypesDataObject
   );
 
+  const debugInfo = getDebugInfo(selectionData, maltreatmentDataTable);
+
+  // Generate a random color scale for the categories of maltreatment.
   // const traceFillColors = getColorScales(11);
+
+  // Assign colors to the categories of maltreatment.
+  // Static values will persist across view reflows.
+  // Omitted any colors that are similar to the current map scales.
   const traceFillColors = [
     // '#e6194b',
     // '#3cb44b',
@@ -224,185 +450,62 @@ function ConfigurableChart({
       automargin: true,
       tickangle: -90,
       title: {
-        text: 'Total',
-        standoff: 30
+        text: 'Maltreatment Type',
+        standoff: 20
       }
     },
     yaxis: {
       automargin: true,
       tickangle: 0,
       title: {
-        text: 'Years',
-        standoff: 30
+        text: 'Total',
+        standoff: 20
       }
     },
     annotations: []
   };
 
-  const plotData = getPlotData(maltreatmentTypesDataObject);
+  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
 
   const plotState = {
-    // data: TRACE_VERT_MULTI_ALL,
-    // data: TRACE_VERT_SINGLE_ALL,
     data: plotData,
     layout: plotLayout,
     config: plotConfig
   };
 
-  // console.log(plotData);
+  const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
+    mapType,
+    geography,
+    year,
+    selectedGeographicFeature,
+    maltreatmentTypesDataAggregate,
+    maltreatmentTypesList,
+    plotState
+  );
+
+  const maltreatmentChartLayout = getMaltreatmentChartLayout(
+    mapType,
+    geography,
+    year,
+    selectedGeographicFeature,
+    maltreatmentTypesDataAggregate,
+    maltreatmentTypesList,
+    plotState
+  );
 
   if (debugState) {
-    return debugInfo;
+    return <div className="configurable-chart">{debugInfo}</div>;
   }
 
-  return (
-    <div className="configurable-chart">
-      <div className="chart-layout">
-        <div className="chart-header">
-          <div className="chart-info">
-            {/* <div className="chart-info-item">
-              <div className="chart-info-title">Map type</div>
-              <div className="chart-info-value">{mapType}</div>
-            </div>
-            <div className="chart-info-item">
-              <div className="chart-info-title">Area</div>
-              <div className="chart-info-value">{geography}</div>
-            </div>
-            <div className="chart-info-item">
-              <div className="chart-info-title">Selected {geography}</div>
-              <div className="chart-info-value">
-                {selectedGeographicFeature}
-              </div>
-            </div>
-            <div className="chart-info-item">
-              <div className="chart-info-title">Year</div>
-              <div className="chart-info-value">{year}</div>
-            </div> */}
-            {/* <table className="chart-info-table"> */}
-              {/* <tr>
-                <td>
-                  Map Type: <span className="selected-type">{mapType}</span>
-                </td>
-                <td>
-                  Area: <span className="selected-type">{geography}</span>
-                </td>
-                <td>
-                  Year: <span className="selected-type">{year}</span>
-                </td>
-              </tr> */}
-              {/* <tr> */}
-                {/* <td>
-                  <tr>
-                    <td>Map type</td>
-                    <td>{mapType}</td>
-                  </tr>
-                  <tr>
-                    <td>Area</td>
-                    <td>{geography}</td>
-                  </tr>
-                  <tr>
-                    <td>Selected {geography}</td>
-                    <td>{selectedGeographicFeature}</td>
-                  </tr>
-                  <tr>
-                    <td>Year</td>
-                    <td>{year}</td>
-                  </tr>
-                </td> */}
-                {/* <td className="selected-region,">
-                  <span className="selected-region-label">
-                    Selected {geography}:
-                  </span>
-                  <span className="selected-region-value">
-                    {selectedGeographicFeature}
-                  </span>
-                </td>
-                <td className="aggregated-count">
-                  <span className="aggregated-count-label">
-                    Aggregated Count
-                  </span>
-                  <span className="aggregated-count-value">
-                    {maltreatmentTypesDataAggregate}
-                  </span>
-                </td> */}
-              {/* </tr> */}
-            {/* </table> */}
-            <div className="chart-info-item">
-              <div className="selected-region">
-                  Map Type: <span className="selected-type">{mapType}</span>
-                </div>
-                <div className="selected-region">
-                  Area: <span className="selected-type">{geography}</span>
-                </div>
-                <div className="selected-region">
-                  Year: <span className="selected-type">{year}</span>
-                </div>
-            </div>
-            <div className="chart-info-item">
-              <div className="selected-region">
-                <span className="selected-region-label">
-                  Selected {geography}:
-                </span>
-                <span className="selected-region-value">
-                  {selectedGeographicFeature}
-                </span>
-              </div>
-              <div className="aggregated-count">
-                <span className="aggregated-count-label">
-                  Aggregated Count
-                </span>
-                <span className="aggregated-count-value">
-                  {maltreatmentTypesDataAggregate}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="chart-filters">
-            Selected Maltreatment Types
-            <div className="chart-filters-list">
-              {maltreatmentTypesList.map((type) => (
-                <span className="selected-type" key={type}>
-                  {type}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="chart-body">
-          <div className="chart-body-plot">
-            <Plot
-              data={plotState.data}
-              layout={plotState.layout}
-              config={plotState.config}
-              useResizeHandler
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div>
-        </div>
-        <div className="chart-footer">
-          <div>
-            <span className="chart-summary">
-              This chart is generated using {year} {mapType} data for{' '}
-              {geography} {selectedGeographicFeature} using the data type(s)
-            </span>
-            {maltreatmentTypesList.map((type) => (
-              <span className="selected-type-summary" key={type}>
-                {type}
-              </span>
-            ))}
-          </div>
-          <div className="chart-links">
-            {/* <div className="chart-link-item">
-              Show
-              <a href={chartInputs.CHART_INFO.chartLinks[0].linkRef} target="">
-                {chartInputs.CHART_INFO.chartLinks[0].linkLabel}
-              </a>
-            </div> */}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  if (mapType === 'maltreatment') {
+    return <div className="configurable-chart">{maltreatmentChartLayout}</div>;
+  }
+
+  if (mapType === 'observedFeatures') {
+    return (
+      <div className="configurable-chart">{observedFeaturesChartLayout}</div>
+    );
+  }
 }
 
 ConfigurableChart.propTypes = {
