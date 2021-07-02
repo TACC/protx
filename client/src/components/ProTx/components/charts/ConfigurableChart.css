@@ -95,7 +95,7 @@
   font-weight: 900;
 }
 .chart-filters {
-  border-bottom: 1px solid #777777;
+  /* border-bottom: 1px solid #777777; */
   padding: 1vh 0;
   font-weight: 600;
   color: #777777;
@@ -108,7 +108,7 @@
 /* .chart-body-plot {} */
 .chart-footer {
   margin: 0.5vh 0 0;
-  border-top: 1px solid #222222;
+  /* border-top: 1px solid #222222; */
   padding-top: 1vh;
   text-align: center;
   font-size: 0.8rem;
