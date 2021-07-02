@@ -84,22 +84,6 @@ function ConfigurableChart({
     return newPlotData;
   };
 
-  // const randomHexColorCode = () => {
-  //   const n = (Math.random() * 0xfffff * 1000000).toString(16);
-  //   const subn = n.slice(0, 6);
-  //   const hexVal = `# ${subn}`;
-  //   return hexVal;
-  // };
-
-  // const getColorScales = (arrayLength) => {
-  //   const newColorScalesArray = [];
-  //   for (let i = 0; i < arrayLength; i += 1) {
-  //     const newColor = randomHexColorCode();
-  //     newColorScalesArray.push(newColor);
-  //   }
-  //   return newColorScalesArray;
-  // };
-
   const getMaltreatmentDataTable = maltreatmentTypesDataObjectDebug => {
     return (
       <table className="debug-data-table">
