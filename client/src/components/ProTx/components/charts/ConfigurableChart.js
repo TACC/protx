@@ -310,16 +310,16 @@ function ConfigurableChart({
             </div>
           </div>
           <div className="chart-footer">
-              <span className="chart-summary">
-                This chart was generated using {yearMaltreatment}{' '}
-                {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
-                {selectedGeographicFeatureMaltreatment} using the data type(s)
+            <span className="chart-summary">
+              This chart was generated using {yearMaltreatment}{' '}
+              {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
+              {selectedGeographicFeatureMaltreatment} using the data type(s)
+            </span>
+            {maltreatmentTypesListMaltreatment.map(type => (
+              <span className="selected-type-summary" key={type}>
+                {type}
               </span>
-              {maltreatmentTypesListMaltreatment.map(type => (
-                <span className="selected-type-summary" key={type}>
-                  {type}
-                </span>
-              ))}
+            ))}
           </div>
         </div>
       </div>
