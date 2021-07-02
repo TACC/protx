@@ -310,7 +310,6 @@ function ConfigurableChart({
             </div>
           </div>
           <div className="chart-footer">
-            <div>
               <span className="chart-summary">
                 This chart was generated using {yearMaltreatment}{' '}
                 {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
@@ -321,7 +320,6 @@ function ConfigurableChart({
                   {type}
                 </span>
               ))}
-            </div>
           </div>
         </div>
       </div>
