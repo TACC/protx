@@ -14,7 +14,7 @@ function MainChart({
 }) {
   const selectedFeatureInfo = selectedGeographicFeature;
 
-  if (selectedFeatureInfo) {
+  if ((selectedFeatureInfo) && (maltreatmentTypes.length !== 0)) {
     return (
       <div className="main-chart">
         <ConfigurableChart
@@ -34,7 +34,7 @@ function MainChart({
     <div className="main-chart">
       <div className="chart-message">
         <div className="chart-message-content">
-          Please select an area on the map
+          Please select an area on the map, at least one maltreatment type and a year.
         </div>
       </div>
     </div>

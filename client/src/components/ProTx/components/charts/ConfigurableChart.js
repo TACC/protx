@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import './ConfigurableChart.css';
 
-import { TRACE_VERT_MULTI_ALL } from './configs/trace.data';
+// import { TRACE_VERT_SINGLE_ALL } from './configs/trace.data';
 import { MALTREATMENT } from '../meta';
 import {
   getMaltreatmentAggregatedValue,
@@ -19,7 +19,7 @@ function ConfigurableChart({
   selectedGeographicFeature,
   data
 }) {
-  const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
+  const getMaltreatmentTypeNames = (maltreatmentTypeCodes) => {
     const updatedMaltreatmentTypesList = [];
     if (maltreatmentTypeCodes.length === 0) {
       return ['None'];
@@ -44,6 +44,51 @@ function ConfigurableChart({
       newMaltreatmentDataObject.push(dataObject);
     }
     return newMaltreatmentDataObject;
+  };
+
+  const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
+    return {
+      y: [traceY],
+      x: [traceX],
+      name: traceName,
+      type: 'bar',
+      orientation: 'v',
+      marker: {
+        line: {
+          color: ['#111111'],
+          width: 1
+        },
+        color: [traceFillColor]
+      }
+    };
+  };
+
+  const getPlotData = (typesDataArray) => {
+    const newPlotData = [];
+    for (let i = 0; i < typesDataArray.length; i += 1) {
+      const yData = typesDataArray[i].value;
+      const xData = typesDataArray[i].code;
+      const tName = typesDataArray[i].name;
+      const traceFillColor = traceFillColors[i];
+      const type = getBarVertTrace(yData, xData, tName, traceFillColor);
+      newPlotData.push(type);
+    }
+    return newPlotData;
+  };
+
+  const randomHexColorCode = () => {
+    const n = (Math.random() * 0xfffff * 1000000).toString(16);
+    const hexVal = '#' + n.slice(0, 6);
+    return hexVal;
+  };
+
+  const getColorScales = (arrayLength) => {
+    const newColorScalesArray = [];
+    for (let i = 0; i < arrayLength; i += 1) {
+      const newColor = randomHexColorCode();
+      newColorScalesArray.push(newColor);
+    }
+    return newColorScalesArray;
   };
 
   const getDebugInfo = (
@@ -82,7 +127,7 @@ function ConfigurableChart({
               <th>type name</th>
               <th>type value</th>
             </tr>
-            {maltreatmentTypesDataObjectSelected.map(maltreatmentTypeData => (
+            {maltreatmentTypesDataObjectSelected.map((maltreatmentTypeData) => (
               <tr>
                 <td>{maltreatmentTypeData.code}</td>
                 <td>{maltreatmentTypeData.name}</td>
@@ -95,7 +140,7 @@ function ConfigurableChart({
     );
   };
 
-  const debugState = true;
+  const debugState = false;
   const maltreatmentMeta = MALTREATMENT;
   const geoid = selectedGeographicFeature;
   const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
@@ -133,6 +178,32 @@ function ConfigurableChart({
     maltreatmentTypesDataObject
   );
 
+  // const traceFillColors = getColorScales(11);
+  const traceFillColors = [
+    // '#e6194b',
+    // '#3cb44b',
+    // '#ffe119',
+    '#4363d8',
+    // '#f58231',
+    '#911eb4',
+    '#46f0f0',
+    '#f032e6',
+    '#bcf60c',
+    '#fabebe',
+    '#008080',
+    '#e6beff',
+    // '#9a6324',
+    // '#fffac8',
+    // '#800000',
+    '#aaffc3',
+    '#808000',
+    // '#ffd8b1',
+    '#000075',
+    '#808080',
+    '#ffffff',
+    '#000000'
+  ];
+
   const plotConfig = {
     doubleClickDelay: 1000,
     responsive: true,
@@ -151,7 +222,7 @@ function ConfigurableChart({
     margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
     xaxis: {
       automargin: true,
-      tickangle: 0,
+      tickangle: -90,
       title: {
         text: 'Total',
         standoff: 30
@@ -168,11 +239,17 @@ function ConfigurableChart({
     annotations: []
   };
 
+  const plotData = getPlotData(maltreatmentTypesDataObject);
+
   const plotState = {
-    data: TRACE_VERT_MULTI_ALL,
+    // data: TRACE_VERT_MULTI_ALL,
+    // data: TRACE_VERT_SINGLE_ALL,
+    data: plotData,
     layout: plotLayout,
     config: plotConfig
   };
+
+  // console.log(plotData);
 
   if (debugState) {
     return debugInfo;
@@ -201,29 +278,89 @@ function ConfigurableChart({
               <div className="chart-info-title">Year</div>
               <div className="chart-info-value">{year}</div>
             </div> */}
-            <table className="chart-info-table">
-              <tr>
-                <td>Map type</td>
-                <td>{mapType}</td>
-              </tr>
-              <tr>
-                <td>Area</td>
-                <td>{geography}</td>
-              </tr>
-              <tr>
-                <td>Selected {geography}</td>
-                <td>{selectedGeographicFeature}</td>
-              </tr>
-              <tr>
-                <td>Year</td>
-                <td>{year}</td>
-              </tr>
-            </table>
+            {/* <table className="chart-info-table"> */}
+              {/* <tr>
+                <td>
+                  Map Type: <span className="selected-type">{mapType}</span>
+                </td>
+                <td>
+                  Area: <span className="selected-type">{geography}</span>
+                </td>
+                <td>
+                  Year: <span className="selected-type">{year}</span>
+                </td>
+              </tr> */}
+              {/* <tr> */}
+                {/* <td>
+                  <tr>
+                    <td>Map type</td>
+                    <td>{mapType}</td>
+                  </tr>
+                  <tr>
+                    <td>Area</td>
+                    <td>{geography}</td>
+                  </tr>
+                  <tr>
+                    <td>Selected {geography}</td>
+                    <td>{selectedGeographicFeature}</td>
+                  </tr>
+                  <tr>
+                    <td>Year</td>
+                    <td>{year}</td>
+                  </tr>
+                </td> */}
+                {/* <td className="selected-region,">
+                  <span className="selected-region-label">
+                    Selected {geography}:
+                  </span>
+                  <span className="selected-region-value">
+                    {selectedGeographicFeature}
+                  </span>
+                </td>
+                <td className="aggregated-count">
+                  <span className="aggregated-count-label">
+                    Aggregated Count
+                  </span>
+                  <span className="aggregated-count-value">
+                    {maltreatmentTypesDataAggregate}
+                  </span>
+                </td> */}
+              {/* </tr> */}
+            {/* </table> */}
+            <div className="chart-info-item">
+              <div className="selected-region">
+                  Map Type: <span className="selected-type">{mapType}</span>
+                </div>
+                <div className="selected-region">
+                  Area: <span className="selected-type">{geography}</span>
+                </div>
+                <div className="selected-region">
+                  Year: <span className="selected-type">{year}</span>
+                </div>
+            </div>
+            <div className="chart-info-item">
+              <div className="selected-region">
+                <span className="selected-region-label">
+                  Selected {geography}:
+                </span>
+                <span className="selected-region-value">
+                  {selectedGeographicFeature}
+                </span>
+              </div>
+              <div className="aggregated-count">
+                <span className="aggregated-count-label">
+                  Aggregated Count
+                </span>
+                <span className="aggregated-count-value">
+                  {maltreatmentTypesDataAggregate}
+                </span>
+              </div>
+            </div>
           </div>
           <div className="chart-filters">
-            Maltreatment types currently selected:
+            Selected Maltreatment Types
             <div className="chart-filters-list">
-              {maltreatmentTypesList.map(type => (
+              {maltreatmentTypesList.map((type) => (
                 <span className="selected-type" key={type}>
                   {type}
                 </span>
@@ -245,11 +382,11 @@ function ConfigurableChart({
         <div className="chart-footer">
           <div>
             <span className="chart-summary">
-              This histogram is generated using {year} {mapType} data for{' '}
+              This chart is generated using {year} {mapType} data for{' '}
               {geography} {selectedGeographicFeature} using the data type(s)
             </span>
-            {maltreatmentTypesList.map(type => (
-              <span className="selected-type" key={type}>
+            {maltreatmentTypesList.map((type) => (
+              <span className="selected-type-summary" key={type}>
                 {type}
               </span>
             ))}

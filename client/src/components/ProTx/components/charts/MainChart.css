@@ -7,7 +7,7 @@
 
 .main-chart * {
   /* line-height: 100%; */
-  /* font-family: 'Open Sans', sans-serif; */
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
 .chart-message * {
@@ -17,7 +17,6 @@
 
 .chart-message-content {
   font-weight: 500;
-  font-size: 1.5rem;
   text-align: center;
 }
 
