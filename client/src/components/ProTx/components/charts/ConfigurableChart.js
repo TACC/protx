@@ -10,6 +10,8 @@ import {
 } from '../util';
 
 /**
+ * TODO: Refactor getMessageText to be flexible:
+ * -- it is currently all or nothing, need per chart config.
  * TODO: Complete the chart design for the demographics selections.
  * TODO: Add a method to iterate over OBSERVED_FEATURES label values.
  * TODO: Add any util.js methods required to munge the data arrays.
@@ -148,8 +150,8 @@ function ConfigurableChart({
 
   const getTempMessage = (
     mapTypeMessage,
-    tempMessageValueMaltreatment,
-    tempMessageObservedFeatures
+    tempMessageObservedFeatures,
+    tempMessageValueMaltreatment
   ) => {
     if (mapTypeMessage === 'maltreatment') {
       return <div className="temp-message">{tempMessageValueMaltreatment}</div>;
@@ -374,7 +376,7 @@ function ConfigurableChart({
   // Set this to true to inspect the component data in a tabular view.
   // This will hide he chart rendering.
   const debugState = false;
-  const showTempMessage = true;
+  const showTempMessage = false;
   const tempMessageObservedFeaturesChart =
     'The demographic features chart is currently under development.';
   const tempMessageMaltreatmentChart =
