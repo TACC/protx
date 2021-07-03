@@ -43,7 +43,6 @@
 .chart-info-table tr td:last-child {
   font-weight: 700;
 }
-
 .selected-map,
 .selected-area,
 .selected-year {
@@ -54,6 +53,7 @@
 .selected-map-label,
 .selected-area-label,
 .selected-year-label {
+  font-size: 1.2rem;
   font-weight: 600;
   color: #777777;
 }
@@ -64,11 +64,11 @@
   text-align: center;
 }
 .aggregated-count {
-  border-left: 1px solid #333333;
+  border-left: 1px solid #aaaaaa;
 }
 .selected-region-label,
 .aggregated-count-label {
-  color: #777777;
+  color: #555555;
 }
 .selected-region-label,
 .aggregated-count-label {
@@ -84,7 +84,7 @@
 
 .chart-filters {
   padding: 1vh 0;
-  color: #777777;
+  color: #555555;
 }
 .chart-filters-header {
   font-weight: 600;
