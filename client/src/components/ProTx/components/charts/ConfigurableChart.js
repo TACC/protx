@@ -147,6 +147,19 @@ function ConfigurableChart({
     );
   };
 
+  const getTempMessage = (
+    mapTypeMessage,
+    tempMessageValueMaltreatment,
+    tempMessageObservedFeatures
+  ) => {
+    if (mapTypeMessage === 'maltreatment') {
+      return <div className="temp-message">{tempMessageValueMaltreatment}</div>;
+    }
+    if (mapTypeMessage === 'observedFeatures') {
+      return <div className="temp-message">{tempMessageObservedFeatures}</div>;
+    }
+  };
+
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     geographyObservedFeatures,
@@ -158,79 +171,78 @@ function ConfigurableChart({
   ) => {
     return (
       <div className="demographics-map">
-        <div className="temp-message">
-          The demographic features chart is currently under development.
-        </div>
-        {/* <div className="chart-layout">
-        <div className="chart-header">
-          <div className="chart-info">
-            <div className="chart-info-item">
-              <div className="selected-map">
-                <span className="selected-map-label">Map Type: </span>
-                <span className="selected-type-value">{mapType}</span>
+        <div className="chart-layout">
+          <div className="chart-header">
+            <div className="chart-info">
+              <div className="chart-info-item">
+                <div className="selected-map">
+                  <span className="selected-map-label">Map Type: </span>
+                  <span className="selected-type-value">{mapType}</span>
+                </div>
+                <div className="selected-area">
+                  <span className="selected-area-label">Area: </span>
+                  <span className="selected-type-value">{geography}</span>
+                </div>
+                <div className="selected-year">
+                  <span className="selected-year-label">Year: </span>
+                  <span className="selected-type-value">{year}</span>
+                </div>
               </div>
-              <div className="selected-area">
-                <span className="selected-area-label">Area: </span>
-                <span className="selected-type-value">{geography}</span>
-              </div>
-              <div className="selected-year">
-                <span className="selected-year-label">Year: </span>
-                <span className="selected-type-value">{year}</span>
+              <div className="chart-info-item">
+                <div className="selected-region">
+                  <span className="selected-region-label">
+                    Selected {geography}
+                  </span>
+                  <span className="selected-region-value">
+                    {selectedGeographicFeature}
+                  </span>
+                </div>
+                <div className="aggregated-count">
+                  <span className="aggregated-count-label">
+                    Aggregated Count
+                  </span>
+                  <span className="aggregated-count-value">
+                    {maltreatmentTypesDataAggregate}
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="chart-info-item">
-              <div className="selected-region">
-                <span className="selected-region-label">
-                  Selected {geography}
-                </span>
-                <span className="selected-region-value">
-                  {selectedGeographicFeature}
-                </span>
-              </div>
-              <div className="aggregated-count">
-                <span className="aggregated-count-label">Aggregated Count</span>
-                <span className="aggregated-count-value">
-                  {maltreatmentTypesDataAggregate}
-                </span>
+            <div className="chart-filters">
+              Selected Maltreatment Types
+              <div className="chart-filters-list">
+                {maltreatmentTypesList.map(type => (
+                  <span className="selected-type" key={type}>
+                    {type}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
-          <div className="chart-filters">
-            Selected Maltreatment Types
-            <div className="chart-filters-list">
-              {maltreatmentTypesList.map((type) => (
-                <span className="selected-type" key={type}>
+          <div className="chart-body">
+            <div className="chart-body-plot">
+              <Plot
+                data={plotState.data}
+                layout={plotState.layout}
+                config={plotState.config}
+                useResizeHandler
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+          </div>
+          <div className="chart-footer">
+            <div>
+              <span className="chart-summary">
+                This chart is generated using {year} {mapType} data for{' '}
+                {geography} {selectedGeographicFeature} using the data type(s)
+              </span>
+              {maltreatmentTypesList.map(type => (
+                <span className="selected-type-summary" key={type}>
                   {type}
                 </span>
               ))}
             </div>
           </div>
         </div>
-        <div className="chart-body">
-          <div className="chart-body-plot">
-            <Plot
-              data={plotState.data}
-              layout={plotState.layout}
-              config={plotState.config}
-              useResizeHandler
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div>
-        </div>
-        <div className="chart-footer">
-          <div>
-            <span className="chart-summary">
-              This chart is generated using {year} {mapType} data for{' '}
-              {geography} {selectedGeographicFeature} using the data type(s)
-            </span>
-            {maltreatmentTypesList.map((type) => (
-              <span className="selected-type-summary" key={type}>
-                {type}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div> */}
       </div>
     );
   };
@@ -257,7 +269,7 @@ function ConfigurableChart({
                   </span>
                 </div>
                 <div className="selected-area">
-                  <span className="selected-area-label">Area: </span>
+                  <span className="selected-area-label">Area Type: </span>
                   <span className="selected-type-value">
                     {geographyMaltreatment}
                   </span>
@@ -289,10 +301,12 @@ function ConfigurableChart({
               </div>
             </div>
             <div className="chart-filters">
-              Selected Maltreatment Types
+              <div className="chart-filters-header">
+                Selected Maltreatment Types
+              </div>
               <div className="chart-filters-list">
                 {maltreatmentTypesListMaltreatment.map(type => (
-                  <span className="selected-type" key={type}>
+                  <span className="selected-type-filter" key={type}>
                     {type}
                   </span>
                 ))}
@@ -327,9 +341,45 @@ function ConfigurableChart({
     );
   };
 
+  const renderChart = (
+    debugStateRender,
+    debugInfoRender,
+    showTempMessageRender,
+    tempMessageRender,
+    mapTypeRender,
+    maltreatmentChartLayoutRender,
+    observedFeaturesChartLayoutRender
+  ) => {
+    if (debugStateRender) {
+      return <div className="configurable-chart">{debugInfoRender}</div>;
+    }
+    if (showTempMessageRender) {
+      return <div className="configurable-chart">{tempMessageRender}</div>;
+    }
+    if (mapTypeRender === 'maltreatment') {
+      return (
+        <div className="configurable-chart">
+          {maltreatmentChartLayoutRender}
+        </div>
+      );
+    }
+    if (mapTypeRender === 'observedFeatures') {
+      return (
+        <div className="configurable-chart">
+          {observedFeaturesChartLayoutRender}
+        </div>
+      );
+    }
+  };
+
   // Set this to true to inspect the component data in a tabular view.
   // This will hide he chart rendering.
   const debugState = false;
+  const showTempMessage = true;
+  const tempMessageObservedFeaturesChart =
+    'The demographic features chart is currently under development.';
+  const tempMessageMaltreatmentChart =
+    'The maltreatment chart is currently under development.';
   const maltreatmentMeta = MALTREATMENT;
   const geoid = selectedGeographicFeature;
 
@@ -382,8 +432,11 @@ function ConfigurableChart({
 
   const debugInfo = getDebugInfo(selectionDataList, maltreatmentDataTable);
 
-  // Generate a random color scale for the categories of maltreatment.
-  // const traceFillColors = getColorScales(11);
+  const tempMessage = getTempMessage(
+    mapType,
+    tempMessageObservedFeaturesChart,
+    tempMessageMaltreatmentChart
+  );
 
   // Assign colors to the categories of maltreatment.
   // Static values will persist across view reflows.
@@ -496,11 +549,7 @@ function ConfigurableChart({
     return <div className="configurable-chart">{maltreatmentChartLayout}</div>;
   }
 
-  if (mapType === 'observedFeatures') {
-    return (
-      <div className="configurable-chart">{observedFeaturesChartLayout}</div>
-    );
-  }
+  return chart;
 }
 
 ConfigurableChart.propTypes = {

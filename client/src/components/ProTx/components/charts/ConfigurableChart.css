@@ -10,6 +10,7 @@
 }
 
 .temp-message {
+  margin: 2vh 1vw;
   text-align: center;
 }
 .chart-layout {
@@ -83,14 +84,15 @@
 
 .chart-filters {
   padding: 1vh 0;
-  font-weight: 600;
   color: #777777;
+}
+.chart-filters-header {
+  font-weight: 600;
 }
 .chart-filters-list {
   margin-top: 0.5vw;
   color: #000000;
 }
-
 .chart-footer {
   margin: 0.5vh 0 0;
   padding-top: 1vh;
@@ -106,17 +108,21 @@
   font-weight: 600;
 }
 .selected-type-summary {
-  font-weight: 900;
+  /* font-weight: 900; */
+  font-style: italic;
 }
+.selected-type-filter:not(:last-child):after,
 .selected-type:not(:last-child):after,
 .selected-type-summary:not(:last-child):after {
   font-weight: normal;
   content: ', ';
 }
-.chart-summary .selected-type-summary:last-child:not(:only-child):before {
+.selected-type-filter:last-child:not(:only-child):before,
+.selected-type-summary:last-child:not(:only-child):before {
   font-weight: normal;
   content: ' and ';
 }
+.selected-type-filter:last-child:not(:only-child):after,
 .selected-type:last-child:not(:only-child):after,
 .selected-type-summary:last-child:not(:only-child):after {
   font-weight: normal;
