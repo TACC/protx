@@ -1,10 +1,10 @@
 import React from 'react';
-import './DisplayLayout.css';
+import './AnalysisDisplayLayout.css';
 import PropTypes from 'prop-types';
 import MainMap from '../maps/MainMap';
 import MainChart from '../charts/MainChart';
 
-function DisplayLayout({
+function AnalysisDisplayLayout({
   mapType,
   geography,
   maltreatmentTypes,
@@ -42,7 +42,7 @@ function DisplayLayout({
   );
 }
 
-DisplayLayout.propTypes = {
+AnalysisDisplayLayout.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -54,4 +54,4 @@ DisplayLayout.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default DisplayLayout;
+export default AnalysisDisplayLayout;
