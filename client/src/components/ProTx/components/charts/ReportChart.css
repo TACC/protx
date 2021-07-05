@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
+
+/* .report-chart {} */
+.feature-table *,
+.report-chart-message * {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+.feature-table * {
+  font-size: 0.8rem;
+}
+sup {
+  font-style: italic;
+}
+.feature-table-chart {
+  margin: 1vh 1vw;
+  font-weight: 600;
+}
+.feature-table-chart tr th,
+.feature-table-chart tr td {
+  border-bottom: 1px solid #000000;
+  padding: 0.5vh 0.2vw;
+}
+.feature-table-chart-label {
+  width: 36%;
+}
+.feature-table-chart-cell {
+  width: 16%;
+}
+.feature-table-info * {
+  font-weight: 400;
+}
+.feature-table-info,
+.feature-table-description,
+.feature-table-information,
+.feature-table-annotation {
+  margin: 1vh 1vw;
+}
+.report-chart-message {
+  margin: 2vh 0 0 2vw;
+}
+.report-chart-message-note {
+  font-weight: 700;
+  color: #772211;
+}
