@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
+
+.analysis-chart-message * {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+.analysis-chart-message {
+  margin: 2vh 2vw;
+}
+.analysis-chart-message-note {
+  /* margin: 1vh 1vw 2vh; */
+  font-weight: 700;
+  color: #772211;
+}

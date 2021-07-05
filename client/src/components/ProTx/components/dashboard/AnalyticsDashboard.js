@@ -8,7 +8,7 @@ import DashboardDisplay from './DashboardDisplay';
 const showHeader = true;
 const hostName = 'COOKS PRE-PRODUCTION PORTAL';
 const messageString =
-  'Geospatial data analytics dashboard displaying incomplete demonstration data.';
+  'Geospatial data analytics dashboard using incomplete demonstration data.';
 
 function AnalyticsDashboard() {
   if (showHeader) {

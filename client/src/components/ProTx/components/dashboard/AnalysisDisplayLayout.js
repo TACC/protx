@@ -2,7 +2,7 @@ import React from 'react';
 import './AnalysisDisplayLayout.css';
 import PropTypes from 'prop-types';
 import MainMap from '../maps/MainMap';
-import MainChart from '../charts/MainChart';
+import AnalysisChart from '../charts/AnalysisChart';
 
 function AnalysisDisplayLayout({
   mapType,
@@ -28,7 +28,7 @@ function AnalysisDisplayLayout({
         />
       </div>
       <div className="display-layout-chart">
-        <MainChart
+        <AnalysisChart
           mapType={mapType}
           geography={geography}
           maltreatmentTypes={maltreatmentTypes}
