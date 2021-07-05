@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './DashboardDisplay.module.scss';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
-import DisplayLayout from './DisplayLayout';
+import AnalysisDisplayLayout from './AnalysisDisplayLayout';
+import ReportDisplayLayout from './ReportDisplayLayout';
 import { MALTREATMENT, OBSERVED_FEATURES } from '../meta';
+import './DashboardDisplay.module.scss';
 
 function DashboardDisplay() {
   // Map type and selected types (i.e. geography, year etc)
@@ -24,6 +26,8 @@ function DashboardDisplay() {
 
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
+
+  const protxRoute = '/protx';
 
   // Get systems and any other initial data we need from the backend
   useEffect(() => {
@@ -50,28 +54,55 @@ function DashboardDisplay() {
 
   return (
     <div styleName="root">
-      <DisplaySelectors
-        mapType={mapType}
-        geography={geography}
-        maltreatmentTypes={maltreatmentTypes}
-        observedFeature={observedFeature}
-        year={year}
-        setMapType={setMapType}
-        setGeography={setGeography}
-        setMaltreatmentTypes={setMaltreatmentTypes}
-        setObservedFeature={setObservedFeature}
-        setYear={setYear}
-      />
-      <DisplayLayout
-        mapType={mapType}
-        geography={geography}
-        maltreatmentTypes={maltreatmentTypes}
-        observedFeature={observedFeature}
-        year={year}
-        data={data}
-        selectedGeographicFeature={selectedGeographicFeature}
-        setSelectedGeographicFeature={setSelectedGeographicFeature}
-      />
+      <Switch>
+        <Route path={`${protxRoute}/analysis`}>
+          <DisplaySelectors
+            mapType={mapType}
+            geography={geography}
+            maltreatmentTypes={maltreatmentTypes}
+            observedFeature={observedFeature}
+            year={year}
+            setMapType={setMapType}
+            setGeography={setGeography}
+            setMaltreatmentTypes={setMaltreatmentTypes}
+            setObservedFeature={setObservedFeature}
+            setYear={setYear}
+          />
+          <AnalysisDisplayLayout
+            mapType={mapType}
+            geography={geography}
+            maltreatmentTypes={maltreatmentTypes}
+            observedFeature={observedFeature}
+            year={year}
+            data={data}
+            selectedGeographicFeature={selectedGeographicFeature}
+            setSelectedGeographicFeature={setSelectedGeographicFeature}
+          />
+        </Route>
+        <Route path={`${protxRoute}/report`}>
+          <DisplaySelectors
+            mapType="observedFeatures"
+            geography={geography}
+            maltreatmentTypes={maltreatmentTypes}
+            observedFeature={observedFeature}
+            year={year}
+            setGeography={setGeography}
+            setMaltreatmentTypes={setMaltreatmentTypes}
+            setObservedFeature={setObservedFeature}
+          />
+          <ReportDisplayLayout
+            mapType={mapType}
+            geography={geography}
+            maltreatmentTypes={maltreatmentTypes}
+            observedFeature={observedFeature}
+            year={year}
+            data={data}
+            selectedGeographicFeature={selectedGeographicFeature}
+            setSelectedGeographicFeature={setSelectedGeographicFeature}
+          />
+        </Route>
+        <Redirect from={protxRoute} to={`${protxRoute}/analysis`} />
+      </Switch>
     </div>
   );
 }
