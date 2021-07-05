@@ -81,16 +81,14 @@ function DashboardDisplay() {
         </Route>
         <Route path={`${protxRoute}/report`}>
           <DisplaySelectors
-            mapType={mapType}
+            mapType="observedFeatures"
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
             observedFeature={observedFeature}
             year={year}
-            setMapType={setMapType}
             setGeography={setGeography}
             setMaltreatmentTypes={setMaltreatmentTypes}
             setObservedFeature={setObservedFeature}
-            setYear={setYear}
           />
           <ReportDisplayLayout
             mapType={mapType}

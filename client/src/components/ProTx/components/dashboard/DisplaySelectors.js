@@ -5,6 +5,18 @@ import MaltreatmentSelector from './MaltreatmentSelector';
 import { OBSERVED_FEATURES, SUPPORTED_YEARS } from '../meta';
 import './DisplaySelectors.module.scss';
 
+/**
+ * Selectors (i.e. dropdowns) to allow users to select what to display on maps/charts
+ *
+ * Customizations:
+ * - if `setMapType`, `setGeography`, `setYear` are not set then the associated dropdown
+ * is disabled
+ *
+ * Note:
+ * Maltreatment data is available at the county level.
+ * Demographic Features only has 2019 data
+ *
+ */
 function DisplaySelectors({
   mapType,
   geography,
@@ -28,11 +40,19 @@ function DisplaySelectors({
     }
     setMapType(event.target.value);
   };
+  const disableMapType = setMapType === null;
+  const disableGeography = mapType === 'maltreatment' || setGeography === null;
+  const disabledYear = mapType === 'observedFeatures' || setYear == null;
+
   return (
     <div styleName="root">
       <div styleName="control">
         <span styleName="label">Map</span>
-        <DropdownSelector value={mapType} onChange={changeMapType}>
+        <DropdownSelector
+          value={mapType}
+          disabled={disableMapType}
+          onChange={changeMapType}
+        >
           <optgroup label="Select Map">
             <option value="observedFeatures">Demographic Features</option>
             <option value="maltreatment">Maltreatment</option>
@@ -44,7 +64,7 @@ function DisplaySelectors({
         <DropdownSelector
           value={geography}
           onChange={event => setGeography(event.target.value)}
-          disabled={mapType === 'maltreatment'}
+          disabled={disableGeography}
         >
           <optgroup label="Select Areas">
             <option value="dfps_region">DFPS Regions</option>
@@ -87,7 +107,7 @@ function DisplaySelectors({
         <DropdownSelector
           value={year}
           onChange={event => setYear(event.target.value)}
-          disabled={mapType === 'observedFeatures'}
+          disabled={disabledYear}
         >
           <optgroup label="Select Timeframe" />
           {SUPPORTED_YEARS.map(y => (
@@ -107,11 +127,17 @@ DisplaySelectors.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-  setMapType: PropTypes.func.isRequired,
-  setGeography: PropTypes.func.isRequired,
+  setMapType: PropTypes.func,
+  setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
-  setYear: PropTypes.func.isRequired
+  setYear: PropTypes.func
+};
+
+DisplaySelectors.defaultProps = {
+  setMapType: null,
+  setGeography: null,
+  setYear: null
 };
 
 export default DisplaySelectors;
