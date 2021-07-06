@@ -328,7 +328,7 @@ function ConfigurableChart({
 
   // Set this to true to inspect the component data in a tabular view.
   // This will hide he chart rendering.
-  const debugState = true;
+  const debugState = false;
   const maltreatmentMeta = MALTREATMENT;
   const geoid = selectedGeographicFeature;
 
