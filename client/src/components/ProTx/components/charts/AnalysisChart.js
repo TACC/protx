@@ -12,8 +12,8 @@ function AnalysisChart({
   selectedGeographicFeature,
   data
 }) {
-  if (mapType === 'maltreatment' && maltreatmentTypes.length !== 0) {
-    if (selectedGeographicFeature) {
+  if (mapType === 'maltreatment') {
+    if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       return (
         <div className="analysis-chart">
           <ConfigurableChart
@@ -55,8 +55,8 @@ function AnalysisChart({
     );
   }
 
-  if (mapType === 'observedFeatures' && observedFeature) {
-    if (selectedGeographicFeature) {
+  if (mapType === 'observedFeatures') {
+    if (selectedGeographicFeature && observedFeature) {
       return (
         <div className="analysis-chart">
           <div className="analysis-chart-message">
