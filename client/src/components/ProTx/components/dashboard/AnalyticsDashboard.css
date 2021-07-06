@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
+
 :root {
   --max-height-header: 81vh;
   --max-height-no-header: 85.5vh;
