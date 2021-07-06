@@ -203,32 +203,6 @@ function MaltreatmentTypesPlot({
       <div className="maltreatment-types-plot-layout">
         <div className="maltreatment-types-plot-header">
           <div className="maltreatment-types-plot-info">
-            {/* <div className="maltreatment-types-plot-info-item">
-              <div className="maltreatment-types-plot-selected-map">
-                <span className="maltreatment-types-plot-selected-map-label">
-                  Map Type:{' '}
-                </span>
-                <span className="maltreatment-types-plot-selected-type-value">
-                  {mapTypeMaltreatment}
-                </span>
-              </div>
-              <div className="maltreatment-types-plot-selected-area">
-                <span className="maltreatment-types-plot-selected-area-label">
-                  Area:{' '}
-                </span>
-                <span className="maltreatment-types-plot-selected-type-value">
-                  {geographyMaltreatment}
-                </span>
-              </div>
-              <div className="maltreatment-types-plot-selected-year">
-                <span className="maltreatment-types-plot-selected-year-label">
-                  Year:{' '}
-                </span>
-                <span className="maltreatment-types-plot-selected-type-value">
-                  {yearMaltreatment}
-                </span>
-              </div>
-            </div> */}
             <div className="maltreatment-types-plot-info-item">
               <div className="maltreatment-types-plot-selected-region">
                 <span className="maltreatment-types-plot-selected-region-label">
