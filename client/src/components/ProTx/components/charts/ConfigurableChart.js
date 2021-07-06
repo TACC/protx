@@ -531,25 +531,15 @@ function ConfigurableChart({
     plotState
   );
 
-  if (debugState) {
-    // return <div className="configurable-chart">{debugInfo}</div>;
-    return (
-      <DebugPlot
-        className="plot-debug"
-        mapType={mapType}
-        geography={geography}
-        maltreatmentTypes={maltreatmentTypes}
-        observedFeature={observedFeature}
-        year={year}
-        selectedGeographicFeature={selectedGeographicFeature}
-        data={data}
-      />
-    );
-  }
-
-  if (mapType === 'maltreatment') {
-    return <div className="configurable-chart">{maltreatmentChartLayout}</div>;
-  }
+  const chart = renderChart(
+    debugState,
+    debugInfo,
+    showTempMessage,
+    tempMessage,
+    mapType,
+    maltreatmentChartLayout,
+    observedFeaturesChartLayout
+  );
 
   return chart;
 }
