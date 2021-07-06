@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Plot from 'react-plotly.js';
-// import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
-// import {
-//   getObservedFeatureValue,
-//   getMaltreatmentAggregatedValue,
-//   getMaltreatmentSelectedValues
-// } from '../util';
+import Plot from 'react-plotly.js';
+import { OBSERVED_FEATURES } from '../meta';
+import { getObservedFeatureValue } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
 // Set this to true to inspect the component data in a tabular view.
 // This will hide the chart rendering.
-const debugState = true;
+const debugState = false;
 
 function ObservedFeaturesPlot({
   mapType,
@@ -23,8 +19,208 @@ function ObservedFeaturesPlot({
   selectedGeographicFeature,
   data
 }) {
+  // Define Data Marshalling Methods.
+
+  const getObservedFeaturesNames = observedFeaturesCodes => {
+    const updatedObservedFeaturesList = [];
+    // if (observedFeaturesCodes.length === 0) {
+    //   return ['None'];
+    // }
+    // for (let i = 0; i < observedFeaturesCodes.length; i += 1) {
+    //   for (let j = 0; j < observedFeaturesMeta.length; j += 1) {
+    //     if (observedFeaturesCodes[i] === observedFeaturesMeta[j].field) {
+    //       updatedObservedFeaturesList.push(observedFeaturesMeta[j].name);
+    //     }
+    //   }
+    // }
+    return updatedObservedFeaturesList;
+  };
+
+  const getObservedFeaturesDataObject = (codeArray, nameArray, valueArray) => {
+    const newObservedFeaturesDataObject = [];
+    //   for (let i = 0; i < codeArray.length; i += 1) {
+    //     const dataObject = {};
+    //     dataObject.code = codeArray[i];
+    //     dataObject.name = nameArray[i];
+    //     dataObject.value = valueArray[i];
+    //     newMaltreatmentDataObject.push(dataObject);
+    //   }
+    return newObservedFeaturesDataObject;
+  };
+
+  // Variable Assignment Using Data Marshalling Methods.
+
+  const observedFeaturesMeta = OBSERVED_FEATURES;
+  const geoid = selectedGeographicFeature;
+
+  const observedFeaturesList = getObservedFeaturesNames(observedFeature);
+
+  // const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+  //   data,
+  //   geography,
+  //   year,
+  //   geoid,
+  //   maltreatmentTypes
+  // );
+
+  // const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+  //   data,
+  //   geography,
+  //   year,
+  //   geoid,
+  //   maltreatmentTypes
+  // );
+
+  const observedFeaturesDataObject = getObservedFeaturesDataObject();
+  //   maltreatmentTypes,
+  //   maltreatmentTypesList,
+  //   maltreatmentTypesDataValues
+
+  // Define Plotting Helper Methods.
+
+  const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
+    return {
+      y: [traceY],
+      x: [traceX],
+      name: traceName,
+      type: 'bar',
+      orientation: 'v',
+      marker: {
+        line: {
+          color: ['#111111'],
+          width: 1
+        },
+        color: [traceFillColor]
+      }
+    };
+  };
+
+  const getPlotDataVertBars = typesDataArray => {
+    const newPlotData = [];
+    for (let i = 0; i < typesDataArray.length; i += 1) {
+      const yData = typesDataArray[i].value;
+      const xData = typesDataArray[i].code;
+      const tName = typesDataArray[i].name;
+      const traceFillColor = plotCategoryColors[i];
+      const type = getBarVertTrace(yData, xData, tName, traceFillColor);
+      newPlotData.push(type);
+    }
+    return newPlotData;
+  };
+
+  // Assign Plot Variables.
+
+  const plotCategoryColors = [
+    '#4363d8',
+    '#911eb4',
+    '#bcf60c',
+    '#fabebe',
+    '#808000',
+    '#000075',
+    '#808080',
+    '#ffe119',
+    '#e6beff',
+    '#3cb44b',
+    '#aaffc3',
+    '#ffd8b1',
+    '#ffffff',
+    '#46f0f0',
+    '#f032e6',
+    '#008080',
+    '#000000',
+    '#e6194b',
+    '#9a6324',
+    '#fffac8',
+    '#f58231',
+    '#800000'
+  ];
+
+  const plotConfig = {
+    doubleClickDelay: 1000,
+    responsive: true,
+    displayModeBar: false,
+    modeBarButtonsToRemove: [],
+    displaylogo: false,
+    showEditInChartStudio: false
+  };
+
+  const plotLayout = {
+    autosize: true,
+    margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
+    xaxis: {
+      automargin: true,
+      tickangle: -90,
+      title: {
+        text: 'Observed Feature',
+        standoff: 20
+      }
+    },
+    yaxis: {
+      automargin: true,
+      tickangle: 0,
+      title: {
+        text: 'Total',
+        standoff: 20
+      }
+    },
+    annotations: []
+  };
+
+  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  // Define Element Rendering Methods.
+
+  const getObservedFeaturesChartLayout = (
+    mapTypeObservedFeatures,
+    observedFeatureObservedFeatures,
+    geographyObservedFeatures,
+    selectedGeographicFeatureObservedFeatures,
+    plotStateObservedFeatures
+  ) => {
+    return (
+      <div className="observed-features-plot-layout">
+        <div className="observed-features-plot-header">
+          <div className="observed-features-plot-info">
+            The {mapTypeObservedFeatures} plot (#demographic-features) for the
+            feature {observedFeatureObservedFeatures} in the{' '}
+            {geographyObservedFeatures} of{' '}
+            {selectedGeographicFeatureObservedFeatures} goes here.
+          </div>
+        </div>
+        <div className="observed-features-plot-chart-body">
+          <div className="observed-features-plot-chart-body-plot">
+            <Plot
+              data={plotStateObservedFeatures.data}
+              layout={plotStateObservedFeatures.layout}
+              config={plotStateObservedFeatures.config}
+              useResizeHandler
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Generate Elements Using Element Rendering Methods.
+
+  const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
+    mapType,
+    observedFeature,
+    geography,
+    selectedGeographicFeature,
+    plotState
+  );
+
+  // Render Component.
+
   if (debugState) {
-    // return <div className="configurable-chart">{debugInfo}</div>;
     return (
       <DebugPlot
         className="plot-debug"
@@ -40,10 +236,7 @@ function ObservedFeaturesPlot({
   }
 
   return (
-    <div className="analysis-chart-message">
-      The {mapType} plot (#demographic-features) for {observedFeature} in the{' '}
-      {geography} of {selectedGeographicFeature} goes here.
-    </div>
+    <div className="observed-features-plot">{observedFeaturesChartLayout}</div>
   );
 }
 

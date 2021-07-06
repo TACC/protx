@@ -1,62 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap'); */
 
 .configurable-chart {
   font-family: 'Open Sans Condensed', sans-serif;
 }
+
 .demographics-map {
   margin: 2vh 1vw;
 }
+
 .temp-message {
   text-align: center;
 }
-/* .maltreatment-map {} */
-.debug-info {
-  margin: 1rem;
-}
-.debug-info * {
-  font-family: 'Roboto', sans-serif;
-  line-height: 1.5rem;
-}
-.debug-data-table tr th,
-.debug-data-table tr td {
-  border: 1px solid hsl(0, 0%, 0%);
-  padding: 0.2vh 1vw;
-  text-align: center;
-}
-.debug-data-table tr th {
-  background: #dedede;
-}
-.debug-status {
-  font-weight: 700;
-  color: #772211;
-}
-.debug-header {
-  margin: 1vh 0;
-  font-weight: 600;
-}
+
 .chart-layout {
   margin: 1vh 1vw;
 }
-/* .chart-header {} */
+
 .chart-header hr {
   border-bottom: 1px solid #000000;
 }
 .chart-info {
   border-bottom: 1px solid #222222;
-  /* padding: 0 0 0.5vw; */
 }
 .chart-info-item {
   display: flex;
-  /* justify-content: left; */
   justify-content: space-between;
 }
+
 .chart-info-title,
 .chart-info-subtitle {
   color: #777777;
 }
-/* .chart-info-title,
-.chart-info-value {} */
-/* .chart-info-title {} */
+
 .chart-info-value {
   font-weight: 700;
   color: #000000;
@@ -67,6 +42,7 @@
 .chart-info-table tr td:last-child {
   font-weight: 700;
 }
+
 .selected-map,
 .selected-area,
 .selected-year {
@@ -104,8 +80,8 @@
   font-size: 3rem;
   font-weight: 900;
 }
+
 .chart-filters {
-  /* border-bottom: 1px solid #777777; */
   padding: 1vh 0;
   font-weight: 600;
   color: #777777;
@@ -114,11 +90,9 @@
   margin-top: 0.5vw;
   color: #000000;
 }
-/* .chart-body {} */
-/* .chart-body-plot {} */
+
 .chart-footer {
   margin: 0.5vh 0 0;
-  /* border-top: 1px solid #222222; */
   padding-top: 1vh;
   text-align: center;
   font-size: 0.8rem;
@@ -126,6 +100,7 @@
 .chart-summary:after {
   content: '\00a0 ';
 }
+
 .selected-type-value,
 .selected-type {
   font-weight: 600;

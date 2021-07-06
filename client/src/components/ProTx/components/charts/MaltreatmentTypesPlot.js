@@ -189,83 +189,93 @@ function MaltreatmentTypesPlot({
     plotStateMaltreatment
   ) => {
     return (
-      <div className="maltreatment-map">
-        <div className="chart-layout">
-          <div className="chart-header">
-            <div className="chart-info">
-              <div className="chart-info-item">
-                <div className="selected-map">
-                  <span className="selected-map-label">Map Type: </span>
-                  <span className="selected-type-value">
-                    {mapTypeMaltreatment}
-                  </span>
-                </div>
-                <div className="selected-area">
-                  <span className="selected-area-label">Area: </span>
-                  <span className="selected-type-value">
-                    {geographyMaltreatment}
-                  </span>
-                </div>
-                <div className="selected-year">
-                  <span className="selected-year-label">Year: </span>
-                  <span className="selected-type-value">
-                    {yearMaltreatment}
-                  </span>
-                </div>
+      <div className="maltreatment-types-plot-layout">
+        <div className="maltreatment-types-plot-header">
+          <div className="maltreatment-types-plot-info">
+            {/* <div className="maltreatment-types-plot-info-item">
+              <div className="maltreatment-types-plot-selected-map">
+                <span className="maltreatment-types-plot-selected-map-label">
+                  Map Type:{' '}
+                </span>
+                <span className="maltreatment-types-plot-selected-type-value">
+                  {mapTypeMaltreatment}
+                </span>
               </div>
-              <div className="chart-info-item">
-                <div className="selected-region">
-                  <span className="selected-region-label">
-                    Selected {geographyMaltreatment}
-                  </span>
-                  <span className="selected-region-value">
-                    {selectedGeographicFeatureMaltreatment}
-                  </span>
-                </div>
-                <div className="aggregated-count">
-                  <span className="aggregated-count-label">
-                    Aggregated Count
-                  </span>
-                  <span className="aggregated-count-value">
-                    {maltreatmentTypesDataAggregateMaltreatment}
-                  </span>
-                </div>
+              <div className="maltreatment-types-plot-selected-area">
+                <span className="maltreatment-types-plot-selected-area-label">
+                  Area:{' '}
+                </span>
+                <span className="maltreatment-types-plot-selected-type-value">
+                  {geographyMaltreatment}
+                </span>
               </div>
-            </div>
-            <div className="chart-filters">
-              Selected Maltreatment Types
-              <div className="chart-filters-list">
-                {maltreatmentTypesListMaltreatment.map(type => (
-                  <span className="selected-type" key={type}>
-                    {type}
-                  </span>
-                ))}
+              <div className="maltreatment-types-plot-selected-year">
+                <span className="maltreatment-types-plot-selected-year-label">
+                  Year:{' '}
+                </span>
+                <span className="maltreatment-types-plot-selected-type-value">
+                  {yearMaltreatment}
+                </span>
+              </div>
+            </div> */}
+            <div className="maltreatment-types-plot-info-item">
+              <div className="maltreatment-types-plot-selected-region">
+                <span className="maltreatment-types-plot-selected-region-label">
+                  Selected {geographyMaltreatment}
+                </span>
+                <span className="maltreatment-types-plot-selected-region-value">
+                  {selectedGeographicFeatureMaltreatment}
+                </span>
+              </div>
+              <div className="maltreatment-types-plot-aggregated-count">
+                <span className="maltreatment-types-plot-aggregated-count-label">
+                  Aggregated Count
+                </span>
+                <span className="maltreatment-types-plot-aggregated-count-value">
+                  {maltreatmentTypesDataAggregateMaltreatment}
+                </span>
               </div>
             </div>
           </div>
-          <div className="chart-body">
-            <div className="chart-body-plot">
-              <Plot
-                data={plotStateMaltreatment.data}
-                layout={plotStateMaltreatment.layout}
-                config={plotStateMaltreatment.config}
-                useResizeHandler
-                style={{ width: '100%', height: '100%' }}
-              />
+          <div className="maltreatment-types-plot-chart-filters">
+            Selected Maltreatment Types
+            <div className="maltreatment-types-plot-chart-filters-list">
+              {maltreatmentTypesListMaltreatment.map(type => (
+                <span
+                  className="maltreatment-types-plot-selected-type"
+                  key={type}
+                >
+                  {type}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="chart-footer">
-            <span className="chart-summary">
-              This chart was generated using {yearMaltreatment}{' '}
-              {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
-              {selectedGeographicFeatureMaltreatment} using the data type(s)
+        </div>
+        <div className="maltreatment-types-plot-chart-body">
+          <div className="maltreatment-types-plot-chart-body-plot">
+            <Plot
+              data={plotStateMaltreatment.data}
+              layout={plotStateMaltreatment.layout}
+              config={plotStateMaltreatment.config}
+              useResizeHandler
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
+        <div className="maltreatment-types-plot-chart-footer">
+          <span className="maltreatment-types-plot-chart-summary">
+            This chart was generated using {yearMaltreatment}{' '}
+            {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
+            {selectedGeographicFeatureMaltreatment} using the data type(s)
+          </span>
+          {maltreatmentTypesListMaltreatment.map(type => (
+            <span
+              className="maltreatment-types-plot-selected-type-summary"
+              key={type}
+            >
+              {type}
             </span>
-            {maltreatmentTypesListMaltreatment.map(type => (
-              <span className="selected-type-summary" key={type}>
-                {type}
-              </span>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     );
@@ -286,7 +296,6 @@ function MaltreatmentTypesPlot({
   // Render Component.
 
   if (debugState) {
-    // return <div className="configurable-chart">{debugInfo}</div>;
     return (
       <DebugPlot
         className="plot-debug"
