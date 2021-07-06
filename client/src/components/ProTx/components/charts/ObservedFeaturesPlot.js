@@ -139,10 +139,10 @@ function ObservedFeaturesPlot({
         <div className="observed-features-plot-header">
           <div className="observed-features-plot-info">
             <div className="observed-features-plot-placeholder-text">
-              The {mapTypeObservedFeatures}Plot for the selected feature{' '}
+              TARGET: {mapTypeObservedFeatures}Plot for the selected feature{' '}
               {observedFeatureObservedFeatures} in the{' '}
               {geographyObservedFeatures} of{' '}
-              {selectedGeographicFeatureObservedFeatures} goes here.
+              {selectedGeographicFeatureObservedFeatures}.
             </div>
           </div>
           <div className="observed-features-plot-info">

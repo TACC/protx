@@ -139,10 +139,10 @@ function PredictiveFeaturesPlot({
         <div className="predictive-features-plot-header">
           <div className="predictive-features-plot-info">
             <div className="predictive-features-plot-placeholder-text">
-              The predictiveFeaturesPlot for the selected feature{' '}
+              TARGET: predictiveFeaturesPlot for the selected feature{' '}
               {predictiveFeaturePredictiveFeatures} in the{' '}
               {geographyPredictiveFeatures} of{' '}
-              {selectedGeographicFeaturePredictiveFeatures} goes here.
+              {selectedGeographicFeaturePredictiveFeatures}.
             </div>
           </div>
           <div className="predictive-features-plot-info">
