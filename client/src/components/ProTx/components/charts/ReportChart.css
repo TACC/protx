@@ -32,7 +32,7 @@ sup {
   border: 1px solid #000000;
 }
 .feature-table-chart tr td:first-child {
-  padding-left: 1vw;
+  padding-left: 2vw;
   text-align: left;
 }
 .feature-table-chart-label {
