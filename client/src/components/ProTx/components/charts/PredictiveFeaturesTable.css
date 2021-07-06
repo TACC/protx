@@ -1,5 +1,5 @@
 .feature-table * {
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 .feature-table * {
   font-size: 0.8rem;
@@ -22,6 +22,7 @@ sup {
   background-color: #efefef;
 }
 .feature-table-chart tr th {
+  line-height: 2vh;
   background-color: #222222;
   color: #ffffff;
 }

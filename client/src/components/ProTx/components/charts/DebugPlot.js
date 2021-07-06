@@ -169,7 +169,7 @@ function DebugPlot({
 
   // Render Component.
 
-  return <div className="configurable-chart">{debugInfo}</div>;
+  return <div className="debug-plot">{debugInfo}</div>;
 }
 
 DebugPlot.propTypes = {
