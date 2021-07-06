@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MaltreatmentTypesPlot from './MaltreatmentTypesPlot';
+import ObservedFeaturesPlot from './ObservedFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
-import ConfigurableChart from './ConfigurableChart';
 import './AnalysisChart.css';
 
 function AnalysisChart({
@@ -38,8 +39,8 @@ function AnalysisChart({
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       return (
         <div className="analysis-chart">
-          <ConfigurableChart
-            className="maltreatment-plot"
+          <MaltreatmentTypesPlot
+            className="maltreatment-types-plot"
             mapType={mapType}
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
@@ -67,10 +68,16 @@ function AnalysisChart({
     if (selectedGeographicFeature && observedFeature) {
       return (
         <div className="analysis-chart">
-          <div className="analysis-chart-message">
-            The {mapType} plot (#demographic-features) for {observedFeature} in
-            the {geography} of {selectedGeographicFeature} goes here.
-          </div>
+          <ObservedFeaturesPlot
+            className="observed-features-plot"
+            mapType={mapType}
+            geography={geography}
+            maltreatmentTypes={maltreatmentTypes}
+            observedFeature={observedFeature}
+            year={year}
+            selectedGeographicFeature={selectedGeographicFeature}
+            data={data}
+          />
         </div>
       );
     }
