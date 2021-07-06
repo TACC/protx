@@ -1,17 +1,17 @@
 :root {
-    --max-height-header: 81vh;
-    --max-height-no-header: 85.5vh;
-    --map-width: 60vw;
-    --chart-width: 40vw;
+  --max-height-header: 81vh;
+  --max-height-no-header: 85.5vh;
+  --map-width: 50vw;
+  --chart-width: 50vw;
 }
 
 .analytics-dashboard-root-header {
-    --max-height: var(--max-height-header);
-    min-height: var(--max-height);
-    max-height: var(--max-height);
+  --max-height: var(--max-height-header);
+  min-height: var(--max-height);
+  max-height: var(--max-height);
 }
 .analytics-dashboard-root {
-    --max-height: var(--max-height-no-header);
-    min-height: var(--max-height);
-    max-height: var(--max-height);
+  --max-height: var(--max-height-no-header);
+  min-height: var(--max-height);
+  max-height: var(--max-height);
 }
