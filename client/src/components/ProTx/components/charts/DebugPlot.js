@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './ConfigurableChart.css';
-import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
+import { MALTREATMENT } from '../meta'; /* OBSERVED_FEATURES, */
 import {
   getObservedFeatureValue,
   getMaltreatmentAggregatedValue,
   getMaltreatmentSelectedValues
 } from '../util';
+import './DebugPlot.css';
+import './ConfigurableChart.css';
 
 function DebugPlot({
   mapType,
@@ -17,6 +18,8 @@ function DebugPlot({
   selectedGeographicFeature,
   data
 }) {
+  // Define Data Marshalling Methods.
+
   const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
     const updatedMaltreatmentTypesList = [];
     if (maltreatmentTypeCodes.length === 0) {
@@ -43,6 +46,45 @@ function DebugPlot({
     }
     return newMaltreatmentDataObject;
   };
+
+  // Variable Assignment Using Data Marshalling Methods.
+
+  const maltreatmentMeta = MALTREATMENT;
+  const geoid = selectedGeographicFeature;
+
+  const observedFeatureValue = getObservedFeatureValue(
+    data,
+    geography,
+    year,
+    geoid,
+    observedFeature
+  );
+
+  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+
+  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
+    maltreatmentTypes,
+    maltreatmentTypesList,
+    maltreatmentTypesDataValues
+  );
+
+  // Define Element Rendering Methods.
 
   const getSelectionDataList = (
     mapTypeDebug,
@@ -106,40 +148,7 @@ function DebugPlot({
     );
   };
 
-  const maltreatmentMeta = MALTREATMENT;
-  const geoid = selectedGeographicFeature;
-
-  const observedFeatureValue = getObservedFeatureValue(
-    data,
-    geography,
-    year,
-    geoid,
-    observedFeature
-  );
-
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
-
-  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
-    maltreatmentTypes,
-    maltreatmentTypesList,
-    maltreatmentTypesDataValues
-  );
+  // Generate Elements Using Element Rendering Methods.
 
   const selectionDataList = getSelectionDataList(
     mapType,
@@ -157,6 +166,8 @@ function DebugPlot({
   );
 
   const debugInfo = getDebugInfo(selectionDataList, maltreatmentDataTable);
+
+  // Render Component.
 
   return <div className="configurable-chart">{debugInfo}</div>;
 }

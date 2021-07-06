@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Plot from 'react-plotly.js';
-import './PredictiveFeaturesPlot.css';
+// import Plot from 'react-plotly.js';
+// import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
+// import {
+//   getObservedFeatureValue,
+//   getMaltreatmentAggregatedValue,
+//   getMaltreatmentSelectedValues
+// } from '../util';
 import DebugPlot from './DebugPlot';
-import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
-import {
-  getObservedFeatureValue,
-  getMaltreatmentAggregatedValue,
-  getMaltreatmentSelectedValues
-} from '../util';
+import './PredictiveFeaturesPlot.css';
 
 // Set this to true to inspect the component data in a tabular view.
-// This will hide he chart rendering.
+// This will hide the chart rendering.
 const debugState = true;
 
 function PredictiveFeaturesPlot({
