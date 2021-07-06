@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
+import DebugPlot from './DebugPlot';
 import './ConfigurableChart.css';
 import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
 import {
@@ -29,7 +30,7 @@ function ConfigurableChart({
   selectedGeographicFeature,
   data
 }) {
-  const getMaltreatmentTypeNames = (maltreatmentTypeCodes) => {
+  const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
     const updatedMaltreatmentTypesList = [];
     if (maltreatmentTypeCodes.length === 0) {
       return ['None'];
@@ -73,7 +74,7 @@ function ConfigurableChart({
     };
   };
 
-  const getPlotDataVertBars = (typesDataArray) => {
+  const getPlotDataVertBars = typesDataArray => {
     const newPlotData = [];
     for (let i = 0; i < typesDataArray.length; i += 1) {
       const yData = typesDataArray[i].value;
@@ -86,7 +87,7 @@ function ConfigurableChart({
     return newPlotData;
   };
 
-  const getMaltreatmentDataTable = (maltreatmentTypesDataObjectDebug) => {
+  const getMaltreatmentDataTable = maltreatmentTypesDataObjectDebug => {
     return (
       <table className="debug-data-table">
         <tr>
@@ -94,7 +95,7 @@ function ConfigurableChart({
           <th>type name</th>
           <th>type value</th>
         </tr>
-        {maltreatmentTypesDataObjectDebug.map((maltreatmentTypeData) => (
+        {maltreatmentTypesDataObjectDebug.map(maltreatmentTypeData => (
           <tr>
             <td>{maltreatmentTypeData.code}</td>
             <td>{maltreatmentTypeData.name}</td>
@@ -105,7 +106,7 @@ function ConfigurableChart({
     );
   };
 
-  const getSelectionData = (
+  const getSelectionDataList = (
     mapTypeDebug,
     geographyDebug,
     yearDebug,
@@ -211,7 +212,7 @@ function ConfigurableChart({
             <div className="chart-filters">
               Selected Maltreatment Types
               <div className="chart-filters-list">
-                {maltreatmentTypesList.map((type) => (
+                {maltreatmentTypesList.map(type => (
                   <span className="selected-type" key={type}>
                     {type}
                   </span>
@@ -236,7 +237,7 @@ function ConfigurableChart({
                 This chart is generated using {year} {mapType} data for{' '}
                 {geography} {selectedGeographicFeature} using the data type(s)
               </span>
-              {maltreatmentTypesList.map((type) => (
+              {maltreatmentTypesList.map(type => (
                 <span className="selected-type-summary" key={type}>
                   {type}
                 </span>
@@ -306,7 +307,7 @@ function ConfigurableChart({
                 Selected Maltreatment Types
               </div>
               <div className="chart-filters-list">
-                {maltreatmentTypesListMaltreatment.map((type) => (
+                {maltreatmentTypesListMaltreatment.map(type => (
                   <span className="selected-type-filter" key={type}>
                     {type}
                   </span>
@@ -331,7 +332,7 @@ function ConfigurableChart({
               {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
               {selectedGeographicFeatureMaltreatment} using the data type(s)
             </span>
-            {maltreatmentTypesListMaltreatment.map((type) => (
+            {maltreatmentTypesListMaltreatment.map(type => (
               <span className="selected-type-summary" key={type}>
                 {type}
               </span>
@@ -416,7 +417,7 @@ function ConfigurableChart({
     maltreatmentTypesDataValues
   );
 
-  const selectionData = getSelectionData(
+  const selectionDataList = getSelectionDataList(
     mapType,
     geography,
     year,
@@ -431,7 +432,7 @@ function ConfigurableChart({
     maltreatmentTypesDataObject
   );
 
-  const debugInfo = getDebugInfo(selectionData, maltreatmentDataTable);
+  const debugInfo = getDebugInfo(selectionDataList, maltreatmentDataTable);
 
   const tempMessage = getTempMessage(
     mapType,

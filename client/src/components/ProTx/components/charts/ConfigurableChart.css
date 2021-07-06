@@ -24,7 +24,7 @@
 .chart-layout {
   margin: 1vh 1vw;
 }
-/* .chart-header {} */
+
 .chart-header hr {
   border-bottom: 1px solid #000000;
 }
@@ -35,16 +35,15 @@
 .chart-info-item {
   display: flex;
   /* justify-content: left; */
-  justify-content:space-between; 
+  justify-content: space-between;
   border-bottom: 1px solid #aaaaaa;
 }
+
 .chart-info-title,
 .chart-info-subtitle {
   color: #777777;
 }
-/* .chart-info-title,
-.chart-info-value {} */
-/* .chart-info-title {} */
+
 .chart-info-value {
   font-weight: 700;
   color: #000000;
@@ -75,7 +74,6 @@
 }
 .selected-region,
 .aggregated-count {
-  /* height: 5rem; */
   display: inline;
   margin: 0.5vh 0.5vw;
   text-align: center;
@@ -98,8 +96,8 @@
   font-size: 3rem;
   font-weight: 900;
 }
+
 .chart-filters {
-  /* border-bottom: 1px solid #777777; */
   padding: 1vh 0;
   color: #555555;
 }
@@ -127,6 +125,7 @@
 .chart-summary:after {
   content: '\00a0 ';
 }
+
 .selected-type-value,
 .selected-type {
   font-weight: 600;

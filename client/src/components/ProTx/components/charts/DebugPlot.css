@@ -1,0 +1,31 @@
+.debug-plot {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.debug-info {
+  margin: 1rem;
+}
+.debug-info * {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5rem;
+}
+.debug-data-table tr:nth-child(odd) {
+  background-color: #efefef;
+}
+.debug-data-table tr th,
+.debug-data-table tr td {
+  border: 1px solid hsl(0, 0%, 0%);
+  padding: 0.2vh 1vw;
+  text-align: center;
+}
+.debug-data-table tr th {
+  background-color: #222222;
+  color: #ffffff;
+}
+.debug-status {
+  font-weight: 700;
+  color: #772211;
+}
+.debug-header {
+  margin: 1vh 0;
+  font-weight: 600;
+}
