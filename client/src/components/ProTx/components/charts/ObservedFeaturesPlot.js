@@ -6,6 +6,18 @@ import { getObservedFeatureValue } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
+/**
+ * TODO: Finish defining the method getObservedFeaturesNames() to return label value for a given feature code. Ideally iterate over an array so it can be used to get the values of the selected set of identifiers. Will require some additional work in the utils.js module as well.
+ *
+ * TODO: Finish defining the method getObservedFeaturesDataObject() to create the individual data elements used in the plot trace.
+ *
+ * TODO:  Finish defining the methods needed to marshall the data object for the plot.
+ *
+ * TODO: Verify that Debug still works correctly.
+ *
+ * TODO: Make sure arguments are in the correct order for all component signatures and methods!
+ */
+
 // Set this to true to inspect the component data in a tabular view.
 // This will hide the chart rendering.
 const debugState = false;
@@ -55,15 +67,15 @@ function ObservedFeaturesPlot({
 
   const observedFeaturesList = getObservedFeaturesNames(observedFeature);
 
-  // const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+  // const observedFeaturesDataValue = getObservedFeaturesValue(
   //   data,
   //   geography,
   //   year,
   //   geoid,
-  //   maltreatmentTypes
+  //   observedFeature
   // );
 
-  // const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+  // const observedFeaturesAggregate = geObservedFeaturesAggregatedValue(
   //   data,
   //   geography,
   //   year,
@@ -72,9 +84,9 @@ function ObservedFeaturesPlot({
   // );
 
   const observedFeaturesDataObject = getObservedFeaturesDataObject();
-  //   maltreatmentTypes,
-  //   maltreatmentTypesList,
-  //   maltreatmentTypesDataValues
+  // maltreatmentTypes,
+  // maltreatmentTypesList,
+  // observedFeaturesDataValues
 
   // Define Plotting Helper Methods.
 
@@ -195,13 +207,13 @@ function ObservedFeaturesPlot({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            <Plot
+            {/* <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
               style={{ width: '100%', height: '100%' }}
-            />
+            /> */}
           </div>
         </div>
       </div>
