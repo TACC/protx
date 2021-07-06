@@ -40,11 +40,9 @@ function AnalysisChart({
       return (
         <div className="analysis-chart">
           <MaltreatmentTypesPlot
-            className="maltreatment-types-plot"
             mapType={mapType}
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
-            observedFeature={observedFeature}
             year={year}
             selectedGeographicFeature={selectedGeographicFeature}
             data={data}
@@ -69,7 +67,6 @@ function AnalysisChart({
       return (
         <div className="analysis-chart">
           <ObservedFeaturesPlot
-            className="observed-features-plot"
             mapType={mapType}
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
