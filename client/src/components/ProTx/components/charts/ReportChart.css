@@ -10,6 +10,7 @@
 }
 sup {
   font-style: italic;
+  font-weight: 700;
 }
 .feature-table-chart {
   margin: 1vh 1vw;
@@ -25,7 +26,9 @@ sup {
   background-color: #efefef;
 }
 .feature-table-chart tr th {
-  background-color: #efefff;
+  /* background-color: #efefff; */
+  background-color: #222222;
+  color: #ffffff;
   border: 1px solid #000000;
 }
 .feature-table-chart tr td:first-child {
