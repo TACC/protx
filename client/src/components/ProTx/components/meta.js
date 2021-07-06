@@ -90,7 +90,33 @@ export const OBSERVED_FEATURES = [
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_MINRTY', name: 'Estimated minority population' }
+  { field: 'E_MINRTY', name: 'Estimated minority population' },
+  {
+    field: `E_FOREIGN_BORN`,
+    name: `Estimated foreign born population`
+  },
+  {
+    field: `E_FOREIGN_BORN_P`,
+    name: `Estimated percent foreign born population`,
+    valueType: 'percent',
+    valueTypeLabel: 'Percent'
+  },
+  {
+    field: `E_RENTER_OCCUPIED_HOUSING_UNITS`,
+    name: `Estimated renter-occupied housing units`
+  },
+  {
+    field: `E_RENTER_OCCUPIED_HOUSING_UNITS_P`,
+    name: `Estimated percent renter-occupied housing units`,
+    valueType: 'percent',
+    valueTypeLabel: 'Percent'
+  },
+  {
+    field: `E_MEDIAN_GROSS_RENT_P`,
+    name: `Estimated median gross rent as a percentage of household income`,
+    valueType: 'percent',
+    valueTypeLabel: 'Percent'
+  }
 ];
 
 export const MALTREATMENT = [
