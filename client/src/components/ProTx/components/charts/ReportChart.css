@@ -19,12 +19,24 @@ sup {
 .feature-table-chart tr td {
   border-bottom: 1px solid #000000;
   padding: 0.5vh 0.2vw;
+  text-align: center;
+}
+.feature-table-chart tr:nth-child(odd) {
+  background-color: #efefef;
+}
+.feature-table-chart tr th {
+  background-color: #efefff;
+  border: 1px solid #000000;
+}
+.feature-table-chart tr td:first-child {
+  padding-left: 1vw;
+  text-align: left;
 }
 .feature-table-chart-label {
-  width: 36%;
+  width: 37%;
 }
 .feature-table-chart-cell {
-  width: 16%;
+  width: 12%;
 }
 .feature-table-info * {
   font-weight: 400;
