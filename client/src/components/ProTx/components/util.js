@@ -186,6 +186,9 @@ export function getMaltreatmentSelectedValues(
 
 /**
  * Get style for feature
+ *
+ * If no value exists, then we return a transparent feature style if no value exists)
+ *
  * @param {String} map type
  * @param {Object} data
  * @param {Object} metaData
@@ -194,7 +197,7 @@ export function getMaltreatmentSelectedValues(
  * @param {Number} geoid
  * @param {String} observedFeature
  * @param Array<{String}> maltreatmentTypes
- * @returns {Number} value (null if no value exists)
+ * @returns {fillColor: string, fillOpacity: number, fill: boolean, stroke: boolean} style
  */
 export function getFeatureStyle(
   mapType,
@@ -230,11 +233,20 @@ export function getFeatureStyle(
       fillColor = getColor(featureValue, metaData.min, metaData.max);
     }
   }
+  if (fillColor) {
+    return {
+      fillColor,
+      fill: true,
+      stroke: false,
+      fillOpacity: 0.5
+    };
+  }
+  // if no color/data, we return a completely transparent style in order
+  // to allow for feature selection.
   return {
-    fillColor,
-    fill: fillColor,
+    fillColor: 'black',
+    fill: true,
     stroke: false,
-    opacity: 1,
-    fillOpacity: 0.5
+    fillOpacity: 0.0
   };
 }
