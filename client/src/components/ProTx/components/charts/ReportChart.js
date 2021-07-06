@@ -16,7 +16,7 @@ function ReportChart({
 }) {
   const reportDropdownInstructions = [
     'Map is restricted to Demographic Features.',
-    'Select an Area.',
+    'Map is restricted to the County Area.',
     'Select a Demographic Feature.',
     'TimeFrame is restricted to most recent census data (2019).'
   ];
