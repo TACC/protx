@@ -9,8 +9,18 @@ import {
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
+/**
+ * TODOS FOR ALL PLOT COMPONENTS.
+ *
+ * TODO: Refactor debug state to be a property of the component.
+ *   - Default to false, pass in with component usage in parent.
+ * TODO: Refactor colorScales assignment out into utils.
+ *   - Will be used by other components.
+ * TODO: Investigate moving plot configuration generation code into  utils.
+ *   - Used across multiple components, refactor into library.
+ */
+
 // Set this to true to inspect the component data in a tabular view.
-// This will hide the chart rendering.
 const debugState = false;
 
 function MaltreatmentTypesPlot({

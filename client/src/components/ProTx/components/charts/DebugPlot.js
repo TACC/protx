@@ -7,7 +7,11 @@ import {
   getMaltreatmentSelectedValues
 } from '../util';
 import './DebugPlot.css';
-// import './ConfigurableChart.css';
+
+/**
+ * TODO: Refactor the DebugPlot component to be dumb.
+ * Pass in the data to render from the chart, dont regenerate it.
+ */
 
 function DebugPlot({
   mapType,

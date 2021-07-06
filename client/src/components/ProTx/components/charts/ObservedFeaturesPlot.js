@@ -13,13 +13,11 @@ import './ObservedFeaturesPlot.css';
  *
  * TODO:  Finish defining the methods needed to marshall the data object for the plot.
  *
- * TODO: Verify that Debug still works correctly.
- *
- * TODO: Make sure arguments are in the correct order for all component signatures and methods!
+ * TODO: Refactor debug state to be a property of the component.
+ *   - Default to false, pass in with component usage in parent.
  */
 
 // Set this to true to inspect the component data in a tabular view.
-// This will hide the chart rendering.
 const debugState = false;
 
 function ObservedFeaturesPlot({

@@ -10,8 +10,13 @@ import PropTypes from 'prop-types';
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
+/**
+ * TODO: Refactor debug state to be a property of the component.
+ *   - Default to false, pass in with component usage in parent.
+ */
+
 // Set this to true to inspect the component data in a tabular view.
-// This will hide the chart rendering.
+
 const debugState = false;
 
 function PredictiveFeaturesPlot({
@@ -77,7 +82,6 @@ function PredictiveFeaturesPlot({
   // Render Component.
 
   if (debugState) {
-    // return <div className="configurable-chart">{debugInfo}</div>;
     return (
       <DebugPlot
         className="plot-debug"
@@ -93,7 +97,6 @@ function PredictiveFeaturesPlot({
   }
 
   return (
-    // <div>PredictiveFeaturesPlot from ConfigurableChart refactor.</div>
     <div className="predictive-features-plot">
       {predictiveFeaturesChartLayout}
     </div>
