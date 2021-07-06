@@ -24,7 +24,6 @@ sup {
 .feature-table-chart tr th {
   background-color: #222222;
   color: #ffffff;
-  border: 1px solid #000000;
 }
 .feature-table-chart tr td:first-child {
   padding-left: 2vw;

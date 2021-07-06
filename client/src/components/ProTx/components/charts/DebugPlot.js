@@ -7,7 +7,7 @@ import {
   getMaltreatmentSelectedValues
 } from '../util';
 import './DebugPlot.css';
-import './ConfigurableChart.css';
+// import './ConfigurableChart.css';
 
 function DebugPlot({
   mapType,
@@ -140,7 +140,7 @@ function DebugPlot({
       <div className="configurable-chart">
         <div className="debug-info">
           <div className="debug-status">DEBUGGING MODE ACTIVE</div>
-          <div className="debug-header">ConfigurableChart Component Data</div>
+          <div className="debug-header">Chart Component Data</div>
           {selectionDataDebug}
           {maltreatmentDataTableDebug}
         </div>
