@@ -1,36 +1,42 @@
 .rmsc {
-    --rmsc-h: 20px !important; /* Height */
-    --rmsc-radius: 0 !important;
-    width: 270px;
-    font-style: italic;
-    font-size: 0.75rem;
+  --rmsc-h: 20px !important; /* Height */
+  --rmsc-radius: 0 !important;
+  width: 270px;
+  font-style: italic;
+  font-size: 0.75rem;
 }
 .rmsc .dropdown-heading {
-    --rmsc-h: 20px; /* Height */
+  --rmsc-h: 20px; /* Height */
 }
 .rmsc .dropdown-container .dropdown-content {
-    z-index: 9999;
+  z-index: 9999;
 }
 .rmsc .dropdown-container .dropdown-content .panel-content {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 .rmsc .dropdown-container .dropdown-content * {
-    color: #fff;
-    background: #111;
+  color: #fff;
+  background: #111;
 }
 .rmsc .dropdown-content .panel-content {
-    --rmsc-bgdd: var(--global-color-primary--dark) !important;
-    color: var(--global-color-accent--normal) !important;
+  --rmsc-bgdd: var(--global-color-primary--dark) !important;
+  color: var(--global-color-accent--normal) !important;
 }
 .dropdown-heading-value {
-    color: var(--global-color-accent--normal);
+  color: var(--global-color-accent--normal);
 }
 .select-item {
-    height: 1rem;
+  height: 1rem;
 }
-.item-renderer{
-    font-style: normal;
-    font-weight: normal;
-    color: var(--global-color-primary--dark) !important;
+.item-renderer {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--global-color-primary--dark) !important;
+}
+/* This will hide the weird highlighting in the component. */
+.rmsc .dropdown-content .panel-content .select-item,
+.rmsc .dropdown-content .panel-content .select-item .label,
+.rmsc .dropdown-content .panel-content *:hover {
+  background-color: #111111 !important;
 }
