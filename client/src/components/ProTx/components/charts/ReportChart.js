@@ -18,7 +18,7 @@ function ReportChart({
     'Map is restricted to Demographic Features.',
     'Select an Area.',
     'Select a Demographic Feature.',
-    'TimeFrame is restricted to the last census count from 2019.'
+    'TimeFrame is restricted to most recent census data (2019).'
   ];
   const reportMapInstructions = ['Select a Geographic Region.'];
   const reportShowDescription = false;
