@@ -36,6 +36,7 @@
 }
 /* This will hide the weird highlighting in the component. */
 .rmsc .dropdown-content .panel-content .select-item,
+.rmsc .dropdown-content .panel-content .select-item .label,
 .rmsc .dropdown-content .panel-content *:hover {
-  background-color: #222222 !important;
+  background-color: #111111 !important;
 }
