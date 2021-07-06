@@ -1,0 +1,17 @@
+.predictive-features-plot {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.predictive-features-plot-layout {
+  margin: 1vh 1vw;
+}
+.predictive-features-plot-header {
+}
+.predictive-features-plot-info {
+  /* border-bottom: 1px solid #222222; */
+}
+.predictive-features-plot-placeholder-text {
+  font-weight: 600;
+}
+.predictive-features-plot-placeholder-emphasis {
+  color: #772211;
+}

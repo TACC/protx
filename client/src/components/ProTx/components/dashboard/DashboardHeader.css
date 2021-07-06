@@ -2,9 +2,10 @@
     background-color: #fff387;
     color: #000000;
     font-size: 1rem;
+    line-height: 1vh;
     text-align: center;
     border-top: 1px solid #777777;
     border-bottom: 1px solid #777777;
     margin: 0;
-    padding: 10px 0 0 0;
+    padding: 1.5vh 0 0 0;
 }

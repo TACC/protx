@@ -1,0 +1,17 @@
+.observed-features-plot {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.observed-features-plot-layout {
+  margin: 1vh 1vw;
+}
+.observed-features-plot-header {
+}
+.observed-features-plot-info {
+  /* border-bottom: 1px solid #222222; */
+}
+.observed-features-plot-placeholder-text {
+  font-weight: 600;
+}
+.observed-features-plot-placeholder-emphasis {
+  color: #772211;
+}

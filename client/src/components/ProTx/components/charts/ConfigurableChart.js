@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
+import DebugPlot from './DebugPlot';
 import './ConfigurableChart.css';
 import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
 import {
@@ -103,7 +104,7 @@ function ConfigurableChart({
     );
   };
 
-  const getSelectionData = (
+  const getSelectionDataList = (
     mapTypeDebug,
     geographyDebug,
     yearDebug,
@@ -364,7 +365,7 @@ function ConfigurableChart({
     maltreatmentTypesDataValues
   );
 
-  const selectionData = getSelectionData(
+  const selectionDataList = getSelectionDataList(
     mapType,
     geography,
     year,
@@ -379,7 +380,7 @@ function ConfigurableChart({
     maltreatmentTypesDataObject
   );
 
-  const debugInfo = getDebugInfo(selectionData, maltreatmentDataTable);
+  const debugInfo = getDebugInfo(selectionDataList, maltreatmentDataTable);
 
   // Generate a random color scale for the categories of maltreatment.
   // const traceFillColors = getColorScales(11);
@@ -476,7 +477,19 @@ function ConfigurableChart({
   );
 
   if (debugState) {
-    return <div className="configurable-chart">{debugInfo}</div>;
+    // return <div className="configurable-chart">{debugInfo}</div>;
+    return (
+      <DebugPlot
+        className="plot-debug"
+        mapType={mapType}
+        geography={geography}
+        maltreatmentTypes={maltreatmentTypes}
+        observedFeature={observedFeature}
+        year={year}
+        selectedGeographicFeature={selectedGeographicFeature}
+        data={data}
+      />
+    );
   }
 
   if (mapType === 'maltreatment') {

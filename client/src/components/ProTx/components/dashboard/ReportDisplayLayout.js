@@ -2,13 +2,16 @@ import React from 'react';
 import './ReportDisplayLayout.css';
 import PropTypes from 'prop-types';
 import MainMap from '../maps/MainMap';
+import ReportChart from '../charts/ReportChart';
 
 function ReportDisplayLayout({
   mapType,
   geography,
   maltreatmentTypes,
   observedFeature,
-  year, // eslint-disable-next-line
+  year,
+  selectedGeographicFeature,
+  // eslint-disable-next-line
   setSelectedGeographicFeature,
   data
 }) {
@@ -25,7 +28,17 @@ function ReportDisplayLayout({
           setSelectedGeographicFeature={setSelectedGeographicFeature}
         />
       </div>
-      <div className="display-layout-chart">Placeholder for report</div>
+      <div className="display-layout-chart">
+        <ReportChart
+          mapType={mapType}
+          geography={geography}
+          maltreatmentTypes={maltreatmentTypes}
+          observedFeature={observedFeature}
+          year={year}
+          selectedGeographicFeature={selectedGeographicFeature}
+          data={data}
+        />
+      </div>
     </div>
   );
 }
@@ -36,6 +49,7 @@ ReportDisplayLayout.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  selectedGeographicFeature: PropTypes.string.isRequired,
   setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
