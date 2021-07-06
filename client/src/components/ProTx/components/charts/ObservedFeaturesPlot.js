@@ -1,21 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Plot from 'react-plotly.js';
-// import { OBSERVED_FEATURES } from '../meta';
-// import { getObservedFeatureValue } from '../util';
+import Plot from 'react-plotly.js';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
-
-/**
- * TODO: Finish defining the method getObservedFeaturesNames() to return label value for a given feature code. Ideally iterate over an array so it can be used to get the values of the selected set of identifiers. Will require some additional work in the utils.js module as well.
- *
- * TODO: Finish defining the method getObservedFeaturesDataObject() to create the individual data elements used in the plot trace.
- *
- * TODO:  Finish defining the methods needed to marshall the data object for the plot.
- *
- * TODO: Refactor debug state to be a property of the component.
- *   - Default to false, pass in with component usage in parent.
- */
 
 // Set this to true to inspect the component data in a tabular view.
 const debugState = false;
@@ -31,60 +18,14 @@ function ObservedFeaturesPlot({
 }) {
   // Define Data Marshalling Methods.
 
-  // const getObservedFeaturesNames = observedFeaturesCodes => {
-  //   const updatedObservedFeaturesList = [];
-  //   // if (observedFeaturesCodes.length === 0) {
-  //   //   return ['None'];
-  //   // }
-  //   // for (let i = 0; i < observedFeaturesCodes.length; i += 1) {
-  //   //   for (let j = 0; j < observedFeaturesMeta.length; j += 1) {
-  //   //     if (observedFeaturesCodes[i] === observedFeaturesMeta[j].field) {
-  //   //       updatedObservedFeaturesList.push(observedFeaturesMeta[j].name);
-  //   //     }
-  //   //   }
-  //   // }
-  //   return updatedObservedFeaturesList;
-  // };
-
-  const getObservedFeaturesDataObject = (codeArray, nameArray, valueArray) => {
+  const getObservedFeaturesDataObject = () => {
     const newObservedFeaturesDataObject = [];
-    //   for (let i = 0; i < codeArray.length; i += 1) {
-    //     const dataObject = {};
-    //     dataObject.code = codeArray[i];
-    //     dataObject.name = nameArray[i];
-    //     dataObject.value = valueArray[i];
-    //     newMaltreatmentDataObject.push(dataObject);
-    //   }
     return newObservedFeaturesDataObject;
   };
 
   // Variable Assignment Using Data Marshalling Methods.
 
-  // const observedFeaturesMeta = OBSERVED_FEATURES;
-  // const geoid = selectedGeographicFeature;
-
-  // const observedFeaturesList = getObservedFeaturesNames(observedFeature);
-
-  // const observedFeaturesDataValue = getObservedFeaturesValue(
-  //   data,
-  //   geography,
-  //   year,
-  //   geoid,
-  //   observedFeature
-  // );
-
-  // const observedFeaturesAggregate = geObservedFeaturesAggregatedValue(
-  //   data,
-  //   geography,
-  //   year,
-  //   geoid,
-  //   maltreatmentTypes
-  // );
-
   const observedFeaturesDataObject = getObservedFeaturesDataObject();
-  // maltreatmentTypes,
-  // maltreatmentTypesList,
-  // observedFeaturesDataValues
 
   // Define Plotting Helper Methods.
 
@@ -212,13 +153,13 @@ function ObservedFeaturesPlot({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            {/* <Plot
+            <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
               style={{ width: '100%', height: '100%' }}
-            /> */}
+            />
           </div>
         </div>
       </div>
