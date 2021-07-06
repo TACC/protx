@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Plot from 'react-plotly.js';
-import { OBSERVED_FEATURES } from '../meta';
-import { getObservedFeatureValue } from '../util';
+// import Plot from 'react-plotly.js';
+// import { OBSERVED_FEATURES } from '../meta';
+// import { getObservedFeatureValue } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
@@ -33,20 +33,20 @@ function ObservedFeaturesPlot({
 }) {
   // Define Data Marshalling Methods.
 
-  const getObservedFeaturesNames = observedFeaturesCodes => {
-    const updatedObservedFeaturesList = [];
-    // if (observedFeaturesCodes.length === 0) {
-    //   return ['None'];
-    // }
-    // for (let i = 0; i < observedFeaturesCodes.length; i += 1) {
-    //   for (let j = 0; j < observedFeaturesMeta.length; j += 1) {
-    //     if (observedFeaturesCodes[i] === observedFeaturesMeta[j].field) {
-    //       updatedObservedFeaturesList.push(observedFeaturesMeta[j].name);
-    //     }
-    //   }
-    // }
-    return updatedObservedFeaturesList;
-  };
+  // const getObservedFeaturesNames = observedFeaturesCodes => {
+  //   const updatedObservedFeaturesList = [];
+  //   // if (observedFeaturesCodes.length === 0) {
+  //   //   return ['None'];
+  //   // }
+  //   // for (let i = 0; i < observedFeaturesCodes.length; i += 1) {
+  //   //   for (let j = 0; j < observedFeaturesMeta.length; j += 1) {
+  //   //     if (observedFeaturesCodes[i] === observedFeaturesMeta[j].field) {
+  //   //       updatedObservedFeaturesList.push(observedFeaturesMeta[j].name);
+  //   //     }
+  //   //   }
+  //   // }
+  //   return updatedObservedFeaturesList;
+  // };
 
   const getObservedFeaturesDataObject = (codeArray, nameArray, valueArray) => {
     const newObservedFeaturesDataObject = [];
@@ -62,10 +62,10 @@ function ObservedFeaturesPlot({
 
   // Variable Assignment Using Data Marshalling Methods.
 
-  const observedFeaturesMeta = OBSERVED_FEATURES;
-  const geoid = selectedGeographicFeature;
+  // const observedFeaturesMeta = OBSERVED_FEATURES;
+  // const geoid = selectedGeographicFeature;
 
-  const observedFeaturesList = getObservedFeaturesNames(observedFeature);
+  // const observedFeaturesList = getObservedFeaturesNames(observedFeature);
 
   // const observedFeaturesDataValue = getObservedFeaturesValue(
   //   data,
