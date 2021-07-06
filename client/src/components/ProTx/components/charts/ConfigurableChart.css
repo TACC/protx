@@ -28,7 +28,7 @@
 }
 .debug-status {
   font-weight: 700;
-  color: #900;
+  color: #772211;
 }
 .debug-header {
   margin: 1vh 0;
@@ -80,10 +80,8 @@
   font-weight: 600;
   color: #777777;
 }
-
 .selected-region,
 .aggregated-count {
-  /* height: 5rem; */
   display: inline;
   margin: 0.5vh 0.5vw;
   text-align: center;
