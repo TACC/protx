@@ -28,7 +28,7 @@ function ConfigurableChart({
   selectedGeographicFeature,
   data
 }) {
-  const getMaltreatmentTypeNames = (maltreatmentTypeCodes) => {
+  const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
     const updatedMaltreatmentTypesList = [];
     if (maltreatmentTypeCodes.length === 0) {
       return ['None'];
@@ -72,7 +72,7 @@ function ConfigurableChart({
     };
   };
 
-  const getPlotDataVertBars = (typesDataArray) => {
+  const getPlotDataVertBars = typesDataArray => {
     const newPlotData = [];
     for (let i = 0; i < typesDataArray.length; i += 1) {
       const yData = typesDataArray[i].value;
@@ -85,7 +85,7 @@ function ConfigurableChart({
     return newPlotData;
   };
 
-  const getMaltreatmentDataTable = (maltreatmentTypesDataObjectDebug) => {
+  const getMaltreatmentDataTable = maltreatmentTypesDataObjectDebug => {
     return (
       <table className="debug-data-table">
         <tr>
@@ -93,7 +93,7 @@ function ConfigurableChart({
           <th>type name</th>
           <th>type value</th>
         </tr>
-        {maltreatmentTypesDataObjectDebug.map((maltreatmentTypeData) => (
+        {maltreatmentTypesDataObjectDebug.map(maltreatmentTypeData => (
           <tr>
             <td>{maltreatmentTypeData.code}</td>
             <td>{maltreatmentTypeData.name}</td>
@@ -291,7 +291,7 @@ function ConfigurableChart({
             <div className="chart-filters">
               Selected Maltreatment Types
               <div className="chart-filters-list">
-                {maltreatmentTypesListMaltreatment.map((type) => (
+                {maltreatmentTypesListMaltreatment.map(type => (
                   <span className="selected-type" key={type}>
                     {type}
                   </span>
@@ -316,7 +316,7 @@ function ConfigurableChart({
               {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
               {selectedGeographicFeatureMaltreatment} using the data type(s)
             </span>
-            {maltreatmentTypesListMaltreatment.map((type) => (
+            {maltreatmentTypesListMaltreatment.map(type => (
               <span className="selected-type-summary" key={type}>
                 {type}
               </span>
