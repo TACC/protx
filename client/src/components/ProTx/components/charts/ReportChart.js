@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
+import PredictiveFeaturesPlot from './PredictiveFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
-import ConfigurableChart from './ConfigurableChart';
 import './ReportChart.css';
 
 function ReportChart({
@@ -28,8 +28,8 @@ function ReportChart({
     if (selectedGeographicFeature) {
       return (
         <div className="report-chart">
-          <ConfigurableChart
-            className="chart-diagram"
+          <PredictiveFeaturesPlot
+            className="maltreatment-types-plot"
             mapType={mapType}
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
