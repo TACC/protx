@@ -1,0 +1,13 @@
+.chart-instructions * {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+.chart-instructions {
+  margin: 2vh 0 0 2vw;
+}
+.chart-instructions-label,
+.chart-description-label {
+  margin: 1vh 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #777777;
+}

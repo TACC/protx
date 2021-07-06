@@ -1,11 +1,1 @@
 /* .report-chart {} */
-.report-chart-message * {
-  font-family: 'Open Sans Condensed', sans-serif;
-}
-.report-chart-message {
-  margin: 2vh 0 0 2vw;
-}
-.report-chart-message-note {
-  font-weight: 700;
-  color: #772211;
-}

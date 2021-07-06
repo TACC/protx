@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ChartInstructions from './ChartInstructions';
 import ConfigurableChart from './ConfigurableChart';
 import './AnalysisChart.css';
 
@@ -12,6 +13,27 @@ function AnalysisChart({
   selectedGeographicFeature,
   data
 }) {
+  const maltreatmentDropdownInstructions = [
+    'Using Map Type Maltreatment',
+    'Data is restricted to the county area',
+    'Select one or more Maltreatment Types',
+    'Select a Year'
+  ];
+  const maltreatmentMapInstructions = ['Select a Geographic Region'];
+  const maltreatmentShowDescription = true;
+  const maltreatmentDescription =
+    'Maltreatment counts for individual geographic regions with specifc maltreatment types during the selected year.';
+
+  const observedFeaturesDropdownInstructions = [
+    'Select an Area.',
+    'Select a Demographic Feature.',
+    'TimeFrame is restricted to the last census count from 2019.'
+  ];
+  const observedFeaturesMapInstructions = ['Select a Geographic Region.'];
+  const observedFeaturesShowDescription = true;
+  const observedFeaturesDescription =
+    'Demographic feature counts for individual geographic regions with specific observable features during selected timeframes.';
+
   if (mapType === 'maltreatment') {
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       return (
@@ -31,26 +53,12 @@ function AnalysisChart({
     }
     return (
       <div className="analysis-chart">
-        <div className="analysis-chart-message">
-          <h2>Instructions</h2>
-          <h3>In the Dropdown Selection Menu (top):</h3>
-          <ul>
-            <li className="analysis-chart-message-note">
-              Data is restricted to the county area.
-            </li>
-            <li>Select one or more Maltreatment Types.</li>
-            <li>Select a Year.</li>
-          </ul>
-          <h3>On the Map (left):</h3>
-          <ul>
-            <li>Select a Geographic Region.</li>
-          </ul>
-          {/* <h4>Purpose</h4> */}
-          {/* <p>
-            Maltreatment counts for individual geographic regions with specifc
-            maltreatment types during the selected year.
-          </p> */}
-        </div>
+        <ChartInstructions
+          dropdownInstructions={maltreatmentDropdownInstructions}
+          mapInstructions={maltreatmentMapInstructions}
+          showDescription={maltreatmentShowDescription}
+          description={maltreatmentDescription}
+        />
       </div>
     );
   }
@@ -68,26 +76,12 @@ function AnalysisChart({
     }
     return (
       <div className="analysis-chart">
-        <div className="analysis-chart-message">
-          <h2>Instructions</h2>
-          <h3>In the Dropdown Selection Menu (top):</h3>
-          <ul>
-            <li>Select an Area.</li>
-            <li>Select a Demographic Feature.</li>
-            <li className="analysis-chart-message-note">
-              TimeFrame is restricted to the last census count from 2019.
-            </li>
-          </ul>
-          <h3>On the Map (left):</h3>
-          <ul>
-            <li>Select a Geographic Region.</li>
-          </ul>
-          {/* <h4>Purpose</h4> */}
-          {/* <p>
-            Demographic feature counts for individual geographic regions with
-            specific observable features during selected timeframes.
-          </p> */}
-        </div>
+        <ChartInstructions
+          dropdownInstructions={observedFeaturesDropdownInstructions}
+          mapInstructions={observedFeaturesMapInstructions}
+          showDescription={observedFeaturesShowDescription}
+          description={observedFeaturesDescription}
+        />
       </div>
     );
   }
