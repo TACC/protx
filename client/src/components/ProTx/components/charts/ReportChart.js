@@ -29,7 +29,6 @@ function ReportChart({
       return (
         <div className="report-chart">
           <PredictiveFeaturesPlot
-            className="maltreatment-types-plot"
             mapType={mapType}
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
