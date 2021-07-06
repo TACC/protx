@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
+<<<<<<< HEAD
+=======
+import { OBSERVED_FEATURES } from '../meta';
+import { getObservedFeatureValue } from '../util';
+>>>>>>> af81ee7d0c528d536078744428be401b3b2f74e0
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
@@ -17,6 +22,10 @@ import './ObservedFeaturesPlot.css';
  */
 
 // Set this to true to inspect the component data in a tabular view.
+<<<<<<< HEAD
+=======
+// This will hide the chart rendering.
+>>>>>>> af81ee7d0c528d536078744428be401b3b2f74e0
 const debugState = false;
 
 function ObservedFeaturesPlot({
@@ -30,14 +39,69 @@ function ObservedFeaturesPlot({
 }) {
   // Define Data Marshalling Methods.
 
+<<<<<<< HEAD
   const getObservedFeaturesDataObject = () => {
     const newObservedFeaturesDataObject = [];
+=======
+  const getObservedFeaturesNames = observedFeaturesCodes => {
+    const updatedObservedFeaturesList = [];
+    // if (observedFeaturesCodes.length === 0) {
+    //   return ['None'];
+    // }
+    // for (let i = 0; i < observedFeaturesCodes.length; i += 1) {
+    //   for (let j = 0; j < observedFeaturesMeta.length; j += 1) {
+    //     if (observedFeaturesCodes[i] === observedFeaturesMeta[j].field) {
+    //       updatedObservedFeaturesList.push(observedFeaturesMeta[j].name);
+    //     }
+    //   }
+    // }
+    return updatedObservedFeaturesList;
+  };
+
+  const getObservedFeaturesDataObject = (codeArray, nameArray, valueArray) => {
+    const newObservedFeaturesDataObject = [];
+    //   for (let i = 0; i < codeArray.length; i += 1) {
+    //     const dataObject = {};
+    //     dataObject.code = codeArray[i];
+    //     dataObject.name = nameArray[i];
+    //     dataObject.value = valueArray[i];
+    //     newMaltreatmentDataObject.push(dataObject);
+    //   }
+>>>>>>> af81ee7d0c528d536078744428be401b3b2f74e0
     return newObservedFeaturesDataObject;
   };
 
   // Variable Assignment Using Data Marshalling Methods.
 
+<<<<<<< HEAD
   const observedFeaturesDataObject = getObservedFeaturesDataObject();
+=======
+  const observedFeaturesMeta = OBSERVED_FEATURES;
+  const geoid = selectedGeographicFeature;
+
+  const observedFeaturesList = getObservedFeaturesNames(observedFeature);
+
+  // const observedFeaturesDataValue = getObservedFeaturesValue(
+  //   data,
+  //   geography,
+  //   year,
+  //   geoid,
+  //   observedFeature
+  // );
+
+  // const observedFeaturesAggregate = geObservedFeaturesAggregatedValue(
+  //   data,
+  //   geography,
+  //   year,
+  //   geoid,
+  //   maltreatmentTypes
+  // );
+
+  const observedFeaturesDataObject = getObservedFeaturesDataObject();
+  // maltreatmentTypes,
+  // maltreatmentTypesList,
+  // observedFeaturesDataValues
+>>>>>>> af81ee7d0c528d536078744428be401b3b2f74e0
 
   // Define Plotting Helper Methods.
 
