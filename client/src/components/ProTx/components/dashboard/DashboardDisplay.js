@@ -85,17 +85,17 @@ function DashboardDisplay() {
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
             observedFeature={observedFeature}
-            year={year}
+            year="2019"
             setGeography={setGeography}
             setMaltreatmentTypes={setMaltreatmentTypes}
             setObservedFeature={setObservedFeature}
           />
           <ReportDisplayLayout
-            mapType={mapType}
+            mapType="observedFeatures"
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
             observedFeature={observedFeature}
-            year={year}
+            year="2019"
             data={data}
             selectedGeographicFeature={selectedGeographicFeature}
             setSelectedGeographicFeature={setSelectedGeographicFeature}
