@@ -15,28 +15,10 @@
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 }
-.rmsc .dropdown-container .dropdown-content * {
-  /* color: #fff; */
-  /* background: #111; */
-}
-.rmsc .dropdown-content .panel-content {
-  /* --rmsc-bgdd: var(--global-color-primary--dark) !important; */
-  /* color: var(--global-color-accent--normal) !important; */
-}
 .dropdown-heading-value {
   color: var(--global-color-accent--normal);
-}
-.select-item {
-  height: 1rem;
 }
 .item-renderer {
   font-style: normal;
   font-weight: normal;
-  /* color: var(--global-color-primary--dark) !important; */
 }
-/* This will hide the weird highlighting in the component. */
-/* .rmsc .dropdown-content .panel-content .select-item,
-.rmsc .dropdown-content .panel-content .select-item .label,
-.rmsc .dropdown-content .panel-content *:hover {
-  background-color: #111111 !important;
-} */
