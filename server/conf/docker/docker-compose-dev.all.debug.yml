@@ -1,10 +1,10 @@
 # This compose file is useful for testing https.
 # The .env file sets ENVVARS for the Docker CLI used by this compose file.
 ---
-version: "3.8"
+version: '3.8'
 services:
   cms:
-    image: taccwma/core-cms:latest
+    image: taccwma/protx-cms:latest
     volumes:
       - ../cms/secrets.py:/code/taccsite_cms/secrets.py
       - ../cms/uwsgi/uwsgi.ini:/code/uwsgi.ini
@@ -121,14 +121,14 @@ services:
     dns:
       - 8.8.8.8
       - 8.8.4.4
-    command: "celery -A portal worker -Q default,indexing,files,api,onboard --concurrency=2"
+    command: 'celery -A portal worker -Q default,indexing,files,api,onboard --concurrency=2'
     container_name: core_portal_workers
 
   docs:
     image: taccwma/frontera-docs:7af12ae
     volumes:
       - ../../docs:/docs/site
-    command: ["mkdocs", "build"]
+    command: ['mkdocs', 'build']
     container_name: frontera_docs
 
 volumes:
