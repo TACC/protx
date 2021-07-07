@@ -24,35 +24,33 @@ function ReportChart({
   const reportShowDescription = false;
   const reportDescription = 'Description needed.';
 
-  if (mapType === 'maltreatment') {
-    if (selectedGeographicFeature) {
-      return (
-        <div className="report-chart">
-          <PredictiveFeaturesPlot
-            mapType={mapType}
-            geography={geography}
-            maltreatmentTypes={maltreatmentTypes}
-            observedFeature={observedFeature}
-            year={year}
-            selectedGeographicFeature={selectedGeographicFeature}
-            data={data}
-          />
-        </div>
-      );
-    }
+  if (selectedGeographicFeature) {
     return (
       <div className="report-chart">
-        <PredictiveFeaturesTable />
-        <hr />
-        <ChartInstructions
-          dropdownInstructions={reportDropdownInstructions}
-          mapInstructions={reportMapInstructions}
-          showDescription={reportShowDescription}
-          description={reportDescription}
+        <PredictiveFeaturesPlot
+          mapType={mapType}
+          geography={geography}
+          maltreatmentTypes={maltreatmentTypes}
+          observedFeature={observedFeature}
+          year={year}
+          selectedGeographicFeature={selectedGeographicFeature}
+          data={data}
         />
       </div>
     );
   }
+  return (
+    <div className="report-chart">
+      <PredictiveFeaturesTable />
+      <hr />
+      <ChartInstructions
+        dropdownInstructions={reportDropdownInstructions}
+        mapInstructions={reportMapInstructions}
+        showDescription={reportShowDescription}
+        description={reportDescription}
+      />
+    </div>
+  );
 }
 
 ReportChart.propTypes = {

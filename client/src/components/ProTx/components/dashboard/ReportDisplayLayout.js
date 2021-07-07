@@ -11,7 +11,6 @@ function ReportDisplayLayout({
   observedFeature,
   year,
   selectedGeographicFeature,
-  // eslint-disable-next-line
   setSelectedGeographicFeature,
   data
 }) {
