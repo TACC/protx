@@ -24,6 +24,7 @@ function ReportDisplayLayout({
           observedFeature={observedFeature}
           year={year}
           data={data}
+          selectedGeographicFeature={selectedGeographicFeature}
           setSelectedGeographicFeature={setSelectedGeographicFeature}
         />
       </div>
