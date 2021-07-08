@@ -190,7 +190,7 @@ function MainMap({
       setDataLayer(newDataLayer);
 
       // updated/new layer
-      if(selectedGeographicFeature) {
+      if (selectedGeographicFeature) {
         const highlightedStyle = {
           ...getFeatureStyle(
             mapType,
