@@ -180,7 +180,7 @@ function MainMap({
             highlightedStyle
           );
         } else {
-          updateSelectedGeographicFeature(null);
+          updateSelectedGeographicFeature("");
         }
       });
 
