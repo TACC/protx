@@ -1,24 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-const coldToHotColors8 = [
-  `#ffffcc`,
-  `#ffeda0`,
-  `#fed976`,
-  `#feb24c`,
-  `#fd8d3c`,
-  `#fc4e2a`,
-  `#e31a1c`,
-  `#bd0026`,
-  `#800026`
+
+const colorbrewerClass6YlOrBr = [
+  '#ffffd4',
+  '#fee391',
+  '#fec44f',
+  '#fe9929',
+  '#d95f0e',
+  '#993404'
 ];
 
-const coldToHotColors6 = [
-  `#ffffb2`,
-  `#fed976`,
-  `#feb24c`,
-  `#fd8d3c`,
-  `#f03b20`,
-  `#bd0026`
-];
+const colorsArray = colorbrewerClass6YlOrBr;
 
 /** Interval color scale
 
@@ -30,8 +21,8 @@ const coldToHotColors6 = [
 export class IntervalColorScale {
   constructor(meta) {
     this.meta = meta;
-    this.colors = coldToHotColors6;
-    this.numberIntervals = coldToHotColors6.length;
+    this.colors = colorsArray;
+    this.numberIntervals = colorsArray.length;
   }
 
   getIntervalValues() {
@@ -50,5 +41,5 @@ export class IntervalColorScale {
 // TODO moved into IntervalColorScale
 export function getColor(value, min, max) {
   const binValue = Math.min(Math.floor(6 * ((value - min) / (max - min))), 5);
-  return coldToHotColors6[binValue];
+  return colorsArray[binValue];
 }
