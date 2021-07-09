@@ -21,7 +21,7 @@ function DashboardDisplay() {
   );
   const [year, setYear] = useState('2019');
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
-    ""
+    ''
   );
 
   const dispatch = useDispatch();
