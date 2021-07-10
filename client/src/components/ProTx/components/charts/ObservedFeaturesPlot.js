@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Plot from 'react-plotly.js';
+// import Plot from 'react-plotly.js';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
@@ -139,27 +139,37 @@ function ObservedFeaturesPlot({
         <div className="observed-features-plot-header">
           <div className="observed-features-plot-info">
             <div className="observed-features-plot-placeholder-text">
+              MAKE THIS STAY HUMAN REDABLE THINGS.
+              <br />
               TARGET: {mapTypeObservedFeatures}Plot for the selected feature{' '}
               {observedFeatureObservedFeatures} in the{' '}
               {geographyObservedFeatures} of{' '}
               {selectedGeographicFeatureObservedFeatures}.
             </div>
           </div>
-          <div className="observed-features-plot-info">
+          {/* <div className="observed-features-plot-info">
+            <div className="observed-features-plot-placeholder-text">
+              TARGET: {mapTypeObservedFeatures}Plot for the selected feature{' '}
+              {observedFeatureObservedFeatures} in the{' '}
+              {geographyObservedFeatures} of{' '}
+              {selectedGeographicFeatureObservedFeatures}.
+            </div>
+          </div> */}
+          {/* <div className="observed-features-plot-info">
             <div className="observed-features-plot-placeholder-text observed-features-plot-placeholder-emphasis">
               The plot for #demographic-features is in development.
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            <Plot
+            {/* <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
               style={{ width: '100%', height: '100%' }}
-            />
+            /> */}
           </div>
         </div>
       </div>
