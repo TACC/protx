@@ -39,13 +39,13 @@ function ChartInstructions({
       <h3>In the Dropdown Selection Menu (top):</h3>
       <ul>
         {dropdownInstructions.map(instruction => (
-          <li>{instruction}</li>
+          <li key={instruction}>{instruction}</li>
         ))}
       </ul>
       <h3>On the Map (left):</h3>
       <ul>
         {mapInstructions.map(instruction => (
-          <li>{instruction}</li>
+          <li key={instruction}>{instruction}</li>
         ))}
       </ul>
       <div>{currentDescription}</div>

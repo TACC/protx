@@ -26,13 +26,13 @@
 .dropdown-heading-value {
   color: var(--global-color-accent--normal);
 }
-.select-item {
-  height: 1rem;
-}
 .item-renderer {
   font-style: normal;
   font-weight: normal;
   color: var(--global-color-primary--dark) !important;
+}
+.rmsc .dropdown-content .panel-content .select-item {
+  height: 20px;
 }
 /* This will hide the weird highlighting in the component. */
 .rmsc .dropdown-content .panel-content .select-item,

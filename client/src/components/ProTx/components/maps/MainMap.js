@@ -21,6 +21,7 @@ function MainMap({
   observedFeature,
   year,
   data,
+  selectedGeographicFeature,
   setSelectedGeographicFeature
 }) {
   const dataServer = window.location.origin;
@@ -137,14 +138,13 @@ function MainMap({
         maxNativeZoom: 14 // All tiles generated up to 14 zoom level
       });
 
-      // Handle
-
       if (dataLayer && layersControl) {
         // we will remove data layer from mapand from control
         layersControl.removeLayer(dataLayer);
         dataLayer.remove();
       }
 
+      // Add click handler
       newDataLayer.on('click', e => {
         const clickedGeographicFeature =
           e.layer.properties[GEOID_KEY[geography]];
@@ -180,7 +180,7 @@ function MainMap({
             highlightedStyle
           );
         } else {
-          updateSelectedGeographicFeature(null);
+          updateSelectedGeographicFeature('');
         }
       });
 
@@ -188,6 +188,29 @@ function MainMap({
       newDataLayer.addTo(map);
       layersControl.addOverlay(newDataLayer, 'Data');
       setDataLayer(newDataLayer);
+
+      // updated/new layer
+      if (selectedGeographicFeature) {
+        const highlightedStyle = {
+          ...getFeatureStyle(
+            mapType,
+            data,
+            metaData,
+            geography,
+            year,
+            selectedGeographicFeature,
+            observedFeature,
+            maltreatmentTypes
+          ),
+          color: 'black',
+          weight: 2.0,
+          stroke: true
+        };
+        newDataLayer.setFeatureStyle(
+          selectedGeographicFeature,
+          highlightedStyle
+        );
+      }
     }
   }, [
     data,
@@ -210,6 +233,7 @@ MainMap.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  selectedGeographicFeature: PropTypes.string.isRequired,
   setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
