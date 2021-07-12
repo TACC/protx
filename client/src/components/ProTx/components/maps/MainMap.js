@@ -128,8 +128,6 @@ function MainMap({
         newLegend.addTo(map);
         setLegendControl(newLegend);
       }
-
-      texasOutlineLayer.bringToFront();
     }
   }, [
     data,
@@ -241,6 +239,9 @@ function MainMap({
           highlightedStyle
         );
       }
+
+      // ensure that texas outline is on top
+      texasOutlineLayer.bringToFront();
     }
   }, [
     data,
