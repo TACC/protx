@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import Plot from 'react-plotly.js';
 import DebugPlot from './DebugPlot';
+import { OBSERVED_FEATURES } from '../meta';
 import './ObservedFeaturesPlot.css';
 
 // Set this to true to inspect the component data in a tabular view.
@@ -18,14 +19,20 @@ function ObservedFeaturesPlot({
 }) {
   // Define Data Marshalling Methods.
 
-  const getObservedFeaturesDataObject = () => {
-    const newObservedFeaturesDataObject = [];
-    return newObservedFeaturesDataObject;
+  const getObservedFeaturesLabel = selectedObservedFeatureCode => {
+    // Option 1. Return the specific value on render.
+    let newObservedFeaturesLabel;
+
+    for (let i = 0; i < OBSERVED_FEATURES.length; i += 1) {
+      // console.log(OBSERVED_FEATURES[i]);
+      if (selectedObservedFeatureCode === OBSERVED_FEATURES[i].field) {
+        newObservedFeaturesLabel = OBSERVED_FEATURES[i].name;
+      }
+    }
+    return newObservedFeaturesLabel;
   };
 
   // Variable Assignment Using Data Marshalling Methods.
-
-  const observedFeaturesDataObject = getObservedFeaturesDataObject();
 
   // Define Plotting Helper Methods.
 
@@ -117,6 +124,8 @@ function ObservedFeaturesPlot({
     annotations: []
   };
 
+  const observedFeaturesDataObject = [];
+
   const plotData = getPlotDataVertBars(observedFeaturesDataObject);
 
   const plotState = {
@@ -134,32 +143,32 @@ function ObservedFeaturesPlot({
     selectedGeographicFeatureObservedFeatures,
     plotStateObservedFeatures
   ) => {
+    const observedFeaturesLabel = getObservedFeaturesLabel(
+      observedFeatureObservedFeatures
+    );
+
     return (
       <div className="observed-features-plot-layout">
         <div className="observed-features-plot-header">
           <div className="observed-features-plot-info">
             <div className="observed-features-plot-placeholder-text">
-              MAKE THIS STAY HUMAN REDABLE THINGS.
+              This map is displaying{' '}
+              <span className="observed-feature-selection-label">
+                {observedFeaturesLabel}
+              </span>{' '}
+              by{' '}
+              <span className="observed-feature-selection-label">
+                {geographyObservedFeatures}
+              </span>
+              .
               <br />
-              TARGET: {mapTypeObservedFeatures}Plot for the selected feature{' '}
-              {observedFeatureObservedFeatures} in the{' '}
-              {geographyObservedFeatures} of{' '}
-              {selectedGeographicFeatureObservedFeatures}.
+              The selected {geographyObservedFeatures} is{' '}
+              <span className="observed-feature-selection-label">
+                {selectedGeographicFeatureObservedFeatures}
+              </span>
+              .
             </div>
           </div>
-          {/* <div className="observed-features-plot-info">
-            <div className="observed-features-plot-placeholder-text">
-              TARGET: {mapTypeObservedFeatures}Plot for the selected feature{' '}
-              {observedFeatureObservedFeatures} in the{' '}
-              {geographyObservedFeatures} of{' '}
-              {selectedGeographicFeatureObservedFeatures}.
-            </div>
-          </div> */}
-          {/* <div className="observed-features-plot-info">
-            <div className="observed-features-plot-placeholder-text observed-features-plot-placeholder-emphasis">
-              The plot for #demographic-features is in development.
-            </div>
-          </div> */}
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">

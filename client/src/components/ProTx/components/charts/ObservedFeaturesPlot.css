@@ -10,8 +10,11 @@
   /* border-bottom: 1px solid #222222; */
 }
 .observed-features-plot-placeholder-text {
-  font-weight: 600;
+  font-weight: 400;
 }
 .observed-features-plot-placeholder-emphasis {
   color: #772211;
+}
+.observed-feature-selection-label {
+  font-weight: 600;
 }
