@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import MapProviders from './MapProviders';
 import { GEOID_KEY } from '../meta';
 import { IntervalColorScale } from './intervalColorScale';
-import texasBounds from './texasBoundary';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
@@ -30,6 +29,7 @@ function MainMap({
   const [legendControl, setLegendControl] = useState(null);
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
+  const [texasOutlineLayer, setTexasOutlineLayer] = useState(null);
   const [map, setMap] = useState(null);
   const [metaData, setMetaData] = useState(null);
   const [selectedGeoid, setSelectedGeoid] = useState(null);
@@ -47,6 +47,9 @@ function MainMap({
       return;
     }
 
+    const texasOutlineGeojson = L.geoJSON(data.texasBoundary);
+    const texasBounds = texasOutlineGeojson.getBounds(texasOutlineGeojson);
+
     const newMap = L.map(mapContainer, {
       zoom: 6,
       minZoom: 6,
@@ -56,11 +59,27 @@ function MainMap({
       doubleClickZoom: false
     }).fitBounds(texasBounds);
 
+    const texasOutline = L.vectorGrid
+      .slicer(data.texasBoundary, {
+        rendererFactory: L.canvas.tile,
+        vectorTileLayerStyles: {
+          sliced(properties, zoom) {
+            return {
+              stroke: true,
+              color: 'black',
+              weight: 2
+            };
+          }
+        }
+      })
+      .addTo(newMap);
+
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
     providers[3].addTo(newMap);
     setLayersControl(L.control.layers(baseMaps).addTo(newMap));
     setMap(newMap);
+    setTexasOutlineLayer(texasOutline);
   }, [data, mapContainer]);
 
   useEffect(() => {
@@ -110,7 +129,16 @@ function MainMap({
         setLegendControl(newLegend);
       }
     }
-  }, [data, mapType, observedFeature, geography, maltreatmentTypes, year, map]);
+  }, [
+    data,
+    mapType,
+    observedFeature,
+    geography,
+    maltreatmentTypes,
+    year,
+    map,
+    texasOutlineLayer
+  ]);
 
   useEffect(() => {
     const vectorTile = `${dataServer}/static/data/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
@@ -211,6 +239,9 @@ function MainMap({
           highlightedStyle
         );
       }
+
+      // ensure that texas outline is on top
+      texasOutlineLayer.bringToFront();
     }
   }, [
     data,
