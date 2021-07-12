@@ -119,6 +119,19 @@ export const OBSERVED_FEATURES = [
   }
 ];
 
+export const OBSERVED_FEATURES_TOP_FIELDS = [
+  'E_SNGPNT',
+  'E_POV',
+  /* 'EP_POV', */
+  'E_PCI',
+  'E_AGE17',
+  'E_NOHSDP',
+  /* 'EP_NOHSDP', */
+  'E_GROUPQ',
+  'E_CROWD'
+  /* 'EP_CROWD' */
+];
+
 export const MALTREATMENT = [
   {
     field: 'ABAN',
