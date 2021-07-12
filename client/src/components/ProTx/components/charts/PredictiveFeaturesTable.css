@@ -5,7 +5,7 @@
 sup {
   font-style: italic;
   font-weight: 700;
-  color: rgb(100, 255, 150);
+  color: rgb(80, 220, 255);
 }
 .feature-table-chart,
 .feature-table-chart-selection {
@@ -59,7 +59,7 @@ sup {
 }
 .feature-table-selected-feature td {
   background-color: rgb(20, 50, 80);
-  color: rgb(80, 220, 255);
+  color: rgb(255, 255, 255);
 }
 .feature-table-selected-feature td.ensemble-rank-value {
   background-color: rgb(80, 50, 100) !important;
@@ -77,11 +77,12 @@ sup {
   border: 1px solid #000000;
   border-left: 3px solid #000000;
   border-right: 3px solid #000000;
+  mix-blend-mode: multiply;
 }
 .feature-table-annotation {
   margin: 0;
   padding: 0.5vh 0.5vw;
-  background-color: rgba(100, 200, 150, 0.1);
+  background-color: rgba(80, 220, 255, 0.2);
 }
 .feature-table-annotation-prefix,
 .feature-table-annotation-text {
