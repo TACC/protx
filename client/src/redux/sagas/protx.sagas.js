@@ -16,13 +16,17 @@ export function* fetchProtx(action) {
     const maltreatmentMeta = yield call(fetchUtil, {
       url: `/static/data/public_county_maltreatment_table_grouped.meta.json`
     });
+    const texasBoundary = yield call(fetchUtil, {
+      url: `/static/data/Texas_State_Boundary.geojson`
+    });
     yield put({
       type: 'PROTX_SUCCESS',
       payload: {
         observedFeatures,
         observedFeaturesMeta,
         maltreatment,
-        maltreatmentMeta
+        maltreatmentMeta,
+        texasBoundary
       }
     });
   } catch (error) {
