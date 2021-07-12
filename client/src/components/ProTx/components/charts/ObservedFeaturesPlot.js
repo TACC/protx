@@ -20,16 +20,8 @@ function ObservedFeaturesPlot({
   // Define Data Marshalling Methods.
 
   const getObservedFeaturesLabel = selectedObservedFeatureCode => {
-    // Option 1. Return the specific value on render.
-    let newObservedFeaturesLabel;
-
-    for (let i = 0; i < OBSERVED_FEATURES.length; i += 1) {
-      // console.log(OBSERVED_FEATURES[i]);
-      if (selectedObservedFeatureCode === OBSERVED_FEATURES[i].field) {
-        newObservedFeaturesLabel = OBSERVED_FEATURES[i].name;
-      }
-    }
-    return newObservedFeaturesLabel;
+    return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
+      .name;
   };
 
   // Variable Assignment Using Data Marshalling Methods.
