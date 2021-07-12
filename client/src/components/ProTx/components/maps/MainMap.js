@@ -67,7 +67,7 @@ function MainMap({
             return {
               stroke: true,
               color: 'black',
-              weight: 5
+              weight: 2
             };
           }
         }
