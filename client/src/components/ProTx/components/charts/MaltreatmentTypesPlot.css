@@ -81,11 +81,6 @@
   font-weight: normal;
   content: ', ';
 }
-.maltreatment-types-plot-chart-summary,
-.maltreatment-types-plot-selected-type-summary:last-child:not(:only-child):before {
-  font-weight: normal;
-  content: ' and ';
-}
 .maltreatment-types-plot-selected-type:last-child:not(:only-child):after,
 .maltreatment-types-plot-selected-type-summary:last-child:not(:only-child):after {
   font-weight: normal;

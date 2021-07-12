@@ -250,7 +250,7 @@ function MaltreatmentTypesPlot({
           <span className="maltreatment-types-plot-chart-summary">
             This chart was generated using {yearMaltreatment}{' '}
             {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
-            {selectedGeographicFeatureMaltreatment} using the data type(s)
+            {selectedGeographicFeatureMaltreatment} using these data type(s):
           </span>
           {maltreatmentTypesListMaltreatment.map(type => (
             <span
