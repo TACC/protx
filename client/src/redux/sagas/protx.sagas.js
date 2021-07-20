@@ -1,20 +1,31 @@
-import { call, put, takeLeading } from 'redux-saga/effects';
+import { all, call, put, takeLeading } from 'redux-saga/effects';
 import { fetchUtil } from '../../utils/fetchUtil';
 
 export function* fetchProtx(action) {
   yield put({ type: 'PROTX_INIT' });
   try {
-    const observedFeatures = yield call(fetchUtil, {
-      url: `/static/data/2019_observed_features.json`
-    });
-    const observedFeaturesMeta = yield call(fetchUtil, {
-      url: `/static/data/2019_observed_features.meta.json`
-    });
-    const maltreatment = yield call(fetchUtil, {
-      url: `/static/data/public_county_maltreatment_table_grouped.json`
-    });
-    const maltreatmentMeta = yield call(fetchUtil, {
-      url: `/static/data/public_county_maltreatment_table_grouped.meta.json`
+    const {
+      observedFeatures,
+      observedFeaturesMeta,
+      maltreatment,
+      maltreatmentMeta,
+      texasBoundary
+    } = yield all({
+      observedFeatures: call(fetchUtil, {
+        url: `/static/data/2019_observed_features.json`
+      }),
+      observedFeaturesMeta: call(fetchUtil, {
+        url: `/static/data/2019_observed_features.meta.json`
+      }),
+      maltreatment: call(fetchUtil, {
+        url: `/static/data/public_county_maltreatment_table_grouped.json`
+      }),
+      maltreatmentMeta: call(fetchUtil, {
+        url: `/static/data/public_county_maltreatment_table_grouped.meta.json`
+      }),
+      texasBoundary: call(fetchUtil, {
+        url: `/static/data/Texas_State_Boundary.geojson`
+      })
     });
     yield put({
       type: 'PROTX_SUCCESS',
@@ -22,7 +33,8 @@ export function* fetchProtx(action) {
         observedFeatures,
         observedFeaturesMeta,
         maltreatment,
-        maltreatmentMeta
+        maltreatmentMeta,
+        texasBoundary
       }
     });
   } catch (error) {

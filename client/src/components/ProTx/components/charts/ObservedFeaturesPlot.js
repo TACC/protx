@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Plot from 'react-plotly.js';
+// import Plot from 'react-plotly.js';
 import DebugPlot from './DebugPlot';
+import { OBSERVED_FEATURES } from '../meta';
 import './ObservedFeaturesPlot.css';
 
 // Set this to true to inspect the component data in a tabular view.
@@ -18,14 +19,12 @@ function ObservedFeaturesPlot({
 }) {
   // Define Data Marshalling Methods.
 
-  const getObservedFeaturesDataObject = () => {
-    const newObservedFeaturesDataObject = [];
-    return newObservedFeaturesDataObject;
+  const getObservedFeaturesLabel = selectedObservedFeatureCode => {
+    return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
+      .name;
   };
 
   // Variable Assignment Using Data Marshalling Methods.
-
-  const observedFeaturesDataObject = getObservedFeaturesDataObject();
 
   // Define Plotting Helper Methods.
 
@@ -117,6 +116,8 @@ function ObservedFeaturesPlot({
     annotations: []
   };
 
+  const observedFeaturesDataObject = [];
+
   const plotData = getPlotDataVertBars(observedFeaturesDataObject);
 
   const plotState = {
@@ -134,32 +135,42 @@ function ObservedFeaturesPlot({
     selectedGeographicFeatureObservedFeatures,
     plotStateObservedFeatures
   ) => {
+    const observedFeaturesLabel = getObservedFeaturesLabel(
+      observedFeatureObservedFeatures
+    );
+
     return (
       <div className="observed-features-plot-layout">
         <div className="observed-features-plot-header">
           <div className="observed-features-plot-info">
             <div className="observed-features-plot-placeholder-text">
-              TARGET: {mapTypeObservedFeatures}Plot for the selected feature{' '}
-              {observedFeatureObservedFeatures} in the{' '}
-              {geographyObservedFeatures} of{' '}
-              {selectedGeographicFeatureObservedFeatures}.
-            </div>
-          </div>
-          <div className="observed-features-plot-info">
-            <div className="observed-features-plot-placeholder-text observed-features-plot-placeholder-emphasis">
-              The plot for #demographic-features is in development.
+              This map is displaying{' '}
+              <span className="observed-feature-selection-label">
+                {observedFeaturesLabel}
+              </span>{' '}
+              by{' '}
+              <span className="observed-feature-selection-label">
+                {geographyObservedFeatures}
+              </span>
+              .
+              <br />
+              The selected {geographyObservedFeatures} is{' '}
+              <span className="observed-feature-selection-label">
+                {selectedGeographicFeatureObservedFeatures}
+              </span>
+              .
             </div>
           </div>
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            <Plot
+            {/* <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
               style={{ width: '100%', height: '100%' }}
-            />
+            /> */}
           </div>
         </div>
       </div>
