@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownSelector } from '_common';
 import MaltreatmentSelector from './MaltreatmentSelector';
-import { OBSERVED_FEATURES, SUPPORTED_YEARS } from '../meta';
+import {
+  OBSERVED_FEATURES,
+  OBSERVED_FEATURES_TOP_FIELDS,
+  SUPPORTED_YEARS
+} from '../meta';
 import './DisplaySelectors.module.scss';
 
 /**
@@ -27,7 +31,8 @@ function DisplaySelectors({
   setGeography,
   setMaltreatmentTypes,
   setObservedFeature,
-  setYear
+  setYear,
+  limitToTopObservedFeatureFields
 }) {
   const changeMapType = event => {
     const newMapType = event.target.value;
@@ -93,9 +98,13 @@ function DisplaySelectors({
             onChange={event => setObservedFeature(event.target.value)}
           >
             <optgroup label="Select Observed Feature">
-              {OBSERVED_FEATURES.map(feature => (
-                <option key={feature.field} value={feature.field}>
-                  {feature.name}
+              {OBSERVED_FEATURES.filter(
+                f =>
+                  !limitToTopObservedFeatureFields ||
+                  OBSERVED_FEATURES_TOP_FIELDS.includes(f.field)
+              ).map(f => (
+                <option key={f.field} value={f.field}>
+                  {f.name}
                 </option>
               ))}
             </optgroup>
@@ -131,13 +140,15 @@ DisplaySelectors.propTypes = {
   setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
-  setYear: PropTypes.func
+  setYear: PropTypes.func,
+  limitToTopObservedFeatureFields: PropTypes.bool
 };
 
 DisplaySelectors.defaultProps = {
   setMapType: null,
   setGeography: null,
-  setYear: null
+  setYear: null,
+  limitToTopObservedFeatureFields: false
 };
 
 export default DisplaySelectors;

@@ -88,6 +88,7 @@ function DashboardDisplay() {
             year="2019"
             setMaltreatmentTypes={setMaltreatmentTypes}
             setObservedFeature={setObservedFeature}
+            limitToTopObservedFeatureFields
           />
           <ReportDisplayLayout
             mapType="observedFeatures"
