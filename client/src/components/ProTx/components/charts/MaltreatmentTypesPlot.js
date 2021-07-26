@@ -21,7 +21,8 @@ import './MaltreatmentTypesPlot.css';
  */
 
 // Set this to true to inspect the component data in a tabular view.
-const debugState = false;
+// const debugState = false;
+const debugState = true;
 
 function MaltreatmentTypesPlot({
   mapType,

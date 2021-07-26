@@ -6,7 +6,8 @@ import { OBSERVED_FEATURES } from '../meta';
 import './ObservedFeaturesPlot.css';
 
 // Set this to true to inspect the component data in a tabular view.
-const debugState = false;
+// const debugState = false;
+const debugState = true;
 
 function ObservedFeaturesPlot({
   mapType,
