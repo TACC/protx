@@ -123,6 +123,11 @@ function MaltreatmentTypesPlot({
 
   // Assign Plot Variables.
 
+  /**
+   * TODO: Move these color arrays into the utils.js module.
+   * TODO: Use the relocated valuse persistently across all plots.
+   */
+
   const plotCategoryColors = [
     '#4363d8',
     '#911eb4',
