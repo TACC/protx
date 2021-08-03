@@ -10,8 +10,16 @@ import {
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
-// Set this to true to inspect the component data in a tabular view.
-const debugState = false;
+/**
+ * TODOS FOR ALL PLOT COMPONENTS.
+ *
+ * TODO: Refactor colorScales assignment out into utils.
+ *   - Will be used by other components.
+ * TODO: Investigate moving plot configuration generation code into  utils.
+ *   - Used across multiple components, refactor into library.
+ */
+
+// Passing the debugState property will render component data in debug mode.
 
 function PredictiveFeaturesPlot({
   mapType,
@@ -20,7 +28,8 @@ function PredictiveFeaturesPlot({
   observedFeature,
   year,
   selectedGeographicFeature,
-  data
+  data,
+  debugState
 }) {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
   const plotLayout = getPlotLayout('Predictive Features');
@@ -104,7 +113,8 @@ PredictiveFeaturesPlot.propTypes = {
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  debugState: PropTypes.bool.isRequired
 };
 
 export default PredictiveFeaturesPlot;

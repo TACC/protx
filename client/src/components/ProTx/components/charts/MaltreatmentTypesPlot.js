@@ -16,16 +16,13 @@ import './MaltreatmentTypesPlot.css';
 /**
  * TODOS FOR ALL PLOT COMPONENTS.
  *
- * TODO: Refactor debug state to be a property of the component.
- *   - Default to false, pass in with component usage in parent.
  * TODO: Refactor colorScales assignment out into utils.
  *   - Will be used by other components.
  * TODO: Investigate moving plot configuration generation code into  utils.
  *   - Used across multiple components, refactor into library.
  */
 
-// Set this to true to inspect the component data in a tabular view.
-const debugState = false;
+// Passing the debugState property will render component data in debug mode.
 
 function MaltreatmentTypesPlot({
   mapType,
@@ -33,7 +30,8 @@ function MaltreatmentTypesPlot({
   maltreatmentTypes,
   year,
   selectedGeographicFeature,
-  data
+  data,
+  debugState
 }) {
   const geoid = selectedGeographicFeature;
   const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
@@ -181,7 +179,8 @@ MaltreatmentTypesPlot.propTypes = {
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  debugState: PropTypes.bool.isRequired
 };
 
 export default MaltreatmentTypesPlot;

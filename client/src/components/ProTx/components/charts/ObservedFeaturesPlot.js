@@ -10,8 +10,16 @@ import {
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
-// Set this to true to inspect the component data in a tabular view.
-const debugState = false;
+/**
+ * TODOS FOR ALL PLOT COMPONENTS.
+ *
+ * TODO: Refactor colorScales assignment out into utils.
+ *   - Will be used by other components.
+ * TODO: Investigate moving plot configuration generation code into  utils.
+ *   - Used across multiple components, refactor into library.
+ */
+
+// Passing the debugState property will render component data in debug mode.
 
 function ObservedFeaturesPlot({
   mapType,
@@ -20,7 +28,8 @@ function ObservedFeaturesPlot({
   observedFeature,
   year,
   selectedGeographicFeature,
-  data
+  data,
+  debugState
 }) {
   const observedFeaturesDataObject = [];
   const plotLayout = getPlotLayout('Observed Features');
@@ -117,7 +126,8 @@ ObservedFeaturesPlot.propTypes = {
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  debugState: PropTypes.bool.isRequired
 };
 
 export default ObservedFeaturesPlot;

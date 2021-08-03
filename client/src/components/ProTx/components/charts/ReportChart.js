@@ -43,6 +43,7 @@ function ReportChart({
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
+          // debugState
         />
       </div>
     );
