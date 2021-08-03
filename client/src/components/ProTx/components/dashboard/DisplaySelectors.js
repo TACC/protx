@@ -50,7 +50,7 @@ function DisplaySelectors({
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
 
   return (
-    <div styleName="root">
+    <div styleName="display-selectors">
       <div styleName="control">
         <span styleName="label">Map</span>
         <DropdownSelector
