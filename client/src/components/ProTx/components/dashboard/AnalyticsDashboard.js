@@ -1,7 +1,8 @@
 import React from 'react';
-import './AnalyticsDashboard.css';
 import DashboardHeader from './DashboardHeader';
 import DashboardDisplay from './DashboardDisplay';
+import '../Variables.css';
+import './AnalyticsDashboard.css';
 
 // Need to find a way to set this value based on some external configuration value so it changes based on the hosts settings.
 // false for PROD, true for all non-PROD deployments.

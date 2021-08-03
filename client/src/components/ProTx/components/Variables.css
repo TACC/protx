@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+:root {
+  /* Layout & Dimensions */
+  --max-height-header: 81vh;
+  --max-height-no-header: 85.5vh;
+  --map-width: 50vw;
+  --chart-width: 50vw;
+  --selector-constant-height: 20px;
+
+  /* Fonts  */
+
+  --font-type-roboto: 'Roboto, sans-serif';
+  --font-type-roboto-condensed: 'Roboto Condensed, sans-serif';
+
+  /* Font Sizes */
+
+  --font-size-base: 1rem;
+
+  /* Colors & Palettes */
+
+  --color-black: #000000;
+  --color-gray-very-dark: #111111;
+  --color-gray-dark: #444444;
+  --color-gray: #888888;
+  --color-yellow-light: #fff387;
+  --color-white: #ffffff;
+}
