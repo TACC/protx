@@ -49,6 +49,8 @@
   --color-gray-light: aaaaaa;
   --color-gray-very-light: #efefef;
   --color-white: #ffffff;
+
+  --color-white-transparent: rgba(255, 255, 255, 0.7);
   --color-yellow-light: #fff387;
   --color-blood-orange: #772211;
   --color-cornflower-blue: rgb(20, 50, 80);
