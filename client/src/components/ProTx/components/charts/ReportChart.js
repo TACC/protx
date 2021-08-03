@@ -32,7 +32,9 @@ function ReportChart({
   if (selectedGeographicFeature) {
     return (
       <div className="report-chart">
-        <PredictiveFeaturesTable />
+        <PredictiveFeaturesTable
+          selectedGeographicFeature={selectedGeographicFeature}
+        />
         <PredictiveFeaturesPlot
           mapType={mapType}
           geography={geography}

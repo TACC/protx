@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { MALTREATMENT } from '../meta';
 import {
+  plotConfig,
+  getPlotDataVertBars,
+  getPlotLayout,
+  getMaltreatmentTypeNames,
+  getMaltreatmentTypesDataObject,
   getMaltreatmentAggregatedValue,
   getMaltreatmentSelectedValues
 } from '../util';
@@ -29,39 +33,7 @@ function MaltreatmentTypesPlot({
   data,
   debugState
 }) {
-  // Define Data Marshalling Methods.
-
-  const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
-    const updatedMaltreatmentTypesList = [];
-    if (maltreatmentTypeCodes.length === 0) {
-      return ['None'];
-    }
-    for (let i = 0; i < maltreatmentTypeCodes.length; i += 1) {
-      for (let j = 0; j < maltreatmentMeta.length; j += 1) {
-        if (maltreatmentTypeCodes[i] === maltreatmentMeta[j].field) {
-          updatedMaltreatmentTypesList.push(maltreatmentMeta[j].name);
-        }
-      }
-    }
-    return updatedMaltreatmentTypesList;
-  };
-
-  const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
-    const newMaltreatmentDataObject = [];
-    for (let i = 0; i < codeArray.length; i += 1) {
-      const dataObject = {};
-      dataObject.code = codeArray[i];
-      dataObject.name = nameArray[i];
-      dataObject.value = valueArray[i];
-      newMaltreatmentDataObject.push(dataObject);
-    }
-    return newMaltreatmentDataObject;
-  };
-
-  // Variable Assignment Using Data Marshalling Methods.
-  const maltreatmentMeta = MALTREATMENT;
   const geoid = selectedGeographicFeature;
-
   const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
 
   const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
@@ -86,96 +58,7 @@ function MaltreatmentTypesPlot({
     maltreatmentTypesDataValues
   );
 
-  // Define Plotting Helper Methods.
-
-  const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
-    return {
-      y: [traceY],
-      x: [traceX],
-      name: traceName,
-      type: 'bar',
-      orientation: 'v',
-      marker: {
-        line: {
-          color: ['#111111'],
-          width: 1
-        },
-        color: [traceFillColor]
-      }
-    };
-  };
-
-  const getPlotDataVertBars = typesDataArray => {
-    const newPlotData = [];
-    for (let i = 0; i < typesDataArray.length; i += 1) {
-      const yData = typesDataArray[i].value;
-      const xData = typesDataArray[i].code;
-      const tName = typesDataArray[i].name;
-      const traceFillColor = plotCategoryColors[i];
-      const type = getBarVertTrace(yData, xData, tName, traceFillColor);
-      newPlotData.push(type);
-    }
-    return newPlotData;
-  };
-
-  // Assign Plot Variables.
-
-  const plotCategoryColors = [
-    '#4363d8',
-    '#911eb4',
-    '#bcf60c',
-    '#fabebe',
-    '#808000',
-    '#000075',
-    '#808080',
-    '#ffe119',
-    '#e6beff',
-    '#3cb44b',
-    '#aaffc3',
-    '#ffd8b1',
-    '#ffffff',
-    '#46f0f0',
-    '#f032e6',
-    '#008080',
-    '#000000',
-    '#e6194b',
-    '#9a6324',
-    '#fffac8',
-    '#f58231',
-    '#800000'
-  ];
-
-  const plotConfig = {
-    doubleClickDelay: 1000,
-    responsive: true,
-    displayModeBar: false,
-    modeBarButtonsToRemove: [],
-    displaylogo: false,
-    showEditInChartStudio: false
-  };
-
-  const plotLayout = {
-    autosize: true,
-    margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
-    xaxis: {
-      automargin: true,
-      tickangle: -90,
-      title: {
-        text: 'Maltreatment Type',
-        standoff: 20
-      }
-    },
-    yaxis: {
-      automargin: true,
-      tickangle: 0,
-      title: {
-        text: 'Total',
-        standoff: 20
-      }
-    },
-    annotations: []
-  };
-
+  const plotLayout = getPlotLayout('Maltreatment Types');
   const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
 
   const plotState = {
@@ -183,8 +66,6 @@ function MaltreatmentTypesPlot({
     layout: plotLayout,
     config: plotConfig
   };
-
-  // Define Element Rendering Methods.
 
   const getMaltreatmentChartLayout = (
     mapTypeMaltreatment,
@@ -262,8 +143,6 @@ function MaltreatmentTypesPlot({
     );
   };
 
-  // Generate Elements Using Element Rendering Methods.
-
   const maltreatmentChartLayout = getMaltreatmentChartLayout(
     mapType,
     geography,
@@ -273,8 +152,6 @@ function MaltreatmentTypesPlot({
     maltreatmentTypesList,
     plotState
   );
-
-  // Render Component.
 
   if (debugState) {
     return (

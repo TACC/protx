@@ -1,4 +1,5 @@
 import { getColor } from './maps/intervalColorScale';
+import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
 
 /**
  * Get meta data for observed features
@@ -250,3 +251,180 @@ export function getFeatureStyle(
     fillOpacity: 0.0
   };
 }
+
+/* Variables & Methods used across all Plot types. */
+
+export const plotCategoryColors = [
+  '#4363d8',
+  '#911eb4',
+  '#bcf60c',
+  '#fabebe',
+  '#808000',
+  '#000075',
+  '#808080',
+  '#ffe119',
+  '#e6beff',
+  '#3cb44b',
+  '#aaffc3',
+  '#ffd8b1',
+  '#ffffff',
+  '#46f0f0',
+  '#f032e6',
+  '#008080',
+  '#000000',
+  '#e6194b',
+  '#9a6324',
+  '#fffac8',
+  '#f58231',
+  '#800000'
+];
+
+// Plotting Helper Methods.
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
+  return {
+    y: [traceY],
+    x: [traceX],
+    name: traceName,
+    type: 'bar',
+    orientation: 'v',
+    marker: {
+      line: {
+        color: ['#111111'],
+        width: 1
+      },
+      color: [traceFillColor]
+    }
+  };
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getPlotDataVertBars = typesDataArray => {
+  const newPlotData = [];
+  for (let i = 0; i < typesDataArray.length; i += 1) {
+    const yData = typesDataArray[i].value;
+    const xData = typesDataArray[i].code;
+    const tName = typesDataArray[i].name;
+    const traceFillColor = plotCategoryColors[i];
+    const type = getBarVertTrace(yData, xData, tName, traceFillColor);
+    newPlotData.push(type);
+  }
+  return newPlotData;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const plotConfig = {
+  doubleClickDelay: 1000,
+  responsive: true,
+  displayModeBar: false,
+  modeBarButtonsToRemove: [],
+  displaylogo: false,
+  showEditInChartStudio: false
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getPlotLayout = plotTitle => {
+  const newPlotLayout = {
+    autosize: true,
+    margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
+    xaxis: {
+      automargin: true,
+      tickangle: -90,
+      title: {
+        // text: 'Maltreatment Type',
+        text: plotTitle,
+        standoff: 20
+      }
+    },
+    yaxis: {
+      automargin: true,
+      tickangle: 0,
+      title: {
+        text: 'Total',
+        standoff: 20
+      }
+    },
+    annotations: []
+  };
+  return newPlotLayout;
+};
+
+//  Data Marshalling Methods.
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
+  const updatedMaltreatmentTypesList = [];
+  if (maltreatmentTypeCodes.length === 0) {
+    return ['None'];
+  }
+  for (let i = 0; i < maltreatmentTypeCodes.length; i += 1) {
+    for (let j = 0; j < MALTREATMENT.length; j += 1) {
+      if (maltreatmentTypeCodes[i] === MALTREATMENT[j].field) {
+        updatedMaltreatmentTypesList.push(MALTREATMENT[j].name);
+      }
+    }
+  }
+  return updatedMaltreatmentTypesList;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getMaltreatmentTypesDataObject = (
+  codeArray,
+  nameArray,
+  valueArray
+) => {
+  const newMaltreatmentDataObject = [];
+  for (let i = 0; i < codeArray.length; i += 1) {
+    const dataObject = {};
+    dataObject.code = codeArray[i];
+    dataObject.name = nameArray[i];
+    dataObject.value = valueArray[i];
+    newMaltreatmentDataObject.push(dataObject);
+  }
+  return newMaltreatmentDataObject;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
+  return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
+    .name;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getPredictiveFeaturesDataObject = () => {
+  const newPredictiveFeaturesDataObject = [];
+  return newPredictiveFeaturesDataObject;
+};
