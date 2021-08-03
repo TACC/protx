@@ -418,3 +418,13 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
   return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
     .name;
 };
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getPredictiveFeaturesDataObject = () => {
+  const newPredictiveFeaturesDataObject = [];
+  return newPredictiveFeaturesDataObject;
+};

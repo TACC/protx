@@ -32,8 +32,6 @@ function ObservedFeaturesPlot({
     config: plotConfig
   };
 
-  // Define Element Rendering Methods.
-
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     observedFeatureObservedFeatures,

@@ -13,7 +13,8 @@ const tableNotes = PREDICTIVE_FEATURES_TABLE_NOTES;
  * TODO: Use object for conditional rendering in the table.
  */
 
-const selectedFeatureCheck = false;
+const selectedFeatureCheck = true; // Make this a value check boolean and hide row if no value provided for selectedFeature.
+
 const selectedFeature = {
   Demographic_Feature: 'SF_NAME',
   Rank_By_Causal_Strength: 'SF_RBCS',
