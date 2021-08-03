@@ -1,31 +1,31 @@
 .debug-plot {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: var(--font-type-roboto-condensed);
 }
 .debug-info {
   margin: 1rem;
 }
 .debug-info * {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-type-roboto);
   line-height: 1.5rem;
 }
 .debug-data-table tr:nth-child(odd) {
-  background-color: #efefef;
+  background-color: var(--color-gray-very-light);
 }
 .debug-data-table tr th,
 .debug-data-table tr td {
-  border: 1px solid hsl(0, 0%, 0%);
+  border: 1px solid var(--color-black);
   padding: 0.2vh 1vw;
   text-align: center;
 }
 .debug-data-table tr th {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: var(--color-gray-very-dark);
+  color: var(--color-white);
 }
 .debug-status {
-  font-weight: 700;
-  color: #772211;
+  font-weight: var(--font-weight-heavy);
+  color: var(--color-blood-orange);
 }
 .debug-header {
   margin: 1vh 0;
-  font-weight: 600;
+  font-weight: var(--font-weight-normal-plus);
 }
