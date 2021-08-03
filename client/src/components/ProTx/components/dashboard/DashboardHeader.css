@@ -1,11 +1,10 @@
 .dashboard-header-root {
-    background-color: #fff387;
-    color: #000000;
-    font-size: 1rem;
-    line-height: 1vh;
-    text-align: center;
-    border-top: 1px solid #777777;
-    border-bottom: 1px solid #777777;
-    margin: 0;
-    padding: 1.5vh 0 0 0;
+  background-color: var(--color-yellow-light);
+  color: var(--color-black);
+  font-size: var(--font-size-base);
+  line-height: 1vh;
+  text-align: center;
+  border-top: 1px solid var(--color-gray);
+  border-bottom: 1px solid var(--color-gray);
+  padding: 1.5vh 0 0 0;
 }

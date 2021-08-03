@@ -1,12 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-
-:root {
-  --max-height-header: 81vh;
-  --max-height-no-header: 85.5vh;
-  --map-width: 50vw;
-  --chart-width: 50vw;
-}
-
 .analytics-dashboard-root-header {
   --max-height: var(--max-height-header);
   min-height: var(--max-height);

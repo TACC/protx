@@ -1,5 +1,5 @@
 .observed-features-plot {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: var(--font-type-roboto-condensed);
 }
 .observed-features-plot-layout {
   margin: 1vh 1vw;
@@ -7,14 +7,14 @@
 .observed-features-plot-header {
 }
 .observed-features-plot-info {
-  /* border-bottom: 1px solid #222222; */
+  /* border-bottom: 1px solid var(--color-gray-very-dark); */
 }
 .observed-features-plot-placeholder-text {
-  font-weight: 400;
+  font-weight: var(--font-weight-light);
 }
 .observed-features-plot-placeholder-emphasis {
-  color: #772211;
+  color: var(--color-blood-orange);
 }
 .observed-feature-selection-label {
-  font-weight: 600;
+  font-weight: var(--font-weight-normal-plus);
 }
