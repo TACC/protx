@@ -50,11 +50,6 @@ function PredictiveFeaturesPlot({
               {selectedGeographicFeaturePredictiveFeatures}.
             </div>
           </div>
-          {/* <div className="predictive-features-plot-info">
-            <div className="predictive-features-plot-placeholder-text predictive-features-plot-placeholder-emphasis">
-              The plot for #predictive-features is in development.
-            </div>
-          </div> */}
         </div>
         <div className="predictive-features-plot-chart-body">
           <div className="predictive-features-plot-chart-body-plot">
