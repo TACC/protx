@@ -1,5 +1,5 @@
 .maltreatment-types-plot {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: var(--font-type-roboto-condensed);
 }
 .maltreatment-types-plot-layout {
   margin: 1vh 1vw;
@@ -7,7 +7,7 @@
 .maltreatment-types-plot-header {
 }
 .maltreatment-types-plot-info {
-  border-bottom: 1px solid #222222;
+  border-bottom: 1px solid var(--color-gray-very-dark);
 }
 .maltreatment-types-plot-info-item {
   display: flex;
@@ -18,13 +18,13 @@
 .maltreatment-types-plot-selected-year {
   margin: 0 0 1vh;
   padding: 0 0.2vw 0.5vh;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid var(--color-gray-dark);
 }
 .maltreatment-types-plot-selected-map-label,
 .maltreatment-types-plot-selected-area-label,
 .maltreatment-types-plot-selected-year-label {
-  font-weight: 600;
-  color: #777777;
+  font-weight: var(--font-weight-normal-plus);
+  color: var(--color-gray);
 }
 .maltreatment-types-plot-selected-region,
 .maltreatment-types-plot-aggregated-count {
@@ -33,37 +33,37 @@
   text-align: center;
 }
 .maltreatment-types-plot-aggregated-count {
-  border-left: 1px solid #333333;
+  border-left: 1px solid var(--color-gray-dark);
 }
 .maltreatment-types-plot-selected-region-label,
 .maltreatment-types-plot-aggregated-count-label {
-  color: #777777;
+  color: var(--color-gray);
 }
 .maltreatment-types-plot-selected-region-label,
 .maltreatment-types-plot-aggregated-count-label {
   margin-left: 2rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-normal-plus);
 }
 .maltreatment-types-plot-selected-region-value,
 .maltreatment-types-plot-aggregated-count-value {
   margin-left: 1rem;
-  font-size: 3rem;
-  font-weight: 900;
+  font-size: calc(var(--font-size-normal) * 3);
+  font-weight: var(--font-weight-x-heavy);
 }
 .maltreatment-types-plot-chart-filters {
   padding: 1vh 0;
-  font-weight: 600;
-  color: #777777;
+  font-weight: var(--font-weight-normal-plus);
+  color: var(--color-gray);
 }
 .maltreatment-types-plot-chart-filters-list {
   margin-top: 0.5vw;
-  color: #000000;
+  color: var(--color-black);
 }
 .maltreatment-types-plot-chart-footer {
   margin: 0.5vh 0 0;
   padding-top: 1vh;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: var(--font-size-xs);
   line-height: 2vh;
 }
 .maltreatment-types-plot-chart-summary:after {
@@ -71,23 +71,23 @@
 }
 .maltreatment-types-plot-selected-type-value,
 .maltreatment-types-plot-selected-type {
-  font-weight: 600;
+  font-weight: var(--font-weight-heavy);
 }
 .maltreatment-types-plot-selected-type-summary {
-  font-weight: 900;
+  font-weight: var(--font-weight-x-heavy);
 }
 .maltreatment-types-plot-selected-type:not(:last-child):after,
 .maltreatment-types-plot-selected-type-summary:not(:last-child):after {
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
   content: ', ';
 }
 .maltreatment-types-plot-chart-summary,
 .maltreatment-types-plot-selected-type-summary:last-child:not(:only-child):before {
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
   content: ' and ';
 }
 .maltreatment-types-plot-selected-type:last-child:not(:only-child):after,
 .maltreatment-types-plot-selected-type-summary:last-child:not(:only-child):after {
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
   content: '.';
 }
