@@ -2,8 +2,8 @@
   --rmsc-h: var(--selector-constant-height) !important; /* Height */
   --rmsc-radius: 0 !important;
   width: 18rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-normal);
 }
 .rmsc .dropdown-heading {
   --rmsc-h: var(--selector-constant-height); /* Height */

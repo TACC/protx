@@ -1,15 +1,15 @@
 .feature-table * {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 0.8rem;
+  font-family: var(--font-type-roboto-condensed);
+  font-size: var(--font-size-xs);
 }
 sup {
   font-style: italic;
-  font-weight: 700;
-  color: rgb(80, 220, 255);
+  font-weight: var(--font-weight-heavy);
+  color: var(--color-skyblue);
 }
 .feature-table-chart,
 .feature-table-chart-selection {
-  font-weight: 600;
+  font-weight: var(--font-weight-normal-plus);
 }
 .feature-table-chart {
   margin: 1vh 1vw 3.7vh;
@@ -21,30 +21,30 @@ sup {
 .feature-table-chart tr td,
 .feature-table-chart-selection tr th,
 .feature-table-chart-selection tr td {
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid var(--color-black);
   padding: 0.5vh 0.2vw;
   text-align: center;
 }
 .feature-table-chart-selection tr:nth-child(odd),
 .feature-table-chart tr:nth-child(odd) {
-  background-color: #efefef;
+  background-color: var(--color-gray-very-light);
 }
 .feature-table-chart-selection tr th,
 .feature-table-chart tr th {
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   line-height: 2vh;
-  background-color: #222222;
-  color: #ffffff;
+  background-color: var(--color-gray-very-dark);
+  color: var(--color-white);
 }
 .feature-table-chart-selection tr th.ensemble-rank-label,
 .feature-table-chart tr th.ensemble-rank-label {
-  color: rgb(222, 166, 255) !important;
+  color: var(--color-violet) !important;
 }
 .feature-table-chart-selection tr td.ensemble-rank-value,
 .feature-table-chart tr td.ensemble-rank-value {
-  background-color: rgba(222, 166, 255, 0.2);
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
+  background-color: var(--color-violet-transparent);
+  border-left: 1px solid var(--color-black);
+  border-right: 1px solid var(--color-black);
 }
 .feature-table-chart-selection tr td:first-child,
 .feature-table-chart tr td:first-child {
@@ -58,15 +58,15 @@ sup {
   width: 12%;
 }
 .feature-table-selected-feature td {
-  background-color: rgb(20, 50, 80);
-  color: rgb(255, 255, 255);
+  background-color: var(--color-cornflower-blue);
+  color: var(--color-white);
 }
 .feature-table-selected-feature td.ensemble-rank-value {
-  background-color: rgb(80, 50, 100) !important;
-  color: rgb(255, 180, 0);
+  background-color: var(--color-purple) !important;
+  color: var(--color-gold);
 }
 .feature-table-info * {
-  font-weight: 400;
+  font-weight: var(--font-weight-light);
 }
 .feature-table-info,
 .feature-table-information {
@@ -74,7 +74,7 @@ sup {
 }
 .feature-table-info {
   margin-top: 1vh;
-  border: 1px solid #000000;
+  border: 1px solid var(--color-black);
 }
 .feature-table-annotation {
   margin: 0;
@@ -85,6 +85,6 @@ sup {
   margin-right: 0.2vw;
 }
 .feature-table-annotation-prefix {
-  font-weight: 600;
+  font-weight: var(--font-weight-normal-plus);
   font-style: italic;
 }
