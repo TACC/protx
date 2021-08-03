@@ -1,5 +1,32 @@
 import { getColor } from './maps/intervalColorScale';
 
+/* Variables used across all Plot types. */
+
+export const plotCategoryColors = [
+  '#4363d8',
+  '#911eb4',
+  '#bcf60c',
+  '#fabebe',
+  '#808000',
+  '#000075',
+  '#808080',
+  '#ffe119',
+  '#e6beff',
+  '#3cb44b',
+  '#aaffc3',
+  '#ffd8b1',
+  '#ffffff',
+  '#46f0f0',
+  '#f032e6',
+  '#008080',
+  '#000000',
+  '#e6194b',
+  '#9a6324',
+  '#fffac8',
+  '#f58231',
+  '#800000'
+];
+
 /**
  * Get meta data for observed features
  * @param {Object} data

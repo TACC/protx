@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Plot from 'react-plotly.js';
+import Plot from 'react-plotly.js';
+import { plotCategoryColors } from '../util';
 import DebugPlot from './DebugPlot';
 import { OBSERVED_FEATURES } from '../meta';
 import './ObservedFeaturesPlot.css';
@@ -59,31 +60,6 @@ function ObservedFeaturesPlot({
   };
 
   // Assign Plot Variables.
-
-  const plotCategoryColors = [
-    '#4363d8',
-    '#911eb4',
-    '#bcf60c',
-    '#fabebe',
-    '#808000',
-    '#000075',
-    '#808080',
-    '#ffe119',
-    '#e6beff',
-    '#3cb44b',
-    '#aaffc3',
-    '#ffd8b1',
-    '#ffffff',
-    '#46f0f0',
-    '#f032e6',
-    '#008080',
-    '#000000',
-    '#e6194b',
-    '#9a6324',
-    '#fffac8',
-    '#f58231',
-    '#800000'
-  ];
 
   const plotConfig = {
     doubleClickDelay: 1000,
