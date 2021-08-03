@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { plotCategoryColors } from '../util';
+import {
+  plotConfig,
+  getPlotDataVertBars,
+  getPlotLayout,
+  getObservedFeaturesLabel
+} from '../util';
 import DebugPlot from './DebugPlot';
-import { OBSERVED_FEATURES } from '../meta';
 import './ObservedFeaturesPlot.css';
 
 // Set this to true to inspect the component data in a tabular view.
@@ -18,82 +22,8 @@ function ObservedFeaturesPlot({
   selectedGeographicFeature,
   data
 }) {
-  // Define Data Marshalling Methods.
-
-  const getObservedFeaturesLabel = selectedObservedFeatureCode => {
-    return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
-      .name;
-  };
-
-  // Variable Assignment Using Data Marshalling Methods.
-
-  // Define Plotting Helper Methods.
-
-  const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
-    return {
-      y: [traceY],
-      x: [traceX],
-      name: traceName,
-      type: 'bar',
-      orientation: 'v',
-      marker: {
-        line: {
-          color: ['#111111'],
-          width: 1
-        },
-        color: [traceFillColor]
-      }
-    };
-  };
-
-  const getPlotDataVertBars = typesDataArray => {
-    const newPlotData = [];
-    for (let i = 0; i < typesDataArray.length; i += 1) {
-      const yData = typesDataArray[i].value;
-      const xData = typesDataArray[i].code;
-      const tName = typesDataArray[i].name;
-      const traceFillColor = plotCategoryColors[i];
-      const type = getBarVertTrace(yData, xData, tName, traceFillColor);
-      newPlotData.push(type);
-    }
-    return newPlotData;
-  };
-
-  // Assign Plot Variables.
-
-  const plotConfig = {
-    doubleClickDelay: 1000,
-    responsive: true,
-    displayModeBar: false,
-    modeBarButtonsToRemove: [],
-    displaylogo: false,
-    showEditInChartStudio: false
-  };
-
-  const plotLayout = {
-    autosize: true,
-    margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
-    xaxis: {
-      automargin: true,
-      tickangle: -90,
-      title: {
-        text: 'Observed Feature',
-        standoff: 20
-      }
-    },
-    yaxis: {
-      automargin: true,
-      tickangle: 0,
-      title: {
-        text: 'Total',
-        standoff: 20
-      }
-    },
-    annotations: []
-  };
-
   const observedFeaturesDataObject = [];
-
+  const plotLayout = getPlotLayout('Observed Features');
   const plotData = getPlotDataVertBars(observedFeaturesDataObject);
 
   const plotState = {
@@ -140,20 +70,18 @@ function ObservedFeaturesPlot({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            {/* <Plot
+            <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
               style={{ width: '100%', height: '100%' }}
-            /> */}
+            />
           </div>
         </div>
       </div>
     );
   };
-
-  // Generate Elements Using Element Rendering Methods.
 
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
     mapType,
@@ -162,8 +90,6 @@ function ObservedFeaturesPlot({
     selectedGeographicFeature,
     plotState
   );
-
-  // Render Component.
 
   if (debugState) {
     return (
