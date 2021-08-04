@@ -279,8 +279,6 @@ export const plotCategoryColors = [
   '#800000'
 ];
 
-// Plotting Helper Methods.
-
 /**
  *
  * @param {*} typesDataArray
