@@ -346,7 +346,6 @@ export const getPlotLayout = plotTitle => {
       automargin: true,
       tickangle: -90,
       title: {
-        // text: 'Maltreatment Type',
         text: plotTitle,
         standoff: 20
       }
@@ -363,8 +362,6 @@ export const getPlotLayout = plotTitle => {
   };
   return newPlotLayout;
 };
-
-//  Data Marshalling Methods.
 
 /**
  *
@@ -425,4 +422,59 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
 export const getPredictiveFeaturesDataObject = () => {
   const newPredictiveFeaturesDataObject = [];
   return newPredictiveFeaturesDataObject;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getMaltreatmentPlotData = (
+  selectedGeographicFeature,
+  maltreatmentTypes,
+  data,
+  geography,
+  year
+) => {
+  const geoid = selectedGeographicFeature;
+  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+
+  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
+    maltreatmentTypes,
+    maltreatmentTypesList,
+    maltreatmentTypesDataValues
+  );
+
+  const plotLayout = getPlotLayout('Maltreatment Types');
+  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const maltreatmentPlotData = {
+    malTypesAggregate: maltreatmentTypesDataAggregate,
+    malTypesList: maltreatmentTypesList,
+    malPlotState: plotState
+  };
+
+  return maltreatmentPlotData;
 };
