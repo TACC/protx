@@ -5,7 +5,7 @@ import { getObservedFeaturesLabel, getObservedFeaturesPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
-// Passing the debugState property will render component data in debug mode.
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function ObservedFeaturesPlot({
   mapType,
   geography,

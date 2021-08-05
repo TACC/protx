@@ -5,7 +5,7 @@ import { getMaltreatmentPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
-// Passing in the debugState property at component declaration will render component data in debug mode.
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function MaltreatmentTypesPlot({
   mapType,
   geography,

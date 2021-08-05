@@ -5,7 +5,7 @@ import { getPredictiveFeaturesPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
-// Passing the debugState property will render component data in debug mode.
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function PredictiveFeaturesPlot({
   mapType,
   geography,
