@@ -1,26 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {
-  plotConfig,
-  getPlotDataVertBars,
-  getPlotLayout,
-  getObservedFeaturesLabel
-} from '../util';
+import { getObservedFeaturesLabel, getObservedFeaturesPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
-/**
- * TODOS FOR ALL PLOT COMPONENTS.
- *
- * TODO: Refactor colorScales assignment out into utils.
- *   - Will be used by other components.
- * TODO: Investigate moving plot configuration generation code into  utils.
- *   - Used across multiple components, refactor into library.
- */
-
 // Passing the debugState property will render component data in debug mode.
-
 function ObservedFeaturesPlot({
   mapType,
   geography,
@@ -31,16 +16,6 @@ function ObservedFeaturesPlot({
   data,
   debugState
 }) {
-  const observedFeaturesDataObject = [];
-  const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
-
-  const plotState = {
-    data: plotData,
-    layout: plotLayout,
-    config: plotConfig
-  };
-
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     observedFeatureObservedFeatures,
@@ -90,12 +65,14 @@ function ObservedFeaturesPlot({
     );
   };
 
+  const observedFeaturesPlotData = getObservedFeaturesPlotData();
+
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
     mapType,
     observedFeature,
     geography,
     selectedGeographicFeature,
-    plotState
+    observedFeaturesPlotData.observedFeaturesPlotState
   );
 
   if (debugState) {

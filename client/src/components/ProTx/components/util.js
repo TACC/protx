@@ -478,3 +478,49 @@ export const getMaltreatmentPlotData = (
 
   return maltreatmentPlotData;
 };
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getObservedFeaturesPlotData = () => {
+  const observedFeaturesDataObject = [];
+  const plotLayout = getPlotLayout('Observed Features');
+  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const observedFeaturesPlotData = {
+    observedFeaturesPlotState: plotState
+  };
+
+  return observedFeaturesPlotData;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getPredictiveFeaturesPlotData = () => {
+  const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
+  const plotLayout = getPlotLayout('Predictive Features');
+  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const predictiveFeaturesPlotData = {
+    predictiveFeaturesPlotState: plotState
+  };
+
+  return predictiveFeaturesPlotData;
+};
