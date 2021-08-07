@@ -1,5 +1,6 @@
 import { getColor } from './maps/intervalColorScale';
 import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
+import { PHR_MSA_COUNTY_DATA, PHR_MSA_COUNTY_DEFINITIONS } from './CountyData';
 
 /**
  * Get meta data for observed features
@@ -252,7 +253,17 @@ export function getFeatureStyle(
   };
 }
 
-/* Variables & Methods used across all Plot types. */
+/**
+ * TODO: Add a FIPS Lookup Method and export for use in Plot Components.
+ */
+export const getFipsIdName = currentGeoid => {
+  // Lookup the currentGeoid and return the name as a string.
+  // SEE: https://stackoverflow.com/questions/40025718/es6-finding-data-in-nested-arrays
+
+  const fipsIdName = currentGeoid; // Just to make the methos work in the current plot as is.
+  // const fipsIdName = ''; // When this is working, return the actual fips Id value.
+  return fipsIdName;
+};
 
 export const plotCategoryColors = [
   '#4363d8',

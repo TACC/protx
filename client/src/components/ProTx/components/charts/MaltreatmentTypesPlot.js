@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getMaltreatmentPlotData } from '../util';
+import { getFipsIdName, getMaltreatmentPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
@@ -34,7 +34,7 @@ function MaltreatmentTypesPlot({
                   Selected {geographyMaltreatment}
                 </span>
                 <span className="maltreatment-types-plot-selected-region-value">
-                  {selectedGeographicFeatureMaltreatment}
+                  {fipsIdValue}
                 </span>
               </div>
               <div className="maltreatment-types-plot-aggregated-count">
@@ -99,6 +99,9 @@ function MaltreatmentTypesPlot({
     year
   );
 
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const debugGeoid = `${selectedGeographicFeature}:${fipsIdValue}`;
+
   const maltreatmentChartLayout = getMaltreatmentChartLayout(
     mapType,
     geography,
@@ -117,7 +120,7 @@ function MaltreatmentTypesPlot({
         geography={geography}
         maltreatmentTypes={maltreatmentTypes}
         year={year}
-        selectedGeographicFeature={selectedGeographicFeature}
+        selectedGeographicFeature={debugGeoid}
         data={data}
       />
     );
