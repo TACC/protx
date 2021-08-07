@@ -1,29 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {
-  plotConfig,
-  getPlotDataVertBars,
-  getPlotLayout,
-  getMaltreatmentTypeNames,
-  getMaltreatmentTypesDataObject,
-  getMaltreatmentAggregatedValue,
-  getMaltreatmentSelectedValues
-} from '../util';
+import { getFipsIdName, getMaltreatmentPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
-/**
- * TODOS FOR ALL PLOT COMPONENTS.
- *
- * TODO: Refactor colorScales assignment out into utils.
- *   - Will be used by other components.
- * TODO: Investigate moving plot configuration generation code into  utils.
- *   - Used across multiple components, refactor into library.
- */
-
-// Passing the debugState property will render component data in debug mode.
-
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function MaltreatmentTypesPlot({
   mapType,
   geography,
@@ -33,40 +15,6 @@ function MaltreatmentTypesPlot({
   data,
   debugState
 }) {
-  const geoid = selectedGeographicFeature;
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
-
-  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
-    maltreatmentTypes,
-    maltreatmentTypesList,
-    maltreatmentTypesDataValues
-  );
-
-  const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
-
-  const plotState = {
-    data: plotData,
-    layout: plotLayout,
-    config: plotConfig
-  };
-
   const getMaltreatmentChartLayout = (
     mapTypeMaltreatment,
     geographyMaltreatment,
@@ -143,14 +91,25 @@ function MaltreatmentTypesPlot({
     );
   };
 
+  const maltreatmentPlotData = getMaltreatmentPlotData(
+    selectedGeographicFeature,
+    maltreatmentTypes,
+    data,
+    geography,
+    year
+  );
+
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const debugGeoid = `${selectedGeographicFeature}:${fipsIdValue}`;
+
   const maltreatmentChartLayout = getMaltreatmentChartLayout(
     mapType,
     geography,
     year,
     selectedGeographicFeature,
-    maltreatmentTypesDataAggregate,
-    maltreatmentTypesList,
-    plotState
+    maltreatmentPlotData.malTypesAggregate,
+    maltreatmentPlotData.malTypesList,
+    maltreatmentPlotData.malPlotState
   );
 
   if (debugState) {
@@ -161,7 +120,7 @@ function MaltreatmentTypesPlot({
         geography={geography}
         maltreatmentTypes={maltreatmentTypes}
         year={year}
-        selectedGeographicFeature={selectedGeographicFeature}
+        selectedGeographicFeature={debugGeoid}
         data={data}
       />
     );

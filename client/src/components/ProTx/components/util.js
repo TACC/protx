@@ -252,7 +252,17 @@ export function getFeatureStyle(
   };
 }
 
-/* Variables & Methods used across all Plot types. */
+/**
+ * TODO: Add a FIPS Lookup Method and export for use in Plot Components.
+ */
+export const getFipsIdName = currentGeoid => {
+  // Lookup the currentGeoid and return the name as a string.
+  // SEE: https://stackoverflow.com/questions/40025718/es6-finding-data-in-nested-arrays
+
+  const fipsIdName = currentGeoid; // Just to make the methos work in the current plot as is.
+  // const fipsIdName = ''; // When this is working, return the actual fips Id value.
+  return fipsIdName;
+};
 
 export const plotCategoryColors = [
   '#4363d8',
@@ -278,8 +288,6 @@ export const plotCategoryColors = [
   '#f58231',
   '#800000'
 ];
-
-// Plotting Helper Methods.
 
 /**
  *
@@ -348,7 +356,6 @@ export const getPlotLayout = plotTitle => {
       automargin: true,
       tickangle: -90,
       title: {
-        // text: 'Maltreatment Type',
         text: plotTitle,
         standoff: 20
       }
@@ -365,8 +372,6 @@ export const getPlotLayout = plotTitle => {
   };
   return newPlotLayout;
 };
-
-//  Data Marshalling Methods.
 
 /**
  *
@@ -427,4 +432,105 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
 export const getPredictiveFeaturesDataObject = () => {
   const newPredictiveFeaturesDataObject = [];
   return newPredictiveFeaturesDataObject;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getMaltreatmentPlotData = (
+  selectedGeographicFeature,
+  maltreatmentTypes,
+  data,
+  geography,
+  year
+) => {
+  const geoid = selectedGeographicFeature;
+  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+
+  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
+    maltreatmentTypes,
+    maltreatmentTypesList,
+    maltreatmentTypesDataValues
+  );
+
+  const plotLayout = getPlotLayout('Maltreatment Types');
+  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const maltreatmentPlotData = {
+    malTypesAggregate: maltreatmentTypesDataAggregate,
+    malTypesList: maltreatmentTypesList,
+    malPlotState: plotState
+  };
+
+  return maltreatmentPlotData;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getObservedFeaturesPlotData = () => {
+  const observedFeaturesDataObject = [];
+  const plotLayout = getPlotLayout('Observed Features');
+  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const observedFeaturesPlotData = {
+    observedFeaturesPlotState: plotState
+  };
+
+  return observedFeaturesPlotData;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getPredictiveFeaturesPlotData = () => {
+  const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
+  const plotLayout = getPlotLayout('Predictive Features');
+  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const predictiveFeaturesPlotData = {
+    predictiveFeaturesPlotState: plotState
+  };
+
+  return predictiveFeaturesPlotData;
 };

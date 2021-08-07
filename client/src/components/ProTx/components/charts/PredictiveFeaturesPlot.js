@@ -1,26 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {
-  getPredictiveFeaturesDataObject,
-  plotConfig,
-  getPlotDataVertBars,
-  getPlotLayout
-} from '../util';
+import { getPredictiveFeaturesPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
-/**
- * TODOS FOR ALL PLOT COMPONENTS.
- *
- * TODO: Refactor colorScales assignment out into utils.
- *   - Will be used by other components.
- * TODO: Investigate moving plot configuration generation code into  utils.
- *   - Used across multiple components, refactor into library.
- */
-
-// Passing the debugState property will render component data in debug mode.
-
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function PredictiveFeaturesPlot({
   mapType,
   geography,
@@ -31,16 +16,6 @@ function PredictiveFeaturesPlot({
   data,
   debugState
 }) {
-  const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-  const plotLayout = getPlotLayout('Predictive Features');
-  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
-
-  const plotState = {
-    data: plotData,
-    layout: plotLayout,
-    config: plotConfig
-  };
-
   const getPredictiveFeaturesChartLayout = (
     mapTypePredictiveFeatures,
     predictiveFeaturePredictiveFeatures,
@@ -75,12 +50,14 @@ function PredictiveFeaturesPlot({
     );
   };
 
+  const predictiveFeaturesPlotData = getPredictiveFeaturesPlotData();
+
   const predictiveFeaturesChartLayout = getPredictiveFeaturesChartLayout(
     mapType,
     observedFeature,
     geography,
     selectedGeographicFeature,
-    plotState
+    predictiveFeaturesPlotData.predictiveFeaturesPlotState
   );
 
   if (debugState) {
