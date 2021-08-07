@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
+<<<<<<< Updated upstream
 import {
   plotConfig,
   getPlotDataVertBars,
@@ -10,6 +11,9 @@ import {
   getMaltreatmentAggregatedValue,
   getMaltreatmentSelectedValues
 } from '../util';
+=======
+import { getFipsIdName, getMaltreatmentPlotData } from '../util';
+>>>>>>> Stashed changes
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
@@ -86,7 +90,7 @@ function MaltreatmentTypesPlot({
                   Selected {geographyMaltreatment}
                 </span>
                 <span className="maltreatment-types-plot-selected-region-value">
-                  {selectedGeographicFeatureMaltreatment}
+                  {fipsIdValue}
                 </span>
               </div>
               <div className="maltreatment-types-plot-aggregated-count">
@@ -143,14 +147,36 @@ function MaltreatmentTypesPlot({
     );
   };
 
+<<<<<<< Updated upstream
+=======
+  const maltreatmentPlotData = getMaltreatmentPlotData(
+    selectedGeographicFeature,
+    maltreatmentTypes,
+    data,
+    geography,
+    year
+  );
+
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const debugGeoid = `${selectedGeographicFeature}:${fipsIdValue}`;
+
+>>>>>>> Stashed changes
   const maltreatmentChartLayout = getMaltreatmentChartLayout(
     mapType,
     geography,
     year,
+<<<<<<< Updated upstream
     selectedGeographicFeature,
     maltreatmentTypesDataAggregate,
     maltreatmentTypesList,
     plotState
+=======
+    // selectedGeographicFeature,
+    fipsIdValue,
+    maltreatmentPlotData.malTypesAggregate,
+    maltreatmentPlotData.malTypesList,
+    maltreatmentPlotData.malPlotState
+>>>>>>> Stashed changes
   );
 
   if (debugState) {
@@ -161,7 +187,8 @@ function MaltreatmentTypesPlot({
         geography={geography}
         maltreatmentTypes={maltreatmentTypes}
         year={year}
-        selectedGeographicFeature={selectedGeographicFeature}
+        // selectedGeographicFeature={selectedGeographicFeature}
+        selectedGeographicFeature={debugGeoid}
         data={data}
       />
     );
