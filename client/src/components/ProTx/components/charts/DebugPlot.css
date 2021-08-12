@@ -6,7 +6,8 @@
 }
 .debug-info * {
   font-family: var(--font-type-roboto);
-  line-height: 1.5rem;
+  line-height: 1rem;
+  font-size: 0.8rem;
 }
 .debug-data-table tr:nth-child(odd) {
   background-color: var(--color-gray-very-light);
@@ -26,6 +27,22 @@
   color: var(--color-blood-orange);
 }
 .debug-header {
-  margin: 1vh 0;
+  margin: 0.5vh 0;
   font-weight: var(--font-weight-normal-plus);
+}
+.debug-selection-data,
+.debug-plot-data {
+  margin: 0.5rem 0 0;
+}
+.debug-selection-data-title,
+.debug-plot-data-title {
+  margin: 0.35rem 0;
+  font-weight: 600;
+}
+.debug-selection-data-table,
+.debug-plot-data-table {
+  margin-bottom: 0.3rem;
+}
+.debug-plot-data-table-feature {
+  font-weight: 500;
 }
