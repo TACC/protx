@@ -64,24 +64,22 @@ function DebugPlotRedux({
             </tr>
           </thead>
           <tbody>
-            {maltreatmentPlotDataDebug.malPlotState.data.map(function(
-              pd,
-              pdId
-            ) {
-              const divStyle = {
-                backgroundColor: pd.marker.color
-              };
-
-              return (
-                <tr className="debug-plot-data-table">
-                  <td className="debug-plot-data-table-feature">{pd.name}</td>
-                  <td>{pd.x[0]}</td>
-                  <td>{pd.y[0]}</td>
-                  <td>{pd.marker.color}</td>
-                  <td style={divStyle}>&nbsp;</td>
-                </tr>
-              );
-            })}
+            {maltreatmentPlotDataDebug.malPlotState.data.map(
+              function plotStateDataTable(pd, pdId) {
+                const divStyle = {
+                  backgroundColor: pd.marker.color
+                };
+                return (
+                  <tr className="debug-plot-data-table">
+                    <td className="debug-plot-data-table-feature">{pd.name}</td>
+                    <td>{pd.x[0]}</td>
+                    <td>{pd.y[0]}</td>
+                    <td>{pd.marker.color}</td>
+                    <td style={divStyle}>&nbsp;</td>
+                  </tr>
+                );
+              }
+            )}
           </tbody>
         </table>
         <div className="debug-plot-data-title">Types Aggregate</div>
@@ -90,7 +88,10 @@ function DebugPlotRedux({
         </ul>
         <div className="debug-plot-data-title">Types List</div>
         <ul className="debug-plot-data-table">
-          {maltreatmentPlotDataDebug.malTypesList.map(function(mtl, mtlId) {
+          {maltreatmentPlotDataDebug.malTypesList.map(function plotTypesList(
+            mtl,
+            mtlId
+          ) {
             return <li>{mtl}</li>;
           })}
         </ul>
