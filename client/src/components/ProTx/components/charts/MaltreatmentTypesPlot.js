@@ -33,39 +33,13 @@ function MaltreatmentTypesPlot({
   data,
   debugState
 }) {
-  const geoid = selectedGeographicFeature;
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
-
-  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
-    maltreatmentTypes,
-    maltreatmentTypesList,
-    maltreatmentTypesDataValues
-  );
-
-  const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
-
-  const plotState = {
-    data: plotData,
-    layout: plotLayout,
-    config: plotConfig
-  };
+  // console.log(mapType);
+  // console.log(geography);
+  // console.log(maltreatmentTypes);
+  // console.log(year);
+  // console.log(selectedGeographicFeature);
+  // console.log(data);
+  // console.log(debugState);
 
   const getMaltreatmentChartLayout = (
     mapTypeMaltreatment,
@@ -160,6 +134,7 @@ function MaltreatmentTypesPlot({
         mapType={mapType}
         geography={geography}
         maltreatmentTypes={maltreatmentTypes}
+        maltreatmentPlotData={maltreatmentPlotData}
         year={year}
         selectedGeographicFeature={selectedGeographicFeature}
         data={data}

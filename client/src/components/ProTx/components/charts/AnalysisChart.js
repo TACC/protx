@@ -14,6 +14,14 @@ function AnalysisChart({
   selectedGeographicFeature,
   data
 }) {
+  // console.log(mapType);
+  // console.log(geography);
+  // console.log(maltreatmentTypes);
+  // console.log(observedFeature);
+  // console.log(year);
+  // console.log(selectedGeographicFeature);
+  // console.log(data);
+
   const maltreatmentDropdownInstructions = [
     'Using Map Type Maltreatment',
     'Data is restricted to the county area',
@@ -46,7 +54,7 @@ function AnalysisChart({
             year={year}
             selectedGeographicFeature={selectedGeographicFeature}
             data={data}
-            // debugState
+            debugState
           />
         </div>
       );
