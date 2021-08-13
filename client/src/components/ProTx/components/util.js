@@ -299,49 +299,26 @@ export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
 export const plotColors = THEME_CB12_MAIN;
 
 /**
- * Return the category's color using the category code and plot colors array.
- * TODO: Refactor to a destructuring approach.
+ * Define array of category codes.
  */
-export const getCategoryColor = (categoryCode, plotCategoryColors) => {
-  let barColor;
-  switch (categoryCode) {
-    case 'ABAN':
-      barColor = plotCategoryColors[0];
-      break;
-    case 'EMAB':
-      barColor = plotCategoryColors[1];
-      break;
-    case 'LBTR':
-      barColor = plotCategoryColors[2];
-      break;
-    case 'MDNG':
-      barColor = plotCategoryColors[3];
-      break;
-    case 'NSUP':
-      barColor = plotCategoryColors[4];
-      break;
-    case 'PHAB':
-      barColor = plotCategoryColors[5];
-      break;
-    case 'PHNG':
-      barColor = plotCategoryColors[6];
-      break;
-    case 'RAPR':
-      barColor = plotCategoryColors[7];
-      break;
-    case 'SXAB':
-      barColor = plotCategoryColors[8];
-      break;
-    case 'SXTR':
-      barColor = plotCategoryColors[9];
-      break;
-    case 'NA':
-      barColor = plotCategoryColors[10];
-      break;
-    default:
-      barColor = '#FFFFFF';
-      break;
-  }
+export const categoryCodes = [
+  'ABAN',
+  'EMAB',
+  'LBTR',
+  'MDNG',
+  'NSUP',
+  'PHAB',
+  'PHNG',
+  'RAPR',
+  'SXAB',
+  'SXTR',
+  'NA'
+];
+
+export const getCategoryColorDestructured = catcode => {
+  const indexKey = categoryCodes.indexOf(catcode);
+  const barColor = plotColors[indexKey];
+  // console.log(barColor);
   return barColor;
 };
 
@@ -356,8 +333,7 @@ export const getPlotDataVertBars = (typesDataArray, plotColorsArray) => {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    // const traceFillColor = plotCategoryColors[i];
-    const traceFillColor = getCategoryColor(xData, plotColorsArray);
+    const traceFillColor = getCategoryColorDestructured(xData);
     const type = getBarVertTrace(yData, xData, tName, traceFillColor);
     newPlotData.push(type);
   }
