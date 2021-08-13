@@ -55,7 +55,7 @@ function AnalysisChart({
             year={year}
             selectedGeographicFeature={selectedGeographicFeature}
             data={data}
-            debugState
+            // debugState
           />
         </div>
       );
@@ -84,7 +84,7 @@ function AnalysisChart({
             year={year}
             selectedGeographicFeature={selectedGeographicFeature}
             data={data}
-            debugState
+            // debugState
           />
         </div>
       );
