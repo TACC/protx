@@ -299,26 +299,9 @@ export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
 export const plotColors = THEME_CB12_MAIN;
 
 /**
- * Generate a new categoryColors object using MALTREATMENT and plotColors.
+ * Return the category's color using the category code and plot colors array.
+ * TODO: Refactor to a destructuring approach.
  */
-// export const getCategoryColors = (categories, colors) => {
-//   console.log(categories);
-//   console.log(colors);
-
-//   // const newCategoryColors = [];
-//   if (categories.length === 0) {
-//     return ['NONE'];
-//   }
-//   for (let i = 0; i < categories.length; i += 1) {
-//     console.log(categories[i]);
-//   }
-//   // return newCategoryColors;
-
-//   return colors;
-// };
-
-// export const plotCategoryColors = getCategoryColors(MALTREATMENT, plotColors);
-
 export const getCategoryColor = (categoryCode, plotCategoryColors) => {
   let barColor;
   switch (categoryCode) {
