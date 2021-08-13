@@ -1,4 +1,11 @@
 import { getColor } from './maps/intervalColorScale';
+import {
+  THEME_CB12_MAIN
+  // THEME_CB12_ALT0,
+  // THEME_CB12_ALT1,
+  // THEME_CB12_ALT2,
+  // THEME_CB12_ALT3
+} from './colors';
 import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
 
 /**
@@ -264,31 +271,6 @@ export const getFipsIdName = currentGeoid => {
   return fipsIdName;
 };
 
-export const plotCategoryColors = [
-  '#4363d8',
-  '#911eb4',
-  '#bcf60c',
-  '#fabebe',
-  '#808000',
-  '#000075',
-  '#808080',
-  '#ffe119',
-  '#e6beff',
-  '#3cb44b',
-  '#aaffc3',
-  '#ffd8b1',
-  '#ffffff',
-  '#46f0f0',
-  '#f032e6',
-  '#008080',
-  '#000000',
-  '#e6194b',
-  '#9a6324',
-  '#fffac8',
-  '#f58231',
-  '#800000'
-];
-
 /**
  *
  * @param {*} typesDataArray
@@ -312,17 +294,87 @@ export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
 };
 
 /**
+ * Assign an imported color theme for use in plot generation.
+ */
+export const plotColors = THEME_CB12_MAIN;
+
+/**
+ * Generate a new categoryColors object using MALTREATMENT and plotColors.
+ */
+// export const getCategoryColors = (categories, colors) => {
+//   console.log(categories);
+//   console.log(colors);
+
+//   // const newCategoryColors = [];
+//   if (categories.length === 0) {
+//     return ['NONE'];
+//   }
+//   for (let i = 0; i < categories.length; i += 1) {
+//     console.log(categories[i]);
+//   }
+//   // return newCategoryColors;
+
+//   return colors;
+// };
+
+// export const plotCategoryColors = getCategoryColors(MALTREATMENT, plotColors);
+
+export const getCategoryColor = (categoryCode, plotCategoryColors) => {
+  let barColor;
+  switch (categoryCode) {
+    case 'ABAN':
+      barColor = plotCategoryColors[0];
+      break;
+    case 'EMAB':
+      barColor = plotCategoryColors[1];
+      break;
+    case 'LBTR':
+      barColor = plotCategoryColors[2];
+      break;
+    case 'MDNG':
+      barColor = plotCategoryColors[3];
+      break;
+    case 'NSUP':
+      barColor = plotCategoryColors[4];
+      break;
+    case 'PHAB':
+      barColor = plotCategoryColors[5];
+      break;
+    case 'PHNG':
+      barColor = plotCategoryColors[6];
+      break;
+    case 'RAPR':
+      barColor = plotCategoryColors[7];
+      break;
+    case 'SXAB':
+      barColor = plotCategoryColors[8];
+      break;
+    case 'SXTR':
+      barColor = plotCategoryColors[9];
+      break;
+    case 'NA':
+      barColor = plotCategoryColors[10];
+      break;
+    default:
+      barColor = '#FFFFFF';
+      break;
+  }
+  return barColor;
+};
+
+/**
  *
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = typesDataArray => {
+export const getPlotDataVertBars = (typesDataArray, plotColorsArray) => {
   const newPlotData = [];
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    const traceFillColor = plotCategoryColors[i];
+    // const traceFillColor = plotCategoryColors[i];
+    const traceFillColor = getCategoryColor(xData, plotColorsArray);
     const type = getBarVertTrace(yData, xData, tName, traceFillColor);
     newPlotData.push(type);
   }
@@ -472,7 +524,7 @@ export const getMaltreatmentPlotData = (
   );
 
   const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
+  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject, plotColors);
 
   const plotState = {
     data: plotData,
