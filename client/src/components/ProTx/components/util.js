@@ -1,4 +1,5 @@
 import { getColor } from './maps/intervalColorScale';
+import { THEME_CB12_MAIN } from './colors';
 import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
 
 /**
@@ -264,31 +265,6 @@ export const getFipsIdName = currentGeoid => {
   return fipsIdName;
 };
 
-export const plotCategoryColors = [
-  '#4363d8',
-  '#911eb4',
-  '#bcf60c',
-  '#fabebe',
-  '#808000',
-  '#000075',
-  '#808080',
-  '#ffe119',
-  '#e6beff',
-  '#3cb44b',
-  '#aaffc3',
-  '#ffd8b1',
-  '#ffffff',
-  '#46f0f0',
-  '#f032e6',
-  '#008080',
-  '#000000',
-  '#e6194b',
-  '#9a6324',
-  '#fffac8',
-  '#f58231',
-  '#800000'
-];
-
 /**
  *
  * @param {*} typesDataArray
@@ -312,17 +288,45 @@ export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
 };
 
 /**
+ * Assign an imported color theme for use in plot generation.
+ */
+export const plotColors = THEME_CB12_MAIN;
+
+/**
+ * Define array of category codes.
+ */
+export const categoryCodes = [
+  'ABAN',
+  'EMAB',
+  'LBTR',
+  'MDNG',
+  'NSUP',
+  'PHAB',
+  'PHNG',
+  'RAPR',
+  'SXAB',
+  'SXTR',
+  'NA'
+];
+
+export const getCategoryColorDestructured = catcode => {
+  const indexKey = categoryCodes.indexOf(catcode);
+  const barColor = plotColors[indexKey];
+  return barColor;
+};
+
+/**
  *
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = typesDataArray => {
+export const getPlotDataVertBars = (typesDataArray, plotColorsArray) => {
   const newPlotData = [];
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    const traceFillColor = plotCategoryColors[i];
+    const traceFillColor = getCategoryColorDestructured(xData);
     const type = getBarVertTrace(yData, xData, tName, traceFillColor);
     newPlotData.push(type);
   }
@@ -472,7 +476,7 @@ export const getMaltreatmentPlotData = (
   );
 
   const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
+  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject, plotColors);
 
   const plotState = {
     data: plotData,
