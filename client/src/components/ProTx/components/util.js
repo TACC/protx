@@ -1,4 +1,5 @@
 import { getColor } from './maps/intervalColorScale';
+import { THEME_CB12_MAIN } from './colors';
 import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
 
 /**
@@ -252,34 +253,17 @@ export function getFeatureStyle(
   };
 }
 
-/* Variables & Methods used across all Plot types. */
+/**
+ * TODO: Add a FIPS Lookup Method and export for use in Plot Components.
+ */
+export const getFipsIdName = currentGeoid => {
+  // Lookup the currentGeoid and return the name as a string.
+  // SEE: https://stackoverflow.com/questions/40025718/es6-finding-data-in-nested-arrays
 
-export const plotCategoryColors = [
-  '#4363d8',
-  '#911eb4',
-  '#bcf60c',
-  '#fabebe',
-  '#808000',
-  '#000075',
-  '#808080',
-  '#ffe119',
-  '#e6beff',
-  '#3cb44b',
-  '#aaffc3',
-  '#ffd8b1',
-  '#ffffff',
-  '#46f0f0',
-  '#f032e6',
-  '#008080',
-  '#000000',
-  '#e6194b',
-  '#9a6324',
-  '#fffac8',
-  '#f58231',
-  '#800000'
-];
-
-// Plotting Helper Methods.
+  const fipsIdName = currentGeoid; // Just to make the methos work in the current plot as is.
+  // const fipsIdName = ''; // When this is working, return the actual fips Id value.
+  return fipsIdName;
+};
 
 /**
  *
@@ -304,17 +288,45 @@ export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
 };
 
 /**
+ * Assign an imported color theme for use in plot generation.
+ */
+export const plotColors = THEME_CB12_MAIN;
+
+/**
+ * Define array of category codes.
+ */
+export const categoryCodes = [
+  'ABAN',
+  'EMAB',
+  'LBTR',
+  'MDNG',
+  'NSUP',
+  'PHAB',
+  'PHNG',
+  'RAPR',
+  'SXAB',
+  'SXTR',
+  'NA'
+];
+
+export const getCategoryColorDestructured = catcode => {
+  const indexKey = categoryCodes.indexOf(catcode);
+  const barColor = plotColors[indexKey];
+  return barColor;
+};
+
+/**
  *
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = typesDataArray => {
+export const getPlotDataVertBars = (typesDataArray, plotColorsArray) => {
   const newPlotData = [];
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    const traceFillColor = plotCategoryColors[i];
+    const traceFillColor = getCategoryColorDestructured(xData);
     const type = getBarVertTrace(yData, xData, tName, traceFillColor);
     newPlotData.push(type);
   }
@@ -348,7 +360,6 @@ export const getPlotLayout = plotTitle => {
       automargin: true,
       tickangle: -90,
       title: {
-        // text: 'Maltreatment Type',
         text: plotTitle,
         standoff: 20
       }
@@ -365,8 +376,6 @@ export const getPlotLayout = plotTitle => {
   };
   return newPlotLayout;
 };
-
-//  Data Marshalling Methods.
 
 /**
  *
@@ -427,4 +436,105 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
 export const getPredictiveFeaturesDataObject = () => {
   const newPredictiveFeaturesDataObject = [];
   return newPredictiveFeaturesDataObject;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getMaltreatmentPlotData = (
+  selectedGeographicFeature,
+  maltreatmentTypes,
+  data,
+  geography,
+  year
+) => {
+  const geoid = selectedGeographicFeature;
+  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+
+  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+    data,
+    geography,
+    year,
+    geoid,
+    maltreatmentTypes
+  );
+
+  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
+    maltreatmentTypes,
+    maltreatmentTypesList,
+    maltreatmentTypesDataValues
+  );
+
+  const plotLayout = getPlotLayout('Maltreatment Types');
+  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject, plotColors);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const maltreatmentPlotData = {
+    malTypesAggregate: maltreatmentTypesDataAggregate,
+    malTypesList: maltreatmentTypesList,
+    malPlotState: plotState
+  };
+
+  return maltreatmentPlotData;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getObservedFeaturesPlotData = () => {
+  const observedFeaturesDataObject = [];
+  const plotLayout = getPlotLayout('Observed Features');
+  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const observedFeaturesPlotData = {
+    observedFeaturesPlotState: plotState
+  };
+
+  return observedFeaturesPlotData;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+export const getPredictiveFeaturesPlotData = () => {
+  const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
+  const plotLayout = getPlotLayout('Predictive Features');
+  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
+
+  const plotState = {
+    data: plotData,
+    layout: plotLayout,
+    config: plotConfig
+  };
+
+  const predictiveFeaturesPlotData = {
+    predictiveFeaturesPlotState: plotState
+  };
+
+  return predictiveFeaturesPlotData;
 };
