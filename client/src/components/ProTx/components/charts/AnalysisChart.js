@@ -51,6 +51,7 @@ function AnalysisChart({
             mapType={mapType}
             geography={geography}
             maltreatmentTypes={maltreatmentTypes}
+            observedFeature={observedFeature}
             year={year}
             selectedGeographicFeature={selectedGeographicFeature}
             data={data}
@@ -83,7 +84,7 @@ function AnalysisChart({
             year={year}
             selectedGeographicFeature={selectedGeographicFeature}
             data={data}
-            // debugState
+            debugState
           />
         </div>
       );

@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getObservedFeaturesLabel, getObservedFeaturesPlotData } from '../util';
+import {
+  getFipsIdName,
+  getObservedFeaturesLabel,
+  getObservedFeaturesPlotData
+} from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
@@ -16,6 +20,17 @@ function ObservedFeaturesPlot({
   data,
   debugState
 }) {
+  // console.log(mapType);
+  // console.log(geography);
+  // console.log(maltreatmentTypes);
+  // console.log(observedFeature);
+  // console.log(year);
+  // console.log(selectedGeographicFeature);
+  // console.log(data);
+  // console.log(debugState);
+
+  const PLOT_TYPE = 'observedFeatures';
+
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     observedFeatureObservedFeatures,
@@ -67,6 +82,9 @@ function ObservedFeaturesPlot({
 
   const observedFeaturesPlotData = getObservedFeaturesPlotData();
 
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
+
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
     mapType,
     observedFeature,
@@ -85,6 +103,10 @@ function ObservedFeaturesPlot({
         observedFeature={observedFeature}
         year={year}
         selectedGeographicFeature={selectedGeographicFeature}
+        fipsIdValue={fipsIdValue}
+        geoId={geoId}
+        plotType={PLOT_TYPE}
+        plotData={observedFeaturesPlotData}
         data={data}
       />
     );

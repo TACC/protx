@@ -5,11 +5,6 @@ import PredictiveFeaturesPlot from './PredictiveFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
 import './ReportChart.css';
 
-/**
- * TODO: Complete the PredictiveFeaturesPlot.
- * TODO: Uncomment the disabled code.
- */
-
 function ReportChart({
   mapType,
   geography,
@@ -19,6 +14,14 @@ function ReportChart({
   selectedGeographicFeature,
   data
 }) {
+  // console.log(mapType);
+  // console.log(geography);
+  // console.log(maltreatmentTypes);
+  // console.log(observedFeature);
+  // console.log(year);
+  // console.log(selectedGeographicFeature);
+  // console.log(data);
+
   const reportDropdownInstructions = [
     'Map is restricted to Demographic Features.',
     'Map is restricted to the County Area.',
@@ -43,7 +46,7 @@ function ReportChart({
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
-          // debugState
+          debugState
         />
       </div>
     );

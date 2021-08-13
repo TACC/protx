@@ -46,3 +46,7 @@
 .debug-plot-data-table-feature {
   font-weight: 500;
 }
+.inline-list {
+  display: inline;
+  padding: 0 0.5rem 0 0;
+}
