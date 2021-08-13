@@ -1,11 +1,5 @@
 import { getColor } from './maps/intervalColorScale';
-import {
-  THEME_CB12_MAIN
-  // THEME_CB12_ALT0,
-  // THEME_CB12_ALT1,
-  // THEME_CB12_ALT2,
-  // THEME_CB12_ALT3
-} from './colors';
+import { THEME_CB12_MAIN } from './colors';
 import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
 
 /**
@@ -318,7 +312,6 @@ export const categoryCodes = [
 export const getCategoryColorDestructured = catcode => {
   const indexKey = categoryCodes.indexOf(catcode);
   const barColor = plotColors[indexKey];
-  // console.log(barColor);
   return barColor;
 };
 
