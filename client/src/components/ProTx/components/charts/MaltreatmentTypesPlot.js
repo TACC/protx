@@ -32,6 +32,7 @@ function MaltreatmentTypesPlot({
     geographyMaltreatment,
     yearMaltreatment,
     selectedGeographicFeatureMaltreatment,
+    fipsIdNameMaltreatment,
     maltreatmentTypesDataAggregateMaltreatment,
     maltreatmentTypesListMaltreatment,
     plotStateMaltreatment
@@ -46,7 +47,10 @@ function MaltreatmentTypesPlot({
                   Selected {geographyMaltreatment}
                 </span>
                 <span className="maltreatment-types-plot-selected-region-value">
-                  {selectedGeographicFeatureMaltreatment}
+                  {fipsIdNameMaltreatment}
+                </span>
+                <span className="maltreatment-types-plot-selected-region-code">
+                  ({selectedGeographicFeatureMaltreatment})
                 </span>
               </div>
               <div className="maltreatment-types-plot-aggregated-count">
@@ -87,8 +91,9 @@ function MaltreatmentTypesPlot({
         <div className="maltreatment-types-plot-chart-footer">
           <span className="maltreatment-types-plot-chart-summary">
             This chart was generated using {yearMaltreatment}{' '}
-            {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
-            {selectedGeographicFeatureMaltreatment} using the data type(s)
+            {mapTypeMaltreatment} data for {fipsIdNameMaltreatment}{' '}
+            {geographyMaltreatment} (code{' '}
+            {selectedGeographicFeatureMaltreatment}) using the data type(s)
           </span>
           {maltreatmentTypesListMaltreatment.map(type => (
             <span
@@ -119,6 +124,7 @@ function MaltreatmentTypesPlot({
     geography,
     year,
     selectedGeographicFeature,
+    fipsIdValue,
     maltreatmentPlotData.malTypesAggregate,
     maltreatmentPlotData.malTypesList,
     maltreatmentPlotData.malPlotState

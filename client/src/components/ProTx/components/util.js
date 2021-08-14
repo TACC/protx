@@ -1,5 +1,6 @@
 import { getColor } from './maps/intervalColorScale';
 import { THEME_CB12_MAIN } from './colors';
+import { PHR_MSA_COUNTIES } from './PHR_MSA_County_masterlist';
 import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
 
 /**
@@ -257,11 +258,22 @@ export function getFeatureStyle(
  * TODO: Add a FIPS Lookup Method and export for use in Plot Components.
  */
 export const getFipsIdName = currentGeoid => {
-  // Lookup the currentGeoid and return the name as a string.
-  // SEE: https://stackoverflow.com/questions/40025718/es6-finding-data-in-nested-arrays
+  const trimmedGeoid = currentGeoid.substring(currentGeoid.length - 3);
+  const countyObjects = PHR_MSA_COUNTIES[0];
+  let fipsIdName;
 
-  const fipsIdName = currentGeoid; // Just to make the methos work in the current plot as is.
-  // const fipsIdName = ''; // When this is working, return the actual fips Id value.
+  for (const cty in countyObjects) {
+    const currentCounty = countyObjects[cty];
+    const baseCode = '000';
+    const countyCode = baseCode + currentCounty['FIPS Number']; // String.
+    const currentCountyCode = countyCode.slice(-3);
+    const currentCountyName = currentCounty['County Name'];
+
+    if (currentCountyCode === trimmedGeoid) {
+      fipsIdName = currentCountyName;
+    }
+  }
+
   return fipsIdName;
 };
 
