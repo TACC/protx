@@ -1,26 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {
-  getPredictiveFeaturesDataObject,
-  plotConfig,
-  getPlotDataVertBars,
-  getPlotLayout
-} from '../util';
+import { getFipsIdName, getPredictiveFeaturesPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
-/**
- * TODOS FOR ALL PLOT COMPONENTS.
- *
- * TODO: Refactor colorScales assignment out into utils.
- *   - Will be used by other components.
- * TODO: Investigate moving plot configuration generation code into  utils.
- *   - Used across multiple components, refactor into library.
- */
-
-// Passing the debugState property will render component data in debug mode.
-
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function PredictiveFeaturesPlot({
   mapType,
   geography,
@@ -31,15 +16,16 @@ function PredictiveFeaturesPlot({
   data,
   debugState
 }) {
-  const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-  const plotLayout = getPlotLayout('Predictive Features');
-  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
+  // console.log(mapType);
+  // console.log(geography);
+  // console.log(maltreatmentTypes);
+  // console.log(observedFeature);
+  // console.log(year);
+  // console.log(selectedGeographicFeature);
+  // console.log(data);
+  // console.log(debugState);
 
-  const plotState = {
-    data: plotData,
-    layout: plotLayout,
-    config: plotConfig
-  };
+  const PLOT_TYPE = 'predictiveFeatures';
 
   const getPredictiveFeaturesChartLayout = (
     mapTypePredictiveFeatures,
@@ -75,12 +61,17 @@ function PredictiveFeaturesPlot({
     );
   };
 
+  const predictiveFeaturesPlotData = getPredictiveFeaturesPlotData();
+
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
+
   const predictiveFeaturesChartLayout = getPredictiveFeaturesChartLayout(
     mapType,
     observedFeature,
     geography,
     selectedGeographicFeature,
-    plotState
+    predictiveFeaturesPlotData.predictiveFeaturesPlotState
   );
 
   if (debugState) {
@@ -93,6 +84,10 @@ function PredictiveFeaturesPlot({
         observedFeature={observedFeature}
         year={year}
         selectedGeographicFeature={selectedGeographicFeature}
+        fipsIdValue={fipsIdValue}
+        geoId={geoId}
+        plotType={PLOT_TYPE}
+        plotData={predictiveFeaturesPlotData}
         data={data}
       />
     );

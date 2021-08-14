@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import {
-  plotConfig,
-  getPlotDataVertBars,
-  getPlotLayout,
-  getObservedFeaturesLabel
+  getFipsIdName,
+  getObservedFeaturesLabel,
+  getObservedFeaturesPlotData
 } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
-// Passing the debugState property will render component data in debug mode.
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function ObservedFeaturesPlot({
   mapType,
   geography,
@@ -21,15 +20,16 @@ function ObservedFeaturesPlot({
   data,
   debugState
 }) {
-  const observedFeaturesDataObject = [];
-  const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+  // console.log(mapType);
+  // console.log(geography);
+  // console.log(maltreatmentTypes);
+  // console.log(observedFeature);
+  // console.log(year);
+  // console.log(selectedGeographicFeature);
+  // console.log(data);
+  // console.log(debugState);
 
-  const plotState = {
-    data: plotData,
-    layout: plotLayout,
-    config: plotConfig
-  };
+  const PLOT_TYPE = 'observedFeatures';
 
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
@@ -80,12 +80,17 @@ function ObservedFeaturesPlot({
     );
   };
 
+  const observedFeaturesPlotData = getObservedFeaturesPlotData();
+
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
+
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
     mapType,
     observedFeature,
     geography,
     selectedGeographicFeature,
-    plotState
+    observedFeaturesPlotData.observedFeaturesPlotState
   );
 
   if (debugState) {
@@ -98,6 +103,10 @@ function ObservedFeaturesPlot({
         observedFeature={observedFeature}
         year={year}
         selectedGeographicFeature={selectedGeographicFeature}
+        fipsIdValue={fipsIdValue}
+        geoId={geoId}
+        plotType={PLOT_TYPE}
+        plotData={observedFeaturesPlotData}
         data={data}
       />
     );
