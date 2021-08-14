@@ -50,6 +50,10 @@
   font-size: calc(var(--font-size-normal) * 3);
   font-weight: var(--font-weight-x-heavy);
 }
+.maltreatment-types-plot-selected-region-code {
+  margin-left: 1rem;
+  font-style: italic;
+}
 .maltreatment-types-plot-chart-filters {
   padding: 1vh 0;
   font-weight: var(--font-weight-normal-plus);
