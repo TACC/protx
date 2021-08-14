@@ -1,77 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {
-  plotConfig,
-  getPlotDataVertBars,
-  getPlotLayout,
-  getMaltreatmentTypeNames,
-  getMaltreatmentTypesDataObject,
-  getMaltreatmentAggregatedValue,
-  getMaltreatmentSelectedValues
-} from '../util';
+import { getFipsIdName, getMaltreatmentPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
-/**
- * TODOS FOR ALL PLOT COMPONENTS.
- *
- * TODO: Refactor colorScales assignment out into utils.
- *   - Will be used by other components.
- * TODO: Investigate moving plot configuration generation code into  utils.
- *   - Used across multiple components, refactor into library.
- */
-
-// Passing the debugState property will render component data in debug mode.
-
+/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function MaltreatmentTypesPlot({
   mapType,
   geography,
   maltreatmentTypes,
+  observedFeature,
   year,
   selectedGeographicFeature,
   data,
   debugState
 }) {
-  const geoid = selectedGeographicFeature;
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+  // console.log(mapType);
+  // console.log(geography);
+  // console.log(maltreatmentTypes);
+  // console.log(observedFeature);
+  // console.log(year);
+  // console.log(selectedGeographicFeature);
+  // console.log(data);
+  // console.log(debugState);
 
-  const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
-    data,
-    geography,
-    year,
-    geoid,
-    maltreatmentTypes
-  );
-
-  const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
-    maltreatmentTypes,
-    maltreatmentTypesList,
-    maltreatmentTypesDataValues
-  );
-
-  const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject);
-
-  const plotState = {
-    data: plotData,
-    layout: plotLayout,
-    config: plotConfig
-  };
+  const PLOT_TYPE = 'maltreatmentTypes';
 
   const getMaltreatmentChartLayout = (
     mapTypeMaltreatment,
     geographyMaltreatment,
     yearMaltreatment,
     selectedGeographicFeatureMaltreatment,
+    fipsIdNameMaltreatment,
     maltreatmentTypesDataAggregateMaltreatment,
     maltreatmentTypesListMaltreatment,
     plotStateMaltreatment
@@ -86,7 +47,10 @@ function MaltreatmentTypesPlot({
                   Selected {geographyMaltreatment}
                 </span>
                 <span className="maltreatment-types-plot-selected-region-value">
-                  {selectedGeographicFeatureMaltreatment}
+                  {fipsIdNameMaltreatment}
+                </span>
+                <span className="maltreatment-types-plot-selected-region-code">
+                  ({selectedGeographicFeatureMaltreatment})
                 </span>
               </div>
               <div className="maltreatment-types-plot-aggregated-count">
@@ -127,8 +91,9 @@ function MaltreatmentTypesPlot({
         <div className="maltreatment-types-plot-chart-footer">
           <span className="maltreatment-types-plot-chart-summary">
             This chart was generated using {yearMaltreatment}{' '}
-            {mapTypeMaltreatment} data for {geographyMaltreatment}{' '}
-            {selectedGeographicFeatureMaltreatment} using the data type(s)
+            {mapTypeMaltreatment} data for {fipsIdNameMaltreatment}{' '}
+            {geographyMaltreatment} (code{' '}
+            {selectedGeographicFeatureMaltreatment}) using the data type(s)
           </span>
           {maltreatmentTypesListMaltreatment.map(type => (
             <span
@@ -143,14 +108,26 @@ function MaltreatmentTypesPlot({
     );
   };
 
+  const maltreatmentPlotData = getMaltreatmentPlotData(
+    selectedGeographicFeature,
+    maltreatmentTypes,
+    data,
+    geography,
+    year
+  );
+
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
+
   const maltreatmentChartLayout = getMaltreatmentChartLayout(
     mapType,
     geography,
     year,
     selectedGeographicFeature,
-    maltreatmentTypesDataAggregate,
-    maltreatmentTypesList,
-    plotState
+    fipsIdValue,
+    maltreatmentPlotData.malTypesAggregate,
+    maltreatmentPlotData.malTypesList,
+    maltreatmentPlotData.malPlotState
   );
 
   if (debugState) {
@@ -160,8 +137,13 @@ function MaltreatmentTypesPlot({
         mapType={mapType}
         geography={geography}
         maltreatmentTypes={maltreatmentTypes}
+        observedFeature={observedFeature}
         year={year}
         selectedGeographicFeature={selectedGeographicFeature}
+        fipsIdValue={fipsIdValue}
+        geoId={geoId}
+        plotType={PLOT_TYPE}
+        plotData={maltreatmentPlotData}
         data={data}
       />
     );
@@ -176,6 +158,7 @@ MaltreatmentTypesPlot.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
