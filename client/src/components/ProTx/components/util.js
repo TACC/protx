@@ -262,7 +262,7 @@ export const getFipsIdName = currentGeoid => {
   const countyObjects = PHR_MSA_COUNTIES[0];
   let fipsIdName;
 
-  for (const cty in countyObjects) {
+  Object.keys(countyObjects).forEach(cty => {
     const currentCounty = countyObjects[cty];
     const baseCode = '000';
     const countyCode = baseCode + currentCounty['FIPS Number']; // String.
@@ -272,7 +272,7 @@ export const getFipsIdName = currentGeoid => {
     if (currentCountyCode === trimmedGeoid) {
       fipsIdName = currentCountyName;
     }
-  }
+  });
 
   return fipsIdName;
 };
