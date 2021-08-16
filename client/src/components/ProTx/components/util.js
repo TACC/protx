@@ -192,7 +192,7 @@ export function getMaltreatmentSelectedValues(
  *
  * If no value exists, then we return a transparent feature style if no value exists)
  *
- * @param {String} map type
+ * @param {String} mapType
  * @param {Object} data
  * @param {Object} metaData
  * @param {String} geography
@@ -255,7 +255,9 @@ export function getFeatureStyle(
 }
 
 /**
- * TODO: Add a FIPS Lookup Method and export for use in Plot Components.
+ * Get the county name for a given Geoid.
+ * @param {String} currentGeoid
+ * @returns {fipsIdName: string}
  */
 export const getFipsIdName = currentGeoid => {
   const trimmedGeoid = currentGeoid.substring(currentGeoid.length - 3);
