@@ -33,14 +33,16 @@ function ObservedFeaturesPlot({
 
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
-    observedFeatureObservedFeatures,
     geographyObservedFeatures,
+    yearObservedFeatures,
+    observedFeatureObservedFeatures,
     selectedGeographicFeatureObservedFeatures,
     plotStateObservedFeatures
   ) => {
     const observedFeaturesLabel = getObservedFeaturesLabel(
       observedFeatureObservedFeatures
     );
+    console.log(plotStateObservedFeatures);
 
     return (
       <div className="observed-features-plot-layout">
@@ -80,15 +82,22 @@ function ObservedFeaturesPlot({
     );
   };
 
-  const observedFeaturesPlotData = getObservedFeaturesPlotData();
+  const observedFeaturesPlotData = getObservedFeaturesPlotData(
+    selectedGeographicFeature,
+    observedFeature,
+    data,
+    geography,
+    year
+  );
 
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
     mapType,
-    observedFeature,
     geography,
+    year,
+    observedFeature,
     selectedGeographicFeature,
     observedFeaturesPlotData.observedFeaturesPlotState
   );

@@ -111,6 +111,7 @@ function DebugPlotRedux({
     }
 
     if (plotTypeDebug === 'observedFeatures') {
+      // console.log(plotDataDebug);
       return (
         <div className="debug-plot-data">
           <div className="debug-plot-data-title">Component Plot State</div>

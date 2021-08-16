@@ -37,6 +37,7 @@ function MaltreatmentTypesPlot({
     maltreatmentTypesListMaltreatment,
     plotStateMaltreatment
   ) => {
+    console.log(plotStateMaltreatment);
     return (
       <div className="maltreatment-types-plot-layout">
         <div className="maltreatment-types-plot-header">

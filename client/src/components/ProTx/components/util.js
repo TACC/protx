@@ -1,5 +1,5 @@
 import { getColor } from './maps/intervalColorScale';
-import { THEME_CB12_MAIN } from './colors';
+import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from './colors';
 import { PHR_MSA_COUNTIES } from './PHR_MSA_County_masterlist';
 import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
 
@@ -294,17 +294,12 @@ export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
     marker: {
       line: {
         color: ['#111111'],
-        width: 1
+        width: 0.1
       },
       color: [traceFillColor]
     }
   };
 };
-
-/**
- * Assign an imported color theme for use in plot generation.
- */
-export const plotColors = THEME_CB12_MAIN;
 
 /**
  * Define array of category codes.
@@ -323,10 +318,25 @@ export const categoryCodes = [
   'NA'
 ];
 
-export const getCategoryColorDestructured = catcode => {
-  const indexKey = categoryCodes.indexOf(catcode);
-  const barColor = plotColors[indexKey];
-  return barColor;
+/**
+ * Assign an imported color theme for use in plot generation.
+ */
+export const plotColors = THEME_CB12_MAIN;
+export const histColors = THEME_CB12_ALT0;
+
+export const getCategoryColorDestructured = (targetPlot, catcode) => {
+  if (targetPlot === 'maltreatment') {
+    const indexKey = categoryCodes.indexOf(catcode);
+    const barColor = plotColors[indexKey];
+    return barColor;
+  }
+  if (targetPlot === 'observed') {
+    return histColors[1];
+  }
+  if (targetPlot === 'predictive') {
+    return histColors[6];
+  }
+  return histColors[10];
 };
 
 /**
@@ -334,13 +344,13 @@ export const getCategoryColorDestructured = catcode => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = (typesDataArray, plotColorsArray) => {
+export const getPlotDataVertBars = (targetPlotType, typesDataArray) => {
   const newPlotData = [];
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    const traceFillColor = getCategoryColorDestructured(xData);
+    const traceFillColor = getCategoryColorDestructured(targetPlotType, xData);
     const type = getBarVertTrace(yData, xData, tName, traceFillColor);
     newPlotData.push(type);
   }
@@ -449,6 +459,9 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
  */
 export const getPredictiveFeaturesDataObject = () => {
   const newPredictiveFeaturesDataObject = [];
+
+  //
+
   return newPredictiveFeaturesDataObject;
 };
 
@@ -490,7 +503,10 @@ export const getMaltreatmentPlotData = (
   );
 
   const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject, plotColors);
+  const plotData = getPlotDataVertBars(
+    'maltreatment',
+    maltreatmentTypesDataObject
+  );
 
   const plotState = {
     data: plotData,
@@ -512,10 +528,46 @@ export const getMaltreatmentPlotData = (
  * @param {*} typesDataArray
  * @returns
  */
-export const getObservedFeaturesPlotData = () => {
+export const getObservedFeaturesPlotData = (
+  selectedGeographicFeature,
+  observedFeature,
+  data,
+  geography,
+  year
+) => {
+  // console.log(selectedGeographicFeature);
+  // console.log(observedFeature);
+  // console.log(data);
+  // console.log(geography);
+  // console.log(year);
+
   const observedFeaturesDataObject = [];
+  const observedFeaturesData = data.observedFeatures;
+
+  Object.keys(observedFeaturesData).forEach(observed => {
+    if (observed === geography) {
+      const innerFeature = observedFeaturesData[observed];
+      Object.keys(innerFeature).forEach(feature => {
+        const featureValues = innerFeature[feature];
+        Object.keys(featureValues).forEach(value => {
+          if (value === observedFeature) {
+            const currentFeature = {};
+            currentFeature.code = feature;
+            currentFeature.name = feature;
+            if (geography === 'county') {
+              currentFeature.name = getFipsIdName(feature);
+            }
+            currentFeature.value = featureValues[value];
+            observedFeaturesDataObject.push(currentFeature);
+          }
+        });
+      });
+    }
+  });
+  // console.log(observedFeaturesDataObject);
+
   const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+  const plotData = getPlotDataVertBars('observed', observedFeaturesDataObject);
 
   const plotState = {
     data: plotData,
@@ -526,6 +578,7 @@ export const getObservedFeaturesPlotData = () => {
   const observedFeaturesPlotData = {
     observedFeaturesPlotState: plotState
   };
+  // console.log(observedFeaturesPlotData);
 
   return observedFeaturesPlotData;
 };
