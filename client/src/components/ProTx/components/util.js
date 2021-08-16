@@ -284,13 +284,19 @@ export const getFipsIdName = currentGeoid => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
+export const getBarVertTrace = (
+  traceY,
+  traceX,
+  traceName,
+  traceFillColor,
+  barOrientation
+) => {
   return {
     y: [traceY],
     x: [traceX],
     name: traceName,
     type: 'bar',
-    orientation: 'v',
+    orientation: barOrientation,
     marker: {
       line: {
         color: ['#111111'],
@@ -324,17 +330,27 @@ export const categoryCodes = [
 export const plotColors = THEME_CB12_MAIN;
 export const histColors = THEME_CB12_ALT0;
 
-export const getCategoryColorDestructured = (targetPlot, catcode) => {
+export const getCategoryColorDestructured = (
+  targetPlot,
+  catcode,
+  unique = false
+) => {
   if (targetPlot === 'maltreatment') {
     const indexKey = categoryCodes.indexOf(catcode);
     const barColor = plotColors[indexKey];
     return barColor;
   }
   if (targetPlot === 'observed') {
+    if (unique) {
+      return histColors[10];
+    }
     return histColors[1];
   }
   if (targetPlot === 'predictive') {
-    return histColors[6];
+    if (unique) {
+      return histColors[6];
+    }
+    return histColors[8];
   }
   return histColors[10];
 };
@@ -344,14 +360,29 @@ export const getCategoryColorDestructured = (targetPlot, catcode) => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = (targetPlotType, typesDataArray) => {
+export const getPlotDataVertBars = (
+  targetPlotType,
+  typesDataArray,
+  plotOrientation
+) => {
   const newPlotData = [];
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    const traceFillColor = getCategoryColorDestructured(targetPlotType, xData);
-    const type = getBarVertTrace(yData, xData, tName, traceFillColor);
+    const isHighlighted = typesDataArray[i].highlight;
+    const traceFillColor = getCategoryColorDestructured(
+      targetPlotType,
+      xData,
+      isHighlighted
+    );
+    const type = getBarVertTrace(
+      yData,
+      xData,
+      tName,
+      traceFillColor,
+      plotOrientation
+    );
     newPlotData.push(type);
   }
   return newPlotData;
@@ -437,6 +468,7 @@ export const getMaltreatmentTypesDataObject = (
     dataObject.code = codeArray[i];
     dataObject.name = nameArray[i];
     dataObject.value = valueArray[i];
+    dataObject.highlight = false;
     newMaltreatmentDataObject.push(dataObject);
   }
   return newMaltreatmentDataObject;
@@ -505,7 +537,8 @@ export const getMaltreatmentPlotData = (
   const plotLayout = getPlotLayout('Maltreatment Types');
   const plotData = getPlotDataVertBars(
     'maltreatment',
-    maltreatmentTypesDataObject
+    maltreatmentTypesDataObject,
+    'v'
   );
 
   const plotState = {
@@ -558,6 +591,10 @@ export const getObservedFeaturesPlotData = (
               currentFeature.name = getFipsIdName(feature);
             }
             currentFeature.value = featureValues[value];
+            currentFeature.highlight = false;
+            if (selectedGeographicFeature === feature) {
+              currentFeature.highlight = true;
+            }
             observedFeaturesDataObject.push(currentFeature);
           }
         });
@@ -567,7 +604,11 @@ export const getObservedFeaturesPlotData = (
   // console.log(observedFeaturesDataObject);
 
   const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataVertBars('observed', observedFeaturesDataObject);
+  const plotData = getPlotDataVertBars(
+    'observed',
+    observedFeaturesDataObject,
+    'v'
+  );
 
   const plotState = {
     data: plotData,
@@ -591,7 +632,11 @@ export const getObservedFeaturesPlotData = (
 export const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
   const plotLayout = getPlotLayout('Predictive Features');
-  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
+  const plotData = getPlotDataVertBars(
+    'predictive',
+    predictiveFeaturesDataObject,
+    'v'
+  );
 
   const plotState = {
     data: plotData,
