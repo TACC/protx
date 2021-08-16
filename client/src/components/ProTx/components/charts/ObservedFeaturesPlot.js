@@ -42,7 +42,7 @@ function ObservedFeaturesPlot({
     const observedFeaturesLabel = getObservedFeaturesLabel(
       observedFeatureObservedFeatures
     );
-    console.log(plotStateObservedFeatures);
+    // console.log(plotStateObservedFeatures);
 
     return (
       <div className="observed-features-plot-layout">
