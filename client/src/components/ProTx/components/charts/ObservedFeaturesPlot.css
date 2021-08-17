@@ -13,7 +13,6 @@
   display: flex;
   justify-content: space-between;
 }
-
 .observed-features-plot-selected-region,
 .observed-features-plot-aggregated-count,
 .observed-features-plot-selected-feature {
@@ -25,8 +24,6 @@
 }
 .observed-features-plot-aggregated-count {
   width: 40%;
-}
-.observed-features-plot-aggregated-count {
   border-left: 1px solid var(--color-gray-dark);
 }
 .observed-features-plot-selected-region-label,
@@ -55,13 +52,6 @@
   margin-left: 1rem;
   font-style: italic;
 }
-
-.observed-features-plot-placeholder-text {
-  font-weight: var(--font-weight-light);
-}
-.observed-features-plot-placeholder-emphasis {
-  color: var(--color-blood-orange);
-}
 .observed-feature-selection-label {
   font-weight: var(--font-weight-normal-plus);
 }
@@ -69,4 +59,22 @@
 .observed-features-plot-chart-body-plot {
   height: 60vh;
   width: 45vw;
+}
+.observed-features-plot-chart-footer {
+  margin: 0.5vh 0 0 2rem;
+  padding-top: 1vh;
+  text-align: center;
+  font-size: var(--font-size-xs);
+  line-height: 2vh;
+}
+.observed-features-plot-selected-type-value,
+.observed-features-plot-selected-type {
+  font-weight: var(--font-weight-heavy);
+}
+.observed-features-plot-selected-type-summary {
+  font-weight: var(--font-weight-x-heavy);
+}
+.observed-features-plot-selected-type-summary:after {
+  font-weight: var(--font-weight-normal);
+  content: '.';
 }

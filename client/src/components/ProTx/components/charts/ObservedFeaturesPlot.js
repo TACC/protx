@@ -21,24 +21,15 @@ function ObservedFeaturesPlot({
   data,
   debugState
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(data);
-  // console.log(debugState);
-
   const PLOT_TYPE = 'observedFeatures';
-
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     geographyObservedFeatures,
     yearObservedFeatures,
     observedFeatureObservedFeatures,
     selectedGeographicFeatureObservedFeatures,
-    plotStateObservedFeatures
+    plotStateObservedFeatures,
+    currentTargetValue
   ) => {
     const observedFeaturesLabel = getObservedFeaturesLabel(
       observedFeatureObservedFeatures
@@ -47,6 +38,12 @@ function ObservedFeaturesPlot({
       selectedGeographicFeatureObservedFeatures
     );
     const geographyType = capitalizeString(geographyObservedFeatures);
+    const cleanValue = targetValue => {
+      const result = targetValue - Math.floor(targetValue) !== 0;
+      if (result) return `${targetValue.toFixed(2)} %`;
+      return targetValue;
+    };
+    const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
     return (
       <div className="observed-features-plot-layout">
@@ -66,10 +63,10 @@ function ObservedFeaturesPlot({
               </div>
               <div className="observed-features-plot-aggregated-count">
                 <span className="observed-features-plot-aggregated-count-label">
-                  Total Count
+                  Total
                 </span>
                 <span className="observed-features-plot-aggregated-count-value">
-                  {/* {observedFeatureTotalCount} */}
+                  {observedFeatureTotalCount}
                 </span>
               </div>
             </div>
@@ -96,6 +93,20 @@ function ObservedFeaturesPlot({
             />
           </div>
         </div>
+        <div className="observed-features-plot-chart-footer">
+          <span className="observed-features-plot-chart-summary">
+            This chart was generated using data for the{' '}
+            {selectedGeographicFeatureName} {geographyObservedFeatures} (code{' '}
+            {selectedGeographicFeatureObservedFeatures}) based on the{' '}
+            <span className="observed-features-plot-selected-type-value">
+              {yearObservedFeatures} US Census Data
+            </span>{' '}
+            for{' '}
+            <span className="observed-features-plot-selected-type-summary">
+              {observedFeaturesLabel}
+            </span>
+          </span>
+        </div>
       </div>
     );
   };
@@ -117,7 +128,8 @@ function ObservedFeaturesPlot({
     year,
     observedFeature,
     selectedGeographicFeature,
-    observedFeaturesPlotData.observedFeaturesPlotState
+    observedFeaturesPlotData.observedFeaturesPlotState,
+    observedFeaturesPlotData.observedFeatureTargetValue
   );
 
   if (debugState) {

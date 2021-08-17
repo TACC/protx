@@ -388,7 +388,6 @@ export const getPlotDataBars = (
     );
     newPlotData.push(type);
   }
-  console.log(newPlotData);
   return newPlotData;
 };
 
@@ -572,14 +571,9 @@ export const getObservedFeaturesPlotData = (
   geography,
   year
 ) => {
-  // console.log(selectedGeographicFeature);
-  // console.log(observedFeature);
-  // console.log(data);
-  // console.log(geography);
-  // console.log(year);
-
   const observedFeaturesDataObject = [];
   const observedFeaturesData = data.observedFeatures;
+  let observedFeatureValue;
 
   Object.keys(observedFeaturesData).forEach(observed => {
     if (observed === geography) {
@@ -600,6 +594,7 @@ export const getObservedFeaturesPlotData = (
             currentFeature.highlight = false;
             if (selectedGeographicFeature === feature) {
               currentFeature.highlight = true;
+              observedFeatureValue = currentFeature.value;
             }
             observedFeaturesDataObject.push(currentFeature);
           }
@@ -607,7 +602,6 @@ export const getObservedFeaturesPlotData = (
       });
     }
   });
-  // console.log(observedFeaturesDataObject);
 
   const plotLayout = getPlotLayout('Observed Features');
   const plotData = getPlotDataBars('observed', observedFeaturesDataObject, 'h');
@@ -619,7 +613,8 @@ export const getObservedFeaturesPlotData = (
   };
 
   const observedFeaturesPlotData = {
-    observedFeaturesPlotState: plotState
+    observedFeaturesPlotState: plotState,
+    observedFeatureTargetValue: observedFeatureValue
   };
   // console.log(observedFeaturesPlotData);
 
