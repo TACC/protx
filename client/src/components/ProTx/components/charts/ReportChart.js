@@ -14,14 +14,6 @@ function ReportChart({
   selectedGeographicFeature,
   data
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(data);
-
   const reportDropdownInstructions = [
     'Map is restricted to Demographic Features.',
     'Map is restricted to the County Area.',
