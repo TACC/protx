@@ -4,7 +4,8 @@ import Plot from 'react-plotly.js';
 import {
   getFipsIdName,
   getObservedFeaturesLabel,
-  getObservedFeaturesPlotData
+  getObservedFeaturesPlotData,
+  capitalizeString
 } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
@@ -20,48 +21,64 @@ function ObservedFeaturesPlot({
   data,
   debugState
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(data);
-  // console.log(debugState);
-
   const PLOT_TYPE = 'observedFeatures';
-
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
-    observedFeatureObservedFeatures,
     geographyObservedFeatures,
+    yearObservedFeatures,
+    observedFeatureObservedFeatures,
     selectedGeographicFeatureObservedFeatures,
-    plotStateObservedFeatures
+    plotStateObservedFeatures,
+    currentTargetValue
   ) => {
     const observedFeaturesLabel = getObservedFeaturesLabel(
       observedFeatureObservedFeatures
     );
+    const selectedGeographicFeatureName = getFipsIdName(
+      selectedGeographicFeatureObservedFeatures
+    );
+    const geographyType = capitalizeString(geographyObservedFeatures);
+    const cleanValue = targetValue => {
+      const result = targetValue - Math.floor(targetValue) !== 0;
+      if (result) return `${targetValue.toFixed(2)} %`;
+      return targetValue;
+    };
+    const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
     return (
       <div className="observed-features-plot-layout">
         <div className="observed-features-plot-header">
           <div className="observed-features-plot-info">
-            <div className="observed-features-plot-placeholder-text">
-              This map is displaying{' '}
-              <span className="observed-feature-selection-label">
+            <div className="observed-features-plot-info-item">
+              <div className="observed-features-plot-selected-region">
+                <span className="observed-features-plot-selected-region-label">
+                  {geographyType}
+                </span>
+                <span className="observed-features-plot-selected-region-value">
+                  {selectedGeographicFeatureName}
+                </span>
+                <span className="observed-features-plot-selected-region-code">
+                  ({selectedGeographicFeatureObservedFeatures})
+                </span>
+              </div>
+              <div className="observed-features-plot-aggregated-count">
+                <span className="observed-features-plot-aggregated-count-label">
+                  Total
+                </span>
+                <span className="observed-features-plot-aggregated-count-value">
+                  {observedFeatureTotalCount}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="observed-features-plot-info">
+            <div className="observed-features-plot-selected-feature">
+              <span className="observed-features-plot-selected-feature-label">
+                Feature
+              </span>
+              <span className="observed-features-plot-selected-feature-value">
                 {observedFeaturesLabel}
-              </span>{' '}
-              by{' '}
-              <span className="observed-feature-selection-label">
-                {geographyObservedFeatures}
               </span>
-              .
-              <br />
-              The selected {geographyObservedFeatures} is{' '}
-              <span className="observed-feature-selection-label">
-                {selectedGeographicFeatureObservedFeatures}
-              </span>
-              .
             </div>
           </div>
         </div>
@@ -76,21 +93,43 @@ function ObservedFeaturesPlot({
             />
           </div>
         </div>
+        <div className="observed-features-plot-chart-footer">
+          <span className="observed-features-plot-chart-summary">
+            This chart was generated using data for the{' '}
+            {selectedGeographicFeatureName} {geographyObservedFeatures} (code{' '}
+            {selectedGeographicFeatureObservedFeatures}) based on the{' '}
+            <span className="observed-features-plot-selected-type-value">
+              {yearObservedFeatures} US Census Data
+            </span>{' '}
+            for{' '}
+            <span className="observed-features-plot-selected-type-summary">
+              {observedFeaturesLabel}
+            </span>
+          </span>
+        </div>
       </div>
     );
   };
 
-  const observedFeaturesPlotData = getObservedFeaturesPlotData();
+  const observedFeaturesPlotData = getObservedFeaturesPlotData(
+    selectedGeographicFeature,
+    observedFeature,
+    data,
+    geography,
+    year
+  );
 
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
     mapType,
-    observedFeature,
     geography,
+    year,
+    observedFeature,
     selectedGeographicFeature,
-    observedFeaturesPlotData.observedFeaturesPlotState
+    observedFeaturesPlotData.observedFeaturesPlotState,
+    observedFeaturesPlotData.observedFeatureTargetValue
   );
 
   if (debugState) {

@@ -30,9 +30,12 @@
 .maltreatment-types-plot-aggregated-count {
   display: inline;
   margin: 0.5vh 0.5vw;
-  text-align: center;
+}
+.maltreatment-types-plot-selected-region {
+  width: 60%;
 }
 .maltreatment-types-plot-aggregated-count {
+  width: 40%;
   border-left: 1px solid var(--color-gray-dark);
 }
 .maltreatment-types-plot-selected-region-label,
@@ -55,6 +58,7 @@
   font-style: italic;
 }
 .maltreatment-types-plot-chart-filters {
+  margin-left: 2rem;
   padding: 1vh 0;
   font-weight: var(--font-weight-normal-plus);
   color: var(--color-gray);
@@ -64,7 +68,7 @@
   color: var(--color-black);
 }
 .maltreatment-types-plot-chart-footer {
-  margin: 0.5vh 0 0;
+  margin: 0.5vh 0 0 2rem;
   padding-top: 1vh;
   text-align: center;
   font-size: var(--font-size-xs);

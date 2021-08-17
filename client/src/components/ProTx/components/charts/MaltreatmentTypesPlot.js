@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getFipsIdName, getMaltreatmentPlotData } from '../util';
+import {
+  getFipsIdName,
+  getMaltreatmentPlotData,
+  capitalizeString
+} from '../util';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
@@ -16,17 +20,7 @@ function MaltreatmentTypesPlot({
   data,
   debugState
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(data);
-  // console.log(debugState);
-
   const PLOT_TYPE = 'maltreatmentTypes';
-
   const getMaltreatmentChartLayout = (
     mapTypeMaltreatment,
     geographyMaltreatment,
@@ -37,6 +31,8 @@ function MaltreatmentTypesPlot({
     maltreatmentTypesListMaltreatment,
     plotStateMaltreatment
   ) => {
+    const geographyLabel = capitalizeString(geographyMaltreatment);
+
     return (
       <div className="maltreatment-types-plot-layout">
         <div className="maltreatment-types-plot-header">
@@ -44,7 +40,7 @@ function MaltreatmentTypesPlot({
             <div className="maltreatment-types-plot-info-item">
               <div className="maltreatment-types-plot-selected-region">
                 <span className="maltreatment-types-plot-selected-region-label">
-                  Selected {geographyMaltreatment}
+                  Selected {geographyLabel}
                 </span>
                 <span className="maltreatment-types-plot-selected-region-value">
                   {fipsIdNameMaltreatment}
@@ -63,17 +59,19 @@ function MaltreatmentTypesPlot({
               </div>
             </div>
           </div>
-          <div className="maltreatment-types-plot-chart-filters">
-            Selected Maltreatment Types
-            <div className="maltreatment-types-plot-chart-filters-list">
-              {maltreatmentTypesListMaltreatment.map(type => (
-                <span
-                  className="maltreatment-types-plot-selected-type"
-                  key={type}
-                >
-                  {type}
-                </span>
-              ))}
+          <div className="maltreatment-types-plot-info">
+            <div className="maltreatment-types-plot-chart-filters">
+              Selected Maltreatment Types
+              <div className="maltreatment-types-plot-chart-filters-list">
+                {maltreatmentTypesListMaltreatment.map(type => (
+                  <span
+                    className="maltreatment-types-plot-selected-type"
+                    key={type}
+                  >
+                    {type}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>

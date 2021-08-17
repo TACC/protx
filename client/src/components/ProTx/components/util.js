@@ -1,7 +1,18 @@
 import { getColor } from './maps/intervalColorScale';
-import { THEME_CB12_MAIN } from './colors';
-import { PHR_MSA_COUNTIES } from './PHR_MSA_County_masterlist';
-import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
+import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from './colors';
+import { PHR_MSA_COUNTIES } from './PHR_MSA_County_Data';
+import { OBSERVED_FEATURES, MALTREATMENT, CATEGORY_CODES } from './meta';
+
+/**
+ * Assign an imported color theme for use in plot generation.
+ */
+export const plotColors = THEME_CB12_MAIN;
+export const histColors = THEME_CB12_ALT0;
+
+/**
+ * Define array of category codes.
+ */
+export const categoryCodes = CATEGORY_CODES;
 
 /**
  * Get meta data for observed features
@@ -192,7 +203,7 @@ export function getMaltreatmentSelectedValues(
  *
  * If no value exists, then we return a transparent feature style if no value exists)
  *
- * @param {String} map type
+ * @param {String} mapType
  * @param {Object} data
  * @param {Object} metaData
  * @param {String} geography
@@ -255,7 +266,9 @@ export function getFeatureStyle(
 }
 
 /**
- * TODO: Add a FIPS Lookup Method and export for use in Plot Components.
+ * Get the county name for a given Geoid.
+ * @param {String} currentGeoid
+ * @returns {fipsIdName: string}
  */
 export const getFipsIdName = currentGeoid => {
   const trimmedGeoid = currentGeoid.substring(currentGeoid.length - 3);
@@ -282,49 +295,67 @@ export const getFipsIdName = currentGeoid => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
+export const getBarTrace = (
+  traceY,
+  traceX,
+  traceName,
+  traceFillColor,
+  barOrientation
+) => {
+  let xData;
+  let yData;
+
+  if (barOrientation === 'v') {
+    xData = traceX;
+    yData = traceY;
+  }
+
+  if (barOrientation === 'h') {
+    xData = traceY;
+    yData = traceX;
+  }
+
   return {
-    y: [traceY],
-    x: [traceX],
+    // y: [traceY],
+    // x: [traceX],
+    y: [yData],
+    x: [xData],
     name: traceName,
     type: 'bar',
-    orientation: 'v',
+    orientation: barOrientation,
     marker: {
       line: {
         color: ['#111111'],
-        width: 1
+        width: 0.1
       },
       color: [traceFillColor]
     }
   };
 };
 
-/**
- * Assign an imported color theme for use in plot generation.
- */
-export const plotColors = THEME_CB12_MAIN;
-
-/**
- * Define array of category codes.
- */
-export const categoryCodes = [
-  'ABAN',
-  'EMAB',
-  'LBTR',
-  'MDNG',
-  'NSUP',
-  'PHAB',
-  'PHNG',
-  'RAPR',
-  'SXAB',
-  'SXTR',
-  'NA'
-];
-
-export const getCategoryColorDestructured = catcode => {
-  const indexKey = categoryCodes.indexOf(catcode);
-  const barColor = plotColors[indexKey];
-  return barColor;
+export const getCategoryColorDestructured = (
+  targetPlot,
+  catcode,
+  unique = false
+) => {
+  if (targetPlot === 'maltreatment') {
+    const indexKey = categoryCodes.indexOf(catcode);
+    const barColor = plotColors[indexKey];
+    return barColor;
+  }
+  if (targetPlot === 'observed') {
+    if (unique) {
+      return histColors[10];
+    }
+    return histColors[1];
+  }
+  if (targetPlot === 'predictive') {
+    if (unique) {
+      return histColors[6];
+    }
+    return histColors[8];
+  }
+  return histColors[10];
 };
 
 /**
@@ -332,14 +363,29 @@ export const getCategoryColorDestructured = catcode => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = (typesDataArray, plotColorsArray) => {
+export const getPlotDataBars = (
+  targetPlotType,
+  typesDataArray,
+  plotOrientation
+) => {
   const newPlotData = [];
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    const traceFillColor = getCategoryColorDestructured(xData);
-    const type = getBarVertTrace(yData, xData, tName, traceFillColor);
+    const isHighlighted = typesDataArray[i].highlight;
+    const traceFillColor = getCategoryColorDestructured(
+      targetPlotType,
+      xData,
+      isHighlighted
+    );
+    const type = getBarTrace(
+      yData,
+      xData,
+      tName,
+      traceFillColor,
+      plotOrientation
+    );
     newPlotData.push(type);
   }
   return newPlotData;
@@ -425,6 +471,7 @@ export const getMaltreatmentTypesDataObject = (
     dataObject.code = codeArray[i];
     dataObject.name = nameArray[i];
     dataObject.value = valueArray[i];
+    dataObject.highlight = false;
     newMaltreatmentDataObject.push(dataObject);
   }
   return newMaltreatmentDataObject;
@@ -447,6 +494,9 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
  */
 export const getPredictiveFeaturesDataObject = () => {
   const newPredictiveFeaturesDataObject = [];
+
+  //
+
   return newPredictiveFeaturesDataObject;
 };
 
@@ -488,7 +538,11 @@ export const getMaltreatmentPlotData = (
   );
 
   const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject, plotColors);
+  const plotData = getPlotDataBars(
+    'maltreatment',
+    maltreatmentTypesDataObject,
+    'v'
+  );
 
   const plotState = {
     data: plotData,
@@ -510,10 +564,47 @@ export const getMaltreatmentPlotData = (
  * @param {*} typesDataArray
  * @returns
  */
-export const getObservedFeaturesPlotData = () => {
+export const getObservedFeaturesPlotData = (
+  selectedGeographicFeature,
+  observedFeature,
+  data,
+  geography,
+  year
+) => {
   const observedFeaturesDataObject = [];
+  const observedFeaturesData = data.observedFeatures;
+  let observedFeatureValue;
+
+  Object.keys(observedFeaturesData).forEach(observed => {
+    if (observed === geography) {
+      const innerFeature = observedFeaturesData[observed];
+      Object.keys(innerFeature).forEach(feature => {
+        const featureValues = innerFeature[feature];
+        Object.keys(featureValues).forEach(value => {
+          if (value === observedFeature) {
+            const currentFeature = {};
+            currentFeature.code = feature;
+            currentFeature.name = feature;
+            if (geography === 'county') {
+              const featureFipsIdName = getFipsIdName(feature);
+              currentFeature.code = featureFipsIdName;
+              currentFeature.name = featureFipsIdName;
+            }
+            currentFeature.value = featureValues[value];
+            currentFeature.highlight = false;
+            if (selectedGeographicFeature === feature) {
+              currentFeature.highlight = true;
+              observedFeatureValue = currentFeature.value;
+            }
+            observedFeaturesDataObject.push(currentFeature);
+          }
+        });
+      });
+    }
+  });
+
   const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+  const plotData = getPlotDataBars('observed', observedFeaturesDataObject, 'h');
 
   const plotState = {
     data: plotData,
@@ -522,8 +613,10 @@ export const getObservedFeaturesPlotData = () => {
   };
 
   const observedFeaturesPlotData = {
-    observedFeaturesPlotState: plotState
+    observedFeaturesPlotState: plotState,
+    observedFeatureTargetValue: observedFeatureValue
   };
+  // console.log(observedFeaturesPlotData);
 
   return observedFeaturesPlotData;
 };
@@ -536,7 +629,11 @@ export const getObservedFeaturesPlotData = () => {
 export const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
   const plotLayout = getPlotLayout('Predictive Features');
-  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
+  const plotData = getPlotDataBars(
+    'predictive',
+    predictiveFeaturesDataObject,
+    'v'
+  );
 
   const plotState = {
     data: plotData,
@@ -549,4 +646,11 @@ export const getPredictiveFeaturesPlotData = () => {
   };
 
   return predictiveFeaturesPlotData;
+};
+
+/**
+ * Capitalize a String value.
+ */
+export const capitalizeString = string => {
+  return string[0].toUpperCase() + string.slice(1);
 };
