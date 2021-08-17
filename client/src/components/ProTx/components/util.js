@@ -1,7 +1,18 @@
 import { getColor } from './maps/intervalColorScale';
 import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from './colors';
-import { PHR_MSA_COUNTIES } from './PHR_MSA_County_masterlist';
-import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
+import { PHR_MSA_COUNTIES } from './PHR_MSA_County_Data';
+import { OBSERVED_FEATURES, MALTREATMENT, CATEGORY_CODES } from './meta';
+
+/**
+ * Assign an imported color theme for use in plot generation.
+ */
+export const plotColors = THEME_CB12_MAIN;
+export const histColors = THEME_CB12_ALT0;
+
+/**
+ * Define array of category codes.
+ */
+export const categoryCodes = CATEGORY_CODES;
 
 /**
  * Get meta data for observed features
@@ -284,16 +295,31 @@ export const getFipsIdName = currentGeoid => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getBarVertTrace = (
+export const getBarTrace = (
   traceY,
   traceX,
   traceName,
   traceFillColor,
   barOrientation
 ) => {
+  let xData;
+  let yData;
+
+  if (barOrientation === 'v') {
+    xData = traceX;
+    yData = traceY;
+  }
+
+  if (barOrientation === 'h') {
+    xData = traceY;
+    yData = traceX;
+  }
+
   return {
-    y: [traceY],
-    x: [traceX],
+    // y: [traceY],
+    // x: [traceX],
+    y: [yData],
+    x: [xData],
     name: traceName,
     type: 'bar',
     orientation: barOrientation,
@@ -306,29 +332,6 @@ export const getBarVertTrace = (
     }
   };
 };
-
-/**
- * Define array of category codes.
- */
-export const categoryCodes = [
-  'ABAN',
-  'EMAB',
-  'LBTR',
-  'MDNG',
-  'NSUP',
-  'PHAB',
-  'PHNG',
-  'RAPR',
-  'SXAB',
-  'SXTR',
-  'NA'
-];
-
-/**
- * Assign an imported color theme for use in plot generation.
- */
-export const plotColors = THEME_CB12_MAIN;
-export const histColors = THEME_CB12_ALT0;
 
 export const getCategoryColorDestructured = (
   targetPlot,
@@ -360,7 +363,7 @@ export const getCategoryColorDestructured = (
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = (
+export const getPlotDataBars = (
   targetPlotType,
   typesDataArray,
   plotOrientation
@@ -376,7 +379,7 @@ export const getPlotDataVertBars = (
       xData,
       isHighlighted
     );
-    const type = getBarVertTrace(
+    const type = getBarTrace(
       yData,
       xData,
       tName,
@@ -385,6 +388,7 @@ export const getPlotDataVertBars = (
     );
     newPlotData.push(type);
   }
+  console.log(newPlotData);
   return newPlotData;
 };
 
@@ -535,7 +539,7 @@ export const getMaltreatmentPlotData = (
   );
 
   const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(
+  const plotData = getPlotDataBars(
     'maltreatment',
     maltreatmentTypesDataObject,
     'v'
@@ -588,7 +592,9 @@ export const getObservedFeaturesPlotData = (
             currentFeature.code = feature;
             currentFeature.name = feature;
             if (geography === 'county') {
-              currentFeature.name = getFipsIdName(feature);
+              const featureFipsIdName = getFipsIdName(feature);
+              currentFeature.code = featureFipsIdName;
+              currentFeature.name = featureFipsIdName;
             }
             currentFeature.value = featureValues[value];
             currentFeature.highlight = false;
@@ -604,11 +610,7 @@ export const getObservedFeaturesPlotData = (
   // console.log(observedFeaturesDataObject);
 
   const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataVertBars(
-    'observed',
-    observedFeaturesDataObject,
-    'v'
-  );
+  const plotData = getPlotDataBars('observed', observedFeaturesDataObject, 'h');
 
   const plotState = {
     data: plotData,
@@ -632,7 +634,7 @@ export const getObservedFeaturesPlotData = (
 export const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
   const plotLayout = getPlotLayout('Predictive Features');
-  const plotData = getPlotDataVertBars(
+  const plotData = getPlotDataBars(
     'predictive',
     predictiveFeaturesDataObject,
     'v'
@@ -649,4 +651,11 @@ export const getPredictiveFeaturesPlotData = () => {
   };
 
   return predictiveFeaturesPlotData;
+};
+
+/**
+ * Capitalize a String value.
+ */
+export const capitalizeString = string => {
+  return string[0].toUpperCase() + string.slice(1);
 };

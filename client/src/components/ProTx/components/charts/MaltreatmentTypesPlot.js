@@ -37,7 +37,10 @@ function MaltreatmentTypesPlot({
     maltreatmentTypesListMaltreatment,
     plotStateMaltreatment
   ) => {
-    console.log(plotStateMaltreatment);
+    // console.log(plotStateMaltreatment);
+    const geographyLabel = {
+      geographyMaltreatment
+    };
     return (
       <div className="maltreatment-types-plot-layout">
         <div className="maltreatment-types-plot-header">
@@ -45,7 +48,7 @@ function MaltreatmentTypesPlot({
             <div className="maltreatment-types-plot-info-item">
               <div className="maltreatment-types-plot-selected-region">
                 <span className="maltreatment-types-plot-selected-region-label">
-                  Selected {geographyMaltreatment}
+                  Selected {geographyLabel}
                 </span>
                 <span className="maltreatment-types-plot-selected-region-value">
                   {fipsIdNameMaltreatment}
