@@ -12,7 +12,8 @@ function ReportChart({
   observedFeature,
   year,
   selectedGeographicFeature,
-  data
+  data,
+  showInstructions
 }) {
   const reportDropdownInstructions = [
     'Map is restricted to Demographic Features.',
@@ -46,12 +47,14 @@ function ReportChart({
   return (
     <div className="report-chart">
       <PredictiveFeaturesTable />
-      <ChartInstructions
-        dropdownInstructions={reportDropdownInstructions}
-        mapInstructions={reportMapInstructions}
-        showDescription={reportShowDescription}
-        description={reportDescription}
-      />
+      {showInstructions && (
+        <ChartInstructions
+          dropdownInstructions={reportDropdownInstructions}
+          mapInstructions={reportMapInstructions}
+          showDescription={reportShowDescription}
+          description={reportDescription}
+        />
+      )}
     </div>
   );
 }
@@ -64,7 +67,12 @@ ReportChart.propTypes = {
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  showInstructions: PropTypes.bool
 };
+
+ReportChart.defaultProps = {
+  showInstructions: false
+}
 
 export default ReportChart;
