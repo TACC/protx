@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
+// eslint-disable-next-line no-unused-vars
 import PredictiveFeaturesPlot from './PredictiveFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
 import './ReportChart.css';
@@ -25,6 +26,7 @@ function ReportChart({
   const reportShowDescription = false;
   const reportDescription = 'Description needed.';
 
+  /* Hidden as still work-in-progress
   if (selectedGeographicFeature) {
     return (
       <div className="report-chart">
@@ -44,6 +46,8 @@ function ReportChart({
       </div>
     );
   }
+  */
+
   return (
     <div className="report-chart">
       <PredictiveFeaturesTable />
@@ -73,6 +77,6 @@ ReportChart.propTypes = {
 
 ReportChart.defaultProps = {
   showInstructions: false
-}
+};
 
 export default ReportChart;
