@@ -16,15 +16,6 @@ function PredictiveFeaturesPlot({
   data,
   debugState
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(data);
-  // console.log(debugState);
-
   const PLOT_TYPE = 'predictiveFeatures';
 
   const getPredictiveFeaturesChartLayout = (
