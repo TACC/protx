@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import DebugPlot from './DebugPlot';
 import './ConfigurableChart.css';
-import { OBSERVED_FEATURES, MALTREATMENT } from '../meta';
+import { MALTREATMENT } from '../meta';
 import {
   getObservedFeatureValue,
   getMaltreatmentAggregatedValue,
@@ -157,9 +156,7 @@ function ConfigurableChart({
     if (mapTypeMessage === 'maltreatment') {
       return <div className="temp-message">{tempMessageValueMaltreatment}</div>;
     }
-    if (mapTypeMessage === 'observedFeatures') {
-      return <div className="temp-message">{tempMessageObservedFeatures}</div>;
-    }
+    return <div className="temp-message">{tempMessageObservedFeatures}</div>;
   };
 
   const getObservedFeaturesChartLayout = (
@@ -365,13 +362,11 @@ function ConfigurableChart({
         </div>
       );
     }
-    if (mapTypeRender === 'observedFeatures') {
-      return (
-        <div className="configurable-chart">
-          {observedFeaturesChartLayoutRender}
-        </div>
-      );
-    }
+    return (
+      <div className="configurable-chart">
+        {observedFeaturesChartLayoutRender}
+      </div>
+    );
   };
 
   // Set this to true to inspect the component data in a tabular view.

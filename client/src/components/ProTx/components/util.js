@@ -1,6 +1,6 @@
 import { getColor } from './maps/intervalColorScale';
 import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from './colors';
-import { PHR_MSA_COUNTIES } from './PHR_MSA_County_Data';
+import PHR_MSA_COUNTIES from './PHR_MSA_County_Data';
 import { OBSERVED_FEATURES, MALTREATMENT, CATEGORY_CODES } from './meta';
 
 /**
@@ -316,8 +316,6 @@ export const getBarTrace = (
   }
 
   return {
-    // y: [traceY],
-    // x: [traceX],
     y: [yData],
     x: [xData],
     name: traceName,
@@ -616,7 +614,6 @@ export const getObservedFeaturesPlotData = (
     observedFeaturesPlotState: plotState,
     observedFeatureTargetValue: observedFeatureValue
   };
-  // console.log(observedFeaturesPlotData);
 
   return observedFeaturesPlotData;
 };

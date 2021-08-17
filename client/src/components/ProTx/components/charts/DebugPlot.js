@@ -15,18 +15,6 @@ function DebugPlotRedux({
   plotData,
   data
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(fipsIdValue);
-  // console.log(geoId);
-  // console.log(plotType);
-  // console.log(plotData);
-  // console.log(data);
-
   const getSelectionDataTable = (
     mapTypeDebug,
     geographyDebug,
@@ -111,7 +99,6 @@ function DebugPlotRedux({
     }
 
     if (plotTypeDebug === 'observedFeatures') {
-      // console.log(plotDataDebug);
       return (
         <div className="debug-plot-data">
           <div className="debug-plot-data-title">Component Plot State</div>
