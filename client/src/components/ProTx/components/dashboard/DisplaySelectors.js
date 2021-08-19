@@ -92,12 +92,12 @@ function DisplaySelectors({
       )}
       {mapType === 'observedFeatures' && (
         <div styleName="control">
-          <span styleName="label">Feature</span>
+          <span styleName="label">Demographic</span>
           <DropdownSelector
             value={observedFeature}
             onChange={event => setObservedFeature(event.target.value)}
           >
-            <optgroup label="Select Observed Feature">
+            <optgroup label="Select demographic feature">
               {OBSERVED_FEATURES.filter(
                 f =>
                   !limitToTopObservedFeatureFields ||
