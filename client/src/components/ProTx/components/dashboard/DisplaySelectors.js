@@ -13,8 +13,7 @@ import './DisplaySelectors.module.scss';
  * Selectors (i.e. dropdowns) to allow users to select what to display on maps/charts
  *
  * Customizations:
- * - if `setMapType`, `setGeography`, `setYear` are not set then the associated dropdown
- * is disabled
+ * - if `setGeography` or `setYear` are not set then the associated dropdown is disabled
  *
  * Note:
  * Maltreatment data is available at the county level.
@@ -27,43 +26,17 @@ function DisplaySelectors({
   maltreatmentTypes,
   observedFeature,
   year,
-  setMapType,
   setGeography,
   setMaltreatmentTypes,
   setObservedFeature,
   setYear,
   limitToTopObservedFeatureFields
 }) {
-  const changeMapType = event => {
-    const newMapType = event.target.value;
-    if (newMapType === 'maltreatment') {
-      // maltreatment only has county data
-      setGeography('county');
-    } else {
-      // observedFeatures (i.e. Demographic Features only has 2019 data)
-      setYear('2019');
-    }
-    setMapType(event.target.value);
-  };
-  const disableMapType = setMapType === null;
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
 
   return (
     <div styleName="display-selectors">
-      <div styleName="control">
-        <span styleName="label">Map</span>
-        <DropdownSelector
-          value={mapType}
-          disabled={disableMapType}
-          onChange={changeMapType}
-        >
-          <optgroup label="Select Map">
-            <option value="observedFeatures">Demographic Features</option>
-            <option value="maltreatment">Maltreatment</option>
-          </optgroup>
-        </DropdownSelector>
-      </div>
       <div styleName="control">
         <span styleName="label">Area</span>
         <DropdownSelector
@@ -136,7 +109,6 @@ DisplaySelectors.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-  setMapType: PropTypes.func,
   setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
@@ -145,7 +117,6 @@ DisplaySelectors.propTypes = {
 };
 
 DisplaySelectors.defaultProps = {
-  setMapType: null,
   setGeography: null,
   setYear: null,
   limitToTopObservedFeatureFields: false

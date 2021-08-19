@@ -55,31 +55,46 @@ function DashboardDisplay() {
   return (
     <div styleName="root">
       <Switch>
-        <Route path={`${protxRoute}/analysis`}>
-          <DisplaySelectors
-            mapType={mapType}
-            geography={geography}
-            maltreatmentTypes={maltreatmentTypes}
-            observedFeature={observedFeature}
-            year={year}
-            setMapType={setMapType}
-            setGeography={setGeography}
-            setMaltreatmentTypes={setMaltreatmentTypes}
-            setObservedFeature={setObservedFeature}
-            setYear={setYear}
-          />
-          <AnalysisDisplayLayout
-            mapType={mapType}
-            geography={geography}
-            maltreatmentTypes={maltreatmentTypes}
-            observedFeature={observedFeature}
-            year={year}
-            data={data}
-            selectedGeographicFeature={selectedGeographicFeature}
-            setSelectedGeographicFeature={setSelectedGeographicFeature}
-          />
-        </Route>
-        <Route path={`${protxRoute}/report`}>
+        <Route
+          path={[`${protxRoute}/maltreatment`, `${protxRoute}/demographics`]}
+          render={({ location }) => {
+            if (location.pathname.includes(`${protxRoute}/maltreatment`)) {
+              setMapType('maltreatment');
+              // maltreatment only has county data
+              setGeography('county');
+            } else {
+              // observedFeatures (i.e. Demographic Features only has 2019 data)
+              setYear('2019');
+              setMapType('observedFeatures');
+            }
+            return (
+              <>
+                <DisplaySelectors
+                  mapType={mapType}
+                  geography={geography}
+                  maltreatmentTypes={maltreatmentTypes}
+                  observedFeature={observedFeature}
+                  year={year}
+                  setGeography={setGeography}
+                  setMaltreatmentTypes={setMaltreatmentTypes}
+                  setObservedFeature={setObservedFeature}
+                  setYear={setYear}
+                />
+                <AnalysisDisplayLayout
+                  mapType={mapType}
+                  geography={geography}
+                  maltreatmentTypes={maltreatmentTypes}
+                  observedFeature={observedFeature}
+                  year={year}
+                  data={data}
+                  selectedGeographicFeature={selectedGeographicFeature}
+                  setSelectedGeographicFeature={setSelectedGeographicFeature}
+                />
+              </>
+            );
+          }}
+        />
+        <Route path={`${protxRoute}/analytics`}>
           <DisplaySelectors
             mapType="observedFeatures"
             geography="county"
@@ -101,7 +116,7 @@ function DashboardDisplay() {
             setSelectedGeographicFeature={setSelectedGeographicFeature}
           />
         </Route>
-        <Redirect from={protxRoute} to={`${protxRoute}/analysis`} />
+        <Redirect from={protxRoute} to={`${protxRoute}/analytics`} />
       </Switch>
     </div>
   );
