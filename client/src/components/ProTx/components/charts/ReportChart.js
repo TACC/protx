@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
+// eslint-disable-next-line no-unused-vars
 import PredictiveFeaturesPlot from './PredictiveFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
 import './ReportChart.css';
@@ -12,16 +13,9 @@ function ReportChart({
   observedFeature,
   year,
   selectedGeographicFeature,
-  data
+  data,
+  showInstructions
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(data);
-
   const reportDropdownInstructions = [
     'Map is restricted to Demographic Features.',
     'Map is restricted to the County Area.',
@@ -32,6 +26,7 @@ function ReportChart({
   const reportShowDescription = false;
   const reportDescription = 'Description needed.';
 
+  /* Hidden as still work-in-progress
   if (selectedGeographicFeature) {
     return (
       <div className="report-chart">
@@ -50,15 +45,19 @@ function ReportChart({
       </div>
     );
   }
+  */
+
   return (
     <div className="report-chart">
       <PredictiveFeaturesTable />
-      <ChartInstructions
-        dropdownInstructions={reportDropdownInstructions}
-        mapInstructions={reportMapInstructions}
-        showDescription={reportShowDescription}
-        description={reportDescription}
-      />
+      {showInstructions && (
+        <ChartInstructions
+          dropdownInstructions={reportDropdownInstructions}
+          mapInstructions={reportMapInstructions}
+          showDescription={reportShowDescription}
+          description={reportDescription}
+        />
+      )}
     </div>
   );
 }
@@ -71,7 +70,12 @@ ReportChart.propTypes = {
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  showInstructions: PropTypes.bool
+};
+
+ReportChart.defaultProps = {
+  showInstructions: false
 };
 
 export default ReportChart;
