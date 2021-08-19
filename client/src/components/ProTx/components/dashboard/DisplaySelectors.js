@@ -112,13 +112,13 @@ function DisplaySelectors({
         </div>
       )}
       <div styleName="control">
-        <span styleName="label">Select TimeFrame</span>
+        <span styleName="label">Years</span>
         <DropdownSelector
           value={year}
           onChange={event => setYear(event.target.value)}
           disabled={disabledYear}
         >
-          <optgroup label="Select Timeframe" />
+          <optgroup label="Select year" />
           {SUPPORTED_YEARS.map(y => (
             <option key={y} value={y}>
               {y}
