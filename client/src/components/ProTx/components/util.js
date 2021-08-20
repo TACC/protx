@@ -408,7 +408,15 @@ export const plotConfig = {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotLayout = plotTitle => {
+export const getPlotLayout = (plotTitle, plotOrientation, plotLegend) => {
+  let yAxisAutorange;
+  if (plotOrientation === 'v') {
+    yAxisAutorange = true;
+  }
+  if (plotOrientation === 'h') {
+    yAxisAutorange = 'reversed';
+  }
+
   const newPlotLayout = {
     autosize: true,
     margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
@@ -422,14 +430,17 @@ export const getPlotLayout = plotTitle => {
     },
     yaxis: {
       automargin: true,
+      autorange: yAxisAutorange,
       tickangle: 0,
       title: {
         text: 'Total',
         standoff: 20
       }
     },
+    showlegend: plotLegend,
     annotations: []
   };
+
   return newPlotLayout;
 };
 
@@ -535,11 +546,12 @@ export const getMaltreatmentPlotData = (
     maltreatmentTypesDataValues
   );
 
-  const plotLayout = getPlotLayout('Maltreatment Types');
+  const plotOrientation = 'v';
+  const plotLayout = getPlotLayout('Maltreatment Types', plotOrientation, true);
   const plotData = getPlotDataBars(
     'maltreatment',
     maltreatmentTypesDataObject,
-    'v'
+    plotOrientation
   );
 
   const plotState = {
@@ -558,9 +570,17 @@ export const getMaltreatmentPlotData = (
 };
 
 /**
+ * TODO: Handle different data types (zipcode, urban areas, CBSAs, census tracts) more elegantly.
+ * Current setup chokes on these data objects and does not display correctly.
+ * Need to destructure each data object before handing it back to the plot component to render.
  *
- * @param {*} typesDataArray
+ * @param {*} selectedGeographicFeature
+ * @param {*} observedFeature
+ * @param {*} data
+ * @param {*} geography
+ * @param {*} year
  * @returns
+ *
  */
 export const getObservedFeaturesPlotData = (
   selectedGeographicFeature,
@@ -569,6 +589,9 @@ export const getObservedFeaturesPlotData = (
   geography,
   year
 ) => {
+  // console.log(geography);
+  // console.log(data);
+
   const observedFeaturesDataObject = [];
   const observedFeaturesData = data.observedFeatures;
   let observedFeatureValue;
@@ -583,11 +606,37 @@ export const getObservedFeaturesPlotData = (
             const currentFeature = {};
             currentFeature.code = feature;
             currentFeature.name = feature;
+
+            // Transform each area type's data as needed.
+            if (geography === 'cbsa') {
+              // console.log('cbsa data');
+              // Things here with data object.
+            }
+            if (geography === 'census_tract') {
+              // console.log('census_tract data');
+              // Things here with data object.
+            }
             if (geography === 'county') {
+              // console.log('county data');
+              // Things here with data object.
               const featureFipsIdName = getFipsIdName(feature);
               currentFeature.code = featureFipsIdName;
               currentFeature.name = featureFipsIdName;
             }
+            if (geography === 'dfps_region') {
+              // console.log('dfps_region data');
+              // Things here with data object.
+            }
+            if (geography === 'urban_area') {
+              // console.log('urban_area data');
+              // Things here with data object.
+            }
+            if (geography === 'zcta') {
+              // console.log('zcta data');
+              // Things here with data object.
+            }
+
+            // Highlight selected region.
             currentFeature.value = featureValues[value];
             currentFeature.highlight = false;
             if (selectedGeographicFeature === feature) {
@@ -601,8 +650,13 @@ export const getObservedFeaturesPlotData = (
     }
   });
 
-  const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataBars('observed', observedFeaturesDataObject, 'h');
+  const plotOrientation = 'h';
+  const plotLayout = getPlotLayout('Observed Features', plotOrientation, false);
+  const plotData = getPlotDataBars(
+    'observed',
+    observedFeaturesDataObject,
+    plotOrientation
+  );
 
   const plotState = {
     data: plotData,
@@ -625,11 +679,16 @@ export const getObservedFeaturesPlotData = (
  */
 export const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-  const plotLayout = getPlotLayout('Predictive Features');
+  const plotOrientation = 'v';
+  const plotLayout = getPlotLayout(
+    'Predictive Features',
+    plotOrientation,
+    true
+  );
   const plotData = getPlotDataBars(
     'predictive',
     predictiveFeaturesDataObject,
-    'v'
+    plotOrientation
   );
 
   const plotState = {
@@ -650,4 +709,17 @@ export const getPredictiveFeaturesPlotData = () => {
  */
 export const capitalizeString = string => {
   return string[0].toUpperCase() + string.slice(1);
+};
+
+/**
+ *
+ * @param {*} targetValue
+ * @returns
+ */
+export const cleanValue = targetValue => {
+  if (targetValue) {
+    const result = targetValue - Math.floor(targetValue) !== 0;
+    if (result) return `${targetValue.toFixed(2)} %`;
+  }
+  return targetValue;
 };

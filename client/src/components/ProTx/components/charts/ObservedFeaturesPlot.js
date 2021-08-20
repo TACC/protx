@@ -5,7 +5,8 @@ import {
   getFipsIdName,
   getObservedFeaturesLabel,
   getObservedFeaturesPlotData,
-  capitalizeString
+  capitalizeString,
+  cleanValue
 } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
@@ -37,11 +38,6 @@ function ObservedFeaturesPlot({
       selectedGeographicFeatureObservedFeatures
     );
     const geographyType = capitalizeString(geographyObservedFeatures);
-    const cleanValue = targetValue => {
-      const result = targetValue - Math.floor(targetValue) !== 0;
-      if (result) return `${targetValue.toFixed(2)} %`;
-      return targetValue;
-    };
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
     return (
