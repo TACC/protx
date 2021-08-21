@@ -54,7 +54,7 @@ export const PREDICTIVE_FEATURES_TABLE_NOTES = [
   {
     Note_Prefix: 'Table 1.',
     Note_Text:
-      'Top five features related to child maltreatment based on county-level total maltreatment counts for the state of Texas, 2011-2019. Analysis was performed with two different models; features are ranked according to their influence in each model type. The top five features and rankings are shown for each model; features ranked in the top five for both models are highlighted in yellow.'
+      'Top seven features related to child maltreatment based on county-level total maltreatment counts for the state of Texas, 2011-2019. Analysis was performed with two different models; features are ranked according to their influence in each model type. The top seven features and rankings are shown for each model.' /* ; features ranked in the top seven for both models are highlighted in yellow. */
   },
   {
     Note_Prefix: '\u1d43',
