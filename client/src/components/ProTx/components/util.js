@@ -756,7 +756,6 @@ export const getObservedFeaturesPlotData = (
     observedFeaturesPlotState: plotState,
     observedFeatureTargetValue: observedFeatureValue
   };
-  // console.log(observedFeaturesPlotData);
 
   return observedFeaturesPlotData;
 };
