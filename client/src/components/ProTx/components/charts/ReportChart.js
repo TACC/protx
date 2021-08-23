@@ -26,7 +26,7 @@ function ReportChart({
   const reportShowDescription = false;
   const reportDescription = 'Description needed.';
 
-  /* Hidden as still work-in-progress
+  /* Hidden as still work-in-progress */
   if (selectedGeographicFeature) {
     return (
       <div className="report-chart">
@@ -41,12 +41,12 @@ function ReportChart({
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
-          // debugState
+          debugState
         />
       </div>
     );
   }
-  */
+  /* */
 
   return (
     <div className="report-chart">

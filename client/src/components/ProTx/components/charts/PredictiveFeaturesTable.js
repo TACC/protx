@@ -15,7 +15,7 @@ const tableData = PREDICTIVE_FEATURES_TABLE_DATA;
 const tableNotes = PREDICTIVE_FEATURES_TABLE_NOTES;
 
 function PredictiveFeaturesTable({ selectedGeographicFeature }) {
-  let selectedFeatureCheck = false;
+  let selectedFeatureCheck = true; // Once working, this check goes away.
 
   const selectedFeature = {
     Demographic_Feature: 'SF_NAME',
@@ -98,6 +98,7 @@ function PredictiveFeaturesTable({ selectedGeographicFeature }) {
       return (
         <div className="feature-table">
           <div className="feature-table-chart-selection">
+            <div className="feature-table-chart-title">Table 1</div>
             <table>
               {featureTableHeader}
               {featureTableData}
@@ -111,6 +112,7 @@ function PredictiveFeaturesTable({ selectedGeographicFeature }) {
     return (
       <div className="feature-table">
         <div className="feature-table-chart">
+          <div className="feature-table-chart-title">Table 1</div>
           <table>
             {featureTableHeader}
             {featureTableData}
