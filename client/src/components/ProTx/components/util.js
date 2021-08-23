@@ -354,39 +354,32 @@ export const getBarTrace = (
 };
 
 export const getTraceFillColor = (targetPlot, catcode, unique = false) => {
-  // console.log(targetPlot);
   let barColor = histColors[10];
 
   if (targetPlot === 'maltreatment') {
     const indexKey = categoryCodes.indexOf(catcode);
     barColor = plotColors[indexKey];
-    console.log('maltreatment bar color CATEGORY: ', catcode, barColor);
     return barColor;
   }
 
   if (targetPlot === 'observed') {
     if (unique) {
       barColor = histColors[10];
-      console.log('observed bar color UNIQUE: ', barColor);
       return barColor;
     }
     barColor = histColors[1];
-    console.log('observed bar color: ', barColor);
     return barColor;
   }
 
   if (targetPlot === 'predictive') {
     if (unique) {
       barColor = histColors[6];
-      console.log('predictive bar color UNIQUE: ', barColor);
       return barColor;
     }
     barColor = histColors[8];
-    console.log('predictive bar color: ', barColor);
     return barColor;
   }
 
-  console.log('default bar color: ', barColor);
   return barColor;
 };
 
