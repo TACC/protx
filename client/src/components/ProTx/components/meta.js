@@ -12,108 +12,108 @@ export const SUPPORTED_YEARS = [
 ];
 
 export const OBSERVED_FEATURES = [
-  { field: 'E_AGE17', name: 'Estimated population age 17 or younger' },
-  { field: 'E_AGE65', name: 'Estimated population age 65 or older' },
-  { field: 'E_CROWD', name: 'Estimated crowding' },
+  { field: 'E_AGE17', name: 'Population age 17 or younger' },
+  { field: 'E_AGE65', name: 'Population age 65 or older' },
+  { field: 'E_CROWD', name: 'Crowding' },
   {
     field: 'EP_CROWD',
-    name: 'Estimated percent crowding',
+    name: 'Percent crowding',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_DISABL', name: 'Estimated disabled population' },
+  { field: 'E_DISABL', name: 'Disabled population' },
   {
     field: 'EP_DISABL',
-    name: 'Estimated percent disabled population',
+    name: 'Percent disabled population',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_GROUPQ', name: 'Estimated population living in group quarters' },
-  { field: 'E_HH', name: 'Estimated households' },
-  { field: 'E_HU', name: 'Estimated housing units' },
+  { field: 'E_GROUPQ', name: 'Population living in group quarters' },
+  { field: 'E_HH', name: 'Households' },
+  { field: 'E_HU', name: 'Housing units' },
   {
     field: 'E_LIMENG',
-    name: 'Estimated population with limited English skills'
+    name: 'Population with limited English skills'
   },
   {
     field: 'EP_LIMENG',
-    name: 'Estimated percent population with limited English skills',
+    name: 'Percent population with limited English skills',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_MOBILE', name: 'Estimated mobile homes' },
+  { field: 'E_MOBILE', name: 'Mobile homes' },
   {
     field: 'EP_MOBILE',
-    name: 'Estimated percent mobile homes',
+    name: 'Percent mobile homes',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_MUNIT', name: 'Estimated number of multi-unit structures' },
+  { field: 'E_MUNIT', name: 'Number of multi-unit structures' },
   {
     field: 'E_NOHSDP',
-    name: 'Estimated population with no high school diploma'
+    name: 'Population with no high school diploma'
   },
   {
     field: 'EP_NOHSDP',
-    name: 'Estimated percent population with no high school diploma',
+    name: 'Percent population with no high school diploma',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_NOVEH', name: 'Estimated households with no vehicle' },
+  { field: 'E_NOVEH', name: 'Households with no vehicle' },
   {
     field: 'EP_NOVEH',
-    name: 'Estimated percent households with no vehicle',
+    name: 'Percent households with no vehicle',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_PCI', name: 'Estimated per capita income' },
-  { field: 'E_POV', name: 'Estimated population below poverty threshold' },
+  { field: 'E_PCI', name: 'Per capita income' },
+  { field: 'E_POV', name: 'Population below poverty threshold' },
   {
     field: 'EP_POV',
-    name: 'Estimated percent population below poverty threshold',
+    name: 'Percent population below poverty threshold',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_SNGPNT', name: 'Estimated single parent households' },
-  { field: 'E_TOTPOP', name: 'Estimated total population' },
-  { field: 'E_UNEMP', name: 'Estimated unemployed population' },
+  { field: 'E_SNGPNT', name: 'Single parent households' },
+  { field: 'E_TOTPOP', name: 'Total population' },
+  { field: 'E_UNEMP', name: 'Unemployed population' },
   {
     field: 'EP_UNEMP',
-    name: 'Estimated percent unemployed population',
+    name: 'Percent unemployed population',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_UNINSUR', name: 'Estimated uninsured population' },
+  { field: 'E_UNINSUR', name: 'Uninsured population' },
   {
     field: 'EP_UNINSUR',
-    name: 'Estimated percent uninsured population',
+    name: 'Percent uninsured population',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
-  { field: 'E_MINRTY', name: 'Estimated minority population' },
+  { field: 'E_MINRTY', name: 'Minority population' },
   {
     field: `E_FOREIGN_BORN`,
-    name: `Estimated foreign born population`
+    name: `Foreign born population`
   },
   {
     field: `E_FOREIGN_BORN_P`,
-    name: `Estimated percent foreign born population`,
+    name: `Percent foreign born population`,
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
   {
     field: `E_RENTER_OCCUPIED_HOUSING_UNITS`,
-    name: `Estimated renter-occupied housing units`
+    name: `Renter-occupied housing units`
   },
   {
     field: `E_RENTER_OCCUPIED_HOUSING_UNITS_P`,
-    name: `Estimated percent renter-occupied housing units`,
+    name: `Percent renter-occupied housing units`,
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
   {
     field: `E_MEDIAN_GROSS_RENT_P`,
-    name: `Estimated median gross rent as a percentage of household income`,
+    name: `Median gross rent as a percentage of household income`,
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   }
@@ -190,12 +190,6 @@ export const MALTREATMENT = [
   {
     field: 'SXTR',
     name: 'Sex trafficking',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'NA',
-    name: 'Missing (NA)',
     valueType: 'count',
     valueTypeLabel: 'Count'
   }
