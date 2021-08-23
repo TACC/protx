@@ -192,12 +192,6 @@ export const MALTREATMENT = [
     name: 'Sex trafficking',
     valueType: 'count',
     valueTypeLabel: 'Count'
-  },
-  {
-    field: 'NA',
-    name: 'Missing (NA)',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
   }
 ];
 
