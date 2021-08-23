@@ -1,7 +1,40 @@
 import { getColor } from './maps/intervalColorScale';
-import { THEME_CB12_MAIN } from './colors';
-import { PHR_MSA_COUNTIES } from './PHR_MSA_County_masterlist';
-import { OBSERVED_FEATURES, MALTREATMENT } from './meta';
+import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from './colors';
+import PHR_MSA_COUNTIES from './PHR_MSA_County_Data';
+import { OBSERVED_FEATURES, MALTREATMENT, CATEGORY_CODES } from './meta';
+
+/**
+ * Assign an imported color theme for use in plot generation.
+ */
+export const plotColors = THEME_CB12_MAIN;
+export const histColors = THEME_CB12_ALT0;
+
+/**
+ * Define array of category codes.
+ */
+export const categoryCodes = CATEGORY_CODES;
+
+/**
+ *
+ * @param {*} string
+ * @returns
+ */
+export const capitalizeString = string => {
+  return string[0].toUpperCase() + string.slice(1);
+};
+
+/**
+ *
+ * @param {*} targetValue
+ * @returns
+ */
+export const cleanValue = targetValue => {
+  if (targetValue) {
+    const result = targetValue - Math.floor(targetValue) !== 0;
+    if (result) return `${targetValue.toFixed(2)} %`;
+  }
+  return targetValue;
+};
 
 /**
  * Get meta data for observed features
@@ -192,7 +225,7 @@ export function getMaltreatmentSelectedValues(
  *
  * If no value exists, then we return a transparent feature style if no value exists)
  *
- * @param {String} map type
+ * @param {String} mapType
  * @param {Object} data
  * @param {Object} metaData
  * @param {String} geography
@@ -255,7 +288,9 @@ export function getFeatureStyle(
 }
 
 /**
- * TODO: Add a FIPS Lookup Method and export for use in Plot Components.
+ * Get the county name for a given Geoid.
+ * @param {String} currentGeoid
+ * @returns {fipsIdName: string}
  */
 export const getFipsIdName = currentGeoid => {
   const trimmedGeoid = currentGeoid.substring(currentGeoid.length - 3);
@@ -282,48 +317,67 @@ export const getFipsIdName = currentGeoid => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getBarVertTrace = (traceY, traceX, traceName, traceFillColor) => {
+export const getBarTrace = (
+  traceY,
+  traceX,
+  traceName,
+  traceFillColor,
+  barOrientation
+) => {
+  let xData;
+  let yData;
+
+  if (barOrientation === 'v') {
+    xData = traceX;
+    yData = traceY;
+  }
+
+  if (barOrientation === 'h') {
+    xData = traceY;
+    yData = traceX;
+  }
+
   return {
-    y: [traceY],
-    x: [traceX],
+    y: [yData],
+    x: [xData],
     name: traceName,
     type: 'bar',
-    orientation: 'v',
+    orientation: barOrientation,
     marker: {
       line: {
         color: ['#111111'],
-        width: 1
+        width: 0.1
       },
       color: [traceFillColor]
     }
   };
 };
 
-/**
- * Assign an imported color theme for use in plot generation.
- */
-export const plotColors = THEME_CB12_MAIN;
+export const getTraceFillColor = (targetPlot, catcode, unique) => {
+  let barColorIndex = 12;
+  let barColor = histColors[barColorIndex];
 
-/**
- * Define array of category codes.
- */
-export const categoryCodes = [
-  'ABAN',
-  'EMAB',
-  'LBTR',
-  'MDNG',
-  'NSUP',
-  'PHAB',
-  'PHNG',
-  'RAPR',
-  'SXAB',
-  'SXTR',
-  'NA'
-];
+  if (targetPlot === 'maltreatment') {
+    const indexKey = categoryCodes.indexOf(catcode);
+    barColor = plotColors[indexKey];
+    return barColor;
+  }
 
-export const getCategoryColorDestructured = catcode => {
-  const indexKey = categoryCodes.indexOf(catcode);
-  const barColor = plotColors[indexKey];
+  if (targetPlot === 'observed') {
+    barColorIndex = 1;
+    if (unique) {
+      barColorIndex = 10;
+    }
+  }
+
+  if (targetPlot === 'predictive') {
+    barColorIndex = 8;
+    if (unique) {
+      barColorIndex = 6;
+    }
+  }
+
+  barColor = histColors[barColorIndex];
   return barColor;
 };
 
@@ -332,16 +386,36 @@ export const getCategoryColorDestructured = catcode => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataVertBars = (typesDataArray, plotColorsArray) => {
+export const getPlotDataBars = (
+  targetPlotType,
+  typesDataArray,
+  plotOrientation
+) => {
   const newPlotData = [];
+
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
-    const traceFillColor = getCategoryColorDestructured(xData);
-    const type = getBarVertTrace(yData, xData, tName, traceFillColor);
+    const isHighlighted = typesDataArray[i].highlight;
+
+    const traceFillColor = getTraceFillColor(
+      targetPlotType,
+      xData,
+      isHighlighted
+    );
+
+    const type = getBarTrace(
+      yData,
+      xData,
+      tName,
+      traceFillColor,
+      plotOrientation
+    );
+
     newPlotData.push(type);
   }
+
   return newPlotData;
 };
 
@@ -364,28 +438,54 @@ export const plotConfig = {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotLayout = plotTitle => {
+export const getPlotLayout = (
+  plotAnnotation,
+  plotOrientation,
+  plotLegend,
+  plotXAxisTitle,
+  plotXAxisType,
+  plotYAxisTitle,
+  plotYAxisType
+) => {
+  let yAxisAutorange;
+
+  if (plotOrientation === 'v') {
+    yAxisAutorange = true;
+  }
+
+  if (plotOrientation === 'h') {
+    yAxisAutorange = 'reversed';
+  }
+
   const newPlotLayout = {
     autosize: true,
     margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
+    // nbinsx: 20,
     xaxis: {
       automargin: true,
+      autorange: true,
+      type: plotXAxisType,
       tickangle: -90,
       title: {
-        text: plotTitle,
+        text: plotXAxisTitle,
         standoff: 20
       }
     },
+    // nbinsy: 20,
     yaxis: {
       automargin: true,
+      autorange: yAxisAutorange,
+      type: plotYAxisType,
       tickangle: 0,
       title: {
-        text: 'Total',
+        text: plotYAxisTitle,
         standoff: 20
       }
     },
-    annotations: []
+    showlegend: plotLegend,
+    annotations: [plotAnnotation]
   };
+
   return newPlotLayout;
 };
 
@@ -425,6 +525,7 @@ export const getMaltreatmentTypesDataObject = (
     dataObject.code = codeArray[i];
     dataObject.name = nameArray[i];
     dataObject.value = valueArray[i];
+    dataObject.highlight = false;
     newMaltreatmentDataObject.push(dataObject);
   }
   return newMaltreatmentDataObject;
@@ -442,11 +543,29 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
 
 /**
  *
+ * @param {*} selectedObservedFeatureCode
+ * @returns {valueType: string}
+ */
+export const getObservedFeatureValueType = selectedObservedFeatureCode => {
+  const hasValue = OBSERVED_FEATURES.find(
+    f => selectedObservedFeatureCode === f.field
+  ).valueType;
+  if (hasValue === 'percent') {
+    return 'Percent';
+  }
+  return 'Total Count';
+};
+
+/**
+ *
  * @param {*} typesDataArray
  * @returns
  */
 export const getPredictiveFeaturesDataObject = () => {
   const newPredictiveFeaturesDataObject = [];
+
+  //
+
   return newPredictiveFeaturesDataObject;
 };
 
@@ -487,8 +606,29 @@ export const getMaltreatmentPlotData = (
     maltreatmentTypesDataValues
   );
 
-  const plotLayout = getPlotLayout('Maltreatment Types');
-  const plotData = getPlotDataVertBars(maltreatmentTypesDataObject, plotColors);
+  const plotTitle = 'Maltreatment Types';
+  const plotOrientation = 'v';
+  const showPlotLegend = true;
+  const plotXDataLabel = 'Maltreatment Categories';
+  const plotXDataAxisType = 'category';
+  const plotYDataLabel = 'Count (per 100,000 children)';
+  const plotYDataAxisType = 'linear';
+
+  const plotLayout = getPlotLayout(
+    plotTitle,
+    plotOrientation,
+    showPlotLegend,
+    plotXDataLabel,
+    plotXDataAxisType,
+    plotYDataLabel,
+    plotYDataAxisType
+  );
+
+  const plotData = getPlotDataBars(
+    'maltreatment',
+    maltreatmentTypesDataObject,
+    plotOrientation
+  );
 
   const plotState = {
     data: plotData,
@@ -506,14 +646,118 @@ export const getMaltreatmentPlotData = (
 };
 
 /**
+ * TODO: Handle different data types (zipcode, urban areas, CBSAs, census tracts) more elegantly.
  *
- * @param {*} typesDataArray
+ * @param {*} selectedGeographicFeature
+ * @param {*} observedFeature
+ * @param {*} data
+ * @param {*} geography
+ * @param {*} year
  * @returns
  */
-export const getObservedFeaturesPlotData = () => {
+export const getObservedFeaturesPlotData = (
+  selectedGeographicFeature,
+  observedFeature,
+  data,
+  geography,
+  year
+) => {
   const observedFeaturesDataObject = [];
-  const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataVertBars(observedFeaturesDataObject);
+  const observedFeaturesData = data.observedFeatures;
+  const plotXDataLabel = getObservedFeatureValueType(observedFeature);
+  let observedFeatureValue;
+  let plotXDataAxisType;
+  let plotYDataAxisType;
+  let plotYDataLabel;
+
+  Object.keys(observedFeaturesData).forEach(observed => {
+    if (observed === geography) {
+      const innerFeature = observedFeaturesData[observed];
+
+      Object.keys(innerFeature).forEach(feature => {
+        const featureValues = innerFeature[feature];
+
+        Object.keys(featureValues).forEach(value => {
+          if (value === observedFeature) {
+            const currentFeature = {};
+            currentFeature.code = feature;
+            currentFeature.name = feature;
+
+            if (geography === 'cbsa') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Core Base Statistical Areas';
+              plotYDataAxisType = 'category';
+            }
+
+            if (geography === 'census_tract') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Census Tracts';
+              plotYDataAxisType = 'category';
+            }
+
+            if (geography === 'county') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Counties';
+              plotYDataAxisType = 'category';
+
+              const featureFipsIdName = getFipsIdName(feature);
+              currentFeature.code = featureFipsIdName;
+              currentFeature.name = featureFipsIdName;
+            }
+
+            if (geography === 'dfps_region') {
+              plotXDataAxisType = 'linear';
+              plotYDataLabel = 'DFPS Regions';
+              plotYDataAxisType = 'category';
+            }
+
+            if (geography === 'urban_area') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Urban Areas';
+              plotYDataAxisType = 'category';
+            }
+
+            if (geography === 'zcta') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Zip Codes';
+              plotYDataAxisType = 'category';
+            }
+
+            currentFeature.value = featureValues[value];
+            currentFeature.highlight = false;
+
+            if (selectedGeographicFeature === feature) {
+              currentFeature.highlight = true;
+              observedFeatureValue = currentFeature.value;
+            }
+
+            observedFeaturesDataObject.push(currentFeature);
+          }
+        });
+      });
+    }
+  });
+
+  const plotTitle = 'Observed Features';
+  const plotOrientation = 'h';
+  const showPlotLegend = false;
+  const plotXDataLabelAssembled = `${plotXDataLabel}  (${plotXDataAxisType} scale)`;
+
+  const plotLayout = getPlotLayout(
+    plotTitle,
+    plotOrientation,
+    showPlotLegend,
+    plotXDataLabelAssembled,
+    plotXDataAxisType,
+    plotYDataLabel,
+    plotYDataAxisType
+  );
+
+  const plotData = getPlotDataBars(
+    'observed',
+    observedFeaturesDataObject,
+    plotOrientation
+  );
 
   const plotState = {
     data: plotData,
@@ -522,7 +766,8 @@ export const getObservedFeaturesPlotData = () => {
   };
 
   const observedFeaturesPlotData = {
-    observedFeaturesPlotState: plotState
+    observedFeaturesPlotState: plotState,
+    observedFeatureTargetValue: observedFeatureValue
   };
 
   return observedFeaturesPlotData;
@@ -535,8 +780,23 @@ export const getObservedFeaturesPlotData = () => {
  */
 export const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-  const plotLayout = getPlotLayout('Predictive Features');
-  const plotData = getPlotDataVertBars(predictiveFeaturesDataObject);
+  const plotXDataLabel = '';
+  const plotYDataLabel = 'Count (per 100,000 children)';
+  const plotOrientation = 'v';
+
+  const plotLayout = getPlotLayout(
+    'Predictive Features',
+    plotOrientation,
+    true,
+    plotXDataLabel,
+    plotYDataLabel
+  );
+
+  const plotData = getPlotDataBars(
+    'predictive',
+    predictiveFeaturesDataObject,
+    plotOrientation
+  );
 
   const plotState = {
     data: plotData,

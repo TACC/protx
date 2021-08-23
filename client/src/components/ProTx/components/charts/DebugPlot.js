@@ -15,18 +15,6 @@ function DebugPlotRedux({
   plotData,
   data
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(fipsIdValue);
-  // console.log(geoId);
-  // console.log(plotType);
-  // console.log(plotData);
-  // console.log(data);
-
   const getSelectionDataTable = (
     mapTypeDebug,
     geographyDebug,

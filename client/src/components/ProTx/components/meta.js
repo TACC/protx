@@ -225,3 +225,20 @@ export const GEOID_KEY = {
   urban_area: 'GEOID10',
   zcta: 'GEOID10'
 };
+
+/**
+ * Define array of category codes.
+ */
+export const CATEGORY_CODES = [
+  'ABAN',
+  'EMAB',
+  'LBTR',
+  'MDNG',
+  'NSUP',
+  'PHAB',
+  'PHNG',
+  'RAPR',
+  'SXAB',
+  'SXTR',
+  'NA'
+];

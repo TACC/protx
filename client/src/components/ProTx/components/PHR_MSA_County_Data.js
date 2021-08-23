@@ -1,4 +1,4 @@
-export const PHR_MSA_COUNTIES = [
+const PHR_MSA_COUNTIES = [
   {
     '0': {
       'County Name': 'Anderson',
@@ -3558,3 +3558,5 @@ export const PHR_MSA_COUNTIES = [
     }
   }
 ];
+
+export default PHR_MSA_COUNTIES;
