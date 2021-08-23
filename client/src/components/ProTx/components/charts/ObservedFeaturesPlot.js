@@ -90,7 +90,7 @@ function ObservedFeaturesPlot({
         </div>
         <div className="observed-features-plot-chart-footer">
           <span className="observed-features-plot-chart-summary">
-            This chart was generated using data for the{' '}
+            This chart was generated using data for{' '}
             {selectedGeographicFeatureName} {geographyObservedFeatures} (code{' '}
             {selectedGeographicFeatureObservedFeatures}) based on the{' '}
             <span className="observed-features-plot-selected-type-value">
