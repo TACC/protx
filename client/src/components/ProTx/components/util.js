@@ -353,8 +353,8 @@ export const getBarTrace = (
   };
 };
 
-export const getTraceFillColor = (targetPlot, catcode, unique = false) => {
-  let barColorIndex = 10;
+export const getTraceFillColor = (targetPlot, catcode, unique) => {
+  let barColorIndex = 12;
   let barColor = histColors[barColorIndex];
 
   if (targetPlot === 'maltreatment') {
@@ -364,17 +364,17 @@ export const getTraceFillColor = (targetPlot, catcode, unique = false) => {
   }
 
   if (targetPlot === 'observed') {
+    barColorIndex = 1;
     if (unique) {
       barColorIndex = 10;
     }
-    barColorIndex = 1;
   }
 
   if (targetPlot === 'predictive') {
+    barColorIndex = 8;
     if (unique) {
       barColorIndex = 6;
     }
-    barColorIndex = 8;
   }
 
   barColor = histColors[barColorIndex];
@@ -723,7 +723,6 @@ export const getObservedFeaturesPlotData = (
               plotYDataAxisType = 'category';
             }
 
-            // Highlight selected region.
             currentFeature.value = featureValues[value];
             currentFeature.highlight = false;
 
