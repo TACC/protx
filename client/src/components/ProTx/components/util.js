@@ -354,7 +354,8 @@ export const getBarTrace = (
 };
 
 export const getTraceFillColor = (targetPlot, catcode, unique = false) => {
-  let barColor = histColors[10];
+  let barColorIndex = 10;
+  let barColor = histColors[barColorIndex];
 
   if (targetPlot === 'maltreatment') {
     const indexKey = categoryCodes.indexOf(catcode);
@@ -364,22 +365,19 @@ export const getTraceFillColor = (targetPlot, catcode, unique = false) => {
 
   if (targetPlot === 'observed') {
     if (unique) {
-      barColor = histColors[10];
-      return barColor;
+      barColorIndex = 10;
     }
-    barColor = histColors[1];
-    return barColor;
+    barColorIndex = 1;
   }
 
   if (targetPlot === 'predictive') {
     if (unique) {
-      barColor = histColors[6];
-      return barColor;
+      barColorIndex = 6;
     }
-    barColor = histColors[8];
-    return barColor;
+    barColorIndex = 8;
   }
 
+  barColor = histColors[barColorIndex];
   return barColor;
 };
 
