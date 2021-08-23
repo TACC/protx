@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getFipsIdName, getMaltreatmentPlotData } from '../util';
+import {
+  getFipsIdName,
+  getMaltreatmentPlotData,
+  capitalizeString
+} from '../util';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
-/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function MaltreatmentTypesPlot({
   mapType,
   geography,
@@ -14,19 +17,9 @@ function MaltreatmentTypesPlot({
   year,
   selectedGeographicFeature,
   data,
-  debugState
+  debug
 }) {
-  // console.log(mapType);
-  // console.log(geography);
-  // console.log(maltreatmentTypes);
-  // console.log(observedFeature);
-  // console.log(year);
-  // console.log(selectedGeographicFeature);
-  // console.log(data);
-  // console.log(debugState);
-
   const PLOT_TYPE = 'maltreatmentTypes';
-
   const getMaltreatmentChartLayout = (
     mapTypeMaltreatment,
     geographyMaltreatment,
@@ -37,6 +30,8 @@ function MaltreatmentTypesPlot({
     maltreatmentTypesListMaltreatment,
     plotStateMaltreatment
   ) => {
+    const geographyLabel = capitalizeString(geographyMaltreatment);
+
     return (
       <div className="maltreatment-types-plot-layout">
         <div className="maltreatment-types-plot-header">
@@ -44,7 +39,7 @@ function MaltreatmentTypesPlot({
             <div className="maltreatment-types-plot-info-item">
               <div className="maltreatment-types-plot-selected-region">
                 <span className="maltreatment-types-plot-selected-region-label">
-                  Selected {geographyMaltreatment}
+                  Selected {geographyLabel}
                 </span>
                 <span className="maltreatment-types-plot-selected-region-value">
                   {fipsIdNameMaltreatment}
@@ -63,17 +58,19 @@ function MaltreatmentTypesPlot({
               </div>
             </div>
           </div>
-          <div className="maltreatment-types-plot-chart-filters">
-            Selected Maltreatment Types
-            <div className="maltreatment-types-plot-chart-filters-list">
-              {maltreatmentTypesListMaltreatment.map(type => (
-                <span
-                  className="maltreatment-types-plot-selected-type"
-                  key={type}
-                >
-                  {type}
-                </span>
-              ))}
+          <div className="maltreatment-types-plot-info">
+            <div className="maltreatment-types-plot-chart-filters">
+              Selected Maltreatment Types
+              <div className="maltreatment-types-plot-chart-filters-list">
+                {maltreatmentTypesListMaltreatment.map(type => (
+                  <span
+                    className="maltreatment-types-plot-selected-type"
+                    key={type}
+                  >
+                    {type}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -130,7 +127,7 @@ function MaltreatmentTypesPlot({
     maltreatmentPlotData.malPlotState
   );
 
-  if (debugState) {
+  if (debug) {
     return (
       <DebugPlot
         className="plot-debug"
@@ -163,7 +160,12 @@ MaltreatmentTypesPlot.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
-  debugState: PropTypes.bool.isRequired
+  /** Render component data in debug mode. */
+  debug: PropTypes.bool
+};
+
+MaltreatmentTypesPlot.defaultProps = {
+  debug: false
 };
 
 export default MaltreatmentTypesPlot;
