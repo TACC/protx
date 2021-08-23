@@ -24,6 +24,14 @@ sup {
   color: var(--color-skyblue);
   font-style: oblique;
 }
+.feature-table-selected-feature td {
+  background-color: var(--color-cornflower-blue);
+  color: var(--color-white);
+}
+.feature-table-selected-feature td.ensemble-rank-value {
+  background-color: var(--color-purple) !important;
+  color: var(--color-gold);
+}
 .feature-table-chart tr th,
 .feature-table-chart tr td,
 .feature-table-chart-selection tr th,
@@ -63,14 +71,6 @@ sup {
 }
 .feature-table-chart-cell {
   width: 12%;
-}
-.feature-table-selected-feature td {
-  background-color: var(--color-cornflower-blue);
-  color: var(--color-white);
-}
-.feature-table-selected-feature td.ensemble-rank-value {
-  background-color: var(--color-purple) !important;
-  color: var(--color-gold);
 }
 .feature-table-info * {
   font-weight: var(--font-weight-light);
