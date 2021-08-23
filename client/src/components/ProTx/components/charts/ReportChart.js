@@ -26,7 +26,6 @@ function ReportChart({
   const reportShowDescription = false;
   const reportDescription = 'Description needed.';
 
-  /* Hidden as still work-in-progress
   if (selectedGeographicFeature) {
     return (
       <div className="report-chart">
@@ -45,7 +44,6 @@ function ReportChart({
       </div>
     );
   }
-  */
 
   return (
     <div className="report-chart">

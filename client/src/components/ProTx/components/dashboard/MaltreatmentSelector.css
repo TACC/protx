@@ -12,6 +12,10 @@
 .rmsc .dropdown-container .dropdown-content {
   z-index: 9999;
 }
+.rmsc .dropdown-content .panel-content {
+  --rmsc-bgdd: var(--global-color-primary--dark) !important;
+  color: var(--color-white) !important;
+}
 .rmsc .dropdown-container .dropdown-content .panel-content {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
@@ -19,10 +23,6 @@
 .rmsc .dropdown-container .dropdown-content * {
   color: var(--color-white);
   background: var(--color-gray-very-dark);
-}
-.rmsc .dropdown-content .panel-content {
-  --rmsc-bgdd: var(--global-color-primary--dark) !important;
-  color: var(--color-white) !important;
 }
 .dropdown-heading-value {
   color: var(--global-color-accent--normal);

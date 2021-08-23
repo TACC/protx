@@ -15,7 +15,9 @@ const tableData = PREDICTIVE_FEATURES_TABLE_DATA;
 const tableNotes = PREDICTIVE_FEATURES_TABLE_NOTES;
 
 function PredictiveFeaturesTable({ selectedGeographicFeature }) {
-  let selectedFeatureCheck = false;
+  let selectedFeatureCheck = false; // Once working, this check goes away.
+  const chartSubtitle = 'Table 1';
+  const chartTitle = 'Texas Statewide Data';
 
   const selectedFeature = {
     Demographic_Feature: 'SF_NAME',
@@ -98,6 +100,12 @@ function PredictiveFeaturesTable({ selectedGeographicFeature }) {
       return (
         <div className="feature-table">
           <div className="feature-table-chart-selection">
+            <div className="feature-table-chart-title">
+              {chartTitle}
+              <span className="feature-table-chart-subtitle">
+                ({chartSubtitle})
+              </span>
+            </div>
             <table>
               {featureTableHeader}
               {featureTableData}
@@ -111,6 +119,12 @@ function PredictiveFeaturesTable({ selectedGeographicFeature }) {
     return (
       <div className="feature-table">
         <div className="feature-table-chart">
+          <div className="feature-table-chart-title">
+            {chartTitle}
+            <span className="feature-table-chart-subtitle">
+              ({chartSubtitle})
+            </span>
+          </div>
           <table>
             {featureTableHeader}
             {featureTableData}

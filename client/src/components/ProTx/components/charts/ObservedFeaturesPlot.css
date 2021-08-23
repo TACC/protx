@@ -4,8 +4,6 @@
 .observed-features-plot-layout {
   margin: 1vh 1vw;
 }
-.observed-features-plot-header {
-}
 .observed-features-plot-info {
   border-bottom: 1px solid var(--color-gray-very-dark);
 }
@@ -74,7 +72,7 @@
 .observed-features-plot-selected-type-summary {
   font-weight: var(--font-weight-x-heavy);
 }
-.observed-features-plot-selected-type-summary:after {
+.observed-features-plot-selected-type-summary::after {
   font-weight: var(--font-weight-normal);
   content: '.';
 }
