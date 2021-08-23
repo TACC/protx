@@ -134,36 +134,6 @@ export const OBSERVED_FEATURES_TOP_FIELDS = [
 
 export const MALTREATMENT = [
   {
-    field: 'PHAB',
-    name: 'Physical abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'SXAB',
-    name: 'Sexual abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'NSUP',
-    name: 'Neglectful supervision',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'MDNG',
-    name: 'Medical neglect',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'PHNG',
-    name: 'Physical neglect',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
     field: 'ABAN',
     name: 'Abandonment',
     valueType: 'count',
@@ -176,8 +146,44 @@ export const MALTREATMENT = [
     valueTypeLabel: 'Count'
   },
   {
+    field: 'LBTR',
+    name: 'Labor trafficking',
+    valueType: 'count',
+    valueTypeLabel: 'Count'
+  },
+  {
+    field: 'MDNG',
+    name: 'Medical neglect',
+    valueType: 'count',
+    valueTypeLabel: 'Count'
+  },
+  {
+    field: 'NSUP',
+    name: 'Neglectful supervision',
+    valueType: 'count',
+    valueTypeLabel: 'Count'
+  },
+  {
+    field: 'PHAB',
+    name: 'Physical abuse',
+    valueType: 'count',
+    valueTypeLabel: 'Count'
+  },
+  {
+    field: 'PHNG',
+    name: 'Physical neglect',
+    valueType: 'count',
+    valueTypeLabel: 'Count'
+  },
+  {
     field: 'RAPR',
     name: 'Refusal to accept parental responsibility',
+    valueType: 'count',
+    valueTypeLabel: 'Count'
+  },
+  {
+    field: 'SXAB',
+    name: 'Sexual abuse',
     valueType: 'count',
     valueTypeLabel: 'Count'
   },
@@ -188,19 +194,11 @@ export const MALTREATMENT = [
     valueTypeLabel: 'Count'
   },
   {
-    field: 'LBTR',
-    name: 'Labor trafficking',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  }
-  /* Dropped
-  {
     field: 'NA',
     name: 'Missing (NA)',
     valueType: 'count',
     valueTypeLabel: 'Count'
   }
-   */
 ];
 
 /* should be added to nested folder in MALTREATMENT list
