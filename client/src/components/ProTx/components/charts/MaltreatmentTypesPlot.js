@@ -9,7 +9,6 @@ import {
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
-/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function MaltreatmentTypesPlot({
   mapType,
   geography,
@@ -18,7 +17,7 @@ function MaltreatmentTypesPlot({
   year,
   selectedGeographicFeature,
   data,
-  debugState
+  debug
 }) {
   const PLOT_TYPE = 'maltreatmentTypes';
   const getMaltreatmentChartLayout = (
@@ -128,7 +127,7 @@ function MaltreatmentTypesPlot({
     maltreatmentPlotData.malPlotState
   );
 
-  if (debugState) {
+  if (debug) {
     return (
       <DebugPlot
         className="plot-debug"
@@ -161,7 +160,12 @@ MaltreatmentTypesPlot.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
-  debugState: PropTypes.bool.isRequired
+  /** Render component data in debug mode. */
+  debug: PropTypes.bool
+};
+
+MaltreatmentTypesPlot.defaultProps = {
+  debug: false
 };
 
 export default MaltreatmentTypesPlot;

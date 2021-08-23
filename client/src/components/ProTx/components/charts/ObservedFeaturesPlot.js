@@ -5,12 +5,12 @@ import {
   getFipsIdName,
   getObservedFeaturesLabel,
   getObservedFeaturesPlotData,
-  capitalizeString
+  capitalizeString,
+  cleanValue
 } from '../util';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
-/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function ObservedFeaturesPlot({
   mapType,
   geography,
@@ -19,7 +19,7 @@ function ObservedFeaturesPlot({
   year,
   selectedGeographicFeature,
   data,
-  debugState
+  debug
 }) {
   const PLOT_TYPE = 'observedFeatures';
   const getObservedFeaturesChartLayout = (
@@ -38,11 +38,6 @@ function ObservedFeaturesPlot({
       selectedGeographicFeatureObservedFeatures
     );
     const geographyType = capitalizeString(geographyObservedFeatures);
-    const cleanValue = targetValue => {
-      const result = targetValue - Math.floor(targetValue) !== 0;
-      if (result) return `${targetValue.toFixed(2)} %`;
-      return targetValue;
-    };
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
     return (
@@ -132,7 +127,7 @@ function ObservedFeaturesPlot({
     observedFeaturesPlotData.observedFeatureTargetValue
   );
 
-  if (debugState) {
+  if (debug) {
     return (
       <DebugPlot
         className="plot-debug"
@@ -165,7 +160,12 @@ ObservedFeaturesPlot.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
-  debugState: PropTypes.bool.isRequired
+  /** Render component data in debug mode. */
+  debug: PropTypes.bool
+};
+
+ObservedFeaturesPlot.defaultProps = {
+  debug: false
 };
 
 export default ObservedFeaturesPlot;

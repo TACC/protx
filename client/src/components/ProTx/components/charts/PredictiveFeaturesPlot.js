@@ -5,7 +5,6 @@ import { getFipsIdName, getPredictiveFeaturesPlotData } from '../util';
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
-/* Passing in the debugState property at component declaration will render component data in debug mode. */
 function PredictiveFeaturesPlot({
   mapType,
   geography,
@@ -14,7 +13,7 @@ function PredictiveFeaturesPlot({
   year,
   selectedGeographicFeature,
   data,
-  debugState
+  debug
 }) {
   const PLOT_TYPE = 'predictiveFeatures';
 
@@ -65,7 +64,7 @@ function PredictiveFeaturesPlot({
     predictiveFeaturesPlotData.predictiveFeaturesPlotState
   );
 
-  if (debugState) {
+  if (debug) {
     return (
       <DebugPlot
         className="plot-debug"
@@ -100,7 +99,12 @@ PredictiveFeaturesPlot.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
-  debugState: PropTypes.bool.isRequired
+  /** Render component data in debug mode. */
+  debug: PropTypes.bool
+};
+
+PredictiveFeaturesPlot.defaultProps = {
+  debug: false
 };
 
 export default PredictiveFeaturesPlot;

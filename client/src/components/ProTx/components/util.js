@@ -15,6 +15,28 @@ export const histColors = THEME_CB12_ALT0;
 export const categoryCodes = CATEGORY_CODES;
 
 /**
+ *
+ * @param {*} string
+ * @returns
+ */
+export const capitalizeString = string => {
+  return string[0].toUpperCase() + string.slice(1);
+};
+
+/**
+ *
+ * @param {*} targetValue
+ * @returns
+ */
+export const cleanValue = targetValue => {
+  if (targetValue) {
+    const result = targetValue - Math.floor(targetValue) !== 0;
+    if (result) return `${targetValue.toFixed(2)} %`;
+  }
+  return targetValue;
+};
+
+/**
  * Get meta data for observed features
  * @param {Object} data
  * @param {String} geography
@@ -316,8 +338,6 @@ export const getBarTrace = (
   }
 
   return {
-    // y: [traceY],
-    // x: [traceX],
     y: [yData],
     x: [xData],
     name: traceName,
@@ -333,29 +353,32 @@ export const getBarTrace = (
   };
 };
 
-export const getCategoryColorDestructured = (
-  targetPlot,
-  catcode,
-  unique = false
-) => {
+export const getTraceFillColor = (targetPlot, catcode, unique) => {
+  let barColorIndex = 12;
+  let barColor = histColors[barColorIndex];
+
   if (targetPlot === 'maltreatment') {
     const indexKey = categoryCodes.indexOf(catcode);
-    const barColor = plotColors[indexKey];
+    barColor = plotColors[indexKey];
     return barColor;
   }
+
   if (targetPlot === 'observed') {
+    barColorIndex = 1;
     if (unique) {
-      return histColors[10];
+      barColorIndex = 10;
     }
-    return histColors[1];
   }
+
   if (targetPlot === 'predictive') {
+    barColorIndex = 8;
     if (unique) {
-      return histColors[6];
+      barColorIndex = 6;
     }
-    return histColors[8];
   }
-  return histColors[10];
+
+  barColor = histColors[barColorIndex];
+  return barColor;
 };
 
 /**
@@ -369,16 +392,19 @@ export const getPlotDataBars = (
   plotOrientation
 ) => {
   const newPlotData = [];
+
   for (let i = 0; i < typesDataArray.length; i += 1) {
     const yData = typesDataArray[i].value;
     const xData = typesDataArray[i].code;
     const tName = typesDataArray[i].name;
     const isHighlighted = typesDataArray[i].highlight;
-    const traceFillColor = getCategoryColorDestructured(
+
+    const traceFillColor = getTraceFillColor(
       targetPlotType,
       xData,
       isHighlighted
     );
+
     const type = getBarTrace(
       yData,
       xData,
@@ -386,8 +412,10 @@ export const getPlotDataBars = (
       traceFillColor,
       plotOrientation
     );
+
     newPlotData.push(type);
   }
+
   return newPlotData;
 };
 
@@ -410,28 +438,54 @@ export const plotConfig = {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotLayout = plotTitle => {
+export const getPlotLayout = (
+  plotAnnotation,
+  plotOrientation,
+  plotLegend,
+  plotXAxisTitle,
+  plotXAxisType,
+  plotYAxisTitle,
+  plotYAxisType
+) => {
+  let yAxisAutorange;
+
+  if (plotOrientation === 'v') {
+    yAxisAutorange = true;
+  }
+
+  if (plotOrientation === 'h') {
+    yAxisAutorange = 'reversed';
+  }
+
   const newPlotLayout = {
     autosize: true,
     margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
+    // nbinsx: 20,
     xaxis: {
       automargin: true,
+      autorange: true,
+      type: plotXAxisType,
       tickangle: -90,
       title: {
-        text: plotTitle,
+        text: plotXAxisTitle,
         standoff: 20
       }
     },
+    // nbinsy: 20,
     yaxis: {
       automargin: true,
+      autorange: yAxisAutorange,
+      type: plotYAxisType,
       tickangle: 0,
       title: {
-        text: 'Total',
+        text: plotYAxisTitle,
         standoff: 20
       }
     },
-    annotations: []
+    showlegend: plotLegend,
+    annotations: [plotAnnotation]
   };
+
   return newPlotLayout;
 };
 
@@ -489,6 +543,21 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
 
 /**
  *
+ * @param {*} selectedObservedFeatureCode
+ * @returns {valueType: string}
+ */
+export const getObservedFeatureValueType = selectedObservedFeatureCode => {
+  const hasValue = OBSERVED_FEATURES.find(
+    f => selectedObservedFeatureCode === f.field
+  ).valueType;
+  if (hasValue === 'percent') {
+    return 'Percent';
+  }
+  return 'Total Count';
+};
+
+/**
+ *
  * @param {*} typesDataArray
  * @returns
  */
@@ -537,11 +606,28 @@ export const getMaltreatmentPlotData = (
     maltreatmentTypesDataValues
   );
 
-  const plotLayout = getPlotLayout('Maltreatment Types');
+  const plotTitle = 'Maltreatment Types';
+  const plotOrientation = 'v';
+  const showPlotLegend = true;
+  const plotXDataLabel = 'Maltreatment Categories';
+  const plotXDataAxisType = 'category';
+  const plotYDataLabel = 'Count (per 100,000 children)';
+  const plotYDataAxisType = 'linear';
+
+  const plotLayout = getPlotLayout(
+    plotTitle,
+    plotOrientation,
+    showPlotLegend,
+    plotXDataLabel,
+    plotXDataAxisType,
+    plotYDataLabel,
+    plotYDataAxisType
+  );
+
   const plotData = getPlotDataBars(
     'maltreatment',
     maltreatmentTypesDataObject,
-    'v'
+    plotOrientation
   );
 
   const plotState = {
@@ -560,8 +646,13 @@ export const getMaltreatmentPlotData = (
 };
 
 /**
+ * TODO: Handle different data types (zipcode, urban areas, CBSAs, census tracts) more elegantly.
  *
- * @param {*} typesDataArray
+ * @param {*} selectedGeographicFeature
+ * @param {*} observedFeature
+ * @param {*} data
+ * @param {*} geography
+ * @param {*} year
  * @returns
  */
 export const getObservedFeaturesPlotData = (
@@ -573,29 +664,73 @@ export const getObservedFeaturesPlotData = (
 ) => {
   const observedFeaturesDataObject = [];
   const observedFeaturesData = data.observedFeatures;
+  const plotXDataLabel = getObservedFeatureValueType(observedFeature);
   let observedFeatureValue;
+  let plotXDataAxisType;
+  let plotYDataAxisType;
+  let plotYDataLabel;
 
   Object.keys(observedFeaturesData).forEach(observed => {
     if (observed === geography) {
       const innerFeature = observedFeaturesData[observed];
+
       Object.keys(innerFeature).forEach(feature => {
         const featureValues = innerFeature[feature];
+
         Object.keys(featureValues).forEach(value => {
           if (value === observedFeature) {
             const currentFeature = {};
             currentFeature.code = feature;
             currentFeature.name = feature;
+
+            if (geography === 'cbsa') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Core Base Statistical Areas';
+              plotYDataAxisType = 'category';
+            }
+
+            if (geography === 'census_tract') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Census Tracts';
+              plotYDataAxisType = 'category';
+            }
+
             if (geography === 'county') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Counties';
+              plotYDataAxisType = 'category';
+
               const featureFipsIdName = getFipsIdName(feature);
               currentFeature.code = featureFipsIdName;
               currentFeature.name = featureFipsIdName;
             }
+
+            if (geography === 'dfps_region') {
+              plotXDataAxisType = 'linear';
+              plotYDataLabel = 'DFPS Regions';
+              plotYDataAxisType = 'category';
+            }
+
+            if (geography === 'urban_area') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Urban Areas';
+              plotYDataAxisType = 'category';
+            }
+
+            if (geography === 'zcta') {
+              plotXDataAxisType = 'log';
+              plotYDataLabel = 'Zip Codes';
+              plotYDataAxisType = 'category';
+            }
+
             currentFeature.value = featureValues[value];
             currentFeature.highlight = false;
+
             if (selectedGeographicFeature === feature) {
               currentFeature.highlight = true;
               observedFeatureValue = currentFeature.value;
             }
+
             observedFeaturesDataObject.push(currentFeature);
           }
         });
@@ -603,8 +738,26 @@ export const getObservedFeaturesPlotData = (
     }
   });
 
-  const plotLayout = getPlotLayout('Observed Features');
-  const plotData = getPlotDataBars('observed', observedFeaturesDataObject, 'h');
+  const plotTitle = 'Observed Features';
+  const plotOrientation = 'h';
+  const showPlotLegend = false;
+  const plotXDataLabelAssembled = `${plotXDataLabel}  (${plotXDataAxisType} scale)`;
+
+  const plotLayout = getPlotLayout(
+    plotTitle,
+    plotOrientation,
+    showPlotLegend,
+    plotXDataLabelAssembled,
+    plotXDataAxisType,
+    plotYDataLabel,
+    plotYDataAxisType
+  );
+
+  const plotData = getPlotDataBars(
+    'observed',
+    observedFeaturesDataObject,
+    plotOrientation
+  );
 
   const plotState = {
     data: plotData,
@@ -628,11 +781,22 @@ export const getObservedFeaturesPlotData = (
  */
 export const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-  const plotLayout = getPlotLayout('Predictive Features');
+  const plotXDataLabel = '';
+  const plotYDataLabel = 'Count (per 100,000 children)';
+  const plotOrientation = 'v';
+
+  const plotLayout = getPlotLayout(
+    'Predictive Features',
+    plotOrientation,
+    true,
+    plotXDataLabel,
+    plotYDataLabel
+  );
+
   const plotData = getPlotDataBars(
     'predictive',
     predictiveFeaturesDataObject,
-    'v'
+    plotOrientation
   );
 
   const plotState = {
@@ -646,11 +810,4 @@ export const getPredictiveFeaturesPlotData = () => {
   };
 
   return predictiveFeaturesPlotData;
-};
-
-/**
- * Capitalize a String value.
- */
-export const capitalizeString = string => {
-  return string[0].toUpperCase() + string.slice(1);
 };
