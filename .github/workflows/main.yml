@@ -43,15 +43,6 @@ jobs:
         cp portal/apps/workbench/templates/portal/apps/workbench/index.j2 portal/apps/workbench/templates/portal/apps/workbench/index.html
         poetry run pytest --cov-config=.coveragerc --cov=portal --cov-report=xml -ra
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./server/coverage.xml
-        flags: unittests
-        name: cep-server-side
-        fail_ci_if_error: true
-
   Server_Side_Linting:
     runs-on: ubuntu-18.04
     steps:
@@ -110,9 +101,6 @@ jobs:
       run: |
         cd client
         npm run test
-
-    - name: Upload coverage to Codecov
-      run: bash <(curl -s https://codecov.io/bash) -Z -t ${{ secrets.CODECOV_TOKEN }} -cF javascript
 
   Client_Side_Linting:
     runs-on: ubuntu-18.04

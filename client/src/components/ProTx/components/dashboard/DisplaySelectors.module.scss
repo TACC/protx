@@ -13,3 +13,19 @@
   font-weight: bold;
   padding-right: 0.5rem;
 }
+
+/* TODO Should be reworked in COOKS-110 */
+.radio-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.radio-container label {
+  margin-bottom: 0;
+  padding-right: 10px;
+}
+
+.radio-button  {
+    margin-right: 5px;
+}

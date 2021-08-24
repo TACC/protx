@@ -544,6 +544,23 @@ const getObservedFeatureValueType = selectedObservedFeatureCode => {
 };
 
 /**
+ * Compare an observedFeature's valueType with valueType and return  true if same type (i.e. percent type or non-percent type)
+ *
+ * This is not a valueType direct comparison as we are really considering things as being
+ * percentages or non-percentages.  This is cause we have percents and a variety of yet-to-be-defined
+ * non-percentage value types (like count, dollars etc).
+ *
+ * @param {Object} observed feature
+ * @param {String} valueType
+ * @return boolean
+ */
+export const compareSimplifiedValueType = (observedFeature, valueType) => {
+  const isPercent =
+    'valueType' in observedFeature && observedFeature.valueType === 'percent';
+  return valueType === 'percent' ? isPercent : !isPercent;
+};
+
+/**
  *
  * @param {*} typesDataArray
  * @returns
