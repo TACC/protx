@@ -5,6 +5,7 @@ describe('utili functions', () => {
     expect(
       compareSimplifiedValueType({ valueType: 'percent' }, 'percent')
     ).toEqual(true);
+    // unknown types are also not percents
     expect(compareSimplifiedValueType({}, 'percent')).toEqual(false);
     expect(
       compareSimplifiedValueType({ valueType: 'count' }, 'percent')

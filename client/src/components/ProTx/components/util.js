@@ -556,7 +556,7 @@ const getObservedFeatureValueType = selectedObservedFeatureCode => {
  */
 export const compareSimplifiedValueType = (observedFeature, valueType) => {
   const isPercent =
-    observedFeature.valueType && observedFeature.valueType === 'percent';
+    'valueType' in observedFeature && observedFeature.valueType === 'percent';
   return valueType === 'percent' ? isPercent : !isPercent;
 };
 
