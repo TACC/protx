@@ -7,20 +7,9 @@ import {
   OBSERVED_FEATURES_TOP_FIELDS,
   SUPPORTED_YEARS
 } from '../meta';
-import './DisplaySelectors.module.scss';
 
-const compareSimplifiedValueType = (observedFeature, valueType) => {
-  /**
-   * Returns a true if same type (i.e. percent type or non-percent type)
-   *
-   * This is not a valueType direct comparison as we are really considering things as being
-   * percentages or non-percentages.  This is cause we have percents and a variety of yet-to-be-defined
-   * non-percentage value types (like count, dollars etc).
-   */
-  const isPercent =
-    observedFeature.valueType && observedFeature.valueType === 'percent';
-  return valueType === 'percent' ? isPercent : !isPercent;
-};
+import { compareSimplifiedValueType } from '../util';
+import './DisplaySelectors.module.scss';
 
 /* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
 function ValueTypeSelector({ valueType, setValueType }) {

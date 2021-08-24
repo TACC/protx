@@ -1,0 +1,22 @@
+import { compareSimplifiedValueType } from './util';
+
+describe('utili functions', () => {
+  it("perform simplified comparison of valueType to 'percent'", () => {
+    expect(
+      compareSimplifiedValueType({ valueType: 'percent' }, 'percent')
+    ).toEqual(true);
+    expect(compareSimplifiedValueType({}, 'percent')).toEqual(false);
+    expect(
+      compareSimplifiedValueType({ valueType: 'count' }, 'percent')
+    ).toEqual(false);
+  });
+  it("perform simplified comparison of valueType to a non-'percent'", () => {
+    expect(
+      compareSimplifiedValueType({ valueType: 'percent' }, 'count')
+    ).toEqual(false);
+    expect(compareSimplifiedValueType({}, 'count')).toEqual(true);
+    expect(compareSimplifiedValueType({ valueType: 'count' }, 'count')).toEqual(
+      true
+    );
+  });
+});
