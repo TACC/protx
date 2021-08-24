@@ -4,8 +4,6 @@
 .maltreatment-types-plot-layout {
   margin: 1vh 1vw;
 }
-.maltreatment-types-plot-header {
-}
 .maltreatment-types-plot-info {
   border-bottom: 1px solid var(--color-gray-very-dark);
 }
@@ -74,7 +72,7 @@
   font-size: var(--font-size-xs);
   line-height: 2vh;
 }
-.maltreatment-types-plot-chart-summary:after {
+.maltreatment-types-plot-chart-summary::after {
   content: '\00a0 ';
 }
 .maltreatment-types-plot-selected-type-value,
@@ -84,18 +82,18 @@
 .maltreatment-types-plot-selected-type-summary {
   font-weight: var(--font-weight-x-heavy);
 }
-.maltreatment-types-plot-selected-type:not(:last-child):after,
-.maltreatment-types-plot-selected-type-summary:not(:last-child):after {
+.maltreatment-types-plot-selected-type:not(:last-child)::after,
+.maltreatment-types-plot-selected-type-summary:not(:last-child)::after {
   font-weight: var(--font-weight-normal);
   content: ', ';
 }
 .maltreatment-types-plot-chart-summary,
-.maltreatment-types-plot-selected-type-summary:last-child:not(:only-child):before {
+.maltreatment-types-plot-selected-type-summary:last-child:not(:only-child)::before {
   font-weight: var(--font-weight-normal);
   content: ' and ';
 }
-.maltreatment-types-plot-selected-type:last-child:not(:only-child):after,
-.maltreatment-types-plot-selected-type-summary:last-child:not(:only-child):after {
+.maltreatment-types-plot-selected-type:last-child:not(:only-child)::after,
+.maltreatment-types-plot-selected-type-summary:last-child:not(:only-child)::after {
   font-weight: var(--font-weight-normal);
   content: '.';
 }

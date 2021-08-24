@@ -1,18 +1,18 @@
 import { getColor } from './maps/intervalColorScale';
 import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from './colors';
-import PHR_MSA_COUNTIES from './PHR_MSA_County_Data';
+import { PHR_MSA_COUNTIES } from './PHR_MSA_County_Data';
 import { OBSERVED_FEATURES, MALTREATMENT, CATEGORY_CODES } from './meta';
 
 /**
  * Assign an imported color theme for use in plot generation.
  */
-export const plotColors = THEME_CB12_MAIN;
-export const histColors = THEME_CB12_ALT0;
+const plotColors = THEME_CB12_MAIN;
+const histColors = THEME_CB12_ALT0;
 
 /**
  * Define array of category codes.
  */
-export const categoryCodes = CATEGORY_CODES;
+const categoryCodes = CATEGORY_CODES;
 
 /**
  *
@@ -61,12 +61,7 @@ function getObservedFeaturesMetaData(data, geography, year, observedFeature) {
  * @param Array<{String}> maltreatmentTypes
  * @returns {Object} meta data (min, max)
  */
-export function getMaltreatmentMetaData(
-  data,
-  geography,
-  year,
-  maltreatmentTypes
-) {
+function getMaltreatmentMetaData(data, geography, year, maltreatmentTypes) {
   // maltreatment data is derived from data as
   // it is based on the list of selected maltreatment types
   if (maltreatmentTypes.length === 0) {
@@ -136,7 +131,7 @@ export function getMetaData(
  * @param {String} observedFeature
  * @returns {Number} value (null if no value exists)
  */
-export function getObservedFeatureValue(
+function getObservedFeatureValue(
   data,
   geography,
   year,
@@ -161,7 +156,7 @@ export function getObservedFeatureValue(
  * @param Array<{String}> maltreatmentTypes
  * @returns {Number} value (null if no value exists)
  */
-export function getMaltreatmentAggregatedValue(
+function getMaltreatmentAggregatedValue(
   data,
   geography,
   year,
@@ -194,7 +189,7 @@ export function getMaltreatmentAggregatedValue(
  * @param Array<{String}> maltreatmentTypes
  * @returns Array<{Number}> of values
  */
-export function getMaltreatmentSelectedValues(
+function getMaltreatmentSelectedValues(
   data,
   geography,
   year,
@@ -317,7 +312,7 @@ export const getFipsIdName = currentGeoid => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getBarTrace = (
+const getBarTrace = (
   traceY,
   traceX,
   traceName,
@@ -353,7 +348,7 @@ export const getBarTrace = (
   };
 };
 
-export const getTraceFillColor = (targetPlot, catcode, unique) => {
+const getTraceFillColor = (targetPlot, catcode, unique) => {
   let barColorIndex = 12;
   let barColor = histColors[barColorIndex];
 
@@ -386,11 +381,7 @@ export const getTraceFillColor = (targetPlot, catcode, unique) => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotDataBars = (
-  targetPlotType,
-  typesDataArray,
-  plotOrientation
-) => {
+const getPlotDataBars = (targetPlotType, typesDataArray, plotOrientation) => {
   const newPlotData = [];
 
   for (let i = 0; i < typesDataArray.length; i += 1) {
@@ -424,7 +415,7 @@ export const getPlotDataBars = (
  * @param {*} typesDataArray
  * @returns
  */
-export const plotConfig = {
+const plotConfig = {
   doubleClickDelay: 1000,
   responsive: true,
   displayModeBar: false,
@@ -438,7 +429,7 @@ export const plotConfig = {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPlotLayout = (
+const getPlotLayout = (
   plotAnnotation,
   plotOrientation,
   plotLegend,
@@ -494,7 +485,7 @@ export const getPlotLayout = (
  * @param {*} typesDataArray
  * @returns
  */
-export const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
+const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
   const updatedMaltreatmentTypesList = [];
   if (maltreatmentTypeCodes.length === 0) {
     return ['None'];
@@ -514,11 +505,7 @@ export const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getMaltreatmentTypesDataObject = (
-  codeArray,
-  nameArray,
-  valueArray
-) => {
+const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
   const newMaltreatmentDataObject = [];
   for (let i = 0; i < codeArray.length; i += 1) {
     const dataObject = {};
@@ -546,7 +533,7 @@ export const getObservedFeaturesLabel = selectedObservedFeatureCode => {
  * @param {*} selectedObservedFeatureCode
  * @returns {valueType: string}
  */
-export const getObservedFeatureValueType = selectedObservedFeatureCode => {
+const getObservedFeatureValueType = selectedObservedFeatureCode => {
   const hasValue = OBSERVED_FEATURES.find(
     f => selectedObservedFeatureCode === f.field
   ).valueType;
@@ -561,7 +548,7 @@ export const getObservedFeatureValueType = selectedObservedFeatureCode => {
  * @param {*} typesDataArray
  * @returns
  */
-export const getPredictiveFeaturesDataObject = () => {
+const getPredictiveFeaturesDataObject = () => {
   const newPredictiveFeaturesDataObject = [];
 
   //
