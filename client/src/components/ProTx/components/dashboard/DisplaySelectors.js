@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DropdownSelector } from '_common';
 import MaltreatmentSelector from './MaltreatmentSelector';
@@ -9,12 +9,67 @@ import {
 } from '../meta';
 import './DisplaySelectors.module.scss';
 
+const compareSimplifiedValueType = (observedFeature, valueType) => {
+  /**
+   * Returns a true if same type (i.e. percent type or non-percent type)
+   *
+   * This is not a valueType direct comparison as we are really considering things as being
+   * percentages or non-percentages.  This is cause we have percents and a variety of yet-to-be-defined
+   * non-percentage value types (like count, dollars etc).
+   */
+  const isPercent =
+    observedFeature.valueType && observedFeature.valueType === 'percent';
+  return valueType === 'percent' ? isPercent : !isPercent;
+};
+
+/* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
+function ValueTypeSelector({ valueType, setValueType }) {
+  return (
+    <div styleName="radio-container">
+      <div className="radio-container-element">
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label>
+          <input
+            className="radio-button"
+            type="radio"
+            value="percent"
+            styleName="radio-button"
+            checked={valueType === 'percent'}
+            onChange={() => setValueType('percent')}
+          />
+          Percentages
+        </label>
+      </div>
+      <div className="radio">
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label>
+          <input
+            className="radio-button"
+            type="radio"
+            value="total"
+            styleName="radio-button"
+            checked={valueType === 'total'}
+            onChange={() => setValueType('total')}
+          />
+          Totals
+        </label>
+      </div>
+    </div>
+  );
+}
+
+ValueTypeSelector.propTypes = {
+  valueType: PropTypes.string.isRequired,
+  setValueType: PropTypes.func.isRequired
+};
+
 /**
  * Selectors (i.e. dropdowns) to allow users to select what to display on maps/charts
  *
  * Customizations:
  * - if `setGeography` or `setYear` are not set then the associated dropdown is disabled
- *
+ * - if 'limitToTopObservedFeatureFields' then a limited set of demographic data is selectable
+ *    (and user can't switch between value types like between percent/total)
  * Note:
  * Maltreatment data is available at the county level.
  * Demographic Features only has 2019 data
@@ -32,8 +87,21 @@ function DisplaySelectors({
   setYear,
   limitToTopObservedFeatureFields
 }) {
+  const [valueType, setValueType] = useState('percent');
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
+
+  const switchValueType = newValueType => {
+    setValueType(newValueType);
+    const obsFeature = OBSERVED_FEATURES.find(f => observedFeature === f.field);
+    if (!compareSimplifiedValueType(obsFeature, newValueType)) {
+      // ensure the current observed feature is of that type
+      const firstFeatureWithMatchingValueType = OBSERVED_FEATURES.find(f =>
+        compareSimplifiedValueType(f, newValueType)
+      );
+      setObservedFeature(firstFeatureWithMatchingValueType.field);
+    }
+  };
 
   return (
     <div styleName="display-selectors">
@@ -64,25 +132,37 @@ function DisplaySelectors({
         </div>
       )}
       {mapType === 'observedFeatures' && (
-        <div styleName="control">
-          <span styleName="label">Demographic</span>
-          <DropdownSelector
-            value={observedFeature}
-            onChange={event => setObservedFeature(event.target.value)}
-          >
-            <optgroup label="Select demographic feature">
-              {OBSERVED_FEATURES.filter(
-                f =>
-                  !limitToTopObservedFeatureFields ||
-                  OBSERVED_FEATURES_TOP_FIELDS.includes(f.field)
-              ).map(f => (
-                <option key={f.field} value={f.field}>
-                  {f.name}
-                </option>
-              ))}
-            </optgroup>
-          </DropdownSelector>
-        </div>
+        <>
+          {!limitToTopObservedFeatureFields && (
+            <div styleName="control">
+              <span styleName="label">Value</span>
+              <ValueTypeSelector
+                valueType={valueType}
+                setValueType={switchValueType}
+              />
+            </div>
+          )}
+          <div styleName="control">
+            <span styleName="label">Demographic</span>
+            <DropdownSelector
+              value={observedFeature}
+              onChange={event => setObservedFeature(event.target.value)}
+            >
+              <optgroup label="Select demographic feature">
+                {OBSERVED_FEATURES.filter(f => {
+                  if (limitToTopObservedFeatureFields) {
+                    return OBSERVED_FEATURES_TOP_FIELDS.includes(f.field);
+                  }
+                  return compareSimplifiedValueType(f, valueType);
+                }).map(f => (
+                  <option key={f.field} value={f.field}>
+                    {f.name}
+                  </option>
+                ))}
+              </optgroup>
+            </DropdownSelector>
+          </div>
+        </>
       )}
       <div styleName="control">
         <span styleName="label">Years</span>

@@ -17,7 +17,7 @@ function DashboardDisplay() {
     MALTREATMENT[0].field
   ]);
   const [observedFeature, setObservedFeature] = useState(
-    OBSERVED_FEATURES[0].field
+    OBSERVED_FEATURES[4].field /* EP_CROWD */
   );
   const [year, setYear] = useState('2019');
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
