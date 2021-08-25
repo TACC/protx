@@ -9,7 +9,7 @@ import './AnalyticsDashboard.css';
 const showHeader = true;
 const hostName = "COOK CHILDREN'S PRE-PRODUCTION PORTAL";
 const messageString =
-  'Geospatial data analytics dashboard using incomplete demonstration data.';
+  'Geospatial data analytics dashboard using demonstration data.';
 
 function AnalyticsDashboard() {
   if (showHeader) {
