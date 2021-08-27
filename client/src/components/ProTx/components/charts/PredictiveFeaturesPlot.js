@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getFipsIdName, getPredictiveFeaturesPlotData } from '../util';
+import { getFipsIdName } from '../common/dataUtils';
+import { getPredictiveFeaturesPlotData } from '../common/plotUtils';
+
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 

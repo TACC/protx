@@ -6,9 +6,8 @@ import {
   OBSERVED_FEATURES,
   OBSERVED_FEATURES_TOP_FIELDS,
   SUPPORTED_YEARS
-} from '../meta';
-
-import { compareSimplifiedValueType } from '../util';
+} from '../data/meta';
+import { compareSimplifiedValueType } from '../common/dataUtils';
 import './DisplaySelectors.module.scss';
 
 /* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */

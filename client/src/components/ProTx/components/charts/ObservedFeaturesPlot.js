@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import {
   getFipsIdName,
-  getObservedFeaturesLabel,
-  getObservedFeaturesPlotData,
   capitalizeString,
-  cleanValue
-} from '../util';
+  cleanValue,
+  getObservedFeaturesLabel
+} from '../common/dataUtils';
+import { getObservedFeaturesPlotData } from '../common/plotUtils';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
