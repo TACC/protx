@@ -1,4 +1,4 @@
-import { compareSimplifiedValueType } from './dataUtil';
+import { compareSimplifiedValueType } from './dataUtils';
 
 describe('util functions: compareSimplifiedValueType ', () => {
   it("perform simplified comparison of valueType to 'percent'", () => {
