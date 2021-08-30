@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import MaltreatmentTypesPlot from './MaltreatmentTypesPlot';
 import ObservedFeaturesPlot from './ObservedFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
-import './AnalysisChart.css';
+import './MaltreatmentObservedFeaturesChart.css';
 
-function AnalysisChart({
+function MaltreatmentObservedFeaturesChart({
   mapType,
   geography,
   maltreatmentTypes,
@@ -38,7 +38,7 @@ function AnalysisChart({
   if (mapType === 'maltreatment') {
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       return (
-        <div className="analysis-chart">
+        <div className="maltreatment-report">
           <MaltreatmentTypesPlot
             mapType={mapType}
             geography={geography}
@@ -52,7 +52,7 @@ function AnalysisChart({
       );
     }
     return (
-      <div className="analysis-chart">
+      <div className="maltreatment-report">
         <ChartInstructions
           dropdownInstructions={maltreatmentDropdownInstructions}
           mapInstructions={maltreatmentMapInstructions}
@@ -66,7 +66,7 @@ function AnalysisChart({
   if (mapType === 'observedFeatures') {
     if (selectedGeographicFeature && observedFeature) {
       return (
-        <div className="analysis-chart">
+        <div className="observed-features-report">
           <ObservedFeaturesPlot
             mapType={mapType}
             geography={geography}
@@ -80,7 +80,7 @@ function AnalysisChart({
       );
     }
     return (
-      <div className="analysis-chart">
+      <div className="observed-features-report">
         <ChartInstructions
           dropdownInstructions={observedFeaturesDropdownInstructions}
           mapInstructions={observedFeaturesMapInstructions}
@@ -92,7 +92,7 @@ function AnalysisChart({
   }
 }
 
-AnalysisChart.propTypes = {
+MaltreatmentObservedFeaturesChart.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -103,4 +103,4 @@ AnalysisChart.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default AnalysisChart;
+export default MaltreatmentObservedFeaturesChart;

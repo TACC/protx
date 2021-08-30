@@ -1,10 +1,10 @@
 import React from 'react';
-import './ReportDisplayLayout.css';
+import './MaltreatmentObservedFeaturesReportLayout.css';
 import PropTypes from 'prop-types';
 import MainMap from '../maps/MainMap';
-import ReportChart from '../charts/ReportChart';
+import MaltreatmentObservedFeaturesChart from '../charts/MaltreatmentObservedFeaturesChart';
 
-function ReportDisplayLayout({
+function MaltreatmentObservedFeaturesReportLayout({
   mapType,
   geography,
   maltreatmentTypes,
@@ -29,7 +29,7 @@ function ReportDisplayLayout({
         />
       </div>
       <div className="display-layout-chart">
-        <ReportChart
+        <MaltreatmentObservedFeaturesChart
           mapType={mapType}
           geography={geography}
           maltreatmentTypes={maltreatmentTypes}
@@ -37,14 +37,13 @@ function ReportDisplayLayout({
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
-          // showInstructions
         />
       </div>
     </div>
   );
 }
 
-ReportDisplayLayout.propTypes = {
+MaltreatmentObservedFeaturesReportLayout.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -56,4 +55,4 @@ ReportDisplayLayout.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default ReportDisplayLayout;
+export default MaltreatmentObservedFeaturesReportLayout;

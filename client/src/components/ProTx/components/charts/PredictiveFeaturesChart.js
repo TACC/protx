@@ -4,9 +4,9 @@ import PredictiveFeaturesTable from './PredictiveFeaturesTable';
 // eslint-disable-next-line no-unused-vars
 import PredictiveFeaturesPlot from './PredictiveFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
-import './ReportChart.css';
+import './PredictiveFeaturesChart.css';
 
-function ReportChart({
+function PredictiveFeaturesChart({
   mapType,
   geography,
   maltreatmentTypes,
@@ -28,7 +28,7 @@ function ReportChart({
 
   if (selectedGeographicFeature) {
     return (
-      <div className="report-chart">
+      <div className="predictive-features-chart">
         <PredictiveFeaturesTable
           selectedGeographicFeature={selectedGeographicFeature}
         />
@@ -46,7 +46,7 @@ function ReportChart({
   }
 
   return (
-    <div className="report-chart">
+    <div className="predictive-features-chart">
       <PredictiveFeaturesTable />
       {showInstructions && (
         <ChartInstructions
@@ -60,7 +60,7 @@ function ReportChart({
   );
 }
 
-ReportChart.propTypes = {
+PredictiveFeaturesChart.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -72,8 +72,8 @@ ReportChart.propTypes = {
   showInstructions: PropTypes.bool
 };
 
-ReportChart.defaultProps = {
+PredictiveFeaturesChart.defaultProps = {
   showInstructions: false
 };
 
-export default ReportChart;
+export default PredictiveFeaturesChart;

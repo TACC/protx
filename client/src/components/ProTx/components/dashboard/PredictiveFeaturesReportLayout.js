@@ -1,10 +1,10 @@
 import React from 'react';
-import './AnalysisDisplayLayout.css';
+import './PredictiveFeaturesReportLayout.css';
 import PropTypes from 'prop-types';
 import MainMap from '../maps/MainMap';
-import AnalysisChart from '../charts/AnalysisChart';
+import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
 
-function AnalysisDisplayLayout({
+function PredictiveFeaturesReportLayout({
   mapType,
   geography,
   maltreatmentTypes,
@@ -29,7 +29,7 @@ function AnalysisDisplayLayout({
         />
       </div>
       <div className="display-layout-chart">
-        <AnalysisChart
+        <PredictiveFeaturesChart
           mapType={mapType}
           geography={geography}
           maltreatmentTypes={maltreatmentTypes}
@@ -37,13 +37,14 @@ function AnalysisDisplayLayout({
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
+          // showInstructions
         />
       </div>
     </div>
   );
 }
 
-AnalysisDisplayLayout.propTypes = {
+PredictiveFeaturesReportLayout.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -55,4 +56,4 @@ AnalysisDisplayLayout.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default AnalysisDisplayLayout;
+export default PredictiveFeaturesReportLayout;

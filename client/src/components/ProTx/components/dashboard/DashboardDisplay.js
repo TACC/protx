@@ -3,8 +3,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
-import AnalysisDisplayLayout from './AnalysisDisplayLayout';
-import ReportDisplayLayout from './ReportDisplayLayout';
+import MaltreatmentObservedFeaturesReportLayout from './MaltreatmentObservedFeaturesReportLayout';
+import PredictiveFeaturesReportLayout from './PredictiveFeaturesReportLayout';
 import { MALTREATMENT, OBSERVED_FEATURES } from '../meta';
 import './DashboardDisplay.module.scss';
 
@@ -82,7 +82,7 @@ function DashboardDisplay() {
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
                 />
-                <AnalysisDisplayLayout
+                <MaltreatmentObservedFeaturesReportLayout
                   mapType={mapType}
                   geography={geography}
                   maltreatmentTypes={maltreatmentTypes}
@@ -107,7 +107,7 @@ function DashboardDisplay() {
             setObservedFeature={setObservedFeature}
             limitToTopObservedFeatureFields
           />
-          <ReportDisplayLayout
+          <PredictiveFeaturesReportLayout
             mapType="observedFeatures"
             geography="county"
             maltreatmentTypes={maltreatmentTypes}
