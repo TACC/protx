@@ -1,10 +1,10 @@
 import React from 'react';
-import './PredictiveFeaturesReportLayout.css';
+import './PredictiveFeaturesReport.css';
 import PropTypes from 'prop-types';
 import MainMap from '../maps/MainMap';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
 
-function PredictiveFeaturesReportLayout({
+function PredictiveFeaturesReport({
   mapType,
   geography,
   maltreatmentTypes,
@@ -44,7 +44,7 @@ function PredictiveFeaturesReportLayout({
   );
 }
 
-PredictiveFeaturesReportLayout.propTypes = {
+PredictiveFeaturesReport.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -56,4 +56,4 @@ PredictiveFeaturesReportLayout.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default PredictiveFeaturesReportLayout;
+export default PredictiveFeaturesReport;
