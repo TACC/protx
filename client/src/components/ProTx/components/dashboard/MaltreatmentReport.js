@@ -1,10 +1,10 @@
 import React from 'react';
-import './MaltreatmentObservedFeaturesReport.css';
+import './MaltreatmentReport.css';
 import PropTypes from 'prop-types';
 import MainMap from '../maps/MainMap';
 import MaltreatmentObservedFeaturesChart from '../charts/MaltreatmentObservedFeaturesChart';
 
-function MaltreatmentObservedFeaturesReport({
+function MaltreatmentReport({
   mapType,
   geography,
   maltreatmentTypes,
@@ -43,7 +43,7 @@ function MaltreatmentObservedFeaturesReport({
   );
 }
 
-MaltreatmentObservedFeaturesReport.propTypes = {
+MaltreatmentReport.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -55,4 +55,4 @@ MaltreatmentObservedFeaturesReport.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default MaltreatmentObservedFeaturesReport;
+export default MaltreatmentReport;
