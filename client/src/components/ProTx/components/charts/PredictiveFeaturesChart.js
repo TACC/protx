@@ -16,10 +16,9 @@ function PredictiveFeaturesChart({
   showInstructions
 }) {
   const predictiveFeaturesDropdownInstructions = [
-    'Map is restricted to Demographic Features.',
     'Map is restricted to the County Area.',
-    'Select a Demographic Feature.',
-    'TimeFrame is restricted to most recent census data (2019).'
+    'Demographic is restrcited to the top seven predictive features.',
+    'Year is restricted to 2019 (the most recent census data).'
   ];
   const predictiveFeaturesMapInstructions = ['Select a Geographic Region.'];
   const predictiveFeaturesShowDescription = false;

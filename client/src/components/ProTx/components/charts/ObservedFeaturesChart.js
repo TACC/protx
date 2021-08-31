@@ -22,7 +22,7 @@ function ObservedFeaturesChart({
   const observedFeaturesMapInstructions = ['Select a Geographic Region.'];
   const observedFeaturesShowDescription = true;
   const observedFeaturesDescription =
-    'Demographic feature counts for individual geographic regions with specific observable features during selected timeframes.';
+    'Demographic feature percents/counts for individual geographic regions with the selected observable feature during the selected timeframe.';
 
   if (selectedGeographicFeature && observedFeature) {
     return (
