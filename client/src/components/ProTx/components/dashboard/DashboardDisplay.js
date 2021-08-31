@@ -3,9 +3,6 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
-// import MaltreatmentReport from './MaltreatmentReport';
-// import ObservedFeaturesReport from './ObservedFeaturesReport';
-// import PredictiveFeaturesReport from './PredictiveFeaturesReport';
 import MainMap from '../maps/MainMap';
 import MaltreatmentObservedFeaturesChart from '../charts/MaltreatmentObservedFeaturesChart';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
@@ -79,16 +76,6 @@ function DashboardDisplay() {
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
                 />
-                {/* <MaltreatmentReport
-                  mapType={mapType}
-                  geography={geography}
-                  maltreatmentTypes={maltreatmentTypes}
-                  observedFeature={observedFeature}
-                  year={year}
-                  data={data}
-                  selectedGeographicFeature={selectedGeographicFeature}
-                  setSelectedGeographicFeature={setSelectedGeographicFeature}
-                /> */}
                 <div className="display-layout-root">
                   <div className="display-layout-map">
                     <MainMap
@@ -138,16 +125,6 @@ function DashboardDisplay() {
                   setObservedFeature={setObservedFeature}
                   limitToTopObservedFeatureFields
                 />
-                {/* <ObservedFeaturesReport
-                  mapType="observedFeatures"
-                  geography="county"
-                  maltreatmentTypes={maltreatmentTypes}
-                  observedFeature={observedFeature}
-                  year="2019"
-                  data={data}
-                  selectedGeographicFeature={selectedGeographicFeature}
-                  setSelectedGeographicFeature={setSelectedGeographicFeature}
-                /> */}
                 <div className="display-layout-root">
                   <div className="display-layout-map">
                     <MainMap
@@ -196,16 +173,6 @@ function DashboardDisplay() {
                   setObservedFeature={setObservedFeature}
                   limitToTopObservedFeatureFields
                 />
-                {/* <PredictiveFeaturesReport
-                  mapType="observedFeatures"
-                  geography="county"
-                  maltreatmentTypes={maltreatmentTypes}
-                  observedFeature={observedFeature}
-                  year="2019"
-                  data={data}
-                  selectedGeographicFeature={selectedGeographicFeature}
-                  setSelectedGeographicFeature={setSelectedGeographicFeature}
-                /> */}
                 <div className="display-layout-root">
                   <div className="display-layout-map">
                     <MainMap
