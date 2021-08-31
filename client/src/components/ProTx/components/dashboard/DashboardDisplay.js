@@ -64,7 +64,6 @@ function DashboardDisplay() {
             setMapType('maltreatment');
             // maltreatment only has county data.
             setGeography('county');
-
             return (
               <>
                 <DisplaySelectors
@@ -117,7 +116,6 @@ function DashboardDisplay() {
             setYear('2019');
             setGeography('county');
             setMapType('observedFeatures');
-
             return (
               <>
                 <DisplaySelectors
@@ -168,7 +166,6 @@ function DashboardDisplay() {
             setMapType('predictiveFeatures');
             setYear('2019');
             setGeography('county');
-
             return (
               <>
                 <DisplaySelectors
