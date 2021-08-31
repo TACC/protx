@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import MainMap from '../maps/MainMap';
-import MaltreatmentObservedFeaturesChart from '../charts/MaltreatmentObservedFeaturesChart';
+// import MaltreatmentObservedFeaturesChart from '../charts/MaltreatmentObservedFeaturesChart';
+import MaltreatmentChart from '../charts/MaltreatmentChart';
+import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
 import { MALTREATMENT, OBSERVED_FEATURES } from '../meta';
 import './DashboardDisplay.css';
@@ -61,7 +63,7 @@ function DashboardDisplay() {
           path={`${protxRoute}/maltreatment`}
           render={() => {
             setMapType('maltreatment');
-            // maltreatment only has county data
+            // maltreatment only has county data.
             setGeography('county');
             return (
               <>
@@ -92,7 +94,7 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    <MaltreatmentObservedFeaturesChart
+                    {/* <MaltreatmentObservedFeaturesChart
                       mapType={mapType}
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
@@ -100,6 +102,16 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                    /> */}
+                    <MaltreatmentChart
+                      mapType={mapType}
+                      geography={geography}
+                      maltreatmentTypes={maltreatmentTypes}
+                      observedFeature={observedFeature}
+                      year={year}
+                      selectedGeographicFeature={selectedGeographicFeature}
+                      data={data}
+                      showInstructions
                     />
                   </div>
                 </div>
@@ -110,8 +122,9 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/demographics`}
           render={() => {
-            // observedFeatures (i.e. Demographic Features only has 2019 data)
+            // observedFeatures (i.e. Demographic Features) only has 2019 data.
             setYear('2019');
+            setGeography('county');
             setMapType('observedFeatures');
             return (
               <>
@@ -141,7 +154,7 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    <MaltreatmentObservedFeaturesChart
+                    {/* <MaltreatmentObservedFeaturesChart
                       mapType={mapType}
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
@@ -149,6 +162,16 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                    /> */}
+                    <ObservedFeaturesChart
+                      mapType={mapType}
+                      geography={geography}
+                      maltreatmentTypes={maltreatmentTypes}
+                      observedFeature={observedFeature}
+                      year={year}
+                      selectedGeographicFeature={selectedGeographicFeature}
+                      data={data}
+                      showInstructions
                     />
                   </div>
                 </div>
@@ -159,7 +182,6 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/analytics`}
           render={() => {
-            // predictiveFeatures
             setMapType('analytics');
             return (
               <>
@@ -197,7 +219,7 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      // showInstructions
+                      showInstructions
                     />
                   </div>
                 </div>

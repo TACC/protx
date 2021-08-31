@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
-// eslint-disable-next-line no-unused-vars
 import PredictiveFeaturesPlot from './PredictiveFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
 import './PredictiveFeaturesChart.css';
@@ -16,15 +15,15 @@ function PredictiveFeaturesChart({
   data,
   showInstructions
 }) {
-  const reportDropdownInstructions = [
+  const predictiveFeaturesDropdownInstructions = [
     'Map is restricted to Demographic Features.',
     'Map is restricted to the County Area.',
     'Select a Demographic Feature.',
     'TimeFrame is restricted to most recent census data (2019).'
   ];
-  const reportMapInstructions = ['Select a Geographic Region.'];
-  const reportShowDescription = false;
-  const reportDescription = 'Description needed.';
+  const predictiveFeaturesMapInstructions = ['Select a Geographic Region.'];
+  const predictiveFeaturesShowDescription = false;
+  const predictiveFeaturesDescription = 'Description needed.';
 
   if (selectedGeographicFeature) {
     return (
@@ -50,10 +49,10 @@ function PredictiveFeaturesChart({
       <PredictiveFeaturesTable />
       {showInstructions && (
         <ChartInstructions
-          dropdownInstructions={reportDropdownInstructions}
-          mapInstructions={reportMapInstructions}
-          showDescription={reportShowDescription}
-          description={reportDescription}
+          dropdownInstructions={predictiveFeaturesDropdownInstructions}
+          mapInstructions={predictiveFeaturesMapInstructions}
+          showDescription={predictiveFeaturesShowDescription}
+          description={predictiveFeaturesDescription}
         />
       )}
     </div>
