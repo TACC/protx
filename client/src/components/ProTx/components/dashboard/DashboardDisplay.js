@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import MainMap from '../maps/MainMap';
-// import MaltreatmentObservedFeaturesChart from '../charts/MaltreatmentObservedFeaturesChart';
 import MaltreatmentChart from '../charts/MaltreatmentChart';
 import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
@@ -65,6 +64,7 @@ function DashboardDisplay() {
             setMapType('maltreatment');
             // maltreatment only has county data.
             setGeography('county');
+
             return (
               <>
                 <DisplaySelectors
@@ -94,15 +94,6 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    {/* <MaltreatmentObservedFeaturesChart
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      data={data}
-                    /> */}
                     <MaltreatmentChart
                       mapType={mapType}
                       geography={geography}
@@ -126,17 +117,18 @@ function DashboardDisplay() {
             setYear('2019');
             setGeography('county');
             setMapType('observedFeatures');
+
             return (
               <>
                 <DisplaySelectors
-                  mapType="observedFeatures"
-                  geography="county"
+                  mapType={mapType}
+                  geography={geography}
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
-                  year="2019"
+                  year={year}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
-                  limitToTopObservedFeatureFields
+                  // limitToTopObservedFeatureFields
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -154,15 +146,6 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    {/* <MaltreatmentObservedFeaturesChart
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      data={data}
-                    /> */}
                     <ObservedFeaturesChart
                       mapType={mapType}
                       geography={geography}
@@ -182,15 +165,18 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/analytics`}
           render={() => {
-            setMapType('analytics');
+            setMapType('predictiveFeatures');
+            setYear('2019');
+            setGeography('county');
+
             return (
               <>
                 <DisplaySelectors
-                  mapType="observedFeatures"
-                  geography="county"
+                  mapType={mapType}
+                  geography={geography}
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
-                  year="2019"
+                  year={year}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   limitToTopObservedFeatureFields
