@@ -126,7 +126,7 @@ function DashboardDisplay() {
                   year={year}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
-                  // limitToTopObservedFeatureFields
+                  setGeography={setGeography}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -163,7 +163,7 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/analytics`}
           render={() => {
-            setMapType('predictiveFeatures');
+            setMapType('observedFeatures');
             setYear('2019');
             setGeography('county');
             return (
