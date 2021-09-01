@@ -6,7 +6,6 @@ import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
 function PredictiveFeaturesPlot({
-  mapType,
   geography,
   maltreatmentTypes,
   observedFeature,
@@ -18,7 +17,6 @@ function PredictiveFeaturesPlot({
   const PLOT_TYPE = 'predictiveFeatures';
 
   const getPredictiveFeaturesChartLayout = (
-    mapTypePredictiveFeatures,
     predictiveFeaturePredictiveFeatures,
     geographyPredictiveFeatures,
     selectedGeographicFeaturePredictiveFeatures,
@@ -52,12 +50,10 @@ function PredictiveFeaturesPlot({
   };
 
   const predictiveFeaturesPlotData = getPredictiveFeaturesPlotData();
-
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   const predictiveFeaturesChartLayout = getPredictiveFeaturesChartLayout(
-    mapType,
     observedFeature,
     geography,
     selectedGeographicFeature,
@@ -68,7 +64,7 @@ function PredictiveFeaturesPlot({
     return (
       <DebugPlot
         className="plot-debug"
-        mapType={mapType}
+        mapType="predictiveFeatures"
         geography={geography}
         maltreatmentTypes={maltreatmentTypes}
         observedFeature={observedFeature}
@@ -91,7 +87,6 @@ function PredictiveFeaturesPlot({
 }
 
 PredictiveFeaturesPlot.propTypes = {
-  mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
