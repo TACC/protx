@@ -8,8 +8,8 @@ import { GEOID_KEY } from '../data/meta';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import { getMetaData } from '../common/dataUtils';
-import { IntervalColorScale, getFeatureStyle } from '../common/mapUtils';
+import { getMetaData } from '../shared/dataUtils';
+import { IntervalColorScale, getFeatureStyle } from '../shared/mapUtils';
 
 let mapContainer;
 

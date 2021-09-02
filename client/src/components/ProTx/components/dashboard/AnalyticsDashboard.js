@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardHeader from './DashboardHeader';
 import DashboardDisplay from './DashboardDisplay';
-import '../common/Variables.css';
+import '../shared/Variables.css';
 import './AnalyticsDashboard.css';
 
 // Need to find a way to set this value based on some external configuration value so it changes based on the hosts settings.

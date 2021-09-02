@@ -6,8 +6,8 @@ import {
   capitalizeString,
   cleanValue,
   getObservedFeaturesLabel
-} from '../common/dataUtils';
-import { getObservedFeaturesPlotData } from '../common/plotUtils';
+} from '../shared/dataUtils';
+import { getObservedFeaturesPlotData } from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
