@@ -7,7 +7,6 @@ import './PredictiveFeaturesChart.css';
 
 function PredictiveFeaturesChart({
   geography,
-  maltreatmentTypes,
   observedFeature,
   year,
   selectedGeographicFeature,
@@ -31,7 +30,6 @@ function PredictiveFeaturesChart({
         />
         <PredictiveFeaturesPlot
           geography={geography}
-          maltreatmentTypes={maltreatmentTypes}
           observedFeature={observedFeature}
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
@@ -58,7 +56,6 @@ function PredictiveFeaturesChart({
 
 PredictiveFeaturesChart.propTypes = {
   geography: PropTypes.string.isRequired,
-  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,

@@ -7,7 +7,6 @@ import './ObservedFeaturesChart.css';
 function ObservedFeaturesChart({
   mapType,
   geography,
-  maltreatmentTypes,
   observedFeature,
   year,
   selectedGeographicFeature,
@@ -30,7 +29,6 @@ function ObservedFeaturesChart({
         <ObservedFeaturesPlot
           mapType={mapType}
           geography={geography}
-          maltreatmentTypes={maltreatmentTypes}
           observedFeature={observedFeature}
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
@@ -56,7 +54,6 @@ function ObservedFeaturesChart({
 ObservedFeaturesChart.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
-  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,

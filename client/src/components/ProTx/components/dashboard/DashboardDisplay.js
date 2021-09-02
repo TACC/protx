@@ -147,7 +147,6 @@ function DashboardDisplay() {
                     <ObservedFeaturesChart
                       mapType={mapType}
                       geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
