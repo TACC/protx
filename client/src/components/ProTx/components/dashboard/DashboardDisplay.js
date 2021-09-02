@@ -5,7 +5,7 @@ import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import AnalysisDisplayLayout from './AnalysisDisplayLayout';
 import ReportDisplayLayout from './ReportDisplayLayout';
-import { MALTREATMENT, OBSERVED_FEATURES } from '../meta';
+import { MALTREATMENT, OBSERVED_FEATURES } from '../data/meta';
 import './DashboardDisplay.module.scss';
 
 function DashboardDisplay() {
