@@ -7,10 +7,7 @@ import MainMap from '../maps/MainMap';
 import MaltreatmentChart from '../charts/MaltreatmentChart';
 import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
-// import { MALTREATMENT, OBSERVED_FEATURES } from '../meta';
 import './DashboardDisplay.css';
-// import AnalysisDisplayLayout from './AnalysisDisplayLayout';
-// import ReportDisplayLayout from './ReportDisplayLayout';
 import { MALTREATMENT, OBSERVED_FEATURES } from '../data/meta';
 import './DashboardDisplay.module.scss';
 
