@@ -11,3 +11,6 @@
   font-weight: var(--font-weight-heavy);
   color: var(-color-gray);
 }
+.chart-description {
+  width: 90%;
+}

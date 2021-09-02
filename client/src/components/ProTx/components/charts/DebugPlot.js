@@ -165,18 +165,33 @@ function DebugPlotRedux({
 }
 
 DebugPlotRedux.propTypes = {
-  mapType: PropTypes.string.isRequired,
-  geography: PropTypes.string.isRequired,
-  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  observedFeature: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
-  selectedGeographicFeature: PropTypes.string.isRequired,
-  fipsIdValue: PropTypes.string.isRequired,
-  geoId: PropTypes.string.isRequired,
-  plotType: PropTypes.string.isRequired,
-  plotData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  mapType: PropTypes.string,
+  geography: PropTypes.string,
+  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string),
+  observedFeature: PropTypes.string,
+  year: PropTypes.string,
+  selectedGeographicFeature: PropTypes.string,
+  fipsIdValue: PropTypes.string,
+  geoId: PropTypes.string,
+  plotType: PropTypes.string,
+  plotData: PropTypes.arrayOf(PropTypes.object),
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired
+  data: PropTypes.object
+};
+
+DebugPlotRedux.defaultProps = {
+  mapType: 'unset',
+  geography: 'unset',
+  maltreatmentTypes: [],
+  observedFeature: 'unset',
+  year: 'unset',
+  selectedGeographicFeature: 'unset',
+  fipsIdValue: 'unset',
+  geoId: 'unset',
+  plotType: 'unset',
+  plotData: [{}],
+  // eslint-disable-next-line react/forbid-prop-types
+  data: {}
 };
 
 export default DebugPlotRedux;

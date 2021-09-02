@@ -152,6 +152,39 @@ function DisplaySelectors({
           </div>
         </>
       )}
+      {mapType === 'predictiveFeatures' && (
+        <>
+          {!limitToTopObservedFeatureFields && (
+            <div styleName="control">
+              <span styleName="label">Value</span>
+              <ValueTypeSelector
+                valueType={valueType}
+                setValueType={switchValueType}
+              />
+            </div>
+          )}
+          <div styleName="control">
+            <span styleName="label">Demographic</span>
+            <DropdownSelector
+              value={observedFeature}
+              onChange={event => setObservedFeature(event.target.value)}
+            >
+              <optgroup label="Select demographic feature">
+                {OBSERVED_FEATURES.filter(f => {
+                  if (limitToTopObservedFeatureFields) {
+                    return OBSERVED_FEATURES_TOP_FIELDS.includes(f.field);
+                  }
+                  return compareSimplifiedValueType(f, valueType);
+                }).map(f => (
+                  <option key={f.field} value={f.field}>
+                    {f.name}
+                  </option>
+                ))}
+              </optgroup>
+            </DropdownSelector>
+          </div>
+        </>
+      )}
       <div styleName="control">
         <span styleName="label">Years</span>
         <DropdownSelector
