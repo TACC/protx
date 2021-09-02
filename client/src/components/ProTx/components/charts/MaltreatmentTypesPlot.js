@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {
-  getFipsIdName,
-  getMaltreatmentPlotData,
-  capitalizeString
-} from '../util';
+import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
+import { getMaltreatmentPlotData } from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 

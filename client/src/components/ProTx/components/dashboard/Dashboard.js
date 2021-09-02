@@ -1,11 +1,14 @@
 import React from 'react';
 import DashboardHeader from './DashboardHeader';
 import DashboardDisplay from './DashboardDisplay';
-import '../Variables.css';
+import '../shared/Variables.css';
 import './Dashboard.css';
 
-// Need to find a way to set this value based on some external configuration value so it changes based on the hosts settings.
-// false for PROD, true for all non-PROD deployments.
+/**
+ * TODO: find a way to set this value based on some external configuration value so it changes based on the hosts settings.
+ * false for PROD
+ * true for PPRD, DEV, etc.
+ */
 const showHeader = true;
 const hostName = "COOK CHILDREN'S PRE-PRODUCTION PORTAL";
 const messageString =
