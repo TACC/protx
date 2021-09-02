@@ -1,41 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
-// eslint-disable-next-line no-unused-vars
 import PredictiveFeaturesPlot from './PredictiveFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
-import './ReportChart.css';
+import './PredictiveFeaturesChart.css';
 
-function ReportChart({
-  mapType,
+function PredictiveFeaturesChart({
   geography,
-  maltreatmentTypes,
   observedFeature,
   year,
   selectedGeographicFeature,
   data,
   showInstructions
 }) {
-  const reportDropdownInstructions = [
-    'Map is restricted to Demographic Features.',
+  const predictiveFeaturesDropdownInstructions = [
     'Map is restricted to the County Area.',
-    'Select a Demographic Feature.',
-    'TimeFrame is restricted to most recent census data (2019).'
+    'Demographic is restrcited to the top seven predictive features.',
+    'Year is restricted to 2019 (the most recent census data).'
   ];
-  const reportMapInstructions = ['Select a Geographic Region.'];
-  const reportShowDescription = false;
-  const reportDescription = 'Description needed.';
+  const predictiveFeaturesMapInstructions = ['Select a Geographic Region.'];
+  const predictiveFeaturesShowDescription = false;
+  const predictiveFeaturesDescription = 'Description needed.';
 
   if (selectedGeographicFeature) {
     return (
-      <div className="report-chart">
+      <div className="predictive-features-chart">
         <PredictiveFeaturesTable
           selectedGeographicFeature={selectedGeographicFeature}
         />
         <PredictiveFeaturesPlot
-          mapType={mapType}
           geography={geography}
-          maltreatmentTypes={maltreatmentTypes}
           observedFeature={observedFeature}
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
@@ -46,24 +40,22 @@ function ReportChart({
   }
 
   return (
-    <div className="report-chart">
+    <div className="predictive-features-chart">
       <PredictiveFeaturesTable />
       {showInstructions && (
         <ChartInstructions
-          dropdownInstructions={reportDropdownInstructions}
-          mapInstructions={reportMapInstructions}
-          showDescription={reportShowDescription}
-          description={reportDescription}
+          dropdownInstructions={predictiveFeaturesDropdownInstructions}
+          mapInstructions={predictiveFeaturesMapInstructions}
+          showDescription={predictiveFeaturesShowDescription}
+          description={predictiveFeaturesDescription}
         />
       )}
     </div>
   );
 }
 
-ReportChart.propTypes = {
-  mapType: PropTypes.string.isRequired,
+PredictiveFeaturesChart.propTypes = {
   geography: PropTypes.string.isRequired,
-  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
@@ -72,8 +64,8 @@ ReportChart.propTypes = {
   showInstructions: PropTypes.bool
 };
 
-ReportChart.defaultProps = {
+PredictiveFeaturesChart.defaultProps = {
   showInstructions: false
 };
 
-export default ReportChart;
+export default PredictiveFeaturesChart;

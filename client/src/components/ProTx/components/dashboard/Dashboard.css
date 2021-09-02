@@ -1,9 +1,9 @@
-.analytics-dashboard-root-header {
+.dashboard-root-header {
   --max-height: var(--max-height-header);
   min-height: var(--max-height);
   max-height: var(--max-height);
 }
-.analytics-dashboard-root {
+.dashboard-root {
   --max-height: var(--max-height-no-header);
   min-height: var(--max-height);
   max-height: var(--max-height);

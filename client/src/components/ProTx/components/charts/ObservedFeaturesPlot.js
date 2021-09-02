@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import {
   getFipsIdName,
-  getObservedFeaturesLabel,
-  getObservedFeaturesPlotData,
   capitalizeString,
-  cleanValue
-} from '../util';
+  cleanValue,
+  getObservedFeaturesLabel
+} from '../shared/dataUtils';
+import { getObservedFeaturesPlotData } from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
 import './ObservedFeaturesPlot.css';
 
 function ObservedFeaturesPlot({
   mapType,
   geography,
-  maltreatmentTypes,
   observedFeature,
   year,
   selectedGeographicFeature,
@@ -133,7 +132,6 @@ function ObservedFeaturesPlot({
         className="plot-debug"
         mapType={mapType}
         geography={geography}
-        maltreatmentTypes={maltreatmentTypes}
         observedFeature={observedFeature}
         year={year}
         selectedGeographicFeature={selectedGeographicFeature}
@@ -154,7 +152,6 @@ function ObservedFeaturesPlot({
 ObservedFeaturesPlot.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
-  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,

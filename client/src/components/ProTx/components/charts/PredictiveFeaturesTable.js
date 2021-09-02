@@ -15,7 +15,7 @@ const tableData = PREDICTIVE_FEATURES_TABLE_DATA;
 const tableNotes = PREDICTIVE_FEATURES_TABLE_NOTES;
 
 function PredictiveFeaturesTable({ selectedGeographicFeature }) {
-  let selectedFeatureCheck = false; // Once working, this check goes away.
+  let selectedFeatureCheck = false;
   const chartSubtitle = 'Table 1';
   const chartTitle = 'Texas Statewide Data';
 
@@ -136,7 +136,7 @@ function PredictiveFeaturesTable({ selectedGeographicFeature }) {
   };
 
   if (selectedGeographicFeature && selectedGeographicFeature !== ' ') {
-    selectedFeatureCheck = true;
+    selectedFeatureCheck = false; // Make true to enable extra table row.
   }
 
   const featureTable = getFeatureTable();

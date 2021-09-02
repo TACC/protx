@@ -1,4 +1,13 @@
-export const THEME_CB12_MAIN = [
+const colorbrewerClass6YlOrBr = [
+  '#ffffd4',
+  '#fee391',
+  '#fec44f',
+  '#fe9929',
+  '#d95f0e',
+  '#993404'
+];
+
+const THEME_CB12_MAIN = [
   '#4363d8',
   '#911eb4',
   '#bcf60c',
@@ -13,7 +22,7 @@ export const THEME_CB12_MAIN = [
   '#ffd8b1'
 ];
 
-export const THEME_CB12_ALT0 = [
+const THEME_CB12_ALT0 = [
   '#9F0162',
   '#009F81',
   '#FF5AAF',
@@ -28,7 +37,7 @@ export const THEME_CB12_ALT0 = [
   '#FFC33B'
 ];
 
-export const THEME_CB12_ALT1 = [
+const THEME_CB12_ALT1 = [
   '#006A5E',
   '#ED0D88',
   '#00BDA9',
@@ -43,7 +52,7 @@ export const THEME_CB12_ALT1 = [
   '#00FB1D'
 ];
 
-export const THEME_CB12_ALT2 = [
+const THEME_CB12_ALT2 = [
   '#9F0162',
   '#ED0D88',
   '#FF5AAF',
@@ -58,7 +67,7 @@ export const THEME_CB12_ALT2 = [
   '#00FB1D'
 ];
 
-export const THEME_CB12_ALT3 = [
+const THEME_CB12_ALT3 = [
   '#006A5E',
   '#009F81',
   '#00BDA9',
@@ -72,3 +81,12 @@ export const THEME_CB12_ALT3 = [
   '#00C61B',
   '#FFC33B'
 ];
+
+export {
+  colorbrewerClass6YlOrBr,
+  THEME_CB12_MAIN,
+  THEME_CB12_ALT0,
+  THEME_CB12_ALT1,
+  THEME_CB12_ALT2,
+  THEME_CB12_ALT3
+};

@@ -4,12 +4,12 @@ import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import PropTypes from 'prop-types';
 import MapProviders from './MapProviders';
-import { GEOID_KEY } from '../meta';
-import { IntervalColorScale } from './intervalColorScale';
+import { GEOID_KEY } from '../data/meta';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import { getMetaData, getFeatureStyle } from '../util';
+import { getMetaData } from '../shared/dataUtils';
+import { IntervalColorScale, getFeatureStyle } from '../shared/mapUtils';
 
 let mapContainer;
 

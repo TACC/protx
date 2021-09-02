@@ -6,9 +6,8 @@ import {
   OBSERVED_FEATURES,
   OBSERVED_FEATURES_TOP_FIELDS,
   SUPPORTED_YEARS
-} from '../meta';
-
-import { compareSimplifiedValueType } from '../util';
+} from '../data/meta';
+import { compareSimplifiedValueType } from '../shared/dataUtils';
 import './DisplaySelectors.module.scss';
 
 /* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
@@ -121,6 +120,39 @@ function DisplaySelectors({
         </div>
       )}
       {mapType === 'observedFeatures' && (
+        <>
+          {!limitToTopObservedFeatureFields && (
+            <div styleName="control">
+              <span styleName="label">Value</span>
+              <ValueTypeSelector
+                valueType={valueType}
+                setValueType={switchValueType}
+              />
+            </div>
+          )}
+          <div styleName="control">
+            <span styleName="label">Demographic</span>
+            <DropdownSelector
+              value={observedFeature}
+              onChange={event => setObservedFeature(event.target.value)}
+            >
+              <optgroup label="Select demographic feature">
+                {OBSERVED_FEATURES.filter(f => {
+                  if (limitToTopObservedFeatureFields) {
+                    return OBSERVED_FEATURES_TOP_FIELDS.includes(f.field);
+                  }
+                  return compareSimplifiedValueType(f, valueType);
+                }).map(f => (
+                  <option key={f.field} value={f.field}>
+                    {f.name}
+                  </option>
+                ))}
+              </optgroup>
+            </DropdownSelector>
+          </div>
+        </>
+      )}
+      {mapType === 'predictiveFeatures' && (
         <>
           {!limitToTopObservedFeatureFields && (
             <div styleName="control">

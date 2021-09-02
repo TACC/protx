@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getFipsIdName, getPredictiveFeaturesPlotData } from '../util';
+import { getFipsIdName } from '../shared/dataUtils';
+import { getPredictiveFeaturesPlotData } from '../shared/plotUtils';
+
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
 function PredictiveFeaturesPlot({
-  mapType,
   geography,
-  maltreatmentTypes,
   observedFeature,
   year,
   selectedGeographicFeature,
@@ -18,7 +18,6 @@ function PredictiveFeaturesPlot({
   const PLOT_TYPE = 'predictiveFeatures';
 
   const getPredictiveFeaturesChartLayout = (
-    mapTypePredictiveFeatures,
     predictiveFeaturePredictiveFeatures,
     geographyPredictiveFeatures,
     selectedGeographicFeaturePredictiveFeatures,
@@ -52,12 +51,10 @@ function PredictiveFeaturesPlot({
   };
 
   const predictiveFeaturesPlotData = getPredictiveFeaturesPlotData();
-
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   const predictiveFeaturesChartLayout = getPredictiveFeaturesChartLayout(
-    mapType,
     observedFeature,
     geography,
     selectedGeographicFeature,
@@ -68,9 +65,8 @@ function PredictiveFeaturesPlot({
     return (
       <DebugPlot
         className="plot-debug"
-        mapType={mapType}
+        mapType="predictiveFeatures"
         geography={geography}
-        maltreatmentTypes={maltreatmentTypes}
         observedFeature={observedFeature}
         year={year}
         selectedGeographicFeature={selectedGeographicFeature}
@@ -91,9 +87,7 @@ function PredictiveFeaturesPlot({
 }
 
 PredictiveFeaturesPlot.propTypes = {
-  mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
-  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
