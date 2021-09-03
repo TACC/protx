@@ -62,18 +62,27 @@ const getPlotLayout = (
   const newPlotLayout = {
     autosize: true,
     margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
-    // nbinsx: 20,
+    font: {
+      size: 10
+    },
     xaxis: {
       automargin: true,
       autorange: true,
       type: plotXAxisType,
-      tickangle: -90,
+      tickangle: 0,
+      tick0: 0, // %,# --> 0 | $ --> 1000
+      dtick: 1, // % --> 'L5' | # --> 1 | $ --> 0.1
+      tickformat: null, // %,# --> null | $ --> 'f',
+      tickprefix: null, // %,# --> null | $ --> '$'
+      ticksuffix: null, // % --> '%' | #,$ --> null
       title: {
         text: plotXAxisTitle,
-        standoff: 20
+        standoff: 12,
+        font: {
+          size: 10
+        }
       }
     },
-    // nbinsy: 20,
     yaxis: {
       automargin: true,
       autorange: yAxisAutorange,
@@ -81,7 +90,10 @@ const getPlotLayout = (
       tickangle: 0,
       title: {
         text: plotYAxisTitle,
-        standoff: 20
+        standoff: 16,
+        font: {
+          size: 10
+        }
       }
     },
     showlegend: plotLegend,
@@ -233,10 +245,10 @@ const getMaltreatmentPlotData = (
 
   const plotTitle = 'Maltreatment Types';
   const plotOrientation = 'v';
-  const showPlotLegend = true;
-  const plotXDataLabel = 'Maltreatment Categories';
+  const showPlotLegend = false;
+  const plotXDataLabel = 'Maltreatment Type';
   const plotXDataAxisType = 'category';
-  const plotYDataLabel = 'Count (per 100,000 children)';
+  const plotYDataLabel = 'Total Number of Cases in Selected County';
   const plotYDataAxisType = 'linear';
 
   const plotLayout = getPlotLayout(
@@ -406,7 +418,7 @@ const getObservedFeaturesPlotData = (
 const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
   const plotXDataLabel = '';
-  const plotYDataLabel = 'Count (per 100,000 children)';
+  const plotYDataLabel = 'Total Number of Cases in Selected County';
   const plotOrientation = 'v';
 
   const plotLayout = getPlotLayout(
