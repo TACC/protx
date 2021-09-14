@@ -2,51 +2,16 @@ import {
   getObservedFeatureValue,
   getMaltreatmentAggregatedValue
 } from './dataUtils';
-import { colorbrewerClass6YlOrBr } from '../data/colors';
-
-const colorsArray = colorbrewerClass6YlOrBr;
-
-/** Interval color scale
-
- Translate values to color and provide information about range of colors (and there intervals) based
- upon information about a variable (min, max, type, special formatting properties etc).
-
- TODO extended to handle percents, integers, human readability: https://jira.tacc.utexas.edu/browse/COOKS-26
-*/
-class IntervalColorScale {
-  constructor(meta) {
-    this.meta = meta;
-    this.colors = colorsArray;
-    this.numberIntervals = colorsArray.length;
-  }
-
-  getIntervalValues() {
-    const intervalValues = [this.meta.min];
-    for (let i = 1; i < this.numberIntervals; i += 1) {
-      intervalValues.push(
-        this.meta.min +
-          (i * (this.meta.max - this.meta.min)) / this.numberIntervals
-      );
-    }
-    intervalValues.push(this.meta.max);
-    return intervalValues;
-  }
-}
-
-// TODO moved into IntervalColorScale
-export function getColor(value, min, max) {
-  const binValue = Math.min(Math.floor(6 * ((value - min) / (max - min))), 5);
-  return colorsArray[binValue];
-}
 
 /**
  * Get style for feature
  *
- * If no value exists, then we return a transparent feature style if no value exists)
+ * If no value exists, then we return a transparent feature style.  Same if no color scale as
+ * that implies no data
  *
  * @param {String} mapType
  * @param {Object} data
- * @param {Object} metaData
+ * @param {Object} colorScale
  * @param {String} geography
  * @param {Number} year
  * @param {Number} geoid
@@ -57,7 +22,7 @@ export function getColor(value, min, max) {
 const getFeatureStyle = (
   mapType,
   data,
-  metaData,
+  colorScale,
   geography,
   year,
   geoid,
@@ -73,8 +38,8 @@ const getFeatureStyle = (
       geoid,
       observedFeature
     );
-    if (featureValue && metaData) {
-      fillColor = getColor(featureValue, metaData.min, metaData.max);
+    if (featureValue && colorScale) {
+      fillColor = colorScale.getColor(featureValue);
     }
   } else {
     const featureValue = getMaltreatmentAggregatedValue(
@@ -84,8 +49,8 @@ const getFeatureStyle = (
       geoid,
       maltreatmentTypes
     );
-    if (featureValue !== 0 && metaData) {
-      fillColor = getColor(featureValue, metaData.min, metaData.max);
+    if (featureValue !== 0 && colorScale) {
+      fillColor = colorScale.getColor(featureValue);
     }
   }
   if (fillColor) {
@@ -106,4 +71,4 @@ const getFeatureStyle = (
   };
 };
 
-export { getFeatureStyle, IntervalColorScale };
+export default getFeatureStyle;
