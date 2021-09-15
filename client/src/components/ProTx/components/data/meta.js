@@ -17,13 +17,13 @@ export const OBSERVED_FEATURES = [
   { field: 'E_CROWD', name: 'Crowding' },
   {
     field: 'EP_CROWD',
-    name: 'Percent crowding',
+    name: 'Crowding',
     valueType: 'percent'
   },
   { field: 'E_DISABL', name: 'Disabled population' },
   {
     field: 'EP_DISABL',
-    name: 'Percent disabled population',
+    name: 'Disabled population',
     valueType: 'percent'
   },
   { field: 'E_GROUPQ', name: 'Population living in group quarters' },
@@ -35,13 +35,13 @@ export const OBSERVED_FEATURES = [
   },
   {
     field: 'EP_LIMENG',
-    name: 'Percent population with limited English skills',
+    name: 'Population with limited English skills',
     valueType: 'percent'
   },
   { field: 'E_MOBILE', name: 'Mobile homes' },
   {
     field: 'EP_MOBILE',
-    name: 'Percent mobile homes',
+    name: 'Mobile homes',
     valueType: 'percent',
     valueTypeLabel: 'Percent'
   },
@@ -52,20 +52,20 @@ export const OBSERVED_FEATURES = [
   },
   {
     field: 'EP_NOHSDP',
-    name: 'Percent population with no high school diploma',
+    name: 'Population with no high school diploma',
     valueType: 'percent'
   },
   { field: 'E_NOVEH', name: 'Households with no vehicle' },
   {
     field: 'EP_NOVEH',
-    name: 'Percent households with no vehicle',
+    name: 'Households with no vehicle',
     valueType: 'percent'
   },
   { field: 'E_PCI', name: 'Per capita income' },
   { field: 'E_POV', name: 'Population below poverty threshold' },
   {
     field: 'EP_POV',
-    name: 'Percent population below poverty threshold',
+    name: 'Population below poverty threshold',
     valueType: 'percent'
   },
   { field: 'E_SNGPNT', name: 'Single parent households' },
@@ -73,13 +73,13 @@ export const OBSERVED_FEATURES = [
   { field: 'E_UNEMP', name: 'Unemployed population' },
   {
     field: 'EP_UNEMP',
-    name: 'Percent unemployed population',
+    name: 'Unemployed population',
     valueType: 'percent'
   },
   { field: 'E_UNINSUR', name: 'Uninsured population' },
   {
     field: 'EP_UNINSUR',
-    name: 'Percent uninsured population',
+    name: 'Uninsured population',
     valueType: 'percent'
   },
   { field: 'E_MINRTY', name: 'Minority population' },
@@ -89,7 +89,7 @@ export const OBSERVED_FEATURES = [
   },
   {
     field: `E_FOREIGN_BORN_P`,
-    name: `Percent foreign born population`,
+    name: `Foreign born population`,
     valueType: 'percent'
   },
   {
@@ -98,7 +98,7 @@ export const OBSERVED_FEATURES = [
   },
   {
     field: `E_RENTER_OCCUPIED_HOUSING_UNITS_P`,
-    name: `Percent renter-occupied housing units`,
+    name: `Renter-occupied housing units`,
     valueType: 'percent'
   },
   {
