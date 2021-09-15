@@ -5,7 +5,7 @@ const colorbrewerClassYlOrBr = {
   4: ['#ffffd4', '#fed98e', '#fe9929', '#cc4c02'],
   3: [`#fff7bc`, `#fec44f`, `#d95f0e`],
   2: [`#fff7bc`, `#fec44f`],
-  1: [`#fff7bc`, `#fec44f`]
+  1: [`#fff7bc`]
 };
 
 const THEME_CB12_MAIN = [

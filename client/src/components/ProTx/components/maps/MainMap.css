@@ -12,9 +12,10 @@
 .legend-title{
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal-plus);
-  min-width: 100px;
+  width: 100px;
   text-align: center;
   padding-bottom: 10px;
+  line-height: 16px;
 }
 
 .scale-value * {

@@ -118,10 +118,9 @@ function MainMap({
           const div = L.DomUtil.create('div', 'color legend');
           div.innerHTML += `<div class="legend-title">${label}</div>`;
           // get numeric values between intervals
-          const intervalLabels = intervalColorScale.getIntervalLabels();
           // loop through our density intervals and generate a label with a colored square for each interval
           for (let i = 0; i < intervalColorScale.numberIntervals; i += 1) {
-            div.innerHTML += `<div class="scale-value"><i style="background:${intervalColorScale.colors[i]}"></i> <span>${intervalLabels[i]}</span></div><br>`;
+            div.innerHTML += `<div class="scale-value"><i style="background:${intervalColorScale.colors[i]}"></i> <span>${intervalColorScale.intervalLabels[i]}</span></div><br>`;
           }
           return div;
         };
