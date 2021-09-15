@@ -18,15 +18,13 @@ export const OBSERVED_FEATURES = [
   {
     field: 'EP_CROWD',
     name: 'Percent crowding',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_DISABL', name: 'Disabled population' },
   {
     field: 'EP_DISABL',
     name: 'Percent disabled population',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_GROUPQ', name: 'Population living in group quarters' },
   { field: 'E_HH', name: 'Households' },
@@ -38,8 +36,7 @@ export const OBSERVED_FEATURES = [
   {
     field: 'EP_LIMENG',
     name: 'Percent population with limited English skills',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_MOBILE', name: 'Mobile homes' },
   {
@@ -56,23 +53,20 @@ export const OBSERVED_FEATURES = [
   {
     field: 'EP_NOHSDP',
     name: 'Percent population with no high school diploma',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_NOVEH', name: 'Households with no vehicle' },
   {
     field: 'EP_NOVEH',
     name: 'Percent households with no vehicle',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_PCI', name: 'Per capita income' },
   { field: 'E_POV', name: 'Population below poverty threshold' },
   {
     field: 'EP_POV',
     name: 'Percent population below poverty threshold',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_SNGPNT', name: 'Single parent households' },
   { field: 'E_TOTPOP', name: 'Total population' },
@@ -80,15 +74,13 @@ export const OBSERVED_FEATURES = [
   {
     field: 'EP_UNEMP',
     name: 'Percent unemployed population',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_UNINSUR', name: 'Uninsured population' },
   {
     field: 'EP_UNINSUR',
     name: 'Percent uninsured population',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   { field: 'E_MINRTY', name: 'Minority population' },
   {
@@ -98,8 +90,7 @@ export const OBSERVED_FEATURES = [
   {
     field: `E_FOREIGN_BORN_P`,
     name: `Percent foreign born population`,
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   {
     field: `E_RENTER_OCCUPIED_HOUSING_UNITS`,
@@ -108,14 +99,12 @@ export const OBSERVED_FEATURES = [
   {
     field: `E_RENTER_OCCUPIED_HOUSING_UNITS_P`,
     name: `Percent renter-occupied housing units`,
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   },
   {
     field: `E_MEDIAN_GROSS_RENT_P`,
     name: `Median gross rent as a percentage of household income`,
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    valueType: 'percent'
   }
 ];
 
@@ -136,26 +125,22 @@ export const MALTREATMENT = [
   {
     field: 'ABAN',
     name: 'Abandonment',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'EMAB',
     name: 'Emotional abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'LBTR',
     name: 'Labor trafficking',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'MDNG',
     name: 'Medical neglect',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'NSUP',
@@ -166,32 +151,27 @@ export const MALTREATMENT = [
   {
     field: 'PHAB',
     name: 'Physical abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'PHNG',
     name: 'Physical neglect',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'RAPR',
     name: 'Refusal to accept parental responsibility',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'SXAB',
     name: 'Sexual abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   },
   {
     field: 'SXTR',
     name: 'Sex trafficking',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
+    valueType: 'count'
   }
 ];
 
