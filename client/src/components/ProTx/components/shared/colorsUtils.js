@@ -55,13 +55,16 @@ class IntervalColorScale {
   }
 
   getColor(value) {
-    const binValue = Math.min(
-      Math.floor(
-        this.numberIntervals *
-          ((value - this.meta.min) / (this.meta.max - this.meta.min))
-      ),
-      this.numberIntervals - 1
-    );
+    const binValue =
+      this.numberIntervals === 1
+        ? 0
+        : Math.min(
+            Math.floor(
+              this.numberIntervals *
+                ((value - this.meta.min) / (this.meta.max - this.meta.min))
+            ),
+            this.numberIntervals - 1
+          );
     return this.colors[binValue];
   }
 }

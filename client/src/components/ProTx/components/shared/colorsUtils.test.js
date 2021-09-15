@@ -7,7 +7,15 @@ describe('IntervalColorScale', () => {
     const colorScale = new IntervalColorScale(meta)
     expect(colorScale.numberIntervals).toEqual(1);
     expect(colorScale.intervalLabels).toEqual(['1']);
-    /*TODO expect(colorScale.getColor(1)).toEqual(colorbrewerClassYlOrBr[1][0]); */
+    const value = 1;
+    const binValue = Math.min(
+      Math.floor(
+        colorScale.numberIntervals *
+        ((value - colorScale.meta.min) / (colorScale.meta.max - colorScale.meta.min))
+      ),
+      colorScale.numberIntervals - 1
+    );
+    expect(colorScale.getColor(1)).toEqual(colorbrewerClassYlOrBr[1][0]);
   });
   it('handle 2 integer classes', () => {
     const meta = {min:1, max:2};
