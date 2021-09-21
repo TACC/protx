@@ -54,7 +54,7 @@
 
     .-sort-asc,
     .sort-desc {
-      color: #484848;
+      color: var(--global-color-primary--xx-dark);
     }
 
     /* Match horizontal padding of `td` elements in table to align properly */
@@ -68,21 +68,6 @@
     padding: var(--cell-vertical-padding) var(--cell-horizontal-padding);
   }
 }
-
-/* !!!: Temporary unused CSS retained to make simpler PR diff */
-/*
-tbody {
-  line-height: 32px;
-}
-
-.root > tbody > tr {
-  vertical-align: top;
-}
-
-.root > tbody > tr > td {
-  padding: 0 0 0 0;
-}
-*/
 
 .user > td {
   /* Difference between tall unwrapped cell height and basic text cell height */
@@ -155,7 +140,7 @@ tbody {
 .action-link:not(:last-child) { margin-right: 0.25em; }
 
 .staffwait {
-  background-color: var(--global-color-accent--light);
+  background-color: var(--global-color-accent--weak);
 }
 
 .users {
@@ -175,4 +160,13 @@ tbody {
   align-items: center;
   justify-content: center;
   height: 90%;
+}
+
+/* NOTE: Mimicked on: DataFiles, DataFilesProjectsList, DataFilesProjectFileListing */
+.root-placeholder {
+  flex-grow: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
