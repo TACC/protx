@@ -8,20 +8,16 @@ export function* fetchProtx(action) {
       observedFeatures,
       observedFeaturesMeta,
       maltreatment,
-      maltreatmentMeta,
       texasBoundary
     } = yield all({
+      maltreatment: call(fetchUtil, {
+        url: `/api/protx/maltreatment`
+      }),
       observedFeatures: call(fetchUtil, {
         url: `/static/data/2019_observed_features.json`
       }),
       observedFeaturesMeta: call(fetchUtil, {
         url: `/static/data/2019_observed_features.meta.json`
-      }),
-      maltreatment: call(fetchUtil, {
-        url: `/static/data/public_county_maltreatment_table_grouped.json`
-      }),
-      maltreatmentMeta: call(fetchUtil, {
-        url: `/static/data/public_county_maltreatment_table_grouped.meta.json`
       }),
       texasBoundary: call(fetchUtil, {
         url: `/static/data/Texas_State_Boundary.geojson`
@@ -32,8 +28,7 @@ export function* fetchProtx(action) {
       payload: {
         observedFeatures,
         observedFeaturesMeta,
-        maltreatment,
-        maltreatmentMeta,
+        maltreatment: maltreatment.maltreatment,
         texasBoundary
       }
     });

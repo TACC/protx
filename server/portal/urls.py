@@ -77,6 +77,8 @@ urlpatterns = [
     # version check.
     path('version/', portal_version),
 
+    # protx - SPA + api
     path('protx/', include('protx.data.urls')),
+    path('api/protx/', include('protx.data.api.urls', namespace='protx_api'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
