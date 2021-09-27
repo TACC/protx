@@ -9,11 +9,10 @@ import {
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { parse } from 'query-string';
-import { LoadingSpinner } from '_common';
+import { Section, SectionTableWrapper, LoadingSpinner } from '_common';
 import DataFilesBreadcrumbs from '../DataFiles/DataFilesBreadcrumbs/DataFilesBreadcrumbs';
 import DataFilesListing from '../DataFiles/DataFilesListing/DataFilesListing';
 import DataFilesPreviewModal from '../DataFiles/DataFilesModals/DataFilesPreviewModal';
-import DataFilesSearchbar from '../DataFiles/DataFilesSearchbar/DataFilesSearchbar';
 import { ToolbarButton } from '../DataFiles/DataFilesToolbar/DataFilesToolbar';
 
 import './PublicData.module.css';
@@ -55,7 +54,7 @@ const PublicData = () => {
   }, [publicDataSystem.system]);
 
   return (
-    <div>
+    <>
       <Switch>
         <Route path="/public-data/:api/:scheme/:system/:path*">
           {publicDataSystem.system ? (
@@ -71,7 +70,7 @@ const PublicData = () => {
         </Route>
       </Switch>
       <DataFilesPreviewModal />
-    </div>
+    </>
   );
 };
 
@@ -94,16 +93,12 @@ const PublicDataListing = ({ canDownload, downloadCallback }) => {
   }, [path, queryString]);
 
   return (
-    <div styleName="container">
-      <DataFilesSearchbar
-        api="tapis"
-        scheme="public"
-        system={system}
-        publicData
-      />
-      <div styleName="header">
+    <Section
+      // HACK: Replicate wrapper class gives button correct global style
+      // WARNING: Applies unused and redundant `.workbench-content` styles
+      className="workbench-content"
+      header={
         <DataFilesBreadcrumbs
-          styleName="header-title"
           api={api}
           scheme={scheme}
           system={system}
@@ -111,21 +106,26 @@ const PublicDataListing = ({ canDownload, downloadCallback }) => {
           section="FilesListing"
           isPublic
         />
+      }
+      headerActions={
         <ToolbarButton
           text="Download"
           iconName="download"
           onClick={downloadCallback}
           disabled={!canDownload}
         />
-      </div>
-      <DataFilesListing
-        api={api}
-        scheme={scheme}
-        system={system}
-        path={path || '/'}
-        isPublic
-      />
-    </div>
+      }
+    >
+      <SectionTableWrapper styleName="content" manualContent>
+        <DataFilesListing
+          api={api}
+          scheme={scheme}
+          system={system}
+          path={path || '/'}
+          isPublic
+        />
+      </SectionTableWrapper>
+    </Section>
   );
 };
 PublicDataListing.propTypes = {

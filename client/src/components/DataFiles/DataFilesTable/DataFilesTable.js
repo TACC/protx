@@ -18,21 +18,36 @@ import './DataFilesTable.module.scss';
 // What to render if there are no files to display
 const DataFilesTablePlaceholder = ({ section, data }) => {
   const dispatch = useDispatch();
+  const currentListing = useSelector(
+    state => state.files.params.FilesListing.api
+  );
+  const scheme = useSelector(state => state.files.params.FilesListing.scheme);
   const system = useSelector(state => state.pushKeys.target);
   const loading = useSelector(state => state.files.loading[section]);
   const err = useSelector(state => state.files.error[section]);
+  const modalRefs = useSelector(state => state.files.refs);
+
   const filesLength = data.length;
+  const isGDrive = currentListing === 'googledrive';
 
   const pushKeys = e => {
     e.preventDefault();
+    const props = {
+      onSuccess: {},
+      system
+    };
+    if (modalRefs.FileSelector) {
+      props.callback = () => {
+        modalRefs.FileSelector.props.toggle();
+        dispatch({ type: 'CLEAR_REFS' });
+      };
+      modalRefs.FileSelector.props.toggle();
+    }
     dispatch({
       type: 'SYSTEMS_TOGGLE_MODAL',
       payload: {
         operation: 'pushKeys',
-        props: {
-          onSuccess: {},
-          system
-        }
+        props
       }
     });
   };
@@ -44,23 +59,41 @@ const DataFilesTablePlaceholder = ({ section, data }) => {
     );
   }
   if (err) {
+    const GenericMessage = () => (
+      <>
+        An error occurred loading this directory. For help, please submit
+        a&nbsp;
+        <Link to="/workbench/dashboard/tickets/create" className="wb-link">
+          ticket
+        </Link>
+        .
+      </>
+    );
     if (err === '502') {
-      const link = strings => (
-        <a
-          className="data-files-nav-link"
-          type="button"
-          href="#"
-          onClick={pushKeys}
-        >
-          {strings[0]}
-        </a>
-      );
-
+      if (scheme === 'private') {
+        const link = strings => (
+          <a
+            className="data-files-nav-link"
+            type="button"
+            href="#"
+            onClick={pushKeys}
+          >
+            {strings[0]}
+          </a>
+        );
+        return (
+          <div className="h-100 listing-placeholder">
+            <SectionMessage type="warning">
+              There was a problem accessing this file system. If this is your
+              first time logging in, you may need to {link`push your keys`}.
+            </SectionMessage>
+          </div>
+        );
+      }
       return (
         <div className="h-100 listing-placeholder">
           <SectionMessage type="warning">
-            There was a problem accessing this file system. If this is your
-            first time logging in, you may need to {link`push your keys`}.
+            <GenericMessage />
           </SectionMessage>
         </div>
       );
@@ -89,15 +122,20 @@ const DataFilesTablePlaceholder = ({ section, data }) => {
       );
     }
     if (err === '400') {
+      const GDriveMessage = () => (
+        <>
+          Connect your Google Drive account under the &quot;3rd Party Apps&quot;
+          section in the&nbsp;
+          <Link to="/workbench/account/" className="wb-link">
+            Manage Account page
+          </Link>
+          .
+        </>
+      );
       return (
         <div className="h-100 listing-placeholder">
           <SectionMessage type="warning">
-            Connect your Google Drive account under the &quot;3rd Party
-            Apps&quot; section in the&nbsp;
-            <Link to="/workbench/account/" className="wb-link">
-              Manage Account page
-            </Link>
-            .
+            {isGDrive ? <GDriveMessage /> : <GenericMessage />}
           </SectionMessage>
         </div>
       );
@@ -113,7 +151,7 @@ const DataFilesTablePlaceholder = ({ section, data }) => {
   if (filesLength === 0) {
     return (
       <div className="h-100 listing-placeholder">
-        <SectionMessage type="warn">
+        <SectionMessage type="warning">
           No files or folders to show.
         </SectionMessage>
       </div>
@@ -161,6 +199,7 @@ const DataFilesTableRow = ({
         index={row.index}
         onClick={onClick}
         onKeyDown={onKeyDown}
+        data-testid="file-listing-item"
       >
         {row.cells.map(cell => {
           return (
