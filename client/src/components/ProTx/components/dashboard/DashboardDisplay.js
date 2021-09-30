@@ -114,7 +114,6 @@ function DashboardDisplay() {
           render={() => {
             // observedFeatures (i.e. Demographic Features) only has 2019 data.
             setYear('2019');
-            setGeography('county');
             setMapType('observedFeatures');
             return (
               <>
