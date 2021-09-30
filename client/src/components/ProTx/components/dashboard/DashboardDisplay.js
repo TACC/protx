@@ -199,7 +199,6 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showInstructions
                     />
                   </div>
                 </div>

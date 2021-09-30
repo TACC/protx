@@ -21,6 +21,7 @@ function PredictiveFeaturesChart({
   const predictiveFeaturesMapInstructions = ['Select a Geographic Region.'];
   const predictiveFeaturesShowDescription = false;
   const predictiveFeaturesDescription = 'Description needed.';
+  const showPlot = false; // Hide as this is a work-in-progress
 
   if (selectedGeographicFeature) {
     return (
@@ -28,13 +29,15 @@ function PredictiveFeaturesChart({
         <PredictiveFeaturesTable
           selectedGeographicFeature={selectedGeographicFeature}
         />
-        <PredictiveFeaturesPlot
-          geography={geography}
-          observedFeature={observedFeature}
-          year={year}
-          selectedGeographicFeature={selectedGeographicFeature}
-          data={data}
-        />
+        {showPlot && (
+          <PredictiveFeaturesPlot
+            geography={geography}
+            observedFeature={observedFeature}
+            year={year}
+            selectedGeographicFeature={selectedGeographicFeature}
+            data={data}
+          />
+        )}
       </div>
     );
   }
