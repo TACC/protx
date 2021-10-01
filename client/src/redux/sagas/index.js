@@ -37,10 +37,7 @@ import {
 } from './tickets.sagas';
 import { watchAuthenticatedUser } from './authenticated_user.sagas';
 import { watchWorkbench } from './workbench.sagas';
-import {
-  watchFetchWelcomeMessages,
-  watchSaveWelcomeMessages
-} from './welcome.sagas';
+import { watchFetchIntroMessages, watchSaveIntroMessages } from './intro.sagas';
 import {
   watchOnboardingAdminList,
   watchOnboardingAdminIndividualUser,
@@ -89,8 +86,8 @@ export default function* rootSaga() {
     watchSocket(),
     watchFetchNotifications(),
     watchWorkbench(),
-    watchFetchWelcomeMessages(),
-    watchSaveWelcomeMessages(),
+    watchFetchIntroMessages(),
+    watchSaveIntroMessages(),
     watchOnboardingAdminList(),
     watchOnboardingAdminIndividualUser(),
     watchOnboardingAction(),
