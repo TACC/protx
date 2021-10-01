@@ -14,13 +14,13 @@ export function* fetchProtx(action) {
         url: `/api/protx/maltreatment`
       }),
       observedFeatures: call(fetchUtil, {
-        url: `/static/data/2019_observed_features.json`
+        url: `/data-static/2019_observed_features.json`
       }),
       observedFeaturesMeta: call(fetchUtil, {
-        url: `/static/data/2019_observed_features.meta.json`
+        url: `/data-static/2019_observed_features.meta.json`
       }),
       texasBoundary: call(fetchUtil, {
-        url: `/static/data/Texas_State_Boundary.geojson`
+        url: `/data-static/Texas_State_Boundary.geojson`
       })
     });
     yield put({

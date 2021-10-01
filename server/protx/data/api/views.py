@@ -24,7 +24,7 @@ group by
     m.MALTREATMENT_NAME;
 '''
 
-SQLALCHEMY_DATABASE_URL = 'sqlite:////srv/www/portal/server/test_20210907.db'
+SQLALCHEMY_DATABASE_URL = 'sqlite:////opt/protx-data/test_20210907.db'
 MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 
 

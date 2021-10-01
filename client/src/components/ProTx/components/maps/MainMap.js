@@ -141,7 +141,7 @@ function MainMap({
   ]);
 
   useEffect(() => {
-    const vectorTile = `${dataServer}/static/data/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
+    const vectorTile = `${dataServer}/data-static/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
     if (map && layersControl) {
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
