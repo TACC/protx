@@ -28,7 +28,7 @@ SQLALCHEMY_DATABASE_URL = 'sqlite:////opt/protx-data/test_20210907.db'
 MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 
 
-def create_dict(data, level_keys, row_limit=None):
+def create_dict(data, level_keys):
     """Create n-level hierarchical/nested dictionaries from search result
 
     Parameters
@@ -37,8 +37,6 @@ def create_dict(data, level_keys, row_limit=None):
         data
     level_keys : str iterable
         List of column keys for each level of nested dictionaries.
-    row_limit : int
-        If given, only create dict for this many rows
 
     Returns
     -------
@@ -47,9 +45,6 @@ def create_dict(data, level_keys, row_limit=None):
     """
     result = {}
     for i, row in enumerate(data):
-        if row_limit and i > row_limit:
-            break
-
         current_level = result
         # iterate over level keys and create nested dictionary
         for k in level_keys[:-1]:
