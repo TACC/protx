@@ -74,6 +74,7 @@ def create_dict(data, level_keys):
     return result
 
 
+# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
 @ensure_csrf_cookie
 def get_maltreatment(request):
     """Get maltreatment data
