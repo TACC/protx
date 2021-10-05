@@ -3,5 +3,5 @@ from protx.data import views
 
 app_name = 'data'
 urlpatterns = [
-    url('/?', views.data_map, name='data'),
+    url('^', views.data_map, name='data'),
 ]

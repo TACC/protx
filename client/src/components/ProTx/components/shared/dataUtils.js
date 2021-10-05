@@ -113,7 +113,8 @@ const getMaltreatmentMetaData = (data, geography, year, maltreatmentTypes) => {
     maltreatmentTypes.forEach(malType => {
       if (malType in yearDataSet) {
         Object.entries(yearDataSet[malType]).forEach(([geoid, countInfo]) => {
-          const value = countInfo.MALTREATMENT_COUNT;
+          /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 */
+          const value = countInfo.count;
           if (geoid in aggregrateValues) {
             aggregrateValues[geoid] += value;
           } else {
@@ -125,6 +126,8 @@ const getMaltreatmentMetaData = (data, geography, year, maltreatmentTypes) => {
 
     const values = Object.values(aggregrateValues).map(x => +x);
     if (values.length) {
+      /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 and we should
+       * use existing maltreatment meta data (min, max) */
       meta = { min: Math.min(...values), max: Math.max(...values) };
     }
   }
@@ -206,8 +209,8 @@ const getMaltreatmentAggregatedValue = (
         malType in data.maltreatment[geography][year] &&
         geoid in data.maltreatment[geography][year][malType]
       ) {
-        value +=
-          data.maltreatment[geography][year][malType][geoid].MALTREATMENT_COUNT;
+        /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 */
+        value += data.maltreatment[geography][year][malType][geoid].count;
       }
     });
   }
@@ -260,8 +263,8 @@ const getMaltreatmentSelectedValues = (
         malType in data.maltreatment[geography][year] &&
         geoid in data.maltreatment[geography][year][malType]
       ) {
-        value =
-          data.maltreatment[geography][year][malType][geoid].MALTREATMENT_COUNT;
+        /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 */
+        value = data.maltreatment[geography][year][malType][geoid].count;
       }
       valuesArray.push(value);
     });

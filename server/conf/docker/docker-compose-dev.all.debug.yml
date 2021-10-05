@@ -78,6 +78,7 @@ services:
       - ../nginx/certificates/cep.dev.key:/etc/ssl/cep.dev.key
       - ../nginx/dhparam.pem:/etc/ssl/dhparam.pem
       - ../../../.:/srv/www/portal
+      - ~/protx-data:/protx-data
     ports:
       - 80:80
       - 443:443
@@ -103,6 +104,7 @@ services:
     image: taccwma/core-portal:local
     volumes:
       - ../../../.:/srv/www/portal
+      - ~/protx-data:/protx-data
       - ../../static:/var/www/portal/server/static
       - ../../media:/var/www/portal/server/media
     dns:
