@@ -80,14 +80,16 @@ const getObservedFeaturesMetaData = (
   observedFeature,
   showRate
 ) => {
+  const selectedType = showRate ? 'percent' : 'count';
   const hasValues =
     geography in data.observedFeaturesMeta &&
     year in data.observedFeaturesMeta[geography] &&
-    observedFeature in data.observedFeaturesMeta[geography][year];
+    observedFeature in data.observedFeaturesMeta[geography][year] &&
+    selectedType in data.observedFeaturesMeta[geography][year][observedFeature];
   if (hasValues) {
-    const meta = data.observedFeaturesMeta[geography][year][observedFeature];
-    const selectedType = showRate ? meta.percent : meta.count;
-    return { ...meta, ...selectedType };
+    return data.observedFeaturesMeta[geography][year][observedFeature][
+      selectedType
+    ];
   }
   return null;
 };
