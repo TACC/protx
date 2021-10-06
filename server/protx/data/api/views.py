@@ -125,10 +125,6 @@ def get_maltreatment(request):
         meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
-
-# TODO check int casting
-# TODO
-
 # Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
 @ensure_csrf_cookie
 def get_demographics(request):
