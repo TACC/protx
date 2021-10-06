@@ -42,7 +42,7 @@ export const OBSERVED_FEATURES = [
     name: `Foreign born population`
   },
   {
-    field: `E_RENTER_OCCUPIED_HU`,
+    field: `RENTER_OCCUPIED_HU`,
     name: `Renter-occupied housing units`
   },
   {
