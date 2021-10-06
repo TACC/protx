@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownSelector } from '_common';
 import MaltreatmentSelector from './MaltreatmentSelector';
@@ -7,11 +7,10 @@ import {
   OBSERVED_FEATURES_TOP_FIELDS,
   SUPPORTED_YEARS
 } from '../data/meta';
-import { compareSimplifiedValueType } from '../shared/dataUtils';
 import './DisplaySelectors.module.scss';
 
 /* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
-function ValueTypeSelector({ valueType, setValueType }) {
+function RateSelector({ showRate, setShowRate }) {
   return (
     <div styleName="radio-container">
       <div className="radio-container-element">
@@ -22,8 +21,8 @@ function ValueTypeSelector({ valueType, setValueType }) {
             type="radio"
             value="percent"
             styleName="radio-button"
-            checked={valueType === 'percent'}
-            onChange={() => setValueType('percent')}
+            checked={showRate}
+            onChange={() => setShowRate(true)}
           />
           Percentages
         </label>
@@ -36,8 +35,8 @@ function ValueTypeSelector({ valueType, setValueType }) {
             type="radio"
             value="total"
             styleName="radio-button"
-            checked={valueType === 'total'}
-            onChange={() => setValueType('total')}
+            checked={!showRate}
+            onChange={() => setShowRate(false)}
           />
           Totals
         </label>
@@ -46,9 +45,9 @@ function ValueTypeSelector({ valueType, setValueType }) {
   );
 }
 
-ValueTypeSelector.propTypes = {
-  valueType: PropTypes.string.isRequired,
-  setValueType: PropTypes.func.isRequired
+RateSelector.propTypes = {
+  showRate: PropTypes.bool.isRequired,
+  setShowRate: PropTypes.func.isRequired
 };
 
 /**
@@ -69,27 +68,16 @@ function DisplaySelectors({
   maltreatmentTypes,
   observedFeature,
   year,
+  showRate,
   setGeography,
   setMaltreatmentTypes,
   setObservedFeature,
   setYear,
+  setShowRate,
   limitToTopObservedFeatureFields
 }) {
-  const [valueType, setValueType] = useState('percent');
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
-
-  const switchValueType = newValueType => {
-    setValueType(newValueType);
-    const obsFeature = OBSERVED_FEATURES.find(f => observedFeature === f.field);
-    if (!compareSimplifiedValueType(obsFeature, newValueType)) {
-      // ensure the current observed feature is of that type
-      const firstFeatureWithMatchingValueType = OBSERVED_FEATURES.find(f =>
-        compareSimplifiedValueType(f, newValueType)
-      );
-      setObservedFeature(firstFeatureWithMatchingValueType.field);
-    }
-  };
 
   return (
     <div styleName="display-selectors">
@@ -101,12 +89,26 @@ function DisplaySelectors({
           disabled={disableGeography}
         >
           <optgroup label="Select Areas">
-            <option value="dfps_region">DFPS Regions</option>
-            <option value="census_tract">Census Tracts</option>
+            <option value="dfps_region" disabled>
+              DFPS Regions
+            </option>
+            <option
+              value="tract"
+              disabled
+              /* # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135 */
+            >
+              Census Tracts
+            </option>
             <option value="county">Counties</option>
-            <option value="cbsa">Core base statistical areas</option>
-            <option value="urban_area">Urban Areas</option>
-            <option value="zcta">Zip Codes</option>
+            <option value="cbsa" disabled>
+              Core base statistical areas
+            </option>
+            <option value="urban_area" disabled>
+              Urban Areas
+            </option>
+            <option value="zcta" disabled>
+              Zip Codes
+            </option>
           </optgroup>
         </DropdownSelector>
       </div>
@@ -119,15 +121,12 @@ function DisplaySelectors({
           />
         </div>
       )}
-      {mapType === 'observedFeatures' && (
+      {(mapType === 'observedFeatures' || mapType === 'predictiveFeatures') && (
         <>
-          {!limitToTopObservedFeatureFields && (
+          {setShowRate && (
             <div styleName="control">
               <span styleName="label">Value</span>
-              <ValueTypeSelector
-                valueType={valueType}
-                setValueType={switchValueType}
-              />
+              <RateSelector showRate={showRate} setShowRate={setShowRate} />
             </div>
           )}
           <div styleName="control">
@@ -141,40 +140,7 @@ function DisplaySelectors({
                   if (limitToTopObservedFeatureFields) {
                     return OBSERVED_FEATURES_TOP_FIELDS.includes(f.field);
                   }
-                  return compareSimplifiedValueType(f, valueType);
-                }).map(f => (
-                  <option key={f.field} value={f.field}>
-                    {f.name}
-                  </option>
-                ))}
-              </optgroup>
-            </DropdownSelector>
-          </div>
-        </>
-      )}
-      {mapType === 'predictiveFeatures' && (
-        <>
-          {!limitToTopObservedFeatureFields && (
-            <div styleName="control">
-              <span styleName="label">Value</span>
-              <ValueTypeSelector
-                valueType={valueType}
-                setValueType={switchValueType}
-              />
-            </div>
-          )}
-          <div styleName="control">
-            <span styleName="label">Demographic</span>
-            <DropdownSelector
-              value={observedFeature}
-              onChange={event => setObservedFeature(event.target.value)}
-            >
-              <optgroup label="Select demographic feature">
-                {OBSERVED_FEATURES.filter(f => {
-                  if (limitToTopObservedFeatureFields) {
-                    return OBSERVED_FEATURES_TOP_FIELDS.includes(f.field);
-                  }
-                  return compareSimplifiedValueType(f, valueType);
+                  return true;
                 }).map(f => (
                   <option key={f.field} value={f.field}>
                     {f.name}
@@ -210,16 +176,19 @@ DisplaySelectors.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  showRate: PropTypes.bool.isRequired,
   setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
   setYear: PropTypes.func,
+  setShowRate: PropTypes.func,
   limitToTopObservedFeatureFields: PropTypes.bool
 };
 
 DisplaySelectors.defaultProps = {
   setGeography: null,
   setYear: null,
+  setShowRate: null,
   limitToTopObservedFeatureFields: false
 };
 

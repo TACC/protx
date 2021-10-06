@@ -11,7 +11,8 @@ function ObservedFeaturesChart({
   year,
   selectedGeographicFeature,
   data,
-  showInstructions
+  showInstructions,
+  showRate
 }) {
   const observedFeaturesDropdownInstructions = [
     'Select an Area.',
@@ -33,6 +34,7 @@ function ObservedFeaturesChart({
           year={year}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
+          showRate={showRate}
         />
       </div>
     );
@@ -59,6 +61,7 @@ ObservedFeaturesChart.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
+  showRate: PropTypes.bool.isRequired,
   showInstructions: PropTypes.bool
 };
 

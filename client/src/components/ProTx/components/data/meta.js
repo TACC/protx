@@ -12,124 +12,53 @@ export const SUPPORTED_YEARS = [
 ];
 
 export const OBSERVED_FEATURES = [
-  { field: 'E_AGE17', name: 'Population age 17 or younger' },
-  { field: 'E_AGE65', name: 'Population age 65 or older' },
-  { field: 'E_CROWD', name: 'Crowding' },
+  { field: 'AGE17', name: 'Population age 17 or younger' },
+  { field: 'AGE65', name: 'Population age 65 or older' },
+  { field: 'CROWD', name: 'Crowding' },
+  { field: 'DISABL', name: 'Disabled population' },
+  { field: 'GROUPQ', name: 'Population living in group quarters' },
+  { field: 'HH', name: 'Households' },
+  { field: 'HU', name: 'Housing units' },
   {
-    field: 'EP_CROWD',
-    name: 'Crowding',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_DISABL', name: 'Disabled population' },
-  {
-    field: 'EP_DISABL',
-    name: 'Disabled population',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_GROUPQ', name: 'Population living in group quarters' },
-  { field: 'E_HH', name: 'Households' },
-  { field: 'E_HU', name: 'Housing units' },
-  {
-    field: 'E_LIMENG',
+    field: 'LIMENG',
     name: 'Population with limited English skills'
   },
+  { field: 'MOBILE', name: 'Mobile homes' },
+  { field: 'MUNIT', name: 'Number of multi-unit structures' },
   {
-    field: 'EP_LIMENG',
-    name: 'Population with limited English skills',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_MOBILE', name: 'Mobile homes' },
-  {
-    field: 'EP_MOBILE',
-    name: 'Mobile homes',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_MUNIT', name: 'Number of multi-unit structures' },
-  {
-    field: 'E_NOHSDP',
+    field: 'NOHSDP',
     name: 'Population with no high school diploma'
   },
+  { field: 'NOVEH', name: 'Households with no vehicle' },
+  { field: 'PCI', name: 'Per capita income' },
+  { field: 'POV', name: 'Population below poverty threshold' },
+  { field: 'SNGPNT', name: 'Single parent households' },
+  { field: 'TOTPOP', name: 'Total population' },
+  { field: 'UNEMP', name: 'Unemployed population' },
+  { field: 'UNINSUR', name: 'Uninsured population' },
+  { field: 'MINRTY', name: 'Minority population' },
   {
-    field: 'EP_NOHSDP',
-    name: 'Population with no high school diploma',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_NOVEH', name: 'Households with no vehicle' },
-  {
-    field: 'EP_NOVEH',
-    name: 'Households with no vehicle',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_PCI', name: 'Per capita income' },
-  { field: 'E_POV', name: 'Population below poverty threshold' },
-  {
-    field: 'EP_POV',
-    name: 'Population below poverty threshold',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_SNGPNT', name: 'Single parent households' },
-  { field: 'E_TOTPOP', name: 'Total population' },
-  { field: 'E_UNEMP', name: 'Unemployed population' },
-  {
-    field: 'EP_UNEMP',
-    name: 'Unemployed population',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_UNINSUR', name: 'Uninsured population' },
-  {
-    field: 'EP_UNINSUR',
-    name: 'Uninsured population',
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  { field: 'E_MINRTY', name: 'Minority population' },
-  {
-    field: `E_FOREIGN_BORN`,
+    field: `FOREIGN_BORN`,
     name: `Foreign born population`
   },
   {
-    field: `E_FOREIGN_BORN_P`,
-    name: `Foreign born population`,
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  {
-    field: `E_RENTER_OCCUPIED_HOUSING_UNITS`,
+    field: `RENTER_OCCUPIED_HU`,
     name: `Renter-occupied housing units`
   },
   {
-    field: `E_RENTER_OCCUPIED_HOUSING_UNITS_P`,
-    name: `Renter-occupied housing units`,
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
-  },
-  {
-    field: `E_MEDIAN_GROSS_RENT_P`,
-    name: `Median gross rent as a percentage of household income`,
-    valueType: 'percent',
-    valueTypeLabel: 'Percent'
+    field: `MEDIAN_GROSS_RENT_PCT_HH_INCOME`,
+    name: `Median gross rent as a percentage of household income`
   }
 ];
 
 export const OBSERVED_FEATURES_TOP_FIELDS = [
-  'E_SNGPNT',
-  'E_POV',
-  /* 'EP_POV', */
-  'E_PCI',
-  'E_AGE17',
-  'E_NOHSDP',
-  /* 'EP_NOHSDP', */
-  'E_GROUPQ',
-  'E_CROWD'
-  /* 'EP_CROWD' */
+  'SNGPNT',
+  'POV',
+  'PCI',
+  'AGE17',
+  'NOHSDP',
+  'GROUPQ',
+  'CROWD'
 ];
 
 export const MALTREATMENT = [
@@ -194,21 +123,6 @@ export const MALTREATMENT = [
     valueTypeLabel: 'Count'
   }
 ];
-
-/* should be added to nested folder in MALTREATMENT list
-export const MALTREATMENT_PERCENT = [
-  { field: 'ABAN_PCT', name: 'Abandonment (%)' },
-  { field: 'EMAB_PCT', name: 'Emotional abuse  (%)' },
-  { field: 'LBTR_PCT', name: 'Labor trafficking  (%)' },
-  { field: 'MDNG_PCT', name: 'Medical neglect  (%)' },
-  { field: 'NSUP_PCT', name: 'Neglectful supervision  (%)' },
-  { field: 'PHAB_PCT', name: 'Physical abuse  (%)' },
-  { field: 'PHNG_PCT', name: 'Physical neglect  (%)' },
-  { field: 'RAPR_PCT', name: 'Refusal to accept parental responsibility  (%)' },
-  { field: 'SXAB_PCT', name: 'Sexual abuse  (%)' },
-  { field: 'SXTR_PCT', name: 'Sex trafficking  (%)' },
-];
-*/
 
 // TOOO: we should correct vector files to all be the same thing (GEOID)
 export const GEOID_KEY = {

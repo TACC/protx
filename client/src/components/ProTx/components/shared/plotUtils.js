@@ -292,92 +292,85 @@ const getMaltreatmentPlotData = (
  * @param {*} year
  * @returns
  */
+
 const getObservedFeaturesPlotData = (
   selectedGeographicFeature,
   observedFeature,
   data,
   geography,
-  year
+  year,
+  showRate
 ) => {
   const observedFeaturesDataObject = [];
   const observedFeaturesData = data.observedFeatures;
   const plotXDataLabel = getObservedFeatureValueType(observedFeature);
+
   let observedFeatureValue;
   let plotXDataAxisType;
-  let plotYDataAxisType;
   let plotYDataLabel;
 
-  Object.keys(observedFeaturesData).forEach(observed => {
-    if (observed === geography) {
-      const innerFeature = observedFeaturesData[observed];
+  if (geography === 'cbsa') {
+    plotXDataAxisType = 'log';
+    plotYDataLabel = 'Core Base Statistical Areas';
+  }
 
-      Object.keys(innerFeature).forEach(feature => {
-        const featureValues = innerFeature[feature];
+  if (geography === 'tract') {
+    plotXDataAxisType = 'log';
+    plotYDataLabel = 'Census Tracts';
+  }
 
-        Object.keys(featureValues).forEach(value => {
-          if (value === observedFeature) {
-            const currentFeature = {};
-            currentFeature.code = feature;
-            currentFeature.name = feature;
+  if (geography === 'county') {
+    plotXDataAxisType = 'log';
+    plotYDataLabel = 'Counties';
+  }
 
-            if (geography === 'cbsa') {
-              plotXDataAxisType = 'log';
-              plotYDataLabel = 'Core Base Statistical Areas';
-              plotYDataAxisType = 'category';
-            }
+  if (geography === 'dfps_region') {
+    plotXDataAxisType = 'linear';
+    plotYDataLabel = 'DFPS Regions';
+  }
 
-            if (geography === 'census_tract') {
-              plotXDataAxisType = 'log';
-              plotYDataLabel = 'Census Tracts';
-              plotYDataAxisType = 'category';
-            }
+  if (geography === 'urban_area') {
+    plotXDataAxisType = 'log';
+    plotYDataLabel = 'Urban Areas';
+  }
 
-            if (geography === 'county') {
-              plotXDataAxisType = 'log';
-              plotYDataLabel = 'Counties';
-              plotYDataAxisType = 'category';
+  if (geography === 'zcta') {
+    plotXDataAxisType = 'log';
+    plotYDataLabel = 'Zip Codes';
+  }
 
-              const featureFipsIdName = getFipsIdName(feature);
-              currentFeature.code = featureFipsIdName;
-              currentFeature.name = featureFipsIdName;
-            }
+  if (
+    geography in observedFeaturesData &&
+    year in observedFeaturesData[geography] &&
+    observedFeature in observedFeaturesData[geography][year]
+  ) {
+    const features = observedFeaturesData[geography][year][observedFeature];
+    Object.keys(features).forEach(feature => {
+      const currentFeature = { code: feature, name: feature };
 
-            if (geography === 'dfps_region') {
-              plotXDataAxisType = 'linear';
-              plotYDataLabel = 'DFPS Regions';
-              plotYDataAxisType = 'category';
-            }
+      const valueType = showRate ? 'percent' : 'count';
+      currentFeature.value = features[feature][valueType];
+      currentFeature.highlight = false;
 
-            if (geography === 'urban_area') {
-              plotXDataAxisType = 'log';
-              plotYDataLabel = 'Urban Areas';
-              plotYDataAxisType = 'category';
-            }
+      if (selectedGeographicFeature === feature) {
+        currentFeature.highlight = true;
+        observedFeatureValue = currentFeature.value;
+      }
 
-            if (geography === 'zcta') {
-              plotXDataAxisType = 'log';
-              plotYDataLabel = 'Zip Codes';
-              plotYDataAxisType = 'category';
-            }
+      if (geography === 'county') {
+        const featureFipsIdName = getFipsIdName(feature);
+        currentFeature.code = featureFipsIdName;
+        currentFeature.name = featureFipsIdName;
+      }
 
-            currentFeature.value = featureValues[value];
-            currentFeature.highlight = false;
-
-            if (selectedGeographicFeature === feature) {
-              currentFeature.highlight = true;
-              observedFeatureValue = currentFeature.value;
-            }
-
-            observedFeaturesDataObject.push(currentFeature);
-          }
-        });
-      });
-    }
-  });
+      observedFeaturesDataObject.push(currentFeature);
+    });
+  }
 
   const plotTitle = 'Observed Features';
   const plotOrientation = 'h';
   const showPlotLegend = false;
+  const plotYDataAxisType = 'category';
   const plotXDataLabelAssembled = `${plotXDataLabel}  (${plotXDataAxisType} scale)`;
 
   const plotLayout = getPlotLayout(
