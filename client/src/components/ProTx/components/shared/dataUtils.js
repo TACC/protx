@@ -77,14 +77,19 @@ const getObservedFeaturesMetaData = (
   data,
   geography,
   year,
-  observedFeature
+  observedFeature,
+  showRate
 ) => {
   const hasValues =
     geography in data.observedFeaturesMeta &&
-    observedFeature in data.observedFeaturesMeta[geography];
-  return hasValues
-    ? data.observedFeaturesMeta[geography][observedFeature]
-    : null;
+    year in data.observedFeaturesMeta[geography] &&
+    observedFeature in data.observedFeaturesMeta[geography][year];
+  if (hasValues) {
+    const meta = data.observedFeaturesMeta[geography][year][observedFeature];
+    const selectedType = showRate ? meta.percent : meta.count;
+    return { ...meta, ...selectedType };
+  }
+  return null;
 };
 
 /**
@@ -93,9 +98,16 @@ const getObservedFeaturesMetaData = (
  * @param {String} geography
  * @param {Number} year
  * @param Array<{String}> maltreatmentTypes
+ * @param {bool} showRate
  * @returns {Object} meta data (min, max)
  */
-const getMaltreatmentMetaData = (data, geography, year, maltreatmentTypes) => {
+const getMaltreatmentMetaData = (
+  data,
+  geography,
+  year,
+  maltreatmentTypes,
+  showRate
+) => {
   // maltreatment data is derived from data as
   // it is based on the list of selected maltreatment types
   if (maltreatmentTypes.length === 0) {
@@ -114,7 +126,9 @@ const getMaltreatmentMetaData = (data, geography, year, maltreatmentTypes) => {
       if (malType in yearDataSet) {
         Object.entries(yearDataSet[malType]).forEach(([geoid, countInfo]) => {
           /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 */
-          const value = countInfo.count;
+          const value = showRate
+            ? countInfo.rate_per_100k_under17
+            : countInfo.count;
           if (geoid in aggregrateValues) {
             aggregrateValues[geoid] += value;
           } else {
@@ -142,6 +156,7 @@ const getMaltreatmentMetaData = (data, geography, year, maltreatmentTypes) => {
  * @param {Number} year
  * @param {String} observedFeature
  * @param Array<{String}> maltreatmentTypes
+ * @param {boolean} showRate
  * @returns {Object} meta data (min, max)
  */
 const getMetaData = (
@@ -150,12 +165,25 @@ const getMetaData = (
   geography,
   year,
   observedFeature,
-  maltreatmentTypes
+  maltreatmentTypes,
+  showRate
 ) => {
   const meta =
     mapType === 'observedFeatures'
-      ? getObservedFeaturesMetaData(data, geography, year, observedFeature)
-      : getMaltreatmentMetaData(data, geography, year, maltreatmentTypes);
+      ? getObservedFeaturesMetaData(
+          data,
+          geography,
+          year,
+          observedFeature,
+          showRate
+        )
+      : getMaltreatmentMetaData(
+          data,
+          geography,
+          year,
+          maltreatmentTypes,
+          showRate
+        );
   return meta;
 };
 
@@ -166,6 +194,7 @@ const getMetaData = (
  * @param {Number} year
  * @param {Number} geoid
  * @param {String} observedFeature
+ * @param {boolean} showRate
  * @returns {Number} value (null if no value exists)
  */
 const getObservedFeatureValue = (
@@ -173,13 +202,18 @@ const getObservedFeatureValue = (
   geography,
   year,
   geoid,
-  observedFeature
+  observedFeature,
+  showRate
 ) => {
   const dataSet = data.observedFeatures[geography];
-  const hasElement = geoid in dataSet;
-  const hasElementAndProperty = hasElement && observedFeature in dataSet[geoid];
+  const valueType = showRate ? 'percent' : 'count';
+  const hasElementAndProperty =
+    year in dataSet &&
+    observedFeature in dataSet[year] &&
+    geoid in dataSet[year][observedFeature] &&
+    valueType in dataSet[year][observedFeature][geoid];
   const featureValue = hasElementAndProperty
-    ? dataSet[geoid][observedFeature]
+    ? dataSet[year][observedFeature][geoid][valueType]
     : null;
   return featureValue;
 };

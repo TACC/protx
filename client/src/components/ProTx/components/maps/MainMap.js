@@ -19,6 +19,7 @@ function MainMap({
   maltreatmentTypes,
   observedFeature,
   year,
+  showRate,
   data,
   selectedGeographicFeature,
   setSelectedGeographicFeature
@@ -95,7 +96,8 @@ function MainMap({
         geography,
         year,
         observedFeature,
-        maltreatmentTypes
+        maltreatmentTypes,
+        showRate
       );
       // set for use by vector layer
       setMetaData(meta);
@@ -136,6 +138,7 @@ function MainMap({
     geography,
     maltreatmentTypes,
     year,
+    showRate,
     map,
     texasOutlineLayer
   ]);
@@ -155,7 +158,8 @@ function MainMap({
               year,
               geoid,
               observedFeature,
-              maltreatmentTypes
+              maltreatmentTypes,
+              showRate
             );
           }
         },
@@ -251,6 +255,7 @@ function MainMap({
     observedFeature,
     maltreatmentTypes,
     year,
+    showRate,
     layersControl,
     map
   ]);
@@ -264,6 +269,7 @@ MainMap.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  showRate: PropTypes.bool.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types

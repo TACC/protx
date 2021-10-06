@@ -5,11 +5,12 @@ import {
   getFipsIdName,
   capitalizeString,
   cleanValue,
-  getObservedFeaturesLabel
+  getObservedFeaturesLabel,
+  getObservedFeatureValue
 } from '../shared/dataUtils';
+import './ObservedFeaturesPlot.css';
 import { getObservedFeaturesPlotData } from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
-import './ObservedFeaturesPlot.css';
 
 function ObservedFeaturesPlot({
   mapType,
@@ -18,17 +19,16 @@ function ObservedFeaturesPlot({
   year,
   selectedGeographicFeature,
   data,
+  showRate,
   debug
 }) {
-  const PLOT_TYPE = 'observedFeatures';
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     geographyObservedFeatures,
     yearObservedFeatures,
     observedFeatureObservedFeatures,
     selectedGeographicFeatureObservedFeatures,
-    plotStateObservedFeatures,
-    currentTargetValue
+    plotStateObservedFeatures
   ) => {
     const observedFeaturesLabel = getObservedFeaturesLabel(
       observedFeatureObservedFeatures
@@ -37,6 +37,15 @@ function ObservedFeaturesPlot({
       selectedGeographicFeatureObservedFeatures
     );
     const geographyType = capitalizeString(geographyObservedFeatures);
+    const currentTargetValue = getObservedFeatureValue(
+      data,
+      geography,
+      year,
+      selectedGeographicFeature,
+      observedFeature,
+      showRate
+    );
+
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
     return (
@@ -110,7 +119,8 @@ function ObservedFeaturesPlot({
     observedFeature,
     data,
     geography,
-    year
+    year,
+    showRate
   );
 
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
@@ -137,7 +147,7 @@ function ObservedFeaturesPlot({
         selectedGeographicFeature={selectedGeographicFeature}
         fipsIdValue={fipsIdValue}
         geoId={geoId}
-        plotType={PLOT_TYPE}
+        plotType="observedFeatures"
         plotData={observedFeaturesPlotData}
         data={data}
       />
@@ -157,6 +167,7 @@ ObservedFeaturesPlot.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
+  showRate: PropTypes.bool.isRequired,
   /** Render component data in debug mode. */
   debug: PropTypes.bool
 };
