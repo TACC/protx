@@ -48,6 +48,7 @@ const getFeatureStyle = (
       data,
       geography,
       year,
+      showRate,
       geoid,
       maltreatmentTypes
     );

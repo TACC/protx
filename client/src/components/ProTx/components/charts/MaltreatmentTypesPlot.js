@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
+import {
+  getFipsIdName,
+  capitalizeString,
+  getMaltreatmentLabel
+} from '../shared/dataUtils';
 import { getMaltreatmentPlotData } from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
@@ -11,6 +15,7 @@ function MaltreatmentTypesPlot({
   geography,
   maltreatmentTypes,
   year,
+  showRate,
   selectedGeographicFeature,
   data,
   debug
@@ -22,6 +27,7 @@ function MaltreatmentTypesPlot({
     yearMaltreatment,
     selectedGeographicFeatureMaltreatment,
     fipsIdNameMaltreatment,
+    maltreatmentLabel,
     maltreatmentTypesDataAggregateMaltreatment,
     maltreatmentTypesListMaltreatment,
     plotStateMaltreatment
@@ -46,7 +52,7 @@ function MaltreatmentTypesPlot({
               </div>
               <div className="maltreatment-types-plot-aggregated-count">
                 <span className="maltreatment-types-plot-aggregated-count-label">
-                  Aggregated Count
+                  {maltreatmentLabel}
                 </span>
                 <span className="maltreatment-types-plot-aggregated-count-value">
                   {maltreatmentTypesDataAggregateMaltreatment}
@@ -106,11 +112,13 @@ function MaltreatmentTypesPlot({
     maltreatmentTypes,
     data,
     geography,
-    year
+    year,
+    showRate
   );
 
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
+  const maltreatmentLabel = getMaltreatmentLabel(maltreatmentTypes, showRate);
 
   const maltreatmentChartLayout = getMaltreatmentChartLayout(
     mapType,
@@ -118,6 +126,7 @@ function MaltreatmentTypesPlot({
     year,
     selectedGeographicFeature,
     fipsIdValue,
+    maltreatmentLabel,
     maltreatmentPlotData.malTypesAggregate,
     maltreatmentPlotData.malTypesList,
     maltreatmentPlotData.malPlotState
@@ -151,6 +160,7 @@ MaltreatmentTypesPlot.propTypes = {
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   year: PropTypes.string.isRequired,
+  showRate: PropTypes.bool.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
