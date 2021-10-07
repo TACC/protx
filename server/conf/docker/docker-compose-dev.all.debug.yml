@@ -12,6 +12,8 @@ services:
       - ../../cms/media:/code/media
     command: python manage.py runserver 0.0.0.0:8000
     container_name: core_portal_cms
+    depends_on:
+      - postgrescms
 
   redis:
     image: redis:5.0
@@ -76,10 +78,14 @@ services:
       - ../nginx/certificates/cep.dev.key:/etc/ssl/cep.dev.key
       - ../nginx/dhparam.pem:/etc/ssl/dhparam.pem
       - ../../../.:/srv/www/portal
+      - ~/protx-data:/protx-data
     ports:
       - 80:80
       - 443:443
     container_name: core_portal_nginx
+    depends_on:
+      - cms
+      - django
 
   websockets:
     image: taccwma/core-portal:local
@@ -98,6 +104,7 @@ services:
     image: taccwma/core-portal:local
     volumes:
       - ../../../.:/srv/www/portal
+      - ~/protx-data:/protx-data
       - ../../static:/var/www/portal/server/static
       - ../../media:/var/www/portal/server/media
     dns:
@@ -125,7 +132,7 @@ services:
     container_name: core_portal_workers
 
   docs:
-    image: taccwma/frontera-docs:7af12ae
+    image: taccwma/frontera-docs:latest-master
     volumes:
       - ../../docs:/docs/site
     command: ['mkdocs', 'build']

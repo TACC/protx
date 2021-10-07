@@ -9,7 +9,7 @@ import './Dashboard.css';
  * false for PROD
  * true for PPRD, DEV, etc.
  */
-const showHeader = true;
+const showHeader = false;
 const hostName = "COOK CHILDREN'S PRE-PRODUCTION PORTAL";
 const messageString =
   'Geospatial data analytics dashboard using demonstration data.';

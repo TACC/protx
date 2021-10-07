@@ -4,36 +4,24 @@ import { fetchUtil } from '../../utils/fetchUtil';
 export function* fetchProtx(action) {
   yield put({ type: 'PROTX_INIT' });
   try {
-    const {
-      observedFeatures,
-      observedFeaturesMeta,
-      maltreatment,
-      maltreatmentMeta,
-      texasBoundary
-    } = yield all({
-      observedFeatures: call(fetchUtil, {
-        url: `/static/data/2019_observed_features.json`
-      }),
-      observedFeaturesMeta: call(fetchUtil, {
-        url: `/static/data/2019_observed_features.meta.json`
-      }),
+    const { maltreatment, demographics, texasBoundary } = yield all({
       maltreatment: call(fetchUtil, {
-        url: `/static/data/public_county_maltreatment_table_grouped.json`
+        url: `/api/protx/maltreatment`
       }),
-      maltreatmentMeta: call(fetchUtil, {
-        url: `/static/data/public_county_maltreatment_table_grouped.meta.json`
+      demographics: call(fetchUtil, {
+        url: `/api/protx/demographics`
       }),
       texasBoundary: call(fetchUtil, {
-        url: `/static/data/Texas_State_Boundary.geojson`
+        url: `/data-static/Texas_State_Boundary.geojson`
       })
     });
     yield put({
       type: 'PROTX_SUCCESS',
       payload: {
-        observedFeatures,
-        observedFeaturesMeta,
-        maltreatment,
-        maltreatmentMeta,
+        observedFeatures: demographics.data,
+        observedFeaturesMeta: demographics.meta,
+        maltreatment: maltreatment.data,
+        maltreatmentMeta: maltreatment.meta,
         texasBoundary
       }
     });

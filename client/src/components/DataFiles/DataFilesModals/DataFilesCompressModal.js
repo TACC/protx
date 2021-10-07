@@ -102,7 +102,9 @@ const DataFilesCompressModal = () => {
       toggle={toggle}
       className="dataFilesModal"
     >
-      <ModalHeader toggle={toggle}>Compress Files</ModalHeader>
+      <ModalHeader toggle={toggle} charCode="&#xe912;">
+        Compress Files
+      </ModalHeader>
       <Formik
         innerRef={formRef}
         initialValues={initialValues}
@@ -125,7 +127,7 @@ const DataFilesCompressModal = () => {
                   disabled={formDisabled}
                   addonType="append"
                   addon={
-                    <InputGroupAddon addonType="append">
+                    <InputGroupAddon addonType="append" styleName="input-field">
                       <Input
                         type="select"
                         name="filetype"

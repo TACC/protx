@@ -28,6 +28,7 @@ function DashboardDisplay() {
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
   );
+  const [showRate, setShowRate] = useState(false);
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const protxRoute = '/protx';
@@ -64,6 +65,8 @@ function DashboardDisplay() {
             setMapType('maltreatment');
             // maltreatment only has county data.
             setGeography('county');
+            /* allow rates in COOKS-112 */
+            setShowRate(false);
             return (
               <>
                 <DisplaySelectors
@@ -72,6 +75,7 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
+                  showRate={showRate}
                   setGeography={setGeography}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
@@ -85,6 +89,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
+                      showRate={showRate}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -99,6 +104,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
+                      showRate={showRate}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
                       showInstructions
@@ -114,7 +120,6 @@ function DashboardDisplay() {
           render={() => {
             // observedFeatures (i.e. Demographic Features) only has 2019 data.
             setYear('2019');
-            setGeography('county');
             setMapType('observedFeatures');
             return (
               <>
@@ -124,9 +129,11 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
+                  showRate={showRate}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setGeography={setGeography}
+                  setShowRate={setShowRate}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -135,6 +142,7 @@ function DashboardDisplay() {
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
+                      showRate={showRate}
                       year={year}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
@@ -151,6 +159,7 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                      showRate={showRate}
                       showInstructions
                     />
                   </div>
@@ -165,6 +174,7 @@ function DashboardDisplay() {
             setMapType('observedFeatures');
             setYear('2019');
             setGeography('county');
+            setShowRate(false);
             return (
               <>
                 <DisplaySelectors
@@ -173,6 +183,7 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
+                  showRate={showRate}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   limitToTopObservedFeatureFields
@@ -185,6 +196,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
+                      showRate={showRate}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -200,7 +212,6 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showInstructions
                     />
                   </div>
                 </div>

@@ -6,14 +6,14 @@ import Workbench from './Workbench';
 import * as ROUTES from '../../constants/routes';
 import TicketStandaloneCreate from '../Tickets/TicketStandaloneCreate';
 import PublicData from '../PublicData/PublicData';
-import GoogleDrivePrivacyPolicy from '../ManageAccount/GoogleDrivePrivacyPolicy/GoogleDrivePrivacyPolicy';
+import GoogleDrivePrivacyPolicy from '../ManageAccount/GoogleDrivePrivacyPolicy';
 import SiteSearch from '../SiteSearch';
 import ProTx from '../ProTx';
 
 function AppRouter() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({ type: 'FETCH_WELCOME' });
+    dispatch({ type: 'FETCH_INTRO' });
     dispatch({ type: 'FETCH_AUTHENTICATED_USER' });
   }, []);
   return (

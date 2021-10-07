@@ -24,6 +24,7 @@ function MainMap({
   maltreatmentTypes,
   observedFeature,
   year,
+  showRate,
   data,
   selectedGeographicFeature,
   setSelectedGeographicFeature
@@ -100,7 +101,8 @@ function MainMap({
         geography,
         year,
         observedFeature,
-        maltreatmentTypes
+        maltreatmentTypes,
+        showRate
       );
 
       const intervalColorScale = meta ? new IntervalColorScale(meta) : null;
@@ -136,12 +138,13 @@ function MainMap({
     geography,
     maltreatmentTypes,
     year,
+    showRate,
     map,
     texasOutlineLayer
   ]);
 
   useEffect(() => {
-    const vectorTile = `${dataServer}/static/data/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
+    const vectorTile = `${dataServer}/data-static/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
     if (map && layersControl) {
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
@@ -155,7 +158,8 @@ function MainMap({
               year,
               geoid,
               observedFeature,
-              maltreatmentTypes
+              maltreatmentTypes,
+              showRate
             );
           }
         },
@@ -251,6 +255,7 @@ function MainMap({
     observedFeature,
     maltreatmentTypes,
     year,
+    showRate,
     layersControl,
     map
   ]);
@@ -264,6 +269,7 @@ MainMap.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  showRate: PropTypes.bool.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
