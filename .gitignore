@@ -176,3 +176,4 @@ portal_crypt.key
 
 # local dev files retained but deprecated from codebase.
 *deprecated*
+timeseries_histogram.py
