@@ -56,23 +56,23 @@ subplot_mapping_aes = {
 }
 
 # ## Demographics demo: response to user selection, time series
-# 
+#
 # 1. User selects the "Demographics" tab.
-# 
+#
 # 2. User selects the following from drop down menus:
-# 
+#
 #     - Area (currently fixed to counties)
 #     - Demographic
 #     - Years (currently fixed to 2019)
 #     - (pending: rate vs percent)
-# 
-# 
+#
+#
 # 3. User selects an area from the map (must happen after drop-down selection for "area" is made)
 
 # ### Select variable across all years
 
 yearly_data_query = '''
-select d.VALUE, d.GEOID, d.GEOTYPE, d.DEMOGRAPHICS_NAME, d.YEAR, 
+select d.VALUE, d.GEOID, d.GEOTYPE, d.DEMOGRAPHICS_NAME, d.YEAR,
     d.UNITS as count_or_pct, g.DISPLAY_TEXT as geo_display, u.UNITS as units, u.DISPLAY_TEXT as units_display
 from {report_type} d
 left join display_geotype g on
@@ -81,15 +81,15 @@ left join display_geotype g on
     g.YEAR = d.YEAR
 join display_data u on
     d.DEMOGRAPHICS_NAME = u.NAME
-where d.GEOTYPE = "{area}" and 
-    d.UNITS = "{unit}" and 
+where d.GEOTYPE = "{area}" and
+    d.UNITS = "{unit}" and
     d.DEMOGRAPHICS_NAME = "{variable}";
 '''
 
 # ### Select annual values for a focal area
 
 focal_query = '''
-select d.VALUE, d.GEOID, d.GEOTYPE, d.DEMOGRAPHICS_NAME, d.YEAR, 
+select d.VALUE, d.GEOID, d.GEOTYPE, d.DEMOGRAPHICS_NAME, d.YEAR,
     d.UNITS as count_or_pct, g.DISPLAY_TEXT as geo_display, u.UNITS as units, u.DISPLAY_TEXT as units_display
 from {report_type} d
 left join display_geotype g on
@@ -98,8 +98,8 @@ left join display_geotype g on
     g.YEAR = d.YEAR
 join display_data u on
     d.DEMOGRAPHICS_NAME = u.NAME
-where d.GEOTYPE = "{area}" and 
-    d.UNITS = "{unit}" and 
+where d.GEOTYPE = "{area}" and
+    d.UNITS = "{unit}" and
     d.DEMOGRAPHICS_NAME = "{variable}" and
     g.DISPLAY_TEXT = "{focal_area}" and
     d.GEOTYPE = "{area}";
