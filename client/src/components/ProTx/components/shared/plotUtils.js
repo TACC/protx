@@ -22,11 +22,13 @@ const histColors = THEME_CB12_ALT0;
  */
 const categoryCodes = CATEGORY_CODES;
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const plotConfig = {
   doubleClickDelay: 1000,
   responsive: true,
@@ -36,11 +38,13 @@ const plotConfig = {
   showEditInChartStudio: false
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getPlotLayout = (
   plotAnnotation,
   plotOrientation,
@@ -132,11 +136,13 @@ const getTraceFillColor = (targetPlot, catcode, unique) => {
   return barColor;
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getBarTrace = (
   traceY,
   traceX,
@@ -173,11 +179,13 @@ const getBarTrace = (
   };
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getPlotDataBars = (targetPlotType, typesDataArray, plotOrientation) => {
   const newPlotData = [];
 
@@ -207,11 +215,13 @@ const getPlotDataBars = (targetPlotType, typesDataArray, plotOrientation) => {
   return newPlotData;
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getMaltreatmentPlotData = (
   selectedGeographicFeature,
   maltreatmentTypes,
@@ -283,166 +293,40 @@ const getMaltreatmentPlotData = (
   return maltreatmentPlotData;
 };
 
+/******************************/
 /**
- * TODO: Handle different data types (zipcode, urban areas, CBSAs, census tracts) more elegantly.
- *
- * @param {*} selectedGeographicFeature
- * @param {*} observedFeature
- * @param {*} data
- * @param {*} geography
- * @param {*} year
- * @returns
- */
-
-// const getObservedFeaturesPlotData = (
-//   selectedGeographicFeature,
-//   observedFeature,
-//   data,
-//   geography,
-//   year,
-//   showRate
-// ) => {
-//   const observedFeaturesDataObject = [];
-//   const observedFeaturesData = data.observedFeatures;
-//   const plotXDataLabel = getObservedFeatureValueType(observedFeature);
-
-//   let observedFeatureValue;
-//   let plotXDataAxisType;
-//   let plotYDataLabel;
-
-//   if (geography === 'cbsa') {
-//     plotXDataAxisType = 'log';
-//     plotYDataLabel = 'Core Base Statistical Areas';
-//   }
-
-//   if (geography === 'tract') {
-//     plotXDataAxisType = 'log';
-//     plotYDataLabel = 'Census Tracts';
-//   }
-
-//   if (geography === 'county') {
-//     plotXDataAxisType = 'log';
-//     plotYDataLabel = 'Counties';
-//   }
-
-//   if (geography === 'dfps_region') {
-//     plotXDataAxisType = 'linear';
-//     plotYDataLabel = 'DFPS Regions';
-//   }
-
-//   if (geography === 'urban_area') {
-//     plotXDataAxisType = 'log';
-//     plotYDataLabel = 'Urban Areas';
-//   }
-
-//   if (geography === 'zcta') {
-//     plotXDataAxisType = 'log';
-//     plotYDataLabel = 'Zip Codes';
-//   }
-
-//   if (
-//     geography in observedFeaturesData &&
-//     year in observedFeaturesData[geography] &&
-//     observedFeature in observedFeaturesData[geography][year]
-//   ) {
-//     const features = observedFeaturesData[geography][year][observedFeature];
-//     Object.keys(features).forEach(feature => {
-//       const currentFeature = { code: feature, name: feature };
-
-//       const valueType = showRate ? 'percent' : 'count';
-//       currentFeature.value = features[feature][valueType];
-//       currentFeature.highlight = false;
-
-//       if (selectedGeographicFeature === feature) {
-//         currentFeature.highlight = true;
-//         observedFeatureValue = currentFeature.value;
-//       }
-
-//       if (geography === 'county') {
-//         const featureFipsIdName = getFipsIdName(feature);
-//         currentFeature.code = featureFipsIdName;
-//         currentFeature.name = featureFipsIdName;
-//       }
-
-//       observedFeaturesDataObject.push(currentFeature);
-//     });
-//   }
-
-//   const plotTitle = 'Observed Features';
-//   const plotOrientation = 'h';
-//   const showPlotLegend = false;
-//   const plotYDataAxisType = 'category';
-//   const plotXDataLabelAssembled = `${plotXDataLabel}  (${plotXDataAxisType} scale)`;
-
-//   const plotLayout = getPlotLayout(
-//     plotTitle,
-//     plotOrientation,
-//     showPlotLegend,
-//     plotXDataLabelAssembled,
-//     plotXDataAxisType,
-//     plotYDataLabel,
-//     plotYDataAxisType
-//   );
-
-//   const plotData = getPlotDataBars(
-//     'observed',
-//     observedFeaturesDataObject,
-//     plotOrientation
-//   );
-
-//   const plotState = {
-//     data: plotData,
-//     layout: plotLayout,
-//     config: plotConfig
-//   };
-
-//   const observedFeaturesPlotData = {
-//     observedFeaturesPlotState: plotState,
-//     observedFeatureTargetValue: observedFeatureValue
-//   };
-
-//   return observedFeaturesPlotData;
-// };
-
-/**
- * TODO: Once working, rename this method to getObservedFeaturesPlotData and remove the old one (above).
+ * TODO: Recreate the timeseries_histogram implementation from the Jupyter notyebook here.
+ * TODO: Define the data, layout and config objects for the new plot.
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getObservedFeaturesPlotData = () => {
   const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
 
-  // const observedFeaturesPlotData = {};
-  // observedFeaturesPlotData.data = {};
-  // observedFeaturesPlotData.layout = {};
-  // observedFeaturesPlotData.config = {};
-
-  // // Unmunged data response for testing.
-  // observedFeaturesPlotData.data = observedFeaturesPlotReduxData;
-
-  /**
-   * TODO: Recreate the timeseries_histogram implementation from the Jupyter notyebook here.
-   * TODO: Define the data, layout and config objects for the new plot.
-   */
-
-  // DEV
   const observedFeaturesDataObject = [];
 
-  const plotXDataLabel = '';
-  const plotYDataLabel = 'Y DATA LABEL';
+  const plotTitle = 'Demographics';
   const plotOrientation = 'v';
+  const showPlotLegend = true;
+  const plotXDataLabel = 'X DATA LABEL';
+  const plotXDataAxisType = 'category';
+  const plotYDataLabel = 'Y DATA LABEL';
+  const plotYDataAxisType = 'linear';
 
   const plotLayout = getPlotLayout(
-    'Observed Features',
+    plotTitle,
     plotOrientation,
-    true,
+    showPlotLegend,
     plotXDataLabel,
-    plotYDataLabel
+    plotXDataAxisType,
+    plotYDataLabel,
+    plotYDataAxisType
   );
 
   const plotData = getPlotDataBars(
-    'predictive',
+    'observed',
     observedFeaturesDataObject,
     plotOrientation
   );
@@ -461,11 +345,13 @@ const getObservedFeaturesPlotData = () => {
   return observedFeaturesPlotData;
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
   const plotXDataLabel = '';
