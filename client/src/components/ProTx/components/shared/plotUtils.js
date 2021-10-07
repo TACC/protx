@@ -306,20 +306,20 @@ const getObservedFeaturesPlotData = () => {
   const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
 
   // Transform the backend response from the query into the required object structure for the plot.
+  const y = newObservedFeaturesPlotData.fig_aes.bar_labels;
   // Need to iterate instead of declare every year...
-  const x0 = newObservedFeaturesPlotData.fig_aes.years.[2011].bars;
-  const x1 = newObservedFeaturesPlotData.fig_aes.years.[2012].bars;
-  const x2 = newObservedFeaturesPlotData.fig_aes.years.[2013].bars;
-  const x3 = newObservedFeaturesPlotData.fig_aes.years.[2014].bars;
-  const x4 = newObservedFeaturesPlotData.fig_aes.years.[2015].bars;
-  const x5 = newObservedFeaturesPlotData.fig_aes.years.[2016].bars;
-  const x6 = newObservedFeaturesPlotData.fig_aes.years.[2017].bars;
-  const x7 = newObservedFeaturesPlotData.fig_aes.years.[2018].bars;
-  const x8 = newObservedFeaturesPlotData.fig_aes.years.[2019].bars;
-  const y0 = newObservedFeaturesPlotData.fig_aes.bar_labels;
+  const y0 = newObservedFeaturesPlotData.fig_aes.years.[2011].bars;
+  const y1 = newObservedFeaturesPlotData.fig_aes.years.[2012].bars;
+  const y2 = newObservedFeaturesPlotData.fig_aes.years.[2013].bars;
+  const y3 = newObservedFeaturesPlotData.fig_aes.years.[2014].bars;
+  const y4 = newObservedFeaturesPlotData.fig_aes.years.[2015].bars;
+  const y5 = newObservedFeaturesPlotData.fig_aes.years.[2016].bars;
+  const y6 = newObservedFeaturesPlotData.fig_aes.years.[2017].bars;
+  const y7 = newObservedFeaturesPlotData.fig_aes.years.[2018].bars;
+  const y8 = newObservedFeaturesPlotData.fig_aes.years.[2019].bars;
 
   const trace0 = {
-    x: x0,
+    y: y0,
     type: 'histogram',
     opacity: 0.5,
     marker: {
@@ -328,7 +328,7 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace1 = {
-    x: x1,
+    y: y1,
     type: 'histogram',
     opacity: 0.6,
     marker: {
@@ -337,7 +337,7 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace2 = {
-  x: x2,
+  y: y2,
   type: 'histogram',
   opacity: 0.6,
   marker: {
@@ -346,7 +346,7 @@ const getObservedFeaturesPlotData = () => {
 };
 
   const trace3 = {
-  x: x3,
+  y: y3,
   type: 'histogram',
   opacity: 0.6,
   marker: {
@@ -355,7 +355,7 @@ const getObservedFeaturesPlotData = () => {
 };
 
   const trace4 = {
-  x: x4,
+  y: y4,
   type: 'histogram',
   opacity: 0.6,
   marker: {
@@ -364,7 +364,7 @@ const getObservedFeaturesPlotData = () => {
 };
 
   const trace5 = {
-  x: x5,
+  y: y5,
   type: 'histogram',
   opacity: 0.6,
   marker: {
@@ -373,7 +373,7 @@ const getObservedFeaturesPlotData = () => {
 };
 
   const trace6 = {
-  x: x6,
+  y: y6,
   type: 'histogram',
   opacity: 0.6,
   marker: {
@@ -382,7 +382,7 @@ const getObservedFeaturesPlotData = () => {
 };
 
   const trace7 = {
-  x: x7,
+  y: y7,
   type: 'histogram',
   opacity: 0.6,
   marker: {
@@ -391,7 +391,7 @@ const getObservedFeaturesPlotData = () => {
 };
 
   const trace8 = {
-  x: x8,
+  y: y8,
   type: 'histogram',
   opacity: 0.6,
   marker: {
@@ -411,14 +411,13 @@ const getObservedFeaturesPlotData = () => {
   // trace8
 ];
 
-
   const plotTitle = 'Demographics';
-  const plotOrientation = 'v';
+  const plotOrientation = 'h';
   const showPlotLegend = false;
   const plotXDataLabel = 'X DATA LABEL';
-  const plotXDataAxisType = 'category';
+  const plotXDataAxisType = 'linear';
   const plotYDataLabel = 'Y DATA LABEL';
-  const plotYDataAxisType = 'linear';
+  const plotYDataAxisType = 'category';
 
   const plotLayout = getPlotLayout(
     plotTitle,
