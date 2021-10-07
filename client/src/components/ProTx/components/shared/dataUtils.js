@@ -367,14 +367,6 @@ const getObservedFeatureValueType = selectedObservedFeatureCode => {
  */
 const getObservedFeaturesDataObject = () => {
   // Placeholder data object to test plot.
-  // const observedFeaturesDataObject = [
-  //   OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK,
-  //   DOLLARS_HIST_DATA,
-  //   COUNT_HIST_DATA,
-  //   PERCENT_HIST_DATA,
-  //   FOCAL_DATA
-  // ];
-  // const newObservedFeaturesDataObject = observedFeaturesDataObject;
   const newObservedFeaturesDataObject = OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK;
 
   return newObservedFeaturesDataObject;

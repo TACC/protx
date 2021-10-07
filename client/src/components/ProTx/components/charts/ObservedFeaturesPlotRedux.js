@@ -120,7 +120,7 @@ function ObservedFeaturesPlotRedux({
             {selectedGeographicFeatureName} {geographyObservedFeatures} (code{' '}
             {selectedGeographicFeatureObservedFeatures}) based on the{' '}
             <span className="observed-features-plot-selected-type-value">
-              {yearObservedFeatures} US Census Data
+              2011-2019 US Census Data
             </span>{' '}
             for{' '}
             <span className="observed-features-plot-selected-type-summary">
