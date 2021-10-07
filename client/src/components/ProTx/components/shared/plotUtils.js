@@ -411,20 +411,12 @@ const getObservedFeaturesPlotData = (
  */
 const getObservedFeaturesPlotReduxData = () => {
   const observedFeaturesPlotReduxData = getObservedFeaturesDataObject();
-
-  const targetDataIndex = 0; // 0 - 4.
-  const targetYear = 2013; // 2011 - 2019.
-
+  const targetYear = 2011; // 2011 - 2019.
   const newObservedFeaturesPlotReduxData = [
-    // observedFeaturesPlotReduxData[targetDataIndex]
-    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
-      .focal_value,
-    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
-      .mean,
-    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
-      .median,
-    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
-      .bars
+    observedFeaturesPlotReduxData.fig_aes.years[targetYear].focal_value,
+    observedFeaturesPlotReduxData.fig_aes.years[targetYear].mean,
+    observedFeaturesPlotReduxData.fig_aes.years[targetYear].median,
+    observedFeaturesPlotReduxData.fig_aes.years[targetYear].bars
   ];
 
   return newObservedFeaturesPlotReduxData;

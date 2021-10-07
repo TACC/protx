@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Plot from 'react-plotly.js';
+// import Plot from 'react-plotly.js';
 import {
   getFipsIdName,
   capitalizeString,
@@ -91,7 +91,7 @@ function ObservedFeaturesPlotRedux({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            {observedFeaturesPlotReduxData}
+            {/* {observedFeaturesPlotReduxData} */}
             <ul>
               {Object.keys(observedFeaturesPlotReduxData).map(function(
                 keyName,

@@ -1,11 +1,11 @@
 import { PHR_MSA_COUNTIES } from '../data/PHR_MSA_County_Data';
 import { MALTREATMENT, OBSERVED_FEATURES } from '../data/meta';
 import {
-  OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK,
-  DOLLARS_HIST_DATA,
-  COUNT_HIST_DATA,
-  PERCENT_HIST_DATA,
-  FOCAL_DATA
+  OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK
+  // DOLLARS_HIST_DATA,
+  // COUNT_HIST_DATA,
+  // PERCENT_HIST_DATA,
+  // FOCAL_DATA
 } from '../data/observedFeaturesPlot_mockData';
 
 /**
@@ -367,15 +367,15 @@ const getObservedFeatureValueType = selectedObservedFeatureCode => {
  */
 const getObservedFeaturesDataObject = () => {
   // Placeholder data object to test plot.
-  const observedFeaturesDataObject = [
-    OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK,
-    DOLLARS_HIST_DATA,
-    COUNT_HIST_DATA,
-    PERCENT_HIST_DATA,
-    FOCAL_DATA
-  ];
-
-  const newObservedFeaturesDataObject = observedFeaturesDataObject;
+  // const observedFeaturesDataObject = [
+  //   OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK,
+  //   DOLLARS_HIST_DATA,
+  //   COUNT_HIST_DATA,
+  //   PERCENT_HIST_DATA,
+  //   FOCAL_DATA
+  // ];
+  // const newObservedFeaturesDataObject = observedFeaturesDataObject;
+  const newObservedFeaturesDataObject = OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK;
 
   return newObservedFeaturesDataObject;
 };
