@@ -254,6 +254,7 @@ const getMaltreatmentAggregatedValue = (
 };
 
 /**
+ *  Get list of maltreatment display names
  *
  * @param {*} typesDataArray
  * @returns
@@ -309,6 +310,14 @@ const getMaltreatmentSelectedValues = (
 };
 
 /**
+ * Get label for selected maltreatment types
+ * @param Array<{String}> maltreatmentTypes
+ */
+const getMaltreatmentLabel = maltreatmentTypes => {
+  return maltreatmentTypes.length > 1 ? 'Aggregated Count' : 'Count';
+};
+
+/**
  *
  * @param {*} typesDataArray
  * @returns
@@ -326,10 +335,10 @@ const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
   return newMaltreatmentDataObject;
 };
 
-/**
+/** Get display label for selected observed feature
  *
- * @param {*} typesDataArray
- * @returns
+ * @param selectedObservedFeatureCode:str code of feature
+ * @returns label
  */
 const getObservedFeaturesLabel = selectedObservedFeatureCode => {
   return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
@@ -374,6 +383,7 @@ export {
   getFipsIdName,
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
+  getMaltreatmentLabel,
   getMaltreatmentTypesDataObject,
   getObservedFeaturesLabel,
   getObservedFeatureValueType,

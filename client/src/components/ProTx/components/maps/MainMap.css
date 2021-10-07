@@ -8,6 +8,17 @@
 .legend {
   line-height: 10px;
 }
+
+.legend-title{
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal-plus);
+  width: 100%;
+  max-width: 150px;
+  text-align: center;
+  padding-bottom: 10px;
+  line-height: 16px;
+}
+
 .scale-value * {
   vertical-align: sub;
 }

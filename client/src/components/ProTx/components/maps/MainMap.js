@@ -8,8 +8,13 @@ import { GEOID_KEY } from '../data/meta';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import { getMetaData } from '../shared/dataUtils';
-import { IntervalColorScale, getFeatureStyle } from '../shared/mapUtils';
+import {
+  getMetaData,
+  getMaltreatmentLabel,
+  getObservedFeaturesLabel
+} from '../shared/dataUtils';
+import getFeatureStyle from '../shared/mapUtils';
+import IntervalColorScale from '../shared/colorsUtils';
 
 let mapContainer;
 
@@ -32,7 +37,7 @@ function MainMap({
   const [dataLayer, setDataLayer] = useState(null);
   const [texasOutlineLayer, setTexasOutlineLayer] = useState(null);
   const [map, setMap] = useState(null);
-  const [metaData, setMetaData] = useState(null);
+  const [colorScale, setColorScale] = useState(null);
   const [selectedGeoid, setSelectedGeoid] = useState(null);
 
   const refSelectedGeoid = useRef(selectedGeoid); // Make a ref of the selected feature
@@ -99,31 +104,26 @@ function MainMap({
         maltreatmentTypes,
         showRate
       );
-      // set for use by vector layer
-      setMetaData(meta);
 
-      if (meta) {
+      const intervalColorScale = meta ? new IntervalColorScale(meta) : null;
+      setColorScale(intervalColorScale);
+
+      if (intervalColorScale) {
+        const label =
+          mapType === 'maltreatment'
+            ? getMaltreatmentLabel(maltreatmentTypes)
+            : getObservedFeaturesLabel(observedFeature);
+
         const newLegend = L.control({ position: 'bottomright' });
 
         newLegend.onAdd = () => {
           const div = L.DomUtil.create('div', 'color legend');
-
+          div.innerHTML += `<div class="legend-title">${label}</div>`;
           // get numeric values between intervals
-          const colorScale = new IntervalColorScale(meta);
-          const intervalValues = colorScale.getIntervalValues();
-          const scaleRoundingValue = 0;
-
           // loop through our density intervals and generate a label with a colored square for each interval
-          for (let i = 0; i < colorScale.numberIntervals; i += 1) {
-            div.innerHTML += `<div class="scale-value"><i style="background:${
-              colorScale.colors[i]
-            }"></i> <span>${intervalValues[i].toFixed(
-              scaleRoundingValue
-            )}&ndash;${intervalValues[i + 1].toFixed(
-              scaleRoundingValue
-            )}</span></div><br>`;
+          for (let i = 0; i < intervalColorScale.numberIntervals; i += 1) {
+            div.innerHTML += `<div class="scale-value"><i style="background:${intervalColorScale.colors[i]}"></i> <span>${intervalColorScale.intervalLabels[i]}</span></div><br>`;
           }
-
           return div;
         };
         // add new data layer to map and controls
@@ -153,7 +153,7 @@ function MainMap({
             return getFeatureStyle(
               mapType,
               data,
-              metaData,
+              colorScale,
               geography,
               year,
               geoid,
@@ -191,7 +191,7 @@ function MainMap({
             ...getFeatureStyle(
               mapType,
               data,
-              metaData,
+              colorScale,
               geography,
               year,
               clickedGeographicFeature,
@@ -227,7 +227,7 @@ function MainMap({
           ...getFeatureStyle(
             mapType,
             data,
-            metaData,
+            colorScale,
             geography,
             year,
             selectedGeographicFeature,
@@ -249,7 +249,7 @@ function MainMap({
     }
   }, [
     data,
-    metaData,
+    colorScale,
     mapType,
     geography,
     observedFeature,
