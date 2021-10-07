@@ -306,183 +306,135 @@ const getMaltreatmentPlotData = (
  */
 
 const getObservedFeaturesPlotData = () => {
-  const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
-
   // Transform the backend response from the query into the required object structure for the plot.
-  const x = newObservedFeaturesPlotData.fig_aes.bar_labels;
-  // Need to iterate instead of declare every year...
-  const y0 = newObservedFeaturesPlotData.fig_aes.years.[2011].bars;
-  const y1 = newObservedFeaturesPlotData.fig_aes.years.[2012].bars;
-  const y2 = newObservedFeaturesPlotData.fig_aes.years.[2013].bars;
-  const y3 = newObservedFeaturesPlotData.fig_aes.years.[2014].bars;
-  const y4 = newObservedFeaturesPlotData.fig_aes.years.[2015].bars;
-  const y5 = newObservedFeaturesPlotData.fig_aes.years.[2016].bars;
-  const y6 = newObservedFeaturesPlotData.fig_aes.years.[2017].bars;
-  const y7 = newObservedFeaturesPlotData.fig_aes.years.[2018].bars;
-  const y8 = newObservedFeaturesPlotData.fig_aes.years.[2019].bars;
+  const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
+  // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
+  // const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
+  // const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
+  const plotDataLabelYUnits = newObservedFeaturesPlotData.fig_aes.label_units;
+  const plotDataLabelXUnits = 'Number of Counties';
+  const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
+  // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
+  const PlotDataYears = newObservedFeaturesPlotData.fig_aes.years;
 
+  const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
+  const markerOpacity = 0.6;
 
-  // const trace0 = {
-  //   x: x,
-  //   y: y0,
-  //   type: 'histogram',
-  //   opacity: 0.5,
-  //   marker: {
-  //     color: histColors[0]
-  //   }
-  // };
-
-  // const trace1 = {
-  //   x: x,
-  //   y: y1,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color: histColors[1]
-  //   }
-  // };
-
-  // const trace2 = {
-  //   x: x,
-  //   y: y2,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color: histColors[2]
-  //   }
-  // };
-
-  // const trace3 = {
-  //   x: x,
-  //   y: y3,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color: histColors[3]
-  //   }
-  // };
-
-  // const trace4 = {
-  //   x: x,
-  //   y: y4,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color: histColors[4]
-  //   }
-  // };
-
-  // const trace5 = {
-  //   x: x,
-  //   y: y5,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color: histColors[5]
-  //   }
-  // };
-
-  // const trace6 = {
-  //   x: x,
-  //   y: y6,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color: histColors[6]
-  //   }
-  // };
-
-  // const trace7 = {
-  //   x: x,
-  //   y: y7,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color:histColors[7]
-  //   }
-  // };
-
-  // const trace8 = {
-  //   x: x,
-  //   y: y8,
-  //   type: 'histogram',
-  //   opacity: 0.6,
-  //   marker: {
-  //     color: histColors[8]
-  //   }
-  // };
-
-  // DUMMY DATA.
   const trace1 = {
-    x: [1, 2, 3],
-    y: [4, 5, 6],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2011].bars,
     xaxis: 'x1',
     yaxis: 'y1',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[0]
+    }
   };
 
   const trace2 = {
-    x: [20, 30, 40],
-    y: [50, 60, 70],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2012].bars,
     xaxis: 'x2',
     yaxis: 'y2',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[1]
+    }
   };
 
   const trace3 = {
-    x: [300, 400, 500],
-    y: [600, 700, 800],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2013].bars,
     xaxis: 'x3',
     yaxis: 'y3',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[2]
+    }
   };
 
   const trace4 = {
-    x: [20, 30, 40],
-    y: [50, 60, 70],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2014].bars,
     xaxis: 'x4',
     yaxis: 'y4',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[3]
+    }
   };
 
   const trace5 = {
-    x: [1, 2, 3],
-    y: [4, 5, 6],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2015].bars,
     xaxis: 'x5',
     yaxis: 'y5',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[4]
+    }
   };
 
   const trace6 = {
-    x: [20, 30, 40],
-    y: [50, 60, 70],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2016].bars,
     xaxis: 'x6',
     yaxis: 'y6',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[5]
+    }
   };
 
   const trace7 = {
-    x: [300, 400, 500],
-    y: [600, 700, 800],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2017].bars,
     xaxis: 'x7',
     yaxis: 'y7',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[6]
+    }
   };
 
   const trace8 = {
-    x: [20, 30, 40],
-    y: [50, 60, 70],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2018].bars,
     xaxis: 'x8',
     yaxis: 'y8',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[7]
+    }
   };
 
   const trace9 = {
-    x: [0, 15, 30],
-    y: [7, 9, 11],
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2019].bars,
     xaxis: 'x9',
     yaxis: 'y9',
-    type: 'scatter'
+    type: traceMarkerTypes[2],
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[8]
+    }
   };
 
 
@@ -501,12 +453,12 @@ const getObservedFeaturesPlotData = () => {
   const plotTitle = 'Demographics';
   const plotOrientation = 'v';
   const showPlotLegend = false;
-  const plotXDataLabel = 'X DATA LABEL';
+  const plotXDataLabel = plotDataLabelXUnits;
   const plotXDataAxisType = 'linear';
-  const plotYDataLabel = 'Y DATA LABEL';
+  const plotYDataLabel = plotDataLabelYUnits;
   const plotYDataAxisType = 'category';
-  const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
-  // const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' }};
+  // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
+  const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' }};
 
   const basePlotLayout = getPlotLayout(
     plotTitle,
