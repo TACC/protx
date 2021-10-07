@@ -112,6 +112,12 @@ function DisplaySelectors({
           </optgroup>
         </DropdownSelector>
       </div>
+      {setShowRate && (
+        <div styleName="control">
+          <span styleName="label">Value</span>
+          <RateSelector showRate={showRate} setShowRate={setShowRate} />
+        </div>
+      )}
       {mapType === 'maltreatment' && (
         <div styleName="control">
           <span styleName="label">Type</span>
@@ -123,12 +129,6 @@ function DisplaySelectors({
       )}
       {(mapType === 'observedFeatures' || mapType === 'predictiveFeatures') && (
         <>
-          {setShowRate && (
-            <div styleName="control">
-              <span styleName="label">Value</span>
-              <RateSelector showRate={showRate} setShowRate={setShowRate} />
-            </div>
-          )}
           <div styleName="control">
             <span styleName="label">Demographic</span>
             <DropdownSelector

@@ -111,7 +111,7 @@ function MainMap({
       if (intervalColorScale) {
         const label =
           mapType === 'maltreatment'
-            ? getMaltreatmentLabel(maltreatmentTypes)
+            ? getMaltreatmentLabel(maltreatmentTypes, showRate)
             : getObservedFeaturesLabel(observedFeature);
 
         const newLegend = L.control({ position: 'bottomright' });
