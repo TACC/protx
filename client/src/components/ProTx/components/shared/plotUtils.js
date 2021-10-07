@@ -318,14 +318,16 @@ const getObservedFeaturesPlotData = () => {
   const PlotDataYears = newObservedFeaturesPlotData.fig_aes.years;
 
   const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
+  const traceType = traceMarkerTypes[2];
   const markerOpacity = 0.6;
 
   const trace1 = {
+    name: '2011',
     y: plotDataBarLabels,
     x: PlotDataYears.[2011].bars,
     xaxis: 'x1',
     yaxis: 'y1',
-    type: traceMarkerTypes[2],
+    type: traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -334,11 +336,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace2 = {
+    name: '2012',
     y: plotDataBarLabels,
     x: PlotDataYears.[2012].bars,
     xaxis: 'x2',
     yaxis: 'y2',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -347,11 +350,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace3 = {
+    name: '2013',
     y: plotDataBarLabels,
     x: PlotDataYears.[2013].bars,
     xaxis: 'x3',
     yaxis: 'y3',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -360,11 +364,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace4 = {
+    name: '2014',
     y: plotDataBarLabels,
     x: PlotDataYears.[2014].bars,
     xaxis: 'x4',
     yaxis: 'y4',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -373,11 +378,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace5 = {
+    name: '2015',
     y: plotDataBarLabels,
     x: PlotDataYears.[2015].bars,
     xaxis: 'x5',
     yaxis: 'y5',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -386,11 +392,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace6 = {
+    name: '2016',
     y: plotDataBarLabels,
     x: PlotDataYears.[2016].bars,
     xaxis: 'x6',
     yaxis: 'y6',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -399,11 +406,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace7 = {
+    name: '2017',
     y: plotDataBarLabels,
     x: PlotDataYears.[2017].bars,
     xaxis: 'x7',
     yaxis: 'y7',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -412,11 +420,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace8 = {
+    name: '2018',
     y: plotDataBarLabels,
     x: PlotDataYears.[2018].bars,
     xaxis: 'x8',
     yaxis: 'y8',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -425,11 +434,12 @@ const getObservedFeaturesPlotData = () => {
   };
 
   const trace9 = {
+    name: '2019',
     y: plotDataBarLabels,
     x: PlotDataYears.[2019].bars,
     xaxis: 'x9',
     yaxis: 'y9',
-    type: traceMarkerTypes[2],
+    type:  traceType,
     orientation: 'h',
     opacity: markerOpacity,
     marker: {
@@ -452,13 +462,40 @@ const getObservedFeaturesPlotData = () => {
 
   const plotTitle = 'Demographics';
   const plotOrientation = 'v';
-  const showPlotLegend = false;
+  const showPlotLegend = true;
   const plotXDataLabel = plotDataLabelXUnits;
   const plotXDataAxisType = 'linear';
   const plotYDataLabel = plotDataLabelYUnits;
   const plotYDataAxisType = 'category';
+
   // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
-  const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' }};
+  const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' } };
+
+  const traceDomainRangeMapping = {
+    // xaxis1: { domain: [0, 0.1]},
+    yaxis1: { anchor: 'x1'},
+    // xaxis2: { domain: [0.11, 0.21] },
+    yaxis2: { anchor: 'x1'},
+    // xaxis3: { domain: [0.22, 0.32] },
+    yaxis3: { anchor: 'x1'},
+    // xaxis4: { domain: [0.33, 0.43] },
+    yaxis4: { anchor: 'x1'},
+    // xaxis5: { domain: [0.44, 0.54] },
+    yaxis5: { anchor: 'x1'},
+    // xaxis6: { domain: [0.55, 0.65] },
+    yaxis6: { anchor: 'x1'},
+    // xaxis7: { domain: [0.66, 0.76] },
+    yaxis7: { anchor: 'x1'},
+    // xaxis8: { domain: [0.77, 0.87] },
+    yaxis8: { anchor: 'x1'},
+    // xaxis9: { domain: [0.88, 0.98] },
+    yaxis9: { anchor: 'x1'},
+  };
+
+  const layoutColors = {
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
+  };
 
   const basePlotLayout = getPlotLayout(
     plotTitle,
@@ -472,7 +509,9 @@ const getObservedFeaturesPlotData = () => {
 
   const plotLayout = {
     ...basePlotLayout,
-    ...plotSubplotGrids
+    ...plotSubplotGrids,
+    ...traceDomainRangeMapping,
+    ...layoutColors
   };
 
   // const plotData = getPlotDataBars(
@@ -514,7 +553,7 @@ const getPredictiveFeaturesPlotData = () => {
   const plotOrientation = 'v';
   const showPlotLegend = true;
   const plotXDataLabel = 'X DATA LABEL';
-  const plotXDataAxisType = 'category';
+  const plotXDataAxisType = 'linear'; // 'category', 'linear'
   const plotYDataLabel = 'Y DATA LABEL';
   const plotYDataAxisType = 'linear';
 
