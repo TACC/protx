@@ -491,50 +491,50 @@ const getObservedFeaturesPlotData = () => {
   ];
 
   const traceDomainRangeMapping = {
-    xaxis1: {
-      // title: 'x1 Label',
-      // domain: [0, 0.1]
-    },
+    // xaxis1: {
+    //   // t/itle: 'x1 Label',
+    //   // domain: [0, 0.1]
+    // },
     yaxis1: { anchor: 'x1'},
-    xaxis2: {
-      // title: 'x2 Label',
-      // domain: [0.11, 0.21]
-    },
+    // xaxis2: {
+    //   // title: 'x2 Label',
+    //   // domain: [0.11, 0.21]
+    // },
     yaxis2: { anchor: 'x1'},
-    xaxis3: {
-      // title: 'x3 Label',
-      // domain: [0.22, 0.32]
-    },
+    // xaxis3: {
+    //   // title: 'x3 Label',
+    //   // domain: [0.22, 0.32]
+    // },
     yaxis3: { anchor: 'x1'},
-    xaxis4: {
-      // title: 'x4 Label',
-      // domain: [0.33, 0.43]
-    },
+    // xaxis4: {
+    //   // title: 'x4 Label',
+    //   // domain: [0.33, 0.43]
+    // },
     yaxis4: { anchor: 'x1'},
-    xaxis5: {
-      // title: 'x5 Label',
-      // domain: [0.44, 0.54]
-    },
+    // xaxis5: {
+    //   // title: 'x5 Label',
+    //   // domain: [0.44, 0.54]
+    // },
     yaxis5: { anchor: 'x1'},
-    xaxis6: {
-      // title: 'x6 Label',
-      // domain: [0.55, 0.65]
-    },
+    // xaxis6: {
+    //   // title: 'x6 Label',
+    //   // domain: [0.55, 0.65]
+    // },
     yaxis6: { anchor: 'x1'},
-    xaxis7: {
-      // title: 'x7 Label',
-      // domain: [0.66, 0.76]
-    },
+    // xaxis7: {
+    //   // title: 'x7 Label',
+    //   // domain: [0.66, 0.76]
+    // },
     yaxis7: { anchor: 'x1'},
-    xaxis8: {
-      // title: 'x Label',
-      // domain: [0.77, 0.87]
-    },
+    // xaxis8: {
+    //   // title: 'x Label',
+    //   // domain: [0.77, 0.87]
+    // },
     yaxis8: { anchor: 'x1'},
-    xaxis9: {
-      // title: 'x9 Label',
-      // domain: [0.88, 0.98]
-    },
+    // xaxis9: {
+    //   // title: 'x9 Label',
+    //   // domain: [0.88, 0.98]
+    // },
     yaxis9: { anchor: 'x1'},
   };
 
@@ -553,6 +553,17 @@ const getObservedFeaturesPlotData = () => {
 
   // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
   const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' } };
+
+  // const plotSubplotGrids = {
+  //   grid: {
+  //     rows: 1,
+  //     columns: 9,
+  //     pattern: 'independent'
+  //   },
+  //   subplot_titles: [
+  //     'T1', 'T2', 'T3', 'T4', 'Y5', 'T6', 'T7', 'T8', 'T9'
+  //   ],
+  // };
 
   const basePlotLayout = getPlotLayout(
     plotTitle,
