@@ -176,4 +176,4 @@ portal_crypt.key
 
 # local dev files retained but deprecated from codebase.
 *deprecated*
-timeseries_histogram.py
+client/src/components/ProTx/components/shared/timeseries_histogram.py
