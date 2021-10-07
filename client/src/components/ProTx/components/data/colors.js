@@ -1,11 +1,12 @@
-const colorbrewerClass6YlOrBr = [
-  '#ffffd4',
-  '#fee391',
-  '#fec44f',
-  '#fe9929',
-  '#d95f0e',
-  '#993404'
-];
+const colorbrewerClassYlOrBr = {
+  /* derived from https://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6 */
+  6: ['#ffffd4', '#fee391', '#fec44f', '#fe9929', '#d95f0e', '#993404'],
+  5: ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'],
+  4: ['#ffffd4', '#fed98e', '#fe9929', '#cc4c02'],
+  3: [`#fff7bc`, `#fec44f`, `#d95f0e`],
+  2: [`#fff7bc`, `#fec44f`],
+  1: [`#fff7bc`]
+};
 
 const THEME_CB12_MAIN = [
   '#4363d8',
@@ -83,7 +84,7 @@ const THEME_CB12_ALT3 = [
 ];
 
 export {
-  colorbrewerClass6YlOrBr,
+  colorbrewerClassYlOrBr,
   THEME_CB12_MAIN,
   THEME_CB12_ALT0,
   THEME_CB12_ALT1,
