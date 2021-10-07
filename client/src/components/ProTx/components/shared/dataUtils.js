@@ -369,13 +369,13 @@ const getObservedFeatureValueType = selectedObservedFeatureCode => {
 
 /**
  * TODO: Rewire this up to the actual backend response to be used in the plot.
- * TODO: Long term, provide actual data query to the  plot, not pre-formatted values (bars).
+ * TODO: Long term, provide actual data query to the plot, not pre-formatted values for bars, etc.
  *
  * @param {*} typesDataArray
  * @returns
  */
 const getObservedFeaturesDataObject = () => {
-  // Placeholder data object to test plot.
+  // TODO: Replace this with the actual data response.
   const newObservedFeaturesDataObject = OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK;
 
   return newObservedFeaturesDataObject;
