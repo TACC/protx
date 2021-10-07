@@ -9,6 +9,7 @@ function MaltreatmentChart({
   geography,
   maltreatmentTypes,
   year,
+  showRate,
   selectedGeographicFeature,
   data,
   showInstructions
@@ -32,6 +33,7 @@ function MaltreatmentChart({
           geography={geography}
           maltreatmentTypes={maltreatmentTypes}
           year={year}
+          showRate={showRate}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
         />
@@ -57,6 +59,7 @@ MaltreatmentChart.propTypes = {
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   year: PropTypes.string.isRequired,
+  showRate: PropTypes.bool.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,

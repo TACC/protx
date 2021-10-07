@@ -111,7 +111,7 @@ function MainMap({
       if (intervalColorScale) {
         const label =
           mapType === 'maltreatment'
-            ? getMaltreatmentLabel(maltreatmentTypes)
+            ? getMaltreatmentLabel(maltreatmentTypes, showRate)
             : getObservedFeaturesLabel(observedFeature);
 
         const newLegend = L.control({ position: 'bottomright' });
@@ -202,11 +202,6 @@ function MainMap({
             weight: 2.0,
             stroke: true
           };
-          if (mapType === 'maltreatment') {
-            // Simple zoom to point clicked and having fixed zoom level for counties
-            // See https://jira.tacc.utexas.edu/browse/COOKS-54
-            map.setView(e.latlng, 9);
-          }
           newDataLayer.setFeatureStyle(
             clickedGeographicFeature,
             highlightedStyle

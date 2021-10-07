@@ -65,8 +65,6 @@ function DashboardDisplay() {
             setMapType('maltreatment');
             // maltreatment only has county data.
             setGeography('county');
-            /* allow rates in COOKS-112 */
-            setShowRate(false);
             return (
               <>
                 <DisplaySelectors
@@ -80,6 +78,7 @@ function DashboardDisplay() {
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
+                  setShowRate={setShowRate}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
