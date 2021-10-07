@@ -7,6 +7,7 @@ import {
   getMaltreatmentAggregatedValue,
   getMaltreatmentTypesDataObject,
   getObservedFeatureValueType,
+  getObservedFeaturesDataObject,
   getPredictiveFeaturesDataObject
 } from './dataUtils';
 
@@ -408,6 +409,32 @@ const getObservedFeaturesPlotData = (
  * @param {*} typesDataArray
  * @returns
  */
+const getObservedFeaturesPlotReduxData = () => {
+  const observedFeaturesPlotReduxData = getObservedFeaturesDataObject();
+
+  const targetDataIndex = 0; // 0 - 4.
+  const targetYear = 2013; // 2011 - 2019.
+
+  const newObservedFeaturesPlotReduxData = [
+    // observedFeaturesPlotReduxData[targetDataIndex]
+    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
+      .focal_value,
+    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
+      .mean,
+    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
+      .median,
+    observedFeaturesPlotReduxData[targetDataIndex].fig_aes.years[targetYear]
+      .bars
+  ];
+
+  return newObservedFeaturesPlotReduxData;
+};
+
+/**
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
 const getPredictiveFeaturesPlotData = () => {
   const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
   const plotXDataLabel = '';
@@ -444,5 +471,6 @@ const getPredictiveFeaturesPlotData = () => {
 export {
   getMaltreatmentPlotData,
   getObservedFeaturesPlotData,
+  getObservedFeaturesPlotReduxData,
   getPredictiveFeaturesPlotData
 };
