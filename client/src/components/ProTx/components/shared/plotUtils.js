@@ -1,12 +1,12 @@
 import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from '../data/colors';
 import { CATEGORY_CODES } from '../data/meta';
 import {
-  getFipsIdName,
+  // getFipsIdName,
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
   getMaltreatmentAggregatedValue,
   getMaltreatmentTypesDataObject,
-  getObservedFeatureValueType,
+  // getObservedFeatureValueType,
   getObservedFeaturesDataObject,
   getPredictiveFeaturesDataObject
 } from './dataUtils';
@@ -294,98 +294,155 @@ const getMaltreatmentPlotData = (
  * @returns
  */
 
-const getObservedFeaturesPlotData = (
-  selectedGeographicFeature,
-  observedFeature,
-  data,
-  geography,
-  year,
-  showRate
-) => {
+// const getObservedFeaturesPlotData = (
+//   selectedGeographicFeature,
+//   observedFeature,
+//   data,
+//   geography,
+//   year,
+//   showRate
+// ) => {
+//   const observedFeaturesDataObject = [];
+//   const observedFeaturesData = data.observedFeatures;
+//   const plotXDataLabel = getObservedFeatureValueType(observedFeature);
+
+//   let observedFeatureValue;
+//   let plotXDataAxisType;
+//   let plotYDataLabel;
+
+//   if (geography === 'cbsa') {
+//     plotXDataAxisType = 'log';
+//     plotYDataLabel = 'Core Base Statistical Areas';
+//   }
+
+//   if (geography === 'tract') {
+//     plotXDataAxisType = 'log';
+//     plotYDataLabel = 'Census Tracts';
+//   }
+
+//   if (geography === 'county') {
+//     plotXDataAxisType = 'log';
+//     plotYDataLabel = 'Counties';
+//   }
+
+//   if (geography === 'dfps_region') {
+//     plotXDataAxisType = 'linear';
+//     plotYDataLabel = 'DFPS Regions';
+//   }
+
+//   if (geography === 'urban_area') {
+//     plotXDataAxisType = 'log';
+//     plotYDataLabel = 'Urban Areas';
+//   }
+
+//   if (geography === 'zcta') {
+//     plotXDataAxisType = 'log';
+//     plotYDataLabel = 'Zip Codes';
+//   }
+
+//   if (
+//     geography in observedFeaturesData &&
+//     year in observedFeaturesData[geography] &&
+//     observedFeature in observedFeaturesData[geography][year]
+//   ) {
+//     const features = observedFeaturesData[geography][year][observedFeature];
+//     Object.keys(features).forEach(feature => {
+//       const currentFeature = { code: feature, name: feature };
+
+//       const valueType = showRate ? 'percent' : 'count';
+//       currentFeature.value = features[feature][valueType];
+//       currentFeature.highlight = false;
+
+//       if (selectedGeographicFeature === feature) {
+//         currentFeature.highlight = true;
+//         observedFeatureValue = currentFeature.value;
+//       }
+
+//       if (geography === 'county') {
+//         const featureFipsIdName = getFipsIdName(feature);
+//         currentFeature.code = featureFipsIdName;
+//         currentFeature.name = featureFipsIdName;
+//       }
+
+//       observedFeaturesDataObject.push(currentFeature);
+//     });
+//   }
+
+//   const plotTitle = 'Observed Features';
+//   const plotOrientation = 'h';
+//   const showPlotLegend = false;
+//   const plotYDataAxisType = 'category';
+//   const plotXDataLabelAssembled = `${plotXDataLabel}  (${plotXDataAxisType} scale)`;
+
+//   const plotLayout = getPlotLayout(
+//     plotTitle,
+//     plotOrientation,
+//     showPlotLegend,
+//     plotXDataLabelAssembled,
+//     plotXDataAxisType,
+//     plotYDataLabel,
+//     plotYDataAxisType
+//   );
+
+//   const plotData = getPlotDataBars(
+//     'observed',
+//     observedFeaturesDataObject,
+//     plotOrientation
+//   );
+
+//   const plotState = {
+//     data: plotData,
+//     layout: plotLayout,
+//     config: plotConfig
+//   };
+
+//   const observedFeaturesPlotData = {
+//     observedFeaturesPlotState: plotState,
+//     observedFeatureTargetValue: observedFeatureValue
+//   };
+
+//   return observedFeaturesPlotData;
+// };
+
+/**
+ * TODO: Once working, rename this method to getObservedFeaturesPlotData and remove the old one (above).
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+const getObservedFeaturesPlotData = () => {
+  const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
+
+  // const observedFeaturesPlotData = {};
+  // observedFeaturesPlotData.data = {};
+  // observedFeaturesPlotData.layout = {};
+  // observedFeaturesPlotData.config = {};
+
+  // // Unmunged data response for testing.
+  // observedFeaturesPlotData.data = observedFeaturesPlotReduxData;
+
+  /**
+   * TODO: Recreate the timeseries_histogram implementation from the Jupyter notyebook here.
+   * TODO: Define the data, layout and config objects for the new plot.
+   */
+
+  // DEV
   const observedFeaturesDataObject = [];
-  const observedFeaturesData = data.observedFeatures;
-  const plotXDataLabel = getObservedFeatureValueType(observedFeature);
 
-  let observedFeatureValue;
-  let plotXDataAxisType;
-  let plotYDataLabel;
-
-  if (geography === 'cbsa') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Core Base Statistical Areas';
-  }
-
-  if (geography === 'tract') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Census Tracts';
-  }
-
-  if (geography === 'county') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Counties';
-  }
-
-  if (geography === 'dfps_region') {
-    plotXDataAxisType = 'linear';
-    plotYDataLabel = 'DFPS Regions';
-  }
-
-  if (geography === 'urban_area') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Urban Areas';
-  }
-
-  if (geography === 'zcta') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Zip Codes';
-  }
-
-  if (
-    geography in observedFeaturesData &&
-    year in observedFeaturesData[geography] &&
-    observedFeature in observedFeaturesData[geography][year]
-  ) {
-    const features = observedFeaturesData[geography][year][observedFeature];
-    Object.keys(features).forEach(feature => {
-      const currentFeature = { code: feature, name: feature };
-
-      const valueType = showRate ? 'percent' : 'count';
-      currentFeature.value = features[feature][valueType];
-      currentFeature.highlight = false;
-
-      if (selectedGeographicFeature === feature) {
-        currentFeature.highlight = true;
-        observedFeatureValue = currentFeature.value;
-      }
-
-      if (geography === 'county') {
-        const featureFipsIdName = getFipsIdName(feature);
-        currentFeature.code = featureFipsIdName;
-        currentFeature.name = featureFipsIdName;
-      }
-
-      observedFeaturesDataObject.push(currentFeature);
-    });
-  }
-
-  const plotTitle = 'Observed Features';
-  const plotOrientation = 'h';
-  const showPlotLegend = false;
-  const plotYDataAxisType = 'category';
-  const plotXDataLabelAssembled = `${plotXDataLabel}  (${plotXDataAxisType} scale)`;
+  const plotXDataLabel = '';
+  const plotYDataLabel = 'Y DATA LABEL';
+  const plotOrientation = 'v';
 
   const plotLayout = getPlotLayout(
-    plotTitle,
+    'Observed Features',
     plotOrientation,
-    showPlotLegend,
-    plotXDataLabelAssembled,
-    plotXDataAxisType,
-    plotYDataLabel,
-    plotYDataAxisType
+    true,
+    plotXDataLabel,
+    plotYDataLabel
   );
 
   const plotData = getPlotDataBars(
-    'observed',
+    'predictive',
     observedFeaturesDataObject,
     plotOrientation
   );
@@ -393,38 +450,15 @@ const getObservedFeaturesPlotData = (
   const plotState = {
     data: plotData,
     layout: plotLayout,
-    config: plotConfig
+    config: plotConfig,
+    raw: newObservedFeaturesPlotData
   };
 
   const observedFeaturesPlotData = {
-    observedFeaturesPlotState: plotState,
-    observedFeatureTargetValue: observedFeatureValue
+    observedFeaturesPlotState: plotState
   };
 
   return observedFeaturesPlotData;
-};
-
-/**
- *
- * @param {*} typesDataArray
- * @returns
- */
-const getObservedFeaturesPlotReduxData = () => {
-  const observedFeaturesPlotReduxData = getObservedFeaturesDataObject();
-
-  /**
-   * TODO: Recreate the timeseries_histogram implementation from the Jupyter notyebook here.
-   * TODO: Define the data, layout and config objects for the new plot.
-   */
-
-  const newObservedFeaturesPlotData = {};
-  newObservedFeaturesPlotData.data = {};
-  newObservedFeaturesPlotData.layout = {};
-  newObservedFeaturesPlotData.config = {};
-
-  newObservedFeaturesPlotData.data = observedFeaturesPlotReduxData;
-
-  return newObservedFeaturesPlotData;
 };
 
 /**
@@ -468,6 +502,5 @@ const getPredictiveFeaturesPlotData = () => {
 export {
   getMaltreatmentPlotData,
   getObservedFeaturesPlotData,
-  getObservedFeaturesPlotReduxData,
   getPredictiveFeaturesPlotData
 };

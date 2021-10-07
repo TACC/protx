@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Plot from 'react-plotly.js';
+import Plot from 'react-plotly.js';
 import {
   getFipsIdName,
   capitalizeString,
@@ -9,10 +9,7 @@ import {
   getObservedFeatureValue
 } from '../shared/dataUtils';
 import './ObservedFeaturesPlot.css';
-import {
-  getObservedFeaturesPlotData,
-  getObservedFeaturesPlotReduxData
-} from '../shared/plotUtils';
+import { getObservedFeaturesPlotData } from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
 
 function ObservedFeaturesPlotRedux({
@@ -49,8 +46,7 @@ function ObservedFeaturesPlotRedux({
       showRate
     );
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
-    // New Data.
-    const observedFeaturesPlotReduxData = getObservedFeaturesPlotReduxData();
+    const observedFeaturesPlotData = getObservedFeaturesPlotData();
 
     return (
       <div className="observed-features-plot-layout">
@@ -91,27 +87,14 @@ function ObservedFeaturesPlotRedux({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            {console.log(observedFeaturesPlotReduxData)}
-            {/* <ul>
-              {Object.keys(observedFeaturesPlotReduxData).map(function(
-                keyName,
-                keyIndex
-              ) {
-                return (
-                  <li key={keyName}>
-                    {observedFeaturesPlotReduxData[keyIndex]}
-                    {console.log(observedFeaturesPlotReduxData[keyName])}
-                  </li>
-                );
-              })}
-            </ul> */}
-            {/* <Plot
+            {console.log(observedFeaturesPlotData)}
+            <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
               style={{ width: '100%', height: '100%' }}
-            /> */}
+            />
           </div>
         </div>
         <div className="observed-features-plot-chart-footer">

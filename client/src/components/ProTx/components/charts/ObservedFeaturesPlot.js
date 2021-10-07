@@ -45,7 +45,6 @@ function ObservedFeaturesPlot({
       observedFeature,
       showRate
     );
-
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
     return (
@@ -123,9 +122,6 @@ function ObservedFeaturesPlot({
     showRate
   );
 
-  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
-
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(
     mapType,
     geography,
@@ -135,6 +131,9 @@ function ObservedFeaturesPlot({
     observedFeaturesPlotData.observedFeaturesPlotState,
     observedFeaturesPlotData.observedFeatureTargetValue
   );
+
+  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   if (debug) {
     return (
