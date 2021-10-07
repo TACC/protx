@@ -1,3 +1,7 @@
+// import plotly from 'react-plotly.js';
+// from plotly.subplots import make_subplots  <-- Not in JS version... use Dash?
+// import plotly.graph_objects as go;
+
 import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from '../data/colors';
 import { CATEGORY_CODES } from '../data/meta';
 import {
@@ -306,8 +310,12 @@ const getMaltreatmentPlotData = (
  */
 
 const getObservedFeaturesPlotData = () => {
-  // Transform the backend response from the query into the required object structure for the plot.
   const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
+
+  /** 
+   * TODO: Transform the backend response into the required structure for the plot.
+   */
+
   // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
   // const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
   // const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
@@ -321,8 +329,8 @@ const getObservedFeaturesPlotData = () => {
   const traceType = traceMarkerTypes[2];
   const markerOpacity = 0.6;
 
-  const trace1 = {
-    name: '2011',
+  const baseTrace = {
+    name: 'trace name',
     y: plotDataBarLabels,
     x: PlotDataYears.[2011].bars,
     xaxis: 'x1',
@@ -335,118 +343,140 @@ const getObservedFeaturesPlotData = () => {
     }
   };
 
-  const trace2 = {
+  const trace1Conf = {
+    name: 2011,
+    x: PlotDataYears.[2011].bars,
+    xaxis: 'x1',
+    yaxis: 'y1',
+    marker: {
+      color: histColors[0]
+    }
+  };
+
+  const trace2Conf = {
     name: '2012',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2012].bars,
     xaxis: 'x2',
     yaxis: 'y2',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[1]
     }
   };
 
-  const trace3 = {
+  const trace3Conf = {
     name: '2013',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2013].bars,
     xaxis: 'x3',
     yaxis: 'y3',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[2]
     }
   };
 
-  const trace4 = {
+  const trace4Conf = {
     name: '2014',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2014].bars,
     xaxis: 'x4',
     yaxis: 'y4',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[3]
     }
   };
 
-  const trace5 = {
+  const trace5Conf = {
     name: '2015',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2015].bars,
     xaxis: 'x5',
     yaxis: 'y5',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[4]
     }
   };
 
-  const trace6 = {
+  const trace6Conf = {
     name: '2016',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2016].bars,
     xaxis: 'x6',
     yaxis: 'y6',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[5]
     }
   };
 
-  const trace7 = {
+  const trace7Conf = {
     name: '2017',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2017].bars,
     xaxis: 'x7',
     yaxis: 'y7',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[6]
     }
   };
 
-  const trace8 = {
+  const trace8Conf = {
     name: '2018',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2018].bars,
     xaxis: 'x8',
     yaxis: 'y8',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[7]
     }
   };
 
-  const trace9 = {
+  const trace9Conf = {
     name: '2019',
-    y: plotDataBarLabels,
     x: PlotDataYears.[2019].bars,
     xaxis: 'x9',
     yaxis: 'y9',
-    type:  traceType,
-    orientation: 'h',
-    opacity: markerOpacity,
     marker: {
       color: histColors[8]
     }
   };
 
+  const trace1 = {
+    ...baseTrace,
+    ...trace1Conf
+  };
+
+  const trace2 = {
+    ...baseTrace,
+    ...trace2Conf
+  };
+
+  const trace3 = {
+    ...baseTrace,
+    ...trace3Conf
+  };
+
+  const trace4 = {
+    ...baseTrace,
+    ...trace4Conf
+  };
+
+  const trace5 = {
+    ...baseTrace,
+    ...trace5Conf
+  };
+
+  const trace6 = {
+    ...baseTrace,
+    ...trace6Conf
+  };
+
+  const trace7 = {
+    ...baseTrace,
+    ...trace7Conf
+  };
+
+  const trace8 = {
+    ...baseTrace,
+    ...trace8Conf
+  };
+
+  const trace9 = {
+    ...baseTrace,
+    ...trace9Conf
+  };
 
   const observedFeaturesDataObject = [
     trace1,
@@ -460,6 +490,59 @@ const getObservedFeaturesPlotData = () => {
     trace9
   ];
 
+  const traceDomainRangeMapping = {
+    xaxis1: {
+      title: 'x1 Label',
+      // domain: [0, 0.1]
+    },
+    yaxis1: { anchor: 'x1'},
+    xaxis2: {
+      title: 'x2 Label',
+      // domain: [0.11, 0.21]
+    },
+    yaxis2: { anchor: 'x1'},
+    xaxis3: {
+      title: 'x3 Label',
+      // domain: [0.22, 0.32]
+    },
+    yaxis3: { anchor: 'x1'},
+    xaxis4: {
+      title: 'x4 Label',
+      // domain: [0.33, 0.43]
+    },
+    yaxis4: { anchor: 'x1'},
+    xaxis5: {
+      title: 'x5 Label',
+      // domain: [0.44, 0.54]
+    },
+    yaxis5: { anchor: 'x1'},
+    xaxis6: {
+      title: 'x6 Label',
+      // domain: [0.55, 0.65]
+    },
+    yaxis6: { anchor: 'x1'},
+    xaxis7: {
+      title: 'x7 Label',
+      // domain: [0.66, 0.76]
+    },
+    yaxis7: { anchor: 'x1'},
+    xaxis8: {
+      title: 'x Label',
+      // domain: [0.77, 0.87]
+    },
+    yaxis8: { anchor: 'x1'},
+    xaxis9: {
+      title: 'x9 Label',
+      // domain: [0.88, 0.98]
+    },
+    yaxis9: { anchor: 'x1'},
+  };
+
+  const layoutColors = {
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
+  };
+
   const plotTitle = 'Demographics';
   const plotOrientation = 'v';
   const showPlotLegend = true;
@@ -470,32 +553,6 @@ const getObservedFeaturesPlotData = () => {
 
   // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
   const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' } };
-
-  const traceDomainRangeMapping = {
-    // xaxis1: { domain: [0, 0.1]},
-    yaxis1: { anchor: 'x1'},
-    // xaxis2: { domain: [0.11, 0.21] },
-    yaxis2: { anchor: 'x1'},
-    // xaxis3: { domain: [0.22, 0.32] },
-    yaxis3: { anchor: 'x1'},
-    // xaxis4: { domain: [0.33, 0.43] },
-    yaxis4: { anchor: 'x1'},
-    // xaxis5: { domain: [0.44, 0.54] },
-    yaxis5: { anchor: 'x1'},
-    // xaxis6: { domain: [0.55, 0.65] },
-    yaxis6: { anchor: 'x1'},
-    // xaxis7: { domain: [0.66, 0.76] },
-    yaxis7: { anchor: 'x1'},
-    // xaxis8: { domain: [0.77, 0.87] },
-    yaxis8: { anchor: 'x1'},
-    // xaxis9: { domain: [0.88, 0.98] },
-    yaxis9: { anchor: 'x1'},
-  };
-
-  const layoutColors = {
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)'
-  };
 
   const basePlotLayout = getPlotLayout(
     plotTitle,
