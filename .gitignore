@@ -173,3 +173,6 @@ portal_crypt.key
 
 # vim stuff
 *.swp
+
+# local dev files retained but deprecated from codebase.
+*deprecated*

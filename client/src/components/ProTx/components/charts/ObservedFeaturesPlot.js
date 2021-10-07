@@ -46,6 +46,7 @@ function ObservedFeaturesPlot({
       showRate
     );
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
+    const observedFeaturesPlotData = getObservedFeaturesPlotData();
 
     return (
       <div className="observed-features-plot-layout">
@@ -86,6 +87,7 @@ function ObservedFeaturesPlot({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
+            {console.log(observedFeaturesPlotData)}
             <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
@@ -101,7 +103,7 @@ function ObservedFeaturesPlot({
             {selectedGeographicFeatureName} {geographyObservedFeatures} (code{' '}
             {selectedGeographicFeatureObservedFeatures}) based on the{' '}
             <span className="observed-features-plot-selected-type-value">
-              {yearObservedFeatures} US Census Data
+              2011-2019 US Census Data
             </span>{' '}
             for{' '}
             <span className="observed-features-plot-selected-type-summary">
