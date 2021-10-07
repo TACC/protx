@@ -226,60 +226,73 @@ def update_focal_area(display_dict, focal_data):
     return display_dict
 
 
-dollars_example = dict(
-    area='county',
-    report_type='demographics',
-    unit='count',
-    variable='PCI'
-)
+def demographic_histogram_data(area, unit, variable):
+    selection = {'area': area, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
+    query = yearly_data_query.format(**selection)
+    query_result = pd.read_sql_query(query, db_conn)
 
-# QUERY
-dollars_query = yearly_data_query.format(**dollars_example)
-dollars_data = pd.read_sql_query(dollars_query, db_conn)
+    # munge data
+    result = demographic_data_prep(query_result)
+    return result
 
-# MUNGE DATA
-dollars_hist_data = demographic_data_prep(dollars_data)
 
-count_example = dict(
-    area='tract',
-    report_type='demographics',
-    unit='count',
-    variable='AGE17'
-)
+if None:
+    dollars_example = dict(
+        area='county',
+        report_type='demographics',
+        unit='count',
+        variable='PCI'
+    )
 
-# QUERY
-count_query = yearly_data_query.format(**count_example)
-count_data = pd.read_sql_query(count_query, db_conn)
+    # QUERY
+    dollars_query = yearly_data_query.format(**dollars_example)
+    dollars_data = pd.read_sql_query(dollars_query, db_conn)
 
-# MUNGE DATA
-count_hist_data = demographic_data_prep(count_data)
+    # MUNGE DATA
+    dollars_hist_data = demographic_data_prep(dollars_data)
 
-percent_example = dict(
-    area='tract',
-    report_type='demographics',
-    unit='percent',
-    variable='AGE17'
-)
+    count_example = dict(
+        area='tract',
+        report_type='demographics',
+        unit='count',
+        variable='AGE17'
+    )
 
-# QUERY
-percent_query = yearly_data_query.format(**percent_example)
-percent_data = pd.read_sql_query(percent_query, db_conn)
+    # QUERY
+    count_query = yearly_data_query.format(**count_example)
+    count_data = pd.read_sql_query(count_query, db_conn)
 
-# MUNGE DATA
-percent_hist_data = demographic_data_prep(percent_data)
+    # MUNGE DATA
+    count_hist_data = demographic_data_prep(count_data)
 
-# FOCAL AREA QUERY
-# update existing user inputs with a new value, the focal county
-# in this example, make a new query to the sqlite db
-# alternatively, the existing return data could be filtered in pandas
-dollars_example['focal_area'] = 'Tarrant County'
-focal_query = focal_query.format(**dollars_example)
-focal_data = pd.read_sql_query(focal_query, db_conn)
+    percent_example = dict(
+        area='tract',
+        report_type='demographics',
+        unit='percent',
+        variable='AGE17'
+    )
 
-# UPDATE PLOT DICTIONARY
-focal_dict = update_focal_area(
-    dollars_hist_data,
-    focal_data
-)
+    # QUERY
+    percent_query = yearly_data_query.format(**percent_example)
+    percent_data = pd.read_sql_query(percent_query, db_conn)
 
-print(focal_dict)
+    # MUNGE DATA
+    percent_hist_data = demographic_data_prep(percent_data)
+
+    # FOCAL AREA QUERY
+    # update existing user inputs with a new value, the focal county
+    # in this example, make a new query to the sqlite db
+    # alternatively, the existing return data could be filtered in pandas
+    dollars_example['focal_area'] = 'Tarrant County'
+    focal_query = focal_query.format(**dollars_example)
+    focal_data = pd.read_sql_query(focal_query, db_conn)
+
+    # UPDATE PLOT DICTIONARY
+    focal_dict = update_focal_area(
+        dollars_hist_data,
+        focal_data
+    )
+
+if None:
+    result = demographic_histogram_data(area='county', unit='count', variable='PCI')
+    print(result)
