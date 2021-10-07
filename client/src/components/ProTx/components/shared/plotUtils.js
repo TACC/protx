@@ -492,47 +492,47 @@ const getObservedFeaturesPlotData = () => {
 
   const traceDomainRangeMapping = {
     xaxis1: {
-      title: 'x1 Label',
+      // title: 'x1 Label',
       // domain: [0, 0.1]
     },
     yaxis1: { anchor: 'x1'},
     xaxis2: {
-      title: 'x2 Label',
+      // title: 'x2 Label',
       // domain: [0.11, 0.21]
     },
     yaxis2: { anchor: 'x1'},
     xaxis3: {
-      title: 'x3 Label',
+      // title: 'x3 Label',
       // domain: [0.22, 0.32]
     },
     yaxis3: { anchor: 'x1'},
     xaxis4: {
-      title: 'x4 Label',
+      // title: 'x4 Label',
       // domain: [0.33, 0.43]
     },
     yaxis4: { anchor: 'x1'},
     xaxis5: {
-      title: 'x5 Label',
+      // title: 'x5 Label',
       // domain: [0.44, 0.54]
     },
     yaxis5: { anchor: 'x1'},
     xaxis6: {
-      title: 'x6 Label',
+      // title: 'x6 Label',
       // domain: [0.55, 0.65]
     },
     yaxis6: { anchor: 'x1'},
     xaxis7: {
-      title: 'x7 Label',
+      // title: 'x7 Label',
       // domain: [0.66, 0.76]
     },
     yaxis7: { anchor: 'x1'},
     xaxis8: {
-      title: 'x Label',
+      // title: 'x Label',
       // domain: [0.77, 0.87]
     },
     yaxis8: { anchor: 'x1'},
     xaxis9: {
-      title: 'x9 Label',
+      // title: 'x9 Label',
       // domain: [0.88, 0.98]
     },
     yaxis9: { anchor: 'x1'},
