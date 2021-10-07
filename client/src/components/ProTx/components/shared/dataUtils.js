@@ -130,7 +130,7 @@ const getMaltreatmentMetaData = (
           const value = showRate
             ? countInfo.rate_per_100k_under17
             : countInfo.count;
-          if(value) {
+          if (value) {
             if (geoid in aggregrateValues) {
               aggregrateValues[geoid] += value;
             } else {
