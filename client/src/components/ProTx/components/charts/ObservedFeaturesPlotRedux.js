@@ -91,9 +91,8 @@ function ObservedFeaturesPlotRedux({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            {/* {observedFeaturesPlotReduxData} */}
             {console.log(observedFeaturesPlotReduxData)}
-            <ul>
+            {/* <ul>
               {Object.keys(observedFeaturesPlotReduxData).map(function(
                 keyName,
                 keyIndex
@@ -105,7 +104,7 @@ function ObservedFeaturesPlotRedux({
                   </li>
                 );
               })}
-            </ul>
+            </ul> */}
             {/* <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}

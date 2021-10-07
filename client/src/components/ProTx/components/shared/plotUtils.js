@@ -412,14 +412,6 @@ const getObservedFeaturesPlotData = (
 const getObservedFeaturesPlotReduxData = () => {
   const observedFeaturesPlotReduxData = getObservedFeaturesDataObject();
 
-  // const targetYear = 2011; // 2011 - 2019.
-  // const newObservedFeaturesPlotReduxData = [
-  //   observedFeaturesPlotReduxData.fig_aes.years[targetYear].focal_value,
-  //   observedFeaturesPlotReduxData.fig_aes.years[targetYear].mean,
-  //   observedFeaturesPlotReduxData.fig_aes.years[targetYear].median,
-  //   observedFeaturesPlotReduxData.fig_aes.years[targetYear].bars
-  // ];
-
   /**
    * TODO: Recreate the timeseries_histogram implementation from the Jupyter notyebook here.
    * TODO: Define the data, layout and config objects for the new plot.
@@ -430,14 +422,7 @@ const getObservedFeaturesPlotReduxData = () => {
   newObservedFeaturesPlotData.layout = {};
   newObservedFeaturesPlotData.config = {};
 
-  const targetYear = 2011; // 2011 - 2019.
-
-  newObservedFeaturesPlotData.data.test = [
-    observedFeaturesPlotReduxData.fig_aes.years[targetYear].focal_value,
-    observedFeaturesPlotReduxData.fig_aes.years[targetYear].mean,
-    observedFeaturesPlotReduxData.fig_aes.years[targetYear].median,
-    observedFeaturesPlotReduxData.fig_aes.years[targetYear].bars
-  ];
+  newObservedFeaturesPlotData.data = observedFeaturesPlotReduxData;
 
   return newObservedFeaturesPlotData;
 };
