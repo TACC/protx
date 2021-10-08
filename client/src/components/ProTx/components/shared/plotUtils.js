@@ -355,7 +355,7 @@ const getObservedFeaturesPlotData = (
   const PlotDataYears = newObservedFeaturesPlotData.fig_aes.years;
 
   const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
-  const traceType = traceMarkerTypes[2];
+  const traceType = traceMarkerTypes[1];
   const markerOpacity = 0.6;
 
   const baseTrace = {

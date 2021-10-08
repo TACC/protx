@@ -1,3 +1,6 @@
+.loading-spinner {
+  margin-top: 40%;
+}
 .observed-features-plot {
   font-family: var(--font-type-roboto-condensed);
 }

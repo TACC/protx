@@ -34,7 +34,7 @@ function ObservedFeaturesPlot({
 
   if (protxDemographicsDistribution.loading) {
     return (
-      <div>
+      <div className="loading-spinner">
         <LoadingSpinner />
       </div>
     );
