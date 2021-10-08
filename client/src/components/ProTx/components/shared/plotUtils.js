@@ -5,9 +5,9 @@
 import {
   THEME_CB12_MAIN,
   THEME_CB12_ALT0,
-  THEME_CB12_ALT1,
-  THEME_CB12_ALT2,
-  THEME_CB12_ALT3
+  // THEME_CB12_ALT1,
+  // THEME_CB12_ALT2,
+  // THEME_CB12_ALT3
 } from '../data/colors';
 import { CATEGORY_CODES } from '../data/meta';
 import {
