@@ -642,8 +642,8 @@ const getObservedFeaturesPlotData = (
     plot_bgcolor: 'rgba(200,200,200,0)'
   };
 
-  const subplotRows = 3; // 1, 3
-  const subPlotCols = 3; // 9, 3
+  const subplotRows = 1; // 1, 3
+  const subPlotCols = 9; // 9, 3
   const plotSubplotGrids = {
     grid: { rows: subplotRows, columns: subPlotCols, pattern: 'independent' }
   };
