@@ -220,7 +220,10 @@ const getMaltreatmentPlotData = (
   showRate
 ) => {
   const geoid = selectedGeographicFeature;
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+  const maltreatmentTypesList = getMaltreatmentTypeNames(
+    maltreatmentTypes,
+    data
+  );
 
   const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
     data,

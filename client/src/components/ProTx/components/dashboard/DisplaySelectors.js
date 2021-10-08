@@ -130,6 +130,8 @@ function DisplaySelectors({
         <div styleName="control">
           <span styleName="label">Type</span>
           <MaltreatmentSelector
+            showRate={showRate}
+            variables={display.variables}
             selectedTypes={maltreatmentTypes}
             setSelectedTypes={setMaltreatmentTypes}
           />

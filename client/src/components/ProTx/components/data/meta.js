@@ -20,69 +20,6 @@ export const OBSERVED_FEATURES_TOP_FIELDS = [
   'CROWD'
 ];
 
-export const MALTREATMENT = [
-  {
-    field: 'ABAN',
-    name: 'Abandonment',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'EMAB',
-    name: 'Emotional abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'LBTR',
-    name: 'Labor trafficking',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'MDNG',
-    name: 'Medical neglect',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'NSUP',
-    name: 'Neglectful supervision',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'PHAB',
-    name: 'Physical abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'PHNG',
-    name: 'Physical neglect',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'RAPR',
-    name: 'Refusal to accept parental responsibility',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'SXAB',
-    name: 'Sexual abuse',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  },
-  {
-    field: 'SXTR',
-    name: 'Sex trafficking',
-    valueType: 'count',
-    valueTypeLabel: 'Count'
-  }
-];
-
 // TOOO: we should correct vector files to all be the same thing (GEOID)
 export const GEOID_KEY = {
   cbsa: 'GEOID_left',

@@ -1,5 +1,4 @@
 import { PHR_MSA_COUNTIES } from '../data/PHR_MSA_County_Data';
-import { MALTREATMENT } from '../data/meta';
 
 /**
  *
@@ -260,15 +259,17 @@ const getMaltreatmentAggregatedValue = (
  * @param {*} typesDataArray
  * @returns
  */
-const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
+const getMaltreatmentTypeNames = (maltreatmentTypeCodes, data) => {
   const updatedMaltreatmentTypesList = [];
   if (maltreatmentTypeCodes.length === 0) {
     return ['None'];
   }
   for (let i = 0; i < maltreatmentTypeCodes.length; i += 1) {
-    for (let j = 0; j < MALTREATMENT.length; j += 1) {
-      if (maltreatmentTypeCodes[i] === MALTREATMENT[j].field) {
-        updatedMaltreatmentTypesList.push(MALTREATMENT[j].name);
+    for (let j = 0; j < data.display.variables.length; j += 1) {
+      if (maltreatmentTypeCodes[i] === data.display.variables[j].NAME) {
+        updatedMaltreatmentTypesList.push(
+          data.display.variables[j].DISPLAY_TEXT
+        );
       }
     }
   }

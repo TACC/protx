@@ -8,7 +8,6 @@ import MaltreatmentChart from '../charts/MaltreatmentChart';
 import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
 import './DashboardDisplay.css';
-import { MALTREATMENT } from '../data/meta';
 import './DashboardDisplay.module.scss';
 
 function DashboardDisplay() {
@@ -16,13 +15,8 @@ function DashboardDisplay() {
   // TODO: control of this state should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
   const [mapType, setMapType] = useState('maltreatment');
   const [geography, setGeography] = useState('county');
-  const [maltreatmentTypes, setMaltreatmentTypes] = useState([
-    MALTREATMENT[0].field
-  ]);
-  const [observedFeature, setObservedFeature] = useState(
-    'CROWD' /*  COOKS-110: EP_CROWD is starting field as we choosing between percent values
-     to begin with */
-  );
+  const [maltreatmentTypes, setMaltreatmentTypes] = useState(['ABAN']);
+  const [observedFeature, setObservedFeature] = useState('CROWD');
   const [year, setYear] = useState('2019');
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
