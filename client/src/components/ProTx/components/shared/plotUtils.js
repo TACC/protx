@@ -1,12 +1,23 @@
-import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from '../data/colors';
+// import plotly from 'react-plotly.js';
+// from plotly.subplots import make_subplots  <-- Not in JS version... use Dash?
+// import plotly.graph_objects as go;
+
+import {
+  THEME_CB12_MAIN,
+  THEME_CB12_ALT0,
+  // THEME_CB12_ALT1,
+  // THEME_CB12_ALT2,
+  // THEME_CB12_ALT3
+} from '../data/colors';
 import { CATEGORY_CODES } from '../data/meta';
 import {
-  getFipsIdName,
+  // getFipsIdName,
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
   getMaltreatmentAggregatedValue,
   getMaltreatmentTypesDataObject,
-  getObservedFeatureValueType,
+  // getObservedFeatureValueType,
+  getObservedFeaturesDataObject,
   getPredictiveFeaturesDataObject
 } from './dataUtils';
 
@@ -21,11 +32,13 @@ const histColors = THEME_CB12_ALT0;
  */
 const categoryCodes = CATEGORY_CODES;
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const plotConfig = {
   doubleClickDelay: 1000,
   responsive: true,
@@ -35,11 +48,13 @@ const plotConfig = {
   showEditInChartStudio: false
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getPlotLayout = (
   plotAnnotation,
   plotOrientation,
@@ -131,11 +146,13 @@ const getTraceFillColor = (targetPlot, catcode, unique) => {
   return barColor;
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getBarTrace = (
   traceY,
   traceX,
@@ -172,11 +189,13 @@ const getBarTrace = (
   };
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getPlotDataBars = (targetPlotType, typesDataArray, plotOrientation) => {
   const newPlotData = [];
 
@@ -206,11 +225,13 @@ const getPlotDataBars = (targetPlotType, typesDataArray, plotOrientation) => {
   return newPlotData;
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getMaltreatmentPlotData = (
   selectedGeographicFeature,
   maltreatmentTypes,
@@ -285,144 +306,332 @@ const getMaltreatmentPlotData = (
   return maltreatmentPlotData;
 };
 
+/******************************/
 /**
- * TODO: Handle different data types (zipcode, urban areas, CBSAs, census tracts) more elegantly.
+ * TODO: Recreate the timeseries_histogram implementation from the Jupyter notyebook here.
+ * TODO: Define the data, layout and config objects for the new plot.
  *
- * @param {*} selectedGeographicFeature
- * @param {*} observedFeature
- * @param {*} data
- * @param {*} geography
- * @param {*} year
+ * @param {*} typesDataArray
  * @returns
  */
 
-const getObservedFeaturesPlotData = (
-  selectedGeographicFeature,
-  observedFeature,
-  data,
-  geography,
-  year,
-  showRate
-) => {
-  const observedFeaturesDataObject = [];
-  const observedFeaturesData = data.observedFeatures;
-  const plotXDataLabel = getObservedFeatureValueType(observedFeature);
+const getObservedFeaturesPlotData = () => {
+  const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
 
-  let observedFeatureValue;
-  let plotXDataAxisType;
-  let plotYDataLabel;
+  /** 
+   * TODO: Transform the backend response into the required structure for the plot.
+   */
 
-  if (geography === 'cbsa') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Core Base Statistical Areas';
-  }
+  // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
+  // const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
+  // const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
+  const plotDataLabelYUnits = newObservedFeaturesPlotData.fig_aes.label_units;
+  const plotDataLabelXUnits = 'Number of Counties';
+  const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
+  // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
+  const PlotDataYears = newObservedFeaturesPlotData.fig_aes.years;
 
-  if (geography === 'tract') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Census Tracts';
-  }
+  const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
+  const traceType = traceMarkerTypes[2];
+  const markerOpacity = 0.6;
 
-  if (geography === 'county') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Counties';
-  }
+  const baseTrace = {
+    name: 'trace name',
+    y: plotDataBarLabels,
+    x: PlotDataYears.[2011].bars,
+    xaxis: 'x1',
+    yaxis: 'y1',
+    type: traceType,
+    orientation: 'h',
+    opacity: markerOpacity,
+    marker: {
+      color: histColors[0]
+    }
+  };
 
-  if (geography === 'dfps_region') {
-    plotXDataAxisType = 'linear';
-    plotYDataLabel = 'DFPS Regions';
-  }
+  const trace1Conf = {
+    name: 2011,
+    x: PlotDataYears.[2011].bars,
+    xaxis: 'x1',
+    yaxis: 'y1',
+    marker: {
+      color: histColors[0]
+    }
+  };
 
-  if (geography === 'urban_area') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Urban Areas';
-  }
+  const trace2Conf = {
+    name: '2012',
+    x: PlotDataYears.[2012].bars,
+    xaxis: 'x2',
+    yaxis: 'y2',
+    marker: {
+      color: histColors[1]
+    }
+  };
 
-  if (geography === 'zcta') {
-    plotXDataAxisType = 'log';
-    plotYDataLabel = 'Zip Codes';
-  }
+  const trace3Conf = {
+    name: '2013',
+    x: PlotDataYears.[2013].bars,
+    xaxis: 'x3',
+    yaxis: 'y3',
+    marker: {
+      color: histColors[2]
+    }
+  };
 
-  if (
-    geography in observedFeaturesData &&
-    year in observedFeaturesData[geography] &&
-    observedFeature in observedFeaturesData[geography][year]
-  ) {
-    const features = observedFeaturesData[geography][year][observedFeature];
-    Object.keys(features).forEach(feature => {
-      const currentFeature = { code: feature, name: feature };
+  const trace4Conf = {
+    name: '2014',
+    x: PlotDataYears.[2014].bars,
+    xaxis: 'x4',
+    yaxis: 'y4',
+    marker: {
+      color: histColors[3]
+    }
+  };
 
-      const valueType = showRate ? 'percent' : 'count';
-      currentFeature.value = features[feature][valueType];
-      currentFeature.highlight = false;
+  const trace5Conf = {
+    name: '2015',
+    x: PlotDataYears.[2015].bars,
+    xaxis: 'x5',
+    yaxis: 'y5',
+    marker: {
+      color: histColors[4]
+    }
+  };
 
-      if (selectedGeographicFeature === feature) {
-        currentFeature.highlight = true;
-        observedFeatureValue = currentFeature.value;
-      }
+  const trace6Conf = {
+    name: '2016',
+    x: PlotDataYears.[2016].bars,
+    xaxis: 'x6',
+    yaxis: 'y6',
+    marker: {
+      color: histColors[5]
+    }
+  };
 
-      if (geography === 'county') {
-        const featureFipsIdName = getFipsIdName(feature);
-        currentFeature.code = featureFipsIdName;
-        currentFeature.name = featureFipsIdName;
-      }
+  const trace7Conf = {
+    name: '2017',
+    x: PlotDataYears.[2017].bars,
+    xaxis: 'x7',
+    yaxis: 'y7',
+    marker: {
+      color: histColors[6]
+    }
+  };
 
-      observedFeaturesDataObject.push(currentFeature);
-    });
-  }
+  const trace8Conf = {
+    name: '2018',
+    x: PlotDataYears.[2018].bars,
+    xaxis: 'x8',
+    yaxis: 'y8',
+    marker: {
+      color: histColors[7]
+    }
+  };
 
-  const plotTitle = 'Observed Features';
-  const plotOrientation = 'h';
-  const showPlotLegend = false;
+  const trace9Conf = {
+    name: '2019',
+    x: PlotDataYears.[2019].bars,
+    xaxis: 'x9',
+    yaxis: 'y9',
+    marker: {
+      color: histColors[8]
+    }
+  };
+
+  const trace1 = {
+    ...baseTrace,
+    ...trace1Conf
+  };
+
+  const trace2 = {
+    ...baseTrace,
+    ...trace2Conf
+  };
+
+  const trace3 = {
+    ...baseTrace,
+    ...trace3Conf
+  };
+
+  const trace4 = {
+    ...baseTrace,
+    ...trace4Conf
+  };
+
+  const trace5 = {
+    ...baseTrace,
+    ...trace5Conf
+  };
+
+  const trace6 = {
+    ...baseTrace,
+    ...trace6Conf
+  };
+
+  const trace7 = {
+    ...baseTrace,
+    ...trace7Conf
+  };
+
+  const trace8 = {
+    ...baseTrace,
+    ...trace8Conf
+  };
+
+  const trace9 = {
+    ...baseTrace,
+    ...trace9Conf
+  };
+
+  const observedFeaturesDataObject = [
+    trace1,
+    trace2,
+    trace3,
+    trace4,
+    trace5,
+    trace6,
+    trace7,
+    trace8,
+    trace9
+  ];
+
+  const minSubplot = 0;     // 0.
+  const maxSubplot = 10;   // 100 once bar widths are correctly rendering.
+  const subplotRange = [minSubplot, maxSubplot];
+
+  const traceDomainRangeMapping = {
+    xaxis1: {
+      // domain: [0, 0.1],
+      range: subplotRange,
+    },
+    yaxis1: { anchor: 'x1'},
+    xaxis2: {
+      // domain: [0.11, 0.21],
+      range: subplotRange,
+    },
+    yaxis2: { anchor: 'x1'},
+    xaxis3: {
+      // domain: [0.22, 0.32],
+      range: subplotRange,
+    },
+    yaxis3: { anchor: 'x1'},
+    xaxis4: {
+      // domain: [0.33, 0.43],
+      range: subplotRange,
+    },
+    yaxis4: { anchor: 'x1'},
+    xaxis5: {
+      // domain: [0.44, 0.54],
+      range: subplotRange,
+    },
+    yaxis5: { anchor: 'x1'},
+    xaxis6: {
+      // domain: [0.55, 0.65],
+      range: subplotRange,
+    },
+    yaxis6: { anchor: 'x1'},
+    xaxis7: {
+      // domain: [0.66, 0.76],
+      range: subplotRange,
+    },
+    yaxis7: { anchor: 'x1'},
+    xaxis8: {
+      // domain: [0.77, 0.87],
+      range: subplotRange,
+    },
+    yaxis8: { anchor: 'x1'},
+    xaxis9: {
+      // domain: [0.88, 0.98],
+      range: subplotRange,
+    },
+    yaxis9: { anchor: 'x1'},
+  };
+
+  const layoutColors = {
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
+  };
+
+  const plotTitle = 'Demographics';
+  const plotOrientation = 'v';
+  const showPlotLegend = true;
+  const plotXDataLabel = plotDataLabelXUnits;
+  const plotXDataAxisType = 'linear';
+  const plotYDataLabel = plotDataLabelYUnits;
   const plotYDataAxisType = 'category';
-  const plotXDataLabelAssembled = `${plotXDataLabel}  (${plotXDataAxisType} scale)`;
 
-  const plotLayout = getPlotLayout(
+  // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
+  const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' } };
+
+  const basePlotLayout = getPlotLayout(
     plotTitle,
     plotOrientation,
     showPlotLegend,
-    plotXDataLabelAssembled,
+    plotXDataLabel,
     plotXDataAxisType,
     plotYDataLabel,
     plotYDataAxisType
   );
 
-  const plotData = getPlotDataBars(
-    'observed',
-    observedFeaturesDataObject,
-    plotOrientation
-  );
+  const plotLayout = {
+    ...basePlotLayout,
+    ...plotSubplotGrids,
+    ...traceDomainRangeMapping,
+    ...layoutColors
+  };
+
+  // const plotData = getPlotDataBars(
+  //   'observed',
+  //   observedFeaturesDataObject,
+  //   plotOrientation
+  // );
+
+  const plotData = observedFeaturesDataObject;
 
   const plotState = {
     data: plotData,
     layout: plotLayout,
-    config: plotConfig
+    config: plotConfig,
+    raw: newObservedFeaturesPlotData
   };
 
   const observedFeaturesPlotData = {
-    observedFeaturesPlotState: plotState,
-    observedFeatureTargetValue: observedFeatureValue
+    observedFeaturesPlotState: plotState
   };
 
   return observedFeaturesPlotData;
 };
 
+/******************************/
 /**
  *
  * @param {*} typesDataArray
  * @returns
  */
+
 const getPredictiveFeaturesPlotData = () => {
-  const predictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-  const plotXDataLabel = '';
-  const plotYDataLabel = 'Total Number of Cases in Selected County';
+  const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
+
+  // Transform the response from the query into the required object structure for the plot.
+  const predictiveFeaturesDataObject = [];
+
+  const plotTitle = 'Predictive Features';
   const plotOrientation = 'v';
+  const showPlotLegend = true;
+  const plotXDataLabel = 'X DATA LABEL';
+  const plotXDataAxisType = 'linear'; // 'category', 'linear'
+  const plotYDataLabel = 'Y DATA LABEL';
+  const plotYDataAxisType = 'linear';
 
   const plotLayout = getPlotLayout(
-    'Predictive Features',
+    plotTitle,
     plotOrientation,
-    true,
+    showPlotLegend,
     plotXDataLabel,
-    plotYDataLabel
+    plotXDataAxisType,
+    plotYDataLabel,
+    plotYDataAxisType
   );
 
   const plotData = getPlotDataBars(
@@ -434,7 +643,8 @@ const getPredictiveFeaturesPlotData = () => {
   const plotState = {
     data: plotData,
     layout: plotLayout,
-    config: plotConfig
+    config: plotConfig,
+    raw: newPredictiveFeaturesDataObject
   };
 
   const predictiveFeaturesPlotData = {

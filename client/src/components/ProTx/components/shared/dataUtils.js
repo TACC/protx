@@ -1,5 +1,12 @@
 import { PHR_MSA_COUNTIES } from '../data/PHR_MSA_County_Data';
 import { MALTREATMENT, OBSERVED_FEATURES } from '../data/meta';
+import {
+  OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK
+  // DOLLARS_HIST_DATA,
+  // COUNT_HIST_DATA,
+  // PERCENT_HIST_DATA,
+  // FOCAL_DATA
+} from '../data/observedFeaturesPlot_mockData';
 
 /**
  *
@@ -370,6 +377,20 @@ const getObservedFeatureValueType = selectedObservedFeatureCode => {
 };
 
 /**
+ * TODO: Rewire this up to the actual backend response to be used in the plot.
+ * TODO: Long term, provide actual data query to the plot, not pre-formatted values for bars, etc.
+ *
+ * @param {*} typesDataArray
+ * @returns
+ */
+const getObservedFeaturesDataObject = () => {
+  // TODO: Replace this with the actual data response.
+  const newObservedFeaturesDataObject = OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK;
+
+  return newObservedFeaturesDataObject;
+};
+
+/**
  *
  * @param {*} typesDataArray
  * @returns
@@ -396,5 +417,6 @@ export {
   getMaltreatmentTypesDataObject,
   getObservedFeaturesLabel,
   getObservedFeatureValueType,
+  getObservedFeaturesDataObject,
   getPredictiveFeaturesDataObject
 };

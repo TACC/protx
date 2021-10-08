@@ -173,3 +173,7 @@ portal_crypt.key
 
 # vim stuff
 *.swp
+
+# local dev files retained but deprecated from codebase.
+*deprecated*
+client/src/components/ProTx/components/shared/timeseries_histogram.py

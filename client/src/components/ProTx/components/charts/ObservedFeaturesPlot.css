@@ -53,6 +53,7 @@
 .observed-feature-selection-label {
   font-weight: var(--font-weight-normal-plus);
 }
+/*  */
 .observed-features-plot-chart-body,
 .observed-features-plot-chart-body-plot {
   height: 60vh;
