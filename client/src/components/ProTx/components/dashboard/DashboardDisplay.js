@@ -20,7 +20,7 @@ function DashboardDisplay() {
     MALTREATMENT[0].field
   ]);
   const [observedFeature, setObservedFeature] = useState(
-    OBSERVED_FEATURES[3]
+    OBSERVED_FEATURES[2]
       .field /* EP_CROWD; COOKS-110: EP_CROWD is starting field as we choosing between percent values
      to begin with */
   );

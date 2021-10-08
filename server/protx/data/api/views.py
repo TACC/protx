@@ -146,7 +146,7 @@ def get_demographics(request):
 
 # Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
 @ensure_csrf_cookie
-def get_demographics_distribution_plot_data(area, variable, unit):
+def get_demographics_distribution_plot_data(request, area, variable, unit):
     """Get demographics distribution data for plotting
 
     """

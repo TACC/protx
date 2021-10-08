@@ -2,10 +2,6 @@ import pandas as pd
 import numpy as np
 import sqlite3
 
-db_name = '/protx-data/cooks.db'
-db_conn = sqlite3.connect(db_name)
-db_cursor = db_conn.cursor()
-
 
 # Aesthetics for plots
 def currency(value1, value2):
@@ -227,12 +223,16 @@ def update_focal_area(display_dict, focal_data):
 
 
 def demographic_histogram_data(area, unit, variable):
+    db_name = '/protx-data/cooks.db'
+    db_conn = sqlite3.connect(db_name)
     selection = {'area': area, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
     query = yearly_data_query.format(**selection)
     query_result = pd.read_sql_query(query, db_conn)
 
     # munge data
     result = demographic_data_prep(query_result)
+    for year in result['years'].values():
+        year['bars'] = year['bars'].tolist()
     return result
 
 
@@ -293,6 +293,7 @@ if None:
         focal_data
     )
 
+
 if None:
-    result = demographic_histogram_data(area='county', unit='count', variable='PCI')
+    result = demographic_histogram_data(area='county', unit='count', variable='DISABL')
     print(result)
