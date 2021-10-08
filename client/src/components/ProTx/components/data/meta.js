@@ -7,8 +7,7 @@ export const SUPPORTED_YEARS = [
   '2014',
   '2013',
   '2012',
-  '2011',
-  '2010'
+  '2011'
 ];
 
 export const OBSERVED_FEATURES = [
