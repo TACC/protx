@@ -99,7 +99,7 @@ const getPlotLayout = (
       ticksuffix: null, // % --> '%' | #,$ --> null
       title: {
         text: plotXAxisTitle,
-        standoff: 12,
+        standoff: 20,
         font: {
           size: 10
         }
@@ -112,7 +112,7 @@ const getPlotLayout = (
       tickangle: 0,
       title: {
         text: plotYAxisTitle,
-        standoff: 16,
+        standoff: 20,
         font: {
           size: 10
         }
@@ -334,12 +334,7 @@ const getObservedFeaturesPlotData = (
   showRate,
   dataHistogram
 ) => {
-  // MOCK DATA.
-  // const mockObservedFeaturesPlotData = getObservedFeaturesDataObject();
-  // console.log(mockObservedFeaturesPlotData);
-  // LIVE DATA.
   const newObservedFeaturesPlotData = dataHistogram;
-  // console.log(dataHistogram);
 
   /**
    * TODO: Fix focal_value: the value for each year for the selected geographic feature (currently null).
@@ -356,17 +351,10 @@ const getObservedFeaturesPlotData = (
       showRate
     );
   }
+  // console.log(dataHistogram);
 
-  // const observedFeaturesDataObject = [];
-  // const observedFeaturesData = data.observedFeatures;
-  // const plotXDataLabel = getObservedFeatureValueType(observedFeature, data);
-
-  // let observedFeatureValue;
-  // let plotXDataAxisType;
-  // let plotYDataLabel;
-
-  // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
   const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
+  // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
   const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
 
   let plotDataLabelXUnits = '';
@@ -400,8 +388,8 @@ const getObservedFeaturesPlotData = (
   const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
   const traceType = traceMarkerTypes[1];
   const markerOpacity = 0.8;
-  const minSubplot = plotDataXRange[0]; // 0;
-  const maxSubplot = plotDataXRange[1]; // 120;
+  const minSubplot = plotDataXRange[0];
+  const maxSubplot = plotDataXRange[1];
   const subplotRange = [minSubplot, maxSubplot];
 
   const baseTrace = {
