@@ -40,6 +40,8 @@ function ObservedFeaturesPlot({
     );
   }
 
+  const observedFeaturesLabel = getObservedFeaturesLabel(observedFeature, data);
+
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     geographyObservedFeatures,
@@ -48,9 +50,6 @@ function ObservedFeaturesPlot({
     selectedGeographicFeatureObservedFeatures,
     plotStateObservedFeatures
   ) => {
-    const observedFeaturesLabel = getObservedFeaturesLabel(
-      observedFeatureObservedFeatures
-    );
     const selectedGeographicFeatureName = getFipsIdName(
       selectedGeographicFeatureObservedFeatures
     );

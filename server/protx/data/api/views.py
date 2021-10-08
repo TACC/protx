@@ -153,3 +153,15 @@ def get_demographics_distribution_plot_data(request, area, variable, unit):
     logger.info("Getting demographic distribution data for {} {} {}".format(area, variable, unit))
     result = demographics.demographic_histogram_data(area=area, variable=variable, unit=unit)
     return JsonResponse({"result": result})
+
+def get_display(request):
+    """Get display information data
+    """
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
+
+    with engine.connect() as connection:
+        display_data = connection.execute("SELECT * FROM display_data")
+        result = []
+        for variable_info in display_data:
+            result.append(dict(variable_info))
+        return JsonResponse({"variables": result})

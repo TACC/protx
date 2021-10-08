@@ -11,7 +11,7 @@ import {
   getMaltreatmentAggregatedValue,
   getMaltreatmentTypesDataObject,
   // getObservedFeatureValueType,
-  getObservedFeaturesDataObject,
+  // getObservedFeaturesDataObject,
   getPredictiveFeaturesDataObject,
   getObservedFeatureValue
 } from './dataUtils';
@@ -248,7 +248,10 @@ const getMaltreatmentPlotData = (
   showRate
 ) => {
   const geoid = selectedGeographicFeature;
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+  const maltreatmentTypesList = getMaltreatmentTypeNames(
+    maltreatmentTypes,
+    data
+  );
 
   const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
     data,
@@ -354,26 +357,49 @@ const getObservedFeaturesPlotData = (
     );
   }
 
+  // const observedFeaturesDataObject = [];
+  // const observedFeaturesData = data.observedFeatures;
+  // const plotXDataLabel = getObservedFeatureValueType(observedFeature, data);
+
+  // let observedFeatureValue;
+  // let plotXDataAxisType;
+  // let plotYDataLabel;
+
   // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
   const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
-  let plotDataLabelXUnits = '';
   const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
+
+  let plotDataLabelXUnits = '';
   if (plotDataGeotype === 'county') {
     plotDataLabelXUnits = 'Number of Counties';
   }
   if (plotDataGeotype === 'tract') {
     plotDataLabelXUnits = 'Number of Census Tracts';
   }
+
   const plotDataLabelYUnits = newObservedFeaturesPlotData.fig_aes.label_units;
   const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
   // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
   const PlotDataYears = newObservedFeaturesPlotData.years;
-  console.log(PlotDataYears);
+  // console.log(PlotDataYears);
+
+  const plotTitle = 'Demographics';
+  const plotOrientation = 'v';
+  const showPlotLegend = true;
+  const plotXDataLabel = ''; // plotDataLabelXUnits
+  let plotYDataLabel = plotDataLabelYUnits;
+
+  let plotXDataAxisType = 'linear';
+  const plotYDataAxisType = 'category';
+
+  if (geography === 'cbsa') {
+    plotXDataAxisType = 'log';
+    plotYDataLabel = 'Core Base Statistical Areas';
+  }
 
   const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
   const traceType = traceMarkerTypes[1];
   const markerOpacity = 0.8;
-
   const minSubplot = plotDataXRange[0]; // 0;
   const maxSubplot = plotDataXRange[1]; // 120;
   const subplotRange = [minSubplot, maxSubplot];
@@ -615,14 +641,6 @@ const getObservedFeaturesPlotData = (
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(200,200,200,0)'
   };
-
-  const plotTitle = 'Demographics';
-  const plotOrientation = 'v';
-  const showPlotLegend = true;
-  const plotXDataLabel = ''; // plotDataLabelXUnits
-  const plotXDataAxisType = 'linear';
-  const plotYDataLabel = plotDataLabelYUnits;
-  const plotYDataAxisType = 'category';
 
   const subplotRows = 3; // 1, 3
   const subPlotCols = 3; // 9, 3
