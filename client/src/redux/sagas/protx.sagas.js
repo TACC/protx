@@ -41,7 +41,7 @@ export function* fetchProtxDemographicDistribution(action) {
     yield put({
       type: 'PROTX_DEMOGRAPHIC_DISTRIBUTION_SUCCESS',
       payload: {
-        data
+        data: data.result
       }
     });
   } catch (error) {
