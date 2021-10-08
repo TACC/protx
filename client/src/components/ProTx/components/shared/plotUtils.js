@@ -4,7 +4,7 @@
 
 import {
   THEME_CB12_MAIN,
-  THEME_CB12_ALT0,
+  THEME_CB12_ALT0
   // THEME_CB12_ALT1,
   // THEME_CB12_ALT2,
   // THEME_CB12_ALT3
@@ -361,7 +361,7 @@ const getObservedFeaturesPlotData = (
   const baseTrace = {
     name: 'trace name',
     y: plotDataBarLabels,
-    x: PlotDataYears.[2011].bars,
+    x: PlotDataYears[2011].bars,
     xaxis: 'x1',
     yaxis: 'y1',
     type: traceType,
@@ -374,7 +374,7 @@ const getObservedFeaturesPlotData = (
 
   const trace1Conf = {
     name: 2011,
-    x: PlotDataYears.[2011].bars,
+    x: PlotDataYears[2011].bars,
     xaxis: 'x1',
     yaxis: 'y1',
     marker: {
@@ -384,7 +384,7 @@ const getObservedFeaturesPlotData = (
 
   const trace2Conf = {
     name: '2012',
-    x: PlotDataYears.[2012].bars,
+    x: PlotDataYears[2012].bars,
     xaxis: 'x2',
     yaxis: 'y2',
     marker: {
@@ -394,7 +394,7 @@ const getObservedFeaturesPlotData = (
 
   const trace3Conf = {
     name: '2013',
-    x: PlotDataYears.[2013].bars,
+    x: PlotDataYears[2013].bars,
     xaxis: 'x3',
     yaxis: 'y3',
     marker: {
@@ -404,7 +404,7 @@ const getObservedFeaturesPlotData = (
 
   const trace4Conf = {
     name: '2014',
-    x: PlotDataYears.[2014].bars,
+    x: PlotDataYears[2014].bars,
     xaxis: 'x4',
     yaxis: 'y4',
     marker: {
@@ -414,7 +414,7 @@ const getObservedFeaturesPlotData = (
 
   const trace5Conf = {
     name: '2015',
-    x: PlotDataYears.[2015].bars,
+    x: PlotDataYears[2015].bars,
     xaxis: 'x5',
     yaxis: 'y5',
     marker: {
@@ -424,7 +424,7 @@ const getObservedFeaturesPlotData = (
 
   const trace6Conf = {
     name: '2016',
-    x: PlotDataYears.[2016].bars,
+    x: PlotDataYears[2016].bars,
     xaxis: 'x6',
     yaxis: 'y6',
     marker: {
@@ -434,7 +434,7 @@ const getObservedFeaturesPlotData = (
 
   const trace7Conf = {
     name: '2017',
-    x: PlotDataYears.[2017].bars,
+    x: PlotDataYears[2017].bars,
     xaxis: 'x7',
     yaxis: 'y7',
     marker: {
@@ -444,7 +444,7 @@ const getObservedFeaturesPlotData = (
 
   const trace8Conf = {
     name: '2018',
-    x: PlotDataYears.[2018].bars,
+    x: PlotDataYears[2018].bars,
     xaxis: 'x8',
     yaxis: 'y8',
     marker: {
@@ -454,7 +454,7 @@ const getObservedFeaturesPlotData = (
 
   const trace9Conf = {
     name: '2019',
-    x: PlotDataYears.[2019].bars,
+    x: PlotDataYears[2019].bars,
     xaxis: 'x9',
     yaxis: 'y9',
     marker: {
@@ -519,56 +519,56 @@ const getObservedFeaturesPlotData = (
     trace9
   ];
 
-  const minSubplot = 0;     // 0.
-  const maxSubplot = 10;   // 100 once bar widths are correctly rendering.
+  const minSubplot = 0; // 0.
+  const maxSubplot = 10; // 100 once bar widths are correctly rendering.
   const subplotRange = [minSubplot, maxSubplot];
 
   const traceDomainRangeMapping = {
     xaxis1: {
       // domain: [0, 0.1],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis1: { anchor: 'x1'},
+    yaxis1: { anchor: 'x1' },
     xaxis2: {
       // domain: [0.11, 0.21],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis2: { anchor: 'x1'},
+    yaxis2: { anchor: 'x1' },
     xaxis3: {
       // domain: [0.22, 0.32],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis3: { anchor: 'x1'},
+    yaxis3: { anchor: 'x1' },
     xaxis4: {
       // domain: [0.33, 0.43],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis4: { anchor: 'x1'},
+    yaxis4: { anchor: 'x1' },
     xaxis5: {
       // domain: [0.44, 0.54],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis5: { anchor: 'x1'},
+    yaxis5: { anchor: 'x1' },
     xaxis6: {
       // domain: [0.55, 0.65],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis6: { anchor: 'x1'},
+    yaxis6: { anchor: 'x1' },
     xaxis7: {
       // domain: [0.66, 0.76],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis7: { anchor: 'x1'},
+    yaxis7: { anchor: 'x1' },
     xaxis8: {
       // domain: [0.77, 0.87],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis8: { anchor: 'x1'},
+    yaxis8: { anchor: 'x1' },
     xaxis9: {
       // domain: [0.88, 0.98],
-      range: subplotRange,
+      range: subplotRange
     },
-    yaxis9: { anchor: 'x1'},
+    yaxis9: { anchor: 'x1' }
   };
 
   const layoutColors = {
@@ -585,7 +585,9 @@ const getObservedFeaturesPlotData = (
   const plotYDataAxisType = 'category';
 
   // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
-  const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' } };
+  const plotSubplotGrids = {
+    grid: { rows: 1, columns: 9, pattern: 'independent' }
+  };
 
   const basePlotLayout = getPlotLayout(
     plotTitle,
