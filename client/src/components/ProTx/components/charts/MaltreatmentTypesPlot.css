@@ -27,13 +27,13 @@
 .maltreatment-types-plot-selected-region,
 .maltreatment-types-plot-aggregated-count {
   display: inline;
-  margin: 0.5vh 0.5vw;
+  margin: 0.2vh 0.2vw;
 }
 .maltreatment-types-plot-selected-region {
   width: 60%;
 }
 .maltreatment-types-plot-aggregated-count {
-  width: 40%;
+  width: 50%;
   border-left: 1px solid var(--color-gray-dark);
 }
 .maltreatment-types-plot-selected-region-label,

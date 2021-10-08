@@ -216,7 +216,8 @@ const getMaltreatmentPlotData = (
   maltreatmentTypes,
   data,
   geography,
-  year
+  year,
+  showRate
 ) => {
   const geoid = selectedGeographicFeature;
   const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
@@ -225,6 +226,7 @@ const getMaltreatmentPlotData = (
     data,
     geography,
     year,
+    showRate,
     geoid,
     maltreatmentTypes
   );
@@ -233,9 +235,10 @@ const getMaltreatmentPlotData = (
     data,
     geography,
     year,
+    showRate,
     geoid,
     maltreatmentTypes
-  );
+  ).toFixed(0);
 
   const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
     maltreatmentTypes,

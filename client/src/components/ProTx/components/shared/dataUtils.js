@@ -127,14 +127,15 @@ const getMaltreatmentMetaData = (
     maltreatmentTypes.forEach(malType => {
       if (malType in yearDataSet) {
         Object.entries(yearDataSet[malType]).forEach(([geoid, countInfo]) => {
-          /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 */
           const value = showRate
             ? countInfo.rate_per_100k_under17
             : countInfo.count;
-          if (geoid in aggregrateValues) {
-            aggregrateValues[geoid] += value;
-          } else {
-            aggregrateValues[geoid] = value;
+          if (value) {
+            if (geoid in aggregrateValues) {
+              aggregrateValues[geoid] += value;
+            } else {
+              aggregrateValues[geoid] = value;
+            }
           }
         });
       }
@@ -142,8 +143,6 @@ const getMaltreatmentMetaData = (
 
     const values = Object.values(aggregrateValues).map(x => +x);
     if (values.length) {
-      /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 and we should
-       * use existing maltreatment meta data (min, max) */
       meta = { min: Math.min(...values), max: Math.max(...values) };
     }
   }
@@ -233,6 +232,7 @@ const getMaltreatmentAggregatedValue = (
   data,
   geography,
   year,
+  showRate,
   geoid,
   maltreatmentTypes
 ) => {
@@ -241,12 +241,13 @@ const getMaltreatmentAggregatedValue = (
   let value = 0;
   if (hasYearAndGeography) {
     maltreatmentTypes.forEach(malType => {
+      const valueType = showRate ? `rate_per_100k_under17` : `count`;
       if (
         malType in data.maltreatment[geography][year] &&
-        geoid in data.maltreatment[geography][year][malType]
+        geoid in data.maltreatment[geography][year][malType] &&
+        valueType in data.maltreatment[geography][year][malType][geoid]
       ) {
-        /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 */
-        value += data.maltreatment[geography][year][malType][geoid].count;
+        value += data.maltreatment[geography][year][malType][geoid][valueType];
       }
     });
   }
@@ -254,6 +255,7 @@ const getMaltreatmentAggregatedValue = (
 };
 
 /**
+ *  Get list of maltreatment display names
  *
  * @param {*} typesDataArray
  * @returns
@@ -286,6 +288,7 @@ const getMaltreatmentSelectedValues = (
   data,
   geography,
   year,
+  showRate,
   geoid,
   maltreatmentTypes
 ) => {
@@ -295,17 +298,32 @@ const getMaltreatmentSelectedValues = (
   if (hasYearAndGeography) {
     maltreatmentTypes.forEach(malType => {
       let value = 0; // Revisit this supposition about missing data values later with Kelly.
+      const valueType = showRate ? `rate_per_100k_under17` : `count`;
       if (
         malType in data.maltreatment[geography][year] &&
-        geoid in data.maltreatment[geography][year][malType]
+        geoid in data.maltreatment[geography][year][malType] &&
+        valueType in data.maltreatment[geography][year][malType][geoid]
       ) {
-        /* rate needs to be supported here. See https://jira.tacc.utexas.edu/browse/COOKS-112 */
-        value = data.maltreatment[geography][year][malType][geoid].count;
+        value = data.maltreatment[geography][year][malType][geoid][valueType];
       }
       valuesArray.push(value);
     });
   }
   return valuesArray;
+};
+
+/**
+ * Get label for selected maltreatment types
+ * @param Array<{String}> maltreatmentTypes
+ * @param <bool> showRate
+ */
+const getMaltreatmentLabel = (maltreatmentTypes, showRate) => {
+  if (showRate) {
+    return maltreatmentTypes.length > 1
+      ? 'Aggregated rate per 100k children'
+      : 'Rate per 100k children';
+  }
+  return maltreatmentTypes.length > 1 ? 'Aggregated Count' : 'Count';
 };
 
 /**
@@ -326,10 +344,10 @@ const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
   return newMaltreatmentDataObject;
 };
 
-/**
+/** Get display label for selected observed feature
  *
- * @param {*} typesDataArray
- * @returns
+ * @param selectedObservedFeatureCode:str code of feature
+ * @returns label
  */
 const getObservedFeaturesLabel = selectedObservedFeatureCode => {
   return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
@@ -374,6 +392,7 @@ export {
   getFipsIdName,
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
+  getMaltreatmentLabel,
   getMaltreatmentTypesDataObject,
   getObservedFeaturesLabel,
   getObservedFeatureValueType,

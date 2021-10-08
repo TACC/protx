@@ -10,7 +10,7 @@ import {
 import './DisplaySelectors.module.scss';
 
 /* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
-function RateSelector({ showRate, setShowRate }) {
+function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
   return (
     <div styleName="radio-container">
       <div className="radio-container-element">
@@ -24,7 +24,7 @@ function RateSelector({ showRate, setShowRate }) {
             checked={showRate}
             onChange={() => setShowRate(true)}
           />
-          Percentages
+          {rateLabel}
         </label>
       </div>
       <div className="radio">
@@ -38,7 +38,7 @@ function RateSelector({ showRate, setShowRate }) {
             checked={!showRate}
             onChange={() => setShowRate(false)}
           />
-          Totals
+          {nonRateLabel}
         </label>
       </div>
     </div>
@@ -46,6 +46,8 @@ function RateSelector({ showRate, setShowRate }) {
 }
 
 RateSelector.propTypes = {
+  rateLabel: PropTypes.string.isRequired,
+  nonRateLabel: PropTypes.string.isRequired,
   showRate: PropTypes.bool.isRequired,
   setShowRate: PropTypes.func.isRequired
 };
@@ -78,6 +80,9 @@ function DisplaySelectors({
 }) {
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
+  const rateLabel =
+    mapType === 'maltreatment' ? 'Rate per 100k children' : 'Percentages';
+  const nonRateLabel = 'Totals';
 
   return (
     <div styleName="display-selectors">
@@ -112,6 +117,17 @@ function DisplaySelectors({
           </optgroup>
         </DropdownSelector>
       </div>
+      {setShowRate && (
+        <div styleName="control">
+          <span styleName="label">Value</span>
+          <RateSelector
+            rateLabel={rateLabel}
+            nonRateLabel={nonRateLabel}
+            showRate={showRate}
+            setShowRate={setShowRate}
+          />
+        </div>
+      )}
       {mapType === 'maltreatment' && (
         <div styleName="control">
           <span styleName="label">Type</span>
@@ -123,12 +139,6 @@ function DisplaySelectors({
       )}
       {(mapType === 'observedFeatures' || mapType === 'predictiveFeatures') && (
         <>
-          {setShowRate && (
-            <div styleName="control">
-              <span styleName="label">Value</span>
-              <RateSelector showRate={showRate} setShowRate={setShowRate} />
-            </div>
-          )}
           <div styleName="control">
             <span styleName="label">Demographic</span>
             <DropdownSelector
