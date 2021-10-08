@@ -1,5 +1,5 @@
 import { PHR_MSA_COUNTIES } from '../data/PHR_MSA_County_Data';
-import { MALTREATMENT, OBSERVED_FEATURES } from '../data/meta';
+import { MALTREATMENT } from '../data/meta';
 
 /**
  *
@@ -349,9 +349,10 @@ const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
  * @param selectedObservedFeatureCode:str code of feature
  * @returns label
  */
-const getObservedFeaturesLabel = selectedObservedFeatureCode => {
-  return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
-    .name;
+const getObservedFeaturesLabel = (selectedObservedFeatureCode, data) => {
+  return data.display.variables.find(
+    f => selectedObservedFeatureCode === f.NAME
+  ).DISPLAY_TEXT;
 };
 
 /**
@@ -359,14 +360,11 @@ const getObservedFeaturesLabel = selectedObservedFeatureCode => {
  * @param {*} selectedObservedFeatureCode
  * @returns {valueType: string}
  */
-const getObservedFeatureValueType = selectedObservedFeatureCode => {
-  const hasValue = OBSERVED_FEATURES.find(
-    f => selectedObservedFeatureCode === f.field
-  ).valueType;
-  if (hasValue === 'percent') {
-    return 'Percent';
-  }
-  return 'Total Count';
+const getObservedFeatureValueType = (selectedObservedFeatureCode, data) => {
+  const units = data.display.variables.find(
+    f => selectedObservedFeatureCode === f.NAME
+  ).UNITS;
+  return units.charAt(0).toUpperCase() + units.slice(1);
 };
 
 /**

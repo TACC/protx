@@ -306,7 +306,7 @@ const getObservedFeaturesPlotData = (
 ) => {
   const observedFeaturesDataObject = [];
   const observedFeaturesData = data.observedFeatures;
-  const plotXDataLabel = getObservedFeatureValueType(observedFeature);
+  const plotXDataLabel = getObservedFeatureValueType(observedFeature, data);
 
   let observedFeatureValue;
   let plotXDataAxisType;

@@ -8,7 +8,7 @@ import MaltreatmentChart from '../charts/MaltreatmentChart';
 import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
 import './DashboardDisplay.css';
-import { MALTREATMENT, OBSERVED_FEATURES } from '../data/meta';
+import { MALTREATMENT } from '../data/meta';
 import './DashboardDisplay.module.scss';
 
 function DashboardDisplay() {
@@ -20,8 +20,7 @@ function DashboardDisplay() {
     MALTREATMENT[0].field
   ]);
   const [observedFeature, setObservedFeature] = useState(
-    OBSERVED_FEATURES[3]
-      .field /* EP_CROWD; COOKS-110: EP_CROWD is starting field as we choosing between percent values
+    'CROWD' /*  COOKS-110: EP_CROWD is starting field as we choosing between percent values
      to begin with */
   );
   const [year, setYear] = useState('2019');

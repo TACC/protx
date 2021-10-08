@@ -152,10 +152,7 @@ def get_display(request):
 
     with engine.connect() as connection:
         display_data = connection.execute("SELECT * FROM display_data")
-        result = {}
+        result = []
         for variable_info in display_data:
-            logger.info(dict(variable_info))
-            result[variable_info['NAME']] = dict(variable_info)
-        print(result)
-        logger.info(result)
+            result.append(dict(variable_info))
         return JsonResponse({"variables": result})
