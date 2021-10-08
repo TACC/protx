@@ -82,6 +82,25 @@ function DisplaySelectors({
   const nonRateLabel = 'Totals';
   const display = useSelector(state => state.protx.data.display);
 
+  const changeShowRate = newShowRate => {
+    if (mapType === 'observedFeatures') {
+      // check to see if we also need to switch the variable if it doesn't a count or percentage
+      // that would be needed.
+      const current = display.variables.find(f => f.NAME === observedFeature);
+      if (newShowRate && current.DISPLAY_DEMOGRAPHIC_RATE === 0) {
+        setObservedFeature(
+          display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_RATE === 1).NAME
+        );
+      }
+      if (!newShowRate && current.DISPLAY_DEMOGRAPHIC_COUNT === 0) {
+        setObservedFeature(
+          display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_COUNT === 1).NAME
+        );
+      }
+    }
+    setShowRate(newShowRate);
+  };
+
   return (
     <div styleName="display-selectors">
       <div styleName="control">
@@ -122,7 +141,7 @@ function DisplaySelectors({
             rateLabel={rateLabel}
             nonRateLabel={nonRateLabel}
             showRate={showRate}
-            setShowRate={setShowRate}
+            setShowRate={changeShowRate}
           />
         </div>
       )}
