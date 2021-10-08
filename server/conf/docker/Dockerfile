@@ -1,4 +1,4 @@
-FROM python:3.6-buster as python-base
+FROM python:3.7-buster as python-base
 
 LABEL maintainer="TACC-ACI-WMA <wma_prtl@tacc.utexas.edu>"
 
@@ -80,6 +80,3 @@ RUN mkdir -p /var/log/portal
 RUN chmod u+x /srv/www/portal/client/build_client.sh && /srv/www/portal/client/build_client.sh
 
 WORKDIR /srv/www/portal/server
-
-# workaround for python3.6/pandas/poetry
-RUN pip install pandas
