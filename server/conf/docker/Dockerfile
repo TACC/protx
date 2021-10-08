@@ -80,3 +80,6 @@ RUN mkdir -p /var/log/portal
 RUN chmod u+x /srv/www/portal/client/build_client.sh && /srv/www/portal/client/build_client.sh
 
 WORKDIR /srv/www/portal/server
+
+# workaround for python3.6/pandas/poetry
+RUN pip install pandas
