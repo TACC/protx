@@ -326,6 +326,7 @@ const getObservedFeaturesPlotData = (
   dataHistogram
 ) => {
   const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
+  // console.log(dataHistogram);
   // Add focal_value: the value for each year for the selected geographic feature
   // eslint-disable-next-line no-restricted-syntax
   for (const [iYear, yearData] of Object.entries(dataHistogram.years)) {
@@ -338,8 +339,9 @@ const getObservedFeaturesPlotData = (
       showRate
     );
   }
-  const anotherNewObservedFeaturesPlotData = dataHistogram;
-  // THIS needs to be tested. pussible focal_value is null
+  // console.log(dataHistogram);
+  // const anotherNewObservedFeaturesPlotData = dataHistogram;
+  // THIS needs to be tested. possible focal_value is null
 
   /**
    * TODO: Transform the backend response into the required structure for the plot.
@@ -357,6 +359,10 @@ const getObservedFeaturesPlotData = (
   const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
   const traceType = traceMarkerTypes[1];
   const markerOpacity = 0.6;
+
+  const minSubplot = 0;
+  const maxSubplot = 120;
+  const subplotRange = [minSubplot, maxSubplot];
 
   const baseTrace = {
     name: 'trace name',
@@ -519,53 +525,41 @@ const getObservedFeaturesPlotData = (
     trace9
   ];
 
-  const minSubplot = 0; // 0.
-  const maxSubplot = 10; // 100 once bar widths are correctly rendering.
-  const subplotRange = [minSubplot, maxSubplot];
-
   const traceDomainRangeMapping = {
     xaxis1: {
-      // domain: [0, 0.1],
       range: subplotRange
     },
     yaxis1: { anchor: 'x1' },
     xaxis2: {
-      // domain: [0.11, 0.21],
       range: subplotRange
     },
     yaxis2: { anchor: 'x1' },
     xaxis3: {
-      // domain: [0.22, 0.32],
       range: subplotRange
     },
     yaxis3: { anchor: 'x1' },
     xaxis4: {
-      // domain: [0.33, 0.43],
       range: subplotRange
     },
     yaxis4: { anchor: 'x1' },
     xaxis5: {
-      // domain: [0.44, 0.54],
-      range: subplotRange
+      range: subplotRange,
+      title: plotDataLabelXUnits // Label placed here "centers" on the subplots.
     },
     yaxis5: { anchor: 'x1' },
     xaxis6: {
-      // domain: [0.55, 0.65],
       range: subplotRange
     },
     yaxis6: { anchor: 'x1' },
     xaxis7: {
-      // domain: [0.66, 0.76],
       range: subplotRange
     },
     yaxis7: { anchor: 'x1' },
     xaxis8: {
-      // domain: [0.77, 0.87],
       range: subplotRange
     },
     yaxis8: { anchor: 'x1' },
     xaxis9: {
-      // domain: [0.88, 0.98],
       range: subplotRange
     },
     yaxis9: { anchor: 'x1' }
@@ -573,20 +567,27 @@ const getObservedFeaturesPlotData = (
 
   const layoutColors = {
     paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)'
+    plot_bgcolor: 'rgba(200,200,200,0.2)'
   };
 
   const plotTitle = 'Demographics';
   const plotOrientation = 'v';
-  const showPlotLegend = true;
-  const plotXDataLabel = plotDataLabelXUnits;
+  const showPlotLegend = false;
+  const plotXDataLabel = ''; // plotDataLabelXUnits
   const plotXDataAxisType = 'linear';
   const plotYDataLabel = plotDataLabelYUnits;
   const plotYDataAxisType = 'category';
 
-  // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
+  const subplotRows = 1; // 1, 3
+  const subPlotCols = 9; // 9, 3
   const plotSubplotGrids = {
-    grid: { rows: 1, columns: 9, pattern: 'independent' }
+    grid: { rows: subplotRows, columns: subPlotCols, pattern: 'independent' }
+  };
+
+  const subplotBarLayout = {
+    barmode: 'group',
+    bargap: 0.02,
+    bargroupgap: 0
   };
 
   const basePlotLayout = getPlotLayout(
@@ -602,6 +603,7 @@ const getObservedFeaturesPlotData = (
   const plotLayout = {
     ...basePlotLayout,
     ...plotSubplotGrids,
+    ...subplotBarLayout,
     ...traceDomainRangeMapping,
     ...layoutColors
   };
