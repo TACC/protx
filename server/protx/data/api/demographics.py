@@ -113,7 +113,8 @@ def demographic_data_prep(query_return_df):
     # for counts, range should be min - 10%, max + 10% (range is (0, 100) for percents)
     count_or_pct = query_return_df['count_or_pct'].unique().item()
     if count_or_pct == 'count':
-        range_vals = (min(query_return_df['VALUE']) * 0.9, max(query_return_df['VALUE']) * 1.1)
+        range_vals = (np.nanmin(query_return_df['VALUE'])*0.9, np.nanmax(query_return_df['VALUE'])*1.1)
+
     # for percents, range should be 0-100
     elif count_or_pct == 'percent':
         range_vals = (0.0, 100.0)
