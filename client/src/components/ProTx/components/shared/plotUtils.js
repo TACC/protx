@@ -2,7 +2,13 @@
 // from plotly.subplots import make_subplots  <-- Not in JS version... use Dash?
 // import plotly.graph_objects as go;
 
-import { THEME_CB12_MAIN, THEME_CB12_ALT0 } from '../data/colors';
+import {
+  THEME_CB12_MAIN,
+  THEME_CB12_ALT0,
+  THEME_CB12_ALT1,
+  THEME_CB12_ALT2,
+  THEME_CB12_ALT3
+} from '../data/colors';
 import { CATEGORY_CODES } from '../data/meta';
 import {
   // getFipsIdName,
@@ -490,51 +496,55 @@ const getObservedFeaturesPlotData = () => {
     trace9
   ];
 
+  const minSubplot = 0;     // 0.
+  const maxSubplot = 10;   // 100 once bar widths are correctly rendering.
+  const subplotRange = [minSubplot, maxSubplot];
+
   const traceDomainRangeMapping = {
-    // xaxis1: {
-    //   // t/itle: 'x1 Label',
-    //   // domain: [0, 0.1]
-    // },
+    xaxis1: {
+      // domain: [0, 0.1],
+      range: subplotRange,
+    },
     yaxis1: { anchor: 'x1'},
-    // xaxis2: {
-    //   // title: 'x2 Label',
-    //   // domain: [0.11, 0.21]
-    // },
+    xaxis2: {
+      // domain: [0.11, 0.21],
+      range: subplotRange,
+    },
     yaxis2: { anchor: 'x1'},
-    // xaxis3: {
-    //   // title: 'x3 Label',
-    //   // domain: [0.22, 0.32]
-    // },
+    xaxis3: {
+      // domain: [0.22, 0.32],
+      range: subplotRange,
+    },
     yaxis3: { anchor: 'x1'},
-    // xaxis4: {
-    //   // title: 'x4 Label',
-    //   // domain: [0.33, 0.43]
-    // },
+    xaxis4: {
+      // domain: [0.33, 0.43],
+      range: subplotRange,
+    },
     yaxis4: { anchor: 'x1'},
-    // xaxis5: {
-    //   // title: 'x5 Label',
-    //   // domain: [0.44, 0.54]
-    // },
+    xaxis5: {
+      // domain: [0.44, 0.54],
+      range: subplotRange,
+    },
     yaxis5: { anchor: 'x1'},
-    // xaxis6: {
-    //   // title: 'x6 Label',
-    //   // domain: [0.55, 0.65]
-    // },
+    xaxis6: {
+      // domain: [0.55, 0.65],
+      range: subplotRange,
+    },
     yaxis6: { anchor: 'x1'},
-    // xaxis7: {
-    //   // title: 'x7 Label',
-    //   // domain: [0.66, 0.76]
-    // },
+    xaxis7: {
+      // domain: [0.66, 0.76],
+      range: subplotRange,
+    },
     yaxis7: { anchor: 'x1'},
-    // xaxis8: {
-    //   // title: 'x Label',
-    //   // domain: [0.77, 0.87]
-    // },
+    xaxis8: {
+      // domain: [0.77, 0.87],
+      range: subplotRange,
+    },
     yaxis8: { anchor: 'x1'},
-    // xaxis9: {
-    //   // title: 'x9 Label',
-    //   // domain: [0.88, 0.98]
-    // },
+    xaxis9: {
+      // domain: [0.88, 0.98],
+      range: subplotRange,
+    },
     yaxis9: { anchor: 'x1'},
   };
 
@@ -553,17 +563,6 @@ const getObservedFeaturesPlotData = () => {
 
   // const plotSubplotGrids = { grid: { rows: 3, columns: 3, pattern: 'independent' } };
   const plotSubplotGrids = { grid: { rows: 1, columns: 9, pattern: 'independent' } };
-
-  // const plotSubplotGrids = {
-  //   grid: {
-  //     rows: 1,
-  //     columns: 9,
-  //     pattern: 'independent'
-  //   },
-  //   subplot_titles: [
-  //     'T1', 'T2', 'T3', 'T4', 'Y5', 'T6', 'T7', 'T8', 'T9'
-  //   ],
-  // };
 
   const basePlotLayout = getPlotLayout(
     plotTitle,
