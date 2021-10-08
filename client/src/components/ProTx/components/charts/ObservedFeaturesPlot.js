@@ -64,15 +64,6 @@ function ObservedFeaturesPlot({
       showRate
     );
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
-    const observedFeaturesPlotData = getObservedFeaturesPlotData(
-      selectedGeographicFeature,
-      observedFeature,
-      data,
-      geography,
-      year,
-      showRate,
-      protxDemographicsDistribution.data
-    );
 
     return (
       <div className="observed-features-plot-layout">
@@ -113,7 +104,6 @@ function ObservedFeaturesPlot({
         </div>
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
-            {console.log(observedFeaturesPlotData)}
             <Plot
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}

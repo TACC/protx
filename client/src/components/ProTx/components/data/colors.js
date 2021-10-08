@@ -83,11 +83,55 @@ const THEME_CB12_ALT3 = [
   '#FFC33B'
 ];
 
+// https://colordesigner.io/gradient-generator
+
+const THEME_HIST_GRADIENT_MAIN = [
+  '#0c5a77',
+  '#006582',
+  '#007089',
+  '#007b8a',
+  '#008586',
+  '#008f7d',
+  '#00996f',
+  '#00a15c',
+  '#00a944',
+  '#40af23'
+];
+
+const THEME_HIST_GRADIENT_ALT0 = [
+  '#3e558a',
+  '#195f93',
+  '#006898',
+  '#007199',
+  '#007894',
+  '#007f8b',
+  '#00857e',
+  '#008b6f',
+  '#138f5e',
+  '#46924d'
+];
+
+const THEME_HIST_GRADIENT_ALT1 = [
+  '#37848e',
+  '#2a817d',
+  '#2e7d68',
+  '#3b7751',
+  '#4b703a',
+  '#5b6825',
+  '#6b5d14',
+  '#7a500e',
+  '#874116',
+  '#902e25'
+];
+
 export {
   colorbrewerClassYlOrBr,
   THEME_CB12_MAIN,
   THEME_CB12_ALT0,
   THEME_CB12_ALT1,
   THEME_CB12_ALT2,
-  THEME_CB12_ALT3
+  THEME_CB12_ALT3,
+  THEME_HIST_GRADIENT_MAIN,
+  THEME_HIST_GRADIENT_ALT0,
+  THEME_HIST_GRADIENT_ALT1
 };

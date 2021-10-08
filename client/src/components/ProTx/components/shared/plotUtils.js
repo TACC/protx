@@ -2,13 +2,7 @@
 // from plotly.subplots import make_subplots  <-- Not in JS version... use Dash?
 // import plotly.graph_objects as go;
 
-import {
-  THEME_CB12_MAIN,
-  THEME_CB12_ALT0
-  // THEME_CB12_ALT1,
-  // THEME_CB12_ALT2,
-  // THEME_CB12_ALT3
-} from '../data/colors';
+import { THEME_CB12_MAIN, THEME_HIST_GRADIENT_ALT1 } from '../data/colors';
 import { CATEGORY_CODES } from '../data/meta';
 import {
   // getFipsIdName,
@@ -26,7 +20,7 @@ import {
  * Assign an imported color theme for use in plot generation.
  */
 const plotColors = THEME_CB12_MAIN;
-const histColors = THEME_CB12_ALT0;
+const histColors = THEME_HIST_GRADIENT_ALT1;
 
 /**
  * Define array of category codes.
@@ -75,9 +69,21 @@ const getPlotLayout = (
     yAxisAutorange = 'reversed';
   }
 
+  const plotLayoutMarginTop = 40;
+  const plotLayoutMarginRight = 0;
+  const plotLayoutMarginBottom = 0;
+  const plotLayoutMarginLeft = 0;
+  const plotLayoutmarginPad = 2;
+
   const newPlotLayout = {
     autosize: true,
-    margin: { t: 40, r: 0, b: 0, l: 0, pad: 10 },
+    margin: {
+      t: plotLayoutMarginTop,
+      r: plotLayoutMarginRight,
+      b: plotLayoutMarginBottom,
+      l: plotLayoutMarginLeft,
+      pad: plotLayoutmarginPad
+    },
     font: {
       size: 10
     },
@@ -325,9 +331,17 @@ const getObservedFeaturesPlotData = (
   showRate,
   dataHistogram
 ) => {
-  const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
+  // MOCK DATA.
+  // const mockObservedFeaturesPlotData = getObservedFeaturesDataObject();
+  // console.log(mockObservedFeaturesPlotData);
+  // LIVE DATA.
+  const newObservedFeaturesPlotData = dataHistogram;
   // console.log(dataHistogram);
-  // Add focal_value: the value for each year for the selected geographic feature
+
+  /**
+   * TODO: Fix focal_value: the value for each year for the selected geographic feature (currently null).
+   */
+
   // eslint-disable-next-line no-restricted-syntax
   for (const [iYear, yearData] of Object.entries(dataHistogram.years)) {
     yearData.focal_value = getObservedFeatureValue(
@@ -339,29 +353,29 @@ const getObservedFeaturesPlotData = (
       showRate
     );
   }
-  // console.log(dataHistogram);
-  // const anotherNewObservedFeaturesPlotData = dataHistogram;
-  // THIS needs to be tested. possible focal_value is null
-
-  /**
-   * TODO: Transform the backend response into the required structure for the plot.
-   */
 
   // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
-  // const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
-  // const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
+  const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
+  let plotDataLabelXUnits = '';
+  const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
+  if (plotDataGeotype === 'county') {
+    plotDataLabelXUnits = 'Number of Counties';
+  }
+  if (plotDataGeotype === 'tract') {
+    plotDataLabelXUnits = 'Number of Census Tracts';
+  }
   const plotDataLabelYUnits = newObservedFeaturesPlotData.fig_aes.label_units;
-  const plotDataLabelXUnits = 'Number of Counties';
   const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
   // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
-  const PlotDataYears = newObservedFeaturesPlotData.fig_aes.years;
+  const PlotDataYears = newObservedFeaturesPlotData.years;
+  console.log(PlotDataYears);
 
   const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
   const traceType = traceMarkerTypes[1];
-  const markerOpacity = 0.6;
+  const markerOpacity = 0.8;
 
-  const minSubplot = 0;
-  const maxSubplot = 120;
+  const minSubplot = plotDataXRange[0]; // 0;
+  const maxSubplot = plotDataXRange[1]; // 120;
   const subplotRange = [minSubplot, maxSubplot];
 
   const baseTrace = {
@@ -513,8 +527,36 @@ const getObservedFeaturesPlotData = (
     ...trace9Conf
   };
 
+  // Add mean, mediam, focal_value markers to subplot trace.
+  // const meanTraceType = traceMarkerTypes[0];
+
+  // const baseTraceMean = {
+  //   name: 'trace name',
+  //   x: [minSubplot, maxSubplot],
+  //   y: PlotDataYears[2011].mean,
+  //   // xaxis: 'x',
+  //   // yaxis: 'y',
+  //   type: meanTraceType
+  //   // orientation: 'h'
+  // };
+
+  // const trace1MeanConf = {
+  //   // name: '',
+  //   y: PlotDataYears[2016].mean,
+  //   mode: 'lines'
+  //   // type: 'scatter',
+  //   // xaxis: 'x1',
+  //   // yaxis: 'y1'
+  // };
+
+  // const trace1Mean = {
+  //   ...baseTraceMean,
+  //   ...trace1MeanConf
+  // };
+
   const observedFeaturesDataObject = [
     trace1,
+    // trace1Mean,
     trace2,
     trace3,
     trace4,
@@ -527,7 +569,11 @@ const getObservedFeaturesPlotData = (
 
   const traceDomainRangeMapping = {
     xaxis1: {
-      range: subplotRange
+      range: subplotRange,
+      rangeselector: {
+        bordercolor: 'rgb(0, 0, 0)',
+        borderwidth: 1
+      }
     },
     yaxis1: { anchor: 'x1' },
     xaxis2: {
@@ -567,12 +613,12 @@ const getObservedFeaturesPlotData = (
 
   const layoutColors = {
     paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(200,200,200,0.2)'
+    plot_bgcolor: 'rgba(200,200,200,0)'
   };
 
   const plotTitle = 'Demographics';
   const plotOrientation = 'v';
-  const showPlotLegend = false;
+  const showPlotLegend = true;
   const plotXDataLabel = ''; // plotDataLabelXUnits
   const plotXDataAxisType = 'linear';
   const plotYDataLabel = plotDataLabelYUnits;
