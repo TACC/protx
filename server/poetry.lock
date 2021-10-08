@@ -866,14 +866,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "np"
-version = "1.0.2"
-description = "np = numpy++: numpy with added convenience functionality"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "oauthlib"
 version = "3.1.0"
 description = "A generic, spec-compliant, thorough implementation of the OAuth request-signing logic"
@@ -1579,7 +1571,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "a58f2c3e400819cafbcd2f549c6fccb3558102e70fcb13674d2ec2be078d4e06"
+content-hash = "eac3ebf93575bac5cc2a3953c7ccc881ff4696b486d7acbcba1d9a5854179b81"
 
 [metadata.files]
 agavepy = [
@@ -2111,9 +2103,6 @@ msgpack = [
     {file = "msgpack-1.0.2-cp39-cp39-win32.whl", hash = "sha256:c747c0cc08bd6d72a586310bda6ea72eeb28e7505990f342552315b229a19b33"},
     {file = "msgpack-1.0.2-cp39-cp39-win_amd64.whl", hash = "sha256:d8167b84af26654c1124857d71650404336f4eb5cc06900667a493fc619ddd9f"},
     {file = "msgpack-1.0.2.tar.gz", hash = "sha256:fae04496f5bc150eefad4e9571d1a76c55d021325dcd484ce45065ebbdd00984"},
-]
-np = [
-    {file = "np-1.0.2.tar.gz", hash = "sha256:781265283f3823663ad8fb48741aae62abcf4c78bc19f908f8aa7c1d3eb132f8"},
 ]
 oauthlib = [
     {file = "oauthlib-3.1.0-py2.py3-none-any.whl", hash = "sha256:df884cd6cbe20e32633f1db1072e9356f53638e4361bef4e8b03c9127c9328ea"},
