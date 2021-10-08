@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import ObservedFeaturesPlot from './ObservedFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
@@ -14,6 +15,22 @@ function ObservedFeaturesChart({
   showInstructions,
   showRate
 }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (observedFeature === 'maltreatment') {
+      return;
+    }
+    dispatch({
+      type: 'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
+      payload: {
+        area: geography,
+        variable: observedFeature,
+        unit: showRate ? 'percent' : 'count'
+      }
+    });
+  }, [mapType, geography, observedFeature, showRate]);
+
   const observedFeaturesDropdownInstructions = [
     'Select an Area.',
     'Select a Demographic Feature.',

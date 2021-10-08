@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from sqlalchemy import create_engine
 import logging
 
+from protx.data.api import demographics
 from portal.exceptions.api import ApiException
 
 
@@ -125,6 +126,7 @@ def get_maltreatment(request):
         meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
+
 # Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
 @ensure_csrf_cookie
 def get_demographics(request):
@@ -140,3 +142,14 @@ def get_demographics(request):
         result = connection.execute(DEMOGRAPHICS_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=DEMOGRAPHICS_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
+
+
+# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+@ensure_csrf_cookie
+def get_demographics_distribution_plot_data(request, area, variable, unit):
+    """Get demographics distribution data for plotting
+
+    """
+    logger.info("Getting demographic distribution data for {} {} {}".format(area, variable, unit))
+    result = demographics.demographic_histogram_data(area=area, variable=variable, unit=unit)
+    return JsonResponse({"result": result})

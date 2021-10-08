@@ -46,7 +46,7 @@ import {
 import { watchProjects } from './projects.sagas';
 import { watchUsers } from './users.sagas';
 import { watchSiteSearch } from './siteSearch.sagas';
-import { watchProtx } from './protx.sagas';
+import { watchProtx, watchProtxDemographicDistribution } from './protx.sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -94,6 +94,7 @@ export default function* rootSaga() {
     watchProjects(),
     watchUsers(),
     watchSiteSearch(),
+    watchProtxDemographicDistribution(),
     watchProtx()
   ]);
 }
