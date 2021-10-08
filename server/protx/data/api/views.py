@@ -30,7 +30,7 @@ GROUP BY
 '''
 
 # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135
-DEMOGRAPHICS_QUERY = "SELECT * FROM demographics d WHERE d.GEOTYPE='county' AND d.YEAR = '2019'"
+DEMOGRAPHICS_QUERY = "SELECT * FROM demographics d WHERE d.GEOTYPE='county'"
 
 DEMOGRAPHICS_MIN_MAX_QUERY = '''
 SELECT
@@ -41,7 +41,7 @@ SELECT
     MIN(d.value) AS MIN,
     MAX(d.value) AS MAX
 FROM demographics d
-WHERE d.GEOTYPE='county' AND d.YEAR = '2019'
+WHERE d.GEOTYPE='county'
 GROUP BY
     d.GEOTYPE,
     d.UNITS,
