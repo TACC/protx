@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
+import { useSelector } from 'react-redux';
+import { LoadingSpinner } from '_common';
 import {
   getFipsIdName,
   capitalizeString,
@@ -22,6 +24,22 @@ function ObservedFeaturesPlot({
   showRate,
   debug
 }) {
+  const protxDemographicsDistribution = useSelector(
+    state => state.protxDemographicsDistribution
+  );
+
+  if (protxDemographicsDistribution.error) {
+    return <div>There was a problem loading the data.</div>;
+  }
+
+  if (protxDemographicsDistribution.loading) {
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     geographyObservedFeatures,
@@ -46,7 +64,15 @@ function ObservedFeaturesPlot({
       showRate
     );
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
-    const observedFeaturesPlotData = getObservedFeaturesPlotData();
+    const observedFeaturesPlotData = getObservedFeaturesPlotData(
+      selectedGeographicFeature,
+      observedFeature,
+      data,
+      geography,
+      year,
+      showRate,
+      protxDemographicsDistribution.data
+    );
 
     return (
       <div className="observed-features-plot-layout">
@@ -121,7 +147,8 @@ function ObservedFeaturesPlot({
     data,
     geography,
     year,
-    showRate
+    showRate,
+    protxDemographicsDistribution.data
   );
 
   const observedFeaturesChartLayout = getObservedFeaturesChartLayout(

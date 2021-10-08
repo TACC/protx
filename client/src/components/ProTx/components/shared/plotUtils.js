@@ -18,7 +18,8 @@ import {
   getMaltreatmentTypesDataObject,
   // getObservedFeatureValueType,
   getObservedFeaturesDataObject,
-  getPredictiveFeaturesDataObject
+  getPredictiveFeaturesDataObject,
+  getObservedFeatureValue
 } from './dataUtils';
 
 /**
@@ -315,10 +316,32 @@ const getMaltreatmentPlotData = (
  * @returns
  */
 
-const getObservedFeaturesPlotData = () => {
+const getObservedFeaturesPlotData = (
+  selectedGeographicFeature,
+  observedFeature,
+  data,
+  geography,
+  year,
+  showRate,
+  dataHistogram
+) => {
   const newObservedFeaturesPlotData = getObservedFeaturesDataObject();
+  // Add focal_value: the value for each year for the selected geographic feature
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [iYear, yearData] of Object.entries(dataHistogram.years)) {
+    yearData.focal_value = getObservedFeatureValue(
+      data,
+      geography,
+      iYear,
+      observedFeature,
+      selectedGeographicFeature,
+      showRate
+    );
+  }
+  const anotherNewObservedFeaturesPlotData = dataHistogram;
+  // THIS needs to be tested. pussible focal_value is null
 
-  /** 
+  /**
    * TODO: Transform the backend response into the required structure for the plot.
    */
 

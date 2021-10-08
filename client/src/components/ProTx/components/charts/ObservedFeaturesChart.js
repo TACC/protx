@@ -16,9 +16,6 @@ function ObservedFeaturesChart({
   showRate
 }) {
   const dispatch = useDispatch();
-  const protxDemographicsDistribution = useSelector(
-    state => state.protxDemographicsDistribution
-  );
 
   useEffect(() => {
     if (observedFeature === 'maltreatment') {
@@ -33,14 +30,6 @@ function ObservedFeaturesChart({
       }
     });
   }, [mapType, geography, observedFeature, showRate]);
-
-  console.log(
-    observedFeature,
-    showRate,
-    protxDemographicsDistribution.loading,
-    protxDemographicsDistribution.error,
-    protxDemographicsDistribution.data
-  );
 
   const observedFeaturesDropdownInstructions = [
     'Select an Area.',
