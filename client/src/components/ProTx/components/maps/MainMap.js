@@ -112,7 +112,7 @@ function MainMap({
         const label =
           mapType === 'maltreatment'
             ? getMaltreatmentLabel(maltreatmentTypes, showRate)
-            : getObservedFeaturesLabel(observedFeature);
+            : getObservedFeaturesLabel(observedFeature, data);
 
         const newLegend = L.control({ position: 'bottomright' });
 

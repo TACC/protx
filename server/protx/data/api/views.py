@@ -125,6 +125,7 @@ def get_maltreatment(request):
         meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
+
 # Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
 @ensure_csrf_cookie
 def get_demographics(request):
@@ -140,3 +141,18 @@ def get_demographics(request):
         result = connection.execute(DEMOGRAPHICS_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=DEMOGRAPHICS_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
+
+
+# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+@ensure_csrf_cookie
+def get_display(request):
+    """Get display information data
+    """
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
+
+    with engine.connect() as connection:
+        display_data = connection.execute("SELECT * FROM display_data")
+        result = []
+        for variable_info in display_data:
+            result.append(dict(variable_info))
+        return JsonResponse({"variables": result})

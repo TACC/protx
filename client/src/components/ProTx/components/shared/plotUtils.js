@@ -220,7 +220,10 @@ const getMaltreatmentPlotData = (
   showRate
 ) => {
   const geoid = selectedGeographicFeature;
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+  const maltreatmentTypesList = getMaltreatmentTypeNames(
+    maltreatmentTypes,
+    data
+  );
 
   const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
     data,
@@ -306,7 +309,7 @@ const getObservedFeaturesPlotData = (
 ) => {
   const observedFeaturesDataObject = [];
   const observedFeaturesData = data.observedFeatures;
-  const plotXDataLabel = getObservedFeatureValueType(observedFeature);
+  const plotXDataLabel = getObservedFeatureValueType(observedFeature, data);
 
   let observedFeatureValue;
   let plotXDataAxisType;
