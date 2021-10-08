@@ -382,8 +382,8 @@ const getObservedFeaturesPlotData = (
     name: 'trace name',
     y: plotDataBarLabels,
     x: PlotDataYears[2011].bars,
-    xaxis: 'x1',
-    yaxis: 'y1',
+    xaxis: 'x',
+    yaxis: 'y',
     type: traceType,
     orientation: 'h',
     opacity: markerOpacity,
@@ -624,8 +624,8 @@ const getObservedFeaturesPlotData = (
   const plotYDataLabel = plotDataLabelYUnits;
   const plotYDataAxisType = 'category';
 
-  const subplotRows = 1; // 1, 3
-  const subPlotCols = 9; // 9, 3
+  const subplotRows = 3; // 1, 3
+  const subPlotCols = 3; // 9, 3
   const plotSubplotGrids = {
     grid: { rows: subplotRows, columns: subPlotCols, pattern: 'independent' }
   };
