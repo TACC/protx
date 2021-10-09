@@ -695,13 +695,22 @@ const getPredictiveFeaturesPlotData = () => {
   // Transform the response from the query into the required object structure for the plot.
   const predictiveFeaturesDataObject = [];
 
+  const axisCategories = [
+    'category',
+    'linear',
+    'log',
+    'date',
+    'multicategory',
+    '-'
+  ];
+
   const plotTitle = 'Predictive Features';
   const plotOrientation = 'v';
   const showPlotLegend = true;
   const plotXDataLabel = 'X DATA LABEL';
-  const plotXDataAxisType = 'linear'; // 'category', 'linear'
+  const plotXDataAxisType = axisCategories[1];
   const plotYDataLabel = 'Y DATA LABEL';
-  const plotYDataAxisType = 'linear';
+  const plotYDataAxisType = axisCategories[1];
 
   const plotLayout = getPlotLayout(
     plotTitle,
