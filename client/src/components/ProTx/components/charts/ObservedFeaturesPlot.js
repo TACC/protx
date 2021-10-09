@@ -29,7 +29,11 @@ function ObservedFeaturesPlot({
   );
 
   if (protxDemographicsDistribution.error) {
-    return <div>There was a problem loading the data.</div>;
+    return (
+      <div className="data-error-message">
+        There was a problem loading the data.
+      </div>
+    );
   }
 
   if (protxDemographicsDistribution.loading) {
