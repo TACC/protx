@@ -79,11 +79,12 @@ function MaltreatmentTypesPlot({
         <div className="maltreatment-types-plot-chart-body">
           <div className="maltreatment-types-plot-chart-body-plot">
             <Plot
+              divId="maltreatment-types-plot"
+              className="maltreatment-types-plot"
               data={plotStateMaltreatment.data}
               layout={plotStateMaltreatment.layout}
               config={plotStateMaltreatment.config}
               useResizeHandler
-              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>

@@ -104,11 +104,12 @@ function ObservedFeaturesPlot({
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
             <Plot
+              divId="observed-features-plot"
+              className="observed-features-plot"
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
-              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>
