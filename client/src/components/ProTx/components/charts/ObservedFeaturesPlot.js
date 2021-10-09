@@ -121,8 +121,8 @@ function ObservedFeaturesPlot({
           <span className="observed-features-plot-chart-summary">
             This chart was generated using data for{' '}
             <span className="observed-features-plot-selected-type">
-              {selectedGeographicFeatureName} {geographyObservedFeatures} (code{' '}
-              {selectedGeographicFeatureObservedFeatures})
+              {selectedGeographicFeatureName} {geographyObservedFeatures}
+              {/* (code{' '}{selectedGeographicFeatureObservedFeatures}) */}
             </span>{' '}
             based on the{' '}
             <span className="observed-features-plot-selected-type-value">
