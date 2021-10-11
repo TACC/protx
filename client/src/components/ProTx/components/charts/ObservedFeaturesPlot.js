@@ -29,7 +29,11 @@ function ObservedFeaturesPlot({
   );
 
   if (protxDemographicsDistribution.error) {
-    return <div>There was a problem loading the data.</div>;
+    return (
+      <div className="data-error-message">
+        There was a problem loading the data.
+      </div>
+    );
   }
 
   if (protxDemographicsDistribution.loading) {
@@ -40,6 +44,8 @@ function ObservedFeaturesPlot({
     );
   }
 
+  const observedFeaturesLabel = getObservedFeaturesLabel(observedFeature, data);
+
   const getObservedFeaturesChartLayout = (
     mapTypeObservedFeatures,
     geographyObservedFeatures,
@@ -48,9 +54,6 @@ function ObservedFeaturesPlot({
     selectedGeographicFeatureObservedFeatures,
     plotStateObservedFeatures
   ) => {
-    const observedFeaturesLabel = getObservedFeaturesLabel(
-      observedFeatureObservedFeatures
-    );
     const selectedGeographicFeatureName = getFipsIdName(
       selectedGeographicFeatureObservedFeatures
     );
@@ -105,19 +108,23 @@ function ObservedFeaturesPlot({
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
             <Plot
+              divId="observed-features-plot"
+              className="observed-features-plot"
               data={plotStateObservedFeatures.data}
               layout={plotStateObservedFeatures.layout}
               config={plotStateObservedFeatures.config}
               useResizeHandler
-              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>
         <div className="observed-features-plot-chart-footer">
           <span className="observed-features-plot-chart-summary">
             This chart was generated using data for{' '}
-            {selectedGeographicFeatureName} {geographyObservedFeatures} (code{' '}
-            {selectedGeographicFeatureObservedFeatures}) based on the{' '}
+            <span className="observed-features-plot-selected-type">
+              {selectedGeographicFeatureName} {geographyObservedFeatures}
+              {/* (code{' '}{selectedGeographicFeatureObservedFeatures}) */}
+            </span>{' '}
+            based on the{' '}
             <span className="observed-features-plot-selected-type-value">
               2011-2019 US Census Data
             </span>{' '}

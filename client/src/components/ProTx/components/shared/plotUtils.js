@@ -11,7 +11,7 @@ import {
   getMaltreatmentAggregatedValue,
   getMaltreatmentTypesDataObject,
   // getObservedFeatureValueType,
-  getObservedFeaturesDataObject,
+  // getObservedFeaturesDataObject,
   getPredictiveFeaturesDataObject,
   getObservedFeatureValue
 } from './dataUtils';
@@ -99,7 +99,7 @@ const getPlotLayout = (
       ticksuffix: null, // % --> '%' | #,$ --> null
       title: {
         text: plotXAxisTitle,
-        standoff: 12,
+        standoff: 20,
         font: {
           size: 10
         }
@@ -112,7 +112,7 @@ const getPlotLayout = (
       tickangle: 0,
       title: {
         text: plotYAxisTitle,
-        standoff: 16,
+        standoff: 20,
         font: {
           size: 10
         }
@@ -248,7 +248,10 @@ const getMaltreatmentPlotData = (
   showRate
 ) => {
   const geoid = selectedGeographicFeature;
-  const maltreatmentTypesList = getMaltreatmentTypeNames(maltreatmentTypes);
+  const maltreatmentTypesList = getMaltreatmentTypeNames(
+    maltreatmentTypes,
+    data
+  );
 
   const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
     data,
@@ -331,12 +334,7 @@ const getObservedFeaturesPlotData = (
   showRate,
   dataHistogram
 ) => {
-  // MOCK DATA.
-  // const mockObservedFeaturesPlotData = getObservedFeaturesDataObject();
-  // console.log(mockObservedFeaturesPlotData);
-  // LIVE DATA.
   const newObservedFeaturesPlotData = dataHistogram;
-  // console.log(dataHistogram);
 
   /**
    * TODO: Fix focal_value: the value for each year for the selected geographic feature (currently null).
@@ -353,29 +351,45 @@ const getObservedFeaturesPlotData = (
       showRate
     );
   }
+  // console.log(dataHistogram);
 
-  // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
   const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
-  let plotDataLabelXUnits = '';
+  // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
   const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
+
+  let plotDataLabelXUnits = '';
   if (plotDataGeotype === 'county') {
     plotDataLabelXUnits = 'Number of Counties';
   }
   if (plotDataGeotype === 'tract') {
     plotDataLabelXUnits = 'Number of Census Tracts';
   }
+
   const plotDataLabelYUnits = newObservedFeaturesPlotData.fig_aes.label_units;
   const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
   // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
   const PlotDataYears = newObservedFeaturesPlotData.years;
-  console.log(PlotDataYears);
+  // console.log(PlotDataYears);
+
+  const plotTitle = 'Demographics';
+  const plotOrientation = 'v';
+  const showPlotLegend = true;
+  const plotXDataLabel = ''; // plotDataLabelXUnits
+  let plotYDataLabel = plotDataLabelYUnits;
+
+  let plotXDataAxisType = 'linear';
+  const plotYDataAxisType = 'category';
+
+  if (geography === 'cbsa') {
+    plotXDataAxisType = 'log';
+    plotYDataLabel = 'Core Base Statistical Areas';
+  }
 
   const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
   const traceType = traceMarkerTypes[1];
   const markerOpacity = 0.8;
-
-  const minSubplot = plotDataXRange[0]; // 0;
-  const maxSubplot = plotDataXRange[1]; // 120;
+  const minSubplot = plotDataXRange[0];
+  const maxSubplot = plotDataXRange[1];
   const subplotRange = [minSubplot, maxSubplot];
 
   const baseTrace = {
@@ -616,16 +630,8 @@ const getObservedFeaturesPlotData = (
     plot_bgcolor: 'rgba(200,200,200,0)'
   };
 
-  const plotTitle = 'Demographics';
-  const plotOrientation = 'v';
-  const showPlotLegend = true;
-  const plotXDataLabel = ''; // plotDataLabelXUnits
-  const plotXDataAxisType = 'linear';
-  const plotYDataLabel = plotDataLabelYUnits;
-  const plotYDataAxisType = 'category';
-
-  const subplotRows = 3; // 1, 3
-  const subPlotCols = 3; // 9, 3
+  const subplotRows = 1; // 1, 3
+  const subPlotCols = 9; // 9, 3
   const plotSubplotGrids = {
     grid: { rows: subplotRows, columns: subPlotCols, pattern: 'independent' }
   };
@@ -689,13 +695,22 @@ const getPredictiveFeaturesPlotData = () => {
   // Transform the response from the query into the required object structure for the plot.
   const predictiveFeaturesDataObject = [];
 
+  const axisCategories = [
+    'category',
+    'linear',
+    'log',
+    'date',
+    'multicategory',
+    '-'
+  ];
+
   const plotTitle = 'Predictive Features';
   const plotOrientation = 'v';
   const showPlotLegend = true;
   const plotXDataLabel = 'X DATA LABEL';
-  const plotXDataAxisType = 'linear'; // 'category', 'linear'
+  const plotXDataAxisType = axisCategories[1];
   const plotYDataLabel = 'Y DATA LABEL';
-  const plotYDataAxisType = 'linear';
+  const plotYDataAxisType = axisCategories[1];
 
   const plotLayout = getPlotLayout(
     plotTitle,

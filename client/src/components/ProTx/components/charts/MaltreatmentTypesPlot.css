@@ -1,5 +1,7 @@
 .maltreatment-types-plot {
   font-family: var(--font-type-roboto-condensed);
+  width: 100%;
+  height: 100%;
 }
 .maltreatment-types-plot-layout {
   margin: 1vh 1vw;

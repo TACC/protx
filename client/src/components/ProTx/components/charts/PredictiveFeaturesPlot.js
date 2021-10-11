@@ -38,11 +38,12 @@ function PredictiveFeaturesPlot({
         <div className="predictive-features-plot-chart-body">
           <div className="predictive-features-plot-chart-body-plot">
             <Plot
+              divId="predictive-features-plot"
+              className="predictive-features-plot"
               data={plotStatePredictiveFeatures.data}
               layout={plotStatePredictiveFeatures.layout}
               config={plotStatePredictiveFeatures.config}
               useResizeHandler
-              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>

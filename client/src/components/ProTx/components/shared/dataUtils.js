@@ -1,12 +1,4 @@
 import { PHR_MSA_COUNTIES } from '../data/PHR_MSA_County_Data';
-import { MALTREATMENT, OBSERVED_FEATURES } from '../data/meta';
-import {
-  OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK
-  // DOLLARS_HIST_DATA,
-  // COUNT_HIST_DATA,
-  // PERCENT_HIST_DATA,
-  // FOCAL_DATA
-} from '../data/observedFeaturesPlot_mockData';
 
 /**
  *
@@ -267,15 +259,17 @@ const getMaltreatmentAggregatedValue = (
  * @param {*} typesDataArray
  * @returns
  */
-const getMaltreatmentTypeNames = maltreatmentTypeCodes => {
+const getMaltreatmentTypeNames = (maltreatmentTypeCodes, data) => {
   const updatedMaltreatmentTypesList = [];
   if (maltreatmentTypeCodes.length === 0) {
     return ['None'];
   }
   for (let i = 0; i < maltreatmentTypeCodes.length; i += 1) {
-    for (let j = 0; j < MALTREATMENT.length; j += 1) {
-      if (maltreatmentTypeCodes[i] === MALTREATMENT[j].field) {
-        updatedMaltreatmentTypesList.push(MALTREATMENT[j].name);
+    for (let j = 0; j < data.display.variables.length; j += 1) {
+      if (maltreatmentTypeCodes[i] === data.display.variables[j].NAME) {
+        updatedMaltreatmentTypesList.push(
+          data.display.variables[j].DISPLAY_TEXT
+        );
       }
     }
   }
@@ -356,9 +350,10 @@ const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
  * @param selectedObservedFeatureCode:str code of feature
  * @returns label
  */
-const getObservedFeaturesLabel = selectedObservedFeatureCode => {
-  return OBSERVED_FEATURES.find(f => selectedObservedFeatureCode === f.field)
-    .name;
+const getObservedFeaturesLabel = (selectedObservedFeatureCode, data) => {
+  return data.display.variables.find(
+    f => selectedObservedFeatureCode === f.NAME
+  ).DISPLAY_TEXT;
 };
 
 /**
@@ -366,28 +361,11 @@ const getObservedFeaturesLabel = selectedObservedFeatureCode => {
  * @param {*} selectedObservedFeatureCode
  * @returns {valueType: string}
  */
-const getObservedFeatureValueType = selectedObservedFeatureCode => {
-  const hasValue = OBSERVED_FEATURES.find(
-    f => selectedObservedFeatureCode === f.field
-  ).valueType;
-  if (hasValue === 'percent') {
-    return 'Percent';
-  }
-  return 'Total Count';
-};
-
-/**
- * TODO: Rewire this up to the actual backend response to be used in the plot.
- * TODO: Long term, provide actual data query to the plot, not pre-formatted values for bars, etc.
- *
- * @param {*} typesDataArray
- * @returns
- */
-const getObservedFeaturesDataObject = () => {
-  // TODO: Replace this with the actual data response.
-  const newObservedFeaturesDataObject = OBSERVED_FEATURES_PLOT_BACKEND_DATA_MOCK;
-
-  return newObservedFeaturesDataObject;
+const getObservedFeatureValueType = (selectedObservedFeatureCode, data) => {
+  const units = data.display.variables.find(
+    f => selectedObservedFeatureCode === f.NAME
+  ).UNITS;
+  return units.charAt(0).toUpperCase() + units.slice(1);
 };
 
 /**
@@ -417,6 +395,5 @@ export {
   getMaltreatmentTypesDataObject,
   getObservedFeaturesLabel,
   getObservedFeatureValueType,
-  getObservedFeaturesDataObject,
   getPredictiveFeaturesDataObject
 };

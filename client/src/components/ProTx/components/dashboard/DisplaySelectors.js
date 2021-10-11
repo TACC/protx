@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { DropdownSelector } from '_common';
 import MaltreatmentSelector from './MaltreatmentSelector';
-import {
-  OBSERVED_FEATURES,
-  OBSERVED_FEATURES_TOP_FIELDS,
-  SUPPORTED_YEARS
-} from '../data/meta';
+import { OBSERVED_FEATURES_TOP_FIELDS, SUPPORTED_YEARS } from '../data/meta';
 import './DisplaySelectors.module.scss';
 
 /* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
@@ -83,6 +80,26 @@ function DisplaySelectors({
   const rateLabel =
     mapType === 'maltreatment' ? 'Rate per 100k children' : 'Percentages';
   const nonRateLabel = 'Totals';
+  const display = useSelector(state => state.protx.data.display);
+
+  const changeShowRate = newShowRate => {
+    if (mapType === 'observedFeatures') {
+      // check to see if we also need to switch the variable if it doesn't a count or percentage
+      // that would be needed.
+      const current = display.variables.find(f => f.NAME === observedFeature);
+      if (newShowRate && current.DISPLAY_DEMOGRAPHIC_RATE === 0) {
+        setObservedFeature(
+          display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_RATE === 1).NAME
+        );
+      }
+      if (!newShowRate && current.DISPLAY_DEMOGRAPHIC_COUNT === 0) {
+        setObservedFeature(
+          display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_COUNT === 1).NAME
+        );
+      }
+    }
+    setShowRate(newShowRate);
+  };
 
   return (
     <div styleName="display-selectors">
@@ -124,7 +141,7 @@ function DisplaySelectors({
             rateLabel={rateLabel}
             nonRateLabel={nonRateLabel}
             showRate={showRate}
-            setShowRate={setShowRate}
+            setShowRate={changeShowRate}
           />
         </div>
       )}
@@ -132,6 +149,8 @@ function DisplaySelectors({
         <div styleName="control">
           <span styleName="label">Type</span>
           <MaltreatmentSelector
+            showRate={showRate}
+            variables={display.variables}
             selectedTypes={maltreatmentTypes}
             setSelectedTypes={setMaltreatmentTypes}
           />
@@ -146,16 +165,33 @@ function DisplaySelectors({
               onChange={event => setObservedFeature(event.target.value)}
             >
               <optgroup label="Select demographic feature">
-                {OBSERVED_FEATURES.filter(f => {
-                  if (limitToTopObservedFeatureFields) {
-                    return OBSERVED_FEATURES_TOP_FIELDS.includes(f.field);
-                  }
-                  return true;
-                }).map(f => (
-                  <option key={f.field} value={f.field}>
-                    {f.name}
-                  </option>
-                ))}
+                {display.variables
+                  .sort((a, b) => {
+                    if (a.DISPLAY_TEXT < b.DISPLAY_TEXT) {
+                      return -1;
+                    }
+                    if (a.DISPLAY_TEXT > b.DISPLAY_TEXT) {
+                      return 1;
+                    }
+                    return 0;
+                  })
+                  .filter(f => {
+                    if (limitToTopObservedFeatureFields) {
+                      return OBSERVED_FEATURES_TOP_FIELDS.includes(f.NAME);
+                    }
+                    if (showRate && f.DISPLAY_DEMOGRAPHIC_RATE) {
+                      return true;
+                    }
+                    if (!showRate && f.DISPLAY_DEMOGRAPHIC_COUNT) {
+                      return true;
+                    }
+                    return false;
+                  })
+                  .map(f => (
+                    <option key={f.NAME} value={f.NAME}>
+                      {f.DISPLAY_TEXT}
+                    </option>
+                  ))}
               </optgroup>
             </DropdownSelector>
           </div>

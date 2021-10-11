@@ -1,8 +1,16 @@
+.data-error-message {
+  margin: 1rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-blood-orange);
+}
 .loading-spinner {
   margin-top: 40%;
 }
 .observed-features-plot {
   font-family: var(--font-type-roboto-condensed);
+  width: 100%;
+  height: 100%;
 }
 .observed-features-plot-layout {
   margin: 1vh 1vw;
@@ -56,7 +64,6 @@
 .observed-feature-selection-label {
   font-weight: var(--font-weight-normal-plus);
 }
-/*  */
 .observed-features-plot-chart-body,
 .observed-features-plot-chart-body-plot {
   height: 60vh;
