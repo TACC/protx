@@ -7,7 +7,7 @@ import json
 import logging
 import urllib.parse
 from requests.exceptions import HTTPError
-from agavepy.async import AgaveAsyncResponse, Error
+from agavepy.asynchronous import AgaveAsyncResponse, Error
 from django.conf import settings
 from cached_property import cached_property
 from .base import BaseAgaveResource
