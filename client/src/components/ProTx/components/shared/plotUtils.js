@@ -346,8 +346,8 @@ const getObservedFeaturesPlotData = (
       data,
       geography,
       iYear,
-      observedFeature,
       selectedGeographicFeature,
+      observedFeature,
       showRate
     );
   }
