@@ -93,7 +93,6 @@ const getPlotLayout = (
       type: plotXAxisType,
       tickangle: 0,
       tick0: 0, // %,# --> 0 | $ --> 1000
-      dtick: 1, // % --> 'L5' | # --> 1 | $ --> 0.1
       tickformat: null, // %,# --> null | $ --> 'f',
       tickprefix: null, // %,# --> null | $ --> '$'
       ticksuffix: null, // % --> '%' | #,$ --> null
