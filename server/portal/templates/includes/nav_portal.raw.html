@@ -45,10 +45,5 @@
     </a>
   </nav>
 </li>
-{% else %}
-<li class="nav-item">
-  <a class="nav-link" href="{% url 'portal_auth:agave_oauth' %}">
-    <i class="icon icon-user"></i> Log in
-  </a>
-</li>
+{# Removing login until https://jira.tacc.utexas.edu/browse/COOKS-119 #}
 {% endif %}
