@@ -90,10 +90,16 @@ function MaltreatmentTypesPlot({
         </div>
         <div className="maltreatment-types-plot-chart-footer">
           <span className="maltreatment-types-plot-chart-summary">
-            This chart was generated using {yearMaltreatment}{' '}
-            {mapTypeMaltreatment} data for {fipsIdNameMaltreatment}{' '}
-            {geographyMaltreatment} (code{' '}
-            {selectedGeographicFeatureMaltreatment}) using the data type(s)
+            This chart was generated using{' '}
+            <span className="maltreatment-types-plot-selected-type">
+              {yearMaltreatment} {mapTypeMaltreatment} data
+            </span>{' '}
+            for{' '}
+            <span className="maltreatment-types-plot-selected-type">
+              {fipsIdNameMaltreatment} {geographyMaltreatment}
+              {/* (code{' '}{selectedGeographicFeatureMaltreatment})  */}
+            </span>{' '}
+            using the data type(s):{' '}
           </span>
           {maltreatmentTypesListMaltreatment.map(type => (
             <span

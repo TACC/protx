@@ -71,7 +71,7 @@ const getPlotLayout = (
 
   const plotLayoutMarginTop = 40;
   const plotLayoutMarginRight = 0;
-  const plotLayoutMarginBottom = 0;
+  const plotLayoutMarginBottom = 40;
   const plotLayoutMarginLeft = 0;
   const plotLayoutmarginPad = 2;
 
@@ -88,7 +88,7 @@ const getPlotLayout = (
       size: 10
     },
     xaxis: {
-      automargin: true,
+      automargin: false,
       autorange: true,
       type: plotXAxisType,
       tickangle: 0,
@@ -109,6 +109,7 @@ const getPlotLayout = (
       autorange: yAxisAutorange,
       type: plotYAxisType,
       tickangle: 0,
+      tick0: 0,
       title: {
         text: plotYAxisTitle,
         standoff: 20,
@@ -540,47 +541,25 @@ const getObservedFeaturesPlotData = (
     ...trace9Conf
   };
 
-  // Add mean, mediam, focal_value markers to subplot trace.
-  // const meanTraceType = traceMarkerTypes[0];
-
-  // const baseTraceMean = {
-  //   name: 'trace name',
-  //   x: [minSubplot, maxSubplot],
-  //   y: PlotDataYears[2011].mean,
-  //   // xaxis: 'x',
-  //   // yaxis: 'y',
-  //   type: meanTraceType
-  //   // orientation: 'h'
-  // };
-
-  // const trace1MeanConf = {
-  //   // name: '',
-  //   y: PlotDataYears[2016].mean,
-  //   mode: 'lines'
-  //   // type: 'scatter',
-  //   // xaxis: 'x1',
-  //   // yaxis: 'y1'
-  // };
-
-  // const trace1Mean = {
-  //   ...baseTraceMean,
-  //   ...trace1MeanConf
-  // };
-
-  const observedFeaturesDataObject = [
-    trace1,
-    // trace1Mean,
-    trace2,
-    trace3,
-    trace4,
-    trace5,
-    trace6,
-    trace7,
-    trace8,
-    trace9
+  const gridLayouts = [
+    [1, 9],
+    [3, 3]
   ];
+  const selectedGridLayout = 0;
+  const subplotRows = gridLayouts[selectedGridLayout][0];
+  const subPlotCols = gridLayouts[selectedGridLayout][1];
 
-  const traceDomainRangeMapping = {
+  const plotSubplotGrids = {
+    grid: { rows: subplotRows, columns: subPlotCols, pattern: 'independent' }
+  };
+
+  const subplotBarLayout = {
+    barmode: 'group',
+    bargap: 0.02,
+    bargroupgap: 0
+  };
+
+  const traceDomainRangeMappingBase = {
     xaxis1: {
       range: subplotRange,
       rangeselector: {
@@ -602,8 +581,7 @@ const getObservedFeaturesPlotData = (
     },
     yaxis4: { anchor: 'x1' },
     xaxis5: {
-      range: subplotRange,
-      title: plotDataLabelXUnits // Label placed here "centers" on the subplots.
+      range: subplotRange
     },
     yaxis5: { anchor: 'x1' },
     xaxis6: {
@@ -624,21 +602,87 @@ const getObservedFeaturesPlotData = (
     yaxis9: { anchor: 'x1' }
   };
 
+  const gridLayout0Title = {
+    xaxis5: {
+      title: plotDataLabelXUnits // Label "centers" on subplots in 1x9 grid.
+    }
+  };
+
+  const gridLayout1Title = {
+    xaxis8: {
+      title: plotDataLabelXUnits // Label "centers" on subplots in 3x3 grid.
+    }
+  };
+
+  let traceDomainRangeMapping;
+
+  if (selectedGridLayout === 0) {
+    traceDomainRangeMapping = {
+      ...traceDomainRangeMappingBase,
+      ...gridLayout0Title
+    };
+  }
+
+  if (selectedGridLayout === 1) {
+    traceDomainRangeMapping = {
+      ...traceDomainRangeMappingBase,
+      ...gridLayout1Title
+    };
+  }
+
+  // Add mean, mediam, focal_value markers to subplot trace.
+  const meanTraceType = traceMarkerTypes[0];
+
+  const baseTraceMean = {
+    x: [minSubplot, maxSubplot],
+    type: meanTraceType
+  };
+
+  const trace1MeanConf = {
+    name: '2011 Mean',
+    y: [PlotDataYears[2011].mean, PlotDataYears[2011].mean],
+    // mode: 'lines',
+    // type: 'scatter',
+    // orientation: 'h',
+    xaxis: {
+      anchor: 'xaxis1',
+      showticklabels: false
+      // title: {
+      //   text: ''
+      // }
+    },
+    yaxis: {
+      anchor: 'yaxis1',
+      showticklabels: false
+      // title: {
+      //   text: ''
+      // }
+    }
+  };
+
+  const trace1Mean = {
+    ...baseTraceMean,
+    ...trace1MeanConf
+  };
+
+  trace1Mean.yaxis.anchor = 'yaxis';
+
+  const observedFeaturesDataObject = [
+    trace1,
+    trace1Mean,
+    trace2,
+    trace3,
+    trace4,
+    trace5,
+    trace6,
+    trace7,
+    trace8,
+    trace9
+  ];
+
   const layoutColors = {
     paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(200,200,200,0)'
-  };
-
-  const subplotRows = 1; // 1, 3
-  const subPlotCols = 9; // 9, 3
-  const plotSubplotGrids = {
-    grid: { rows: subplotRows, columns: subPlotCols, pattern: 'independent' }
-  };
-
-  const subplotBarLayout = {
-    barmode: 'group',
-    bargap: 0.02,
-    bargroupgap: 0
+    plot_bgcolor: 'rgba(0,0,0,0)'
   };
 
   const basePlotLayout = getPlotLayout(
@@ -678,6 +722,7 @@ const getObservedFeaturesPlotData = (
     observedFeaturesPlotState: plotState
   };
 
+  console.log(observedFeaturesPlotData);
   return observedFeaturesPlotData;
 };
 
