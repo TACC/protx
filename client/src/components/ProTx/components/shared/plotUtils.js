@@ -388,7 +388,7 @@ const getObservedFeaturesPlotData = (
     [1, 9],
     [3, 3]
   ];
-  const selectedGridLayout = 1;
+  const selectedGridLayout = 0;
   const subplotRows = gridLayouts[selectedGridLayout][0];
   const subPlotCols = gridLayouts[selectedGridLayout][1];
 
