@@ -410,6 +410,21 @@ const getObservedFeaturesPlotData = (
     bargroupgap: 0
   };
 
+  const layoutColors = {
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
+  };
+
+  const basePlotLayout = getPlotLayout(
+    plotTitle,
+    plotOrientation,
+    showPlotLegend,
+    plotXDataLabel,
+    plotXDataAxisType,
+    plotYDataLabel,
+    plotYDataAxisType
+  );
+
   const baseTrace = {
     name: 'trace name',
     y: plotDataBarLabels,
@@ -671,13 +686,13 @@ const getObservedFeaturesPlotData = (
 
   const trace1MeanConfY = PlotDataYears[2011].mean.toFixed();
   const trace2MeanConfY = PlotDataYears[2012].mean.toFixed();
-  const trace3MeanConfY = PlotDataYears[2013].mean.toFixed();
-  const trace4MeanConfY = PlotDataYears[2014].mean.toFixed();
-  const trace5MeanConfY = PlotDataYears[2015].mean.toFixed();
-  const trace6MeanConfY = PlotDataYears[2016].mean.toFixed();
-  const trace7MeanConfY = PlotDataYears[2017].mean.toFixed();
-  const trace8MeanConfY = PlotDataYears[2018].mean.toFixed();
-  const trace9MeanConfY = PlotDataYears[2019].mean.toFixed();
+  // const trace3MeanConfY = PlotDataYears[2013].mean.toFixed();
+  // const trace4MeanConfY = PlotDataYears[2014].mean.toFixed();
+  // const trace5MeanConfY = PlotDataYears[2015].mean.toFixed();
+  // const trace6MeanConfY = PlotDataYears[2016].mean.toFixed();
+  // const trace7MeanConfY = PlotDataYears[2017].mean.toFixed();
+  // const trace8MeanConfY = PlotDataYears[2018].mean.toFixed();
+  // const trace9MeanConfY = PlotDataYears[2019].mean.toFixed();
 
   const trace1MeanConf = {
     name: '2011 Mean',
@@ -701,46 +716,40 @@ const getObservedFeaturesPlotData = (
     }
   };
 
-  const trace3MeanConf = {
-    name: '2013 Mean',
-    y: [trace3MeanConfY, trace3MeanConfY],
-    xaxis: {
-      anchor: 'xaxis3'
-    },
-    yaxis: {
-      anchor: 'yaxis3'
-    }
-  };
+  // const trace3MeanConf = {
+  //   name: '2013 Mean',
+  //   y: [trace3MeanConfY, trace3MeanConfY],
+  // };
 
-  const trace4MeanConf = {
-    name: '2014 Mean',
-    y: [trace4MeanConfY, trace4MeanConfY]
-  };
+  // const trace4MeanConf = {
+  //   name: '2014 Mean',
+  //   y: [trace4MeanConfY, trace4MeanConfY]
+  // };
 
-  const trace5MeanConf = {
-    name: '2015 Mean',
-    y: [trace5MeanConfY, trace5MeanConfY]
-  };
+  // const trace5MeanConf = {
+  //   name: '2015 Mean',
+  //   y: [trace5MeanConfY, trace5MeanConfY]
+  // };
 
-  const trace6MeanConf = {
-    name: '2016 Mean',
-    y: [trace6MeanConfY, trace6MeanConfY]
-  };
+  // const trace6MeanConf = {
+  //   name: '2016 Mean',
+  //   y: [trace6MeanConfY, trace6MeanConfY]
+  // };
 
-  const trace7MeanConf = {
-    name: '2017 Mean',
-    y: [trace7MeanConfY, trace7MeanConfY]
-  };
+  // const trace7MeanConf = {
+  //   name: '2017 Mean',
+  //   y: [trace7MeanConfY, trace7MeanConfY]
+  // };
 
-  const trace8MeanConf = {
-    name: '2018 Mean',
-    y: [trace8MeanConfY, trace8MeanConfY]
-  };
+  // const trace8MeanConf = {
+  //   name: '2018 Mean',
+  //   y: [trace8MeanConfY, trace8MeanConfY]
+  // };
 
-  const trace9MeanConf = {
-    name: '2019 Mean',
-    y: [trace9MeanConfY, trace9MeanConfY]
-  };
+  // const trace9MeanConf = {
+  //   name: '2019 Mean',
+  //   y: [trace9MeanConfY, trace9MeanConfY]
+  // };
 
   const trace1Mean = {
     ...baseMeanTrace,
@@ -754,47 +763,47 @@ const getObservedFeaturesPlotData = (
     ...trace2MeanConf
   };
 
-  const trace3Mean = {
-    ...baseMeanTrace,
-    ...baseMeanTraceStyle,
-    ...trace3MeanConf
-  };
+  // const trace3Mean = {
+  //   ...baseMeanTrace,
+  //   ...baseMeanTraceStyle,
+  //   ...trace3MeanConf
+  // };
 
-  const trace4Mean = {
-    ...baseMeanTrace,
-    ...baseMeanTraceStyle,
-    ...trace4MeanConf
-  };
+  // const trace4Mean = {
+  //   ...baseMeanTrace,
+  //   ...baseMeanTraceStyle,
+  //   ...trace4MeanConf
+  // };
 
-  const trace5Mean = {
-    ...baseMeanTrace,
-    ...baseMeanTraceStyle,
-    ...trace5MeanConf
-  };
+  // const trace5Mean = {
+  //   ...baseMeanTrace,
+  //   ...baseMeanTraceStyle,
+  //   ...trace5MeanConf
+  // };
 
-  const trace6Mean = {
-    ...baseMeanTrace,
-    ...baseMeanTraceStyle,
-    ...trace6MeanConf
-  };
+  // const trace6Mean = {
+  //   ...baseMeanTrace,
+  //   ...baseMeanTraceStyle,
+  //   ...trace6MeanConf
+  // };
 
-  const trace7Mean = {
-    ...baseMeanTrace,
-    ...baseMeanTraceStyle,
-    ...trace7MeanConf
-  };
+  // const trace7Mean = {
+  //   ...baseMeanTrace,
+  //   ...baseMeanTraceStyle,
+  //   ...trace7MeanConf
+  // };
 
-  const trace8Mean = {
-    ...baseMeanTrace,
-    ...baseMeanTraceStyle,
-    ...trace8MeanConf
-  };
+  // const trace8Mean = {
+  //   ...baseMeanTrace,
+  //   ...baseMeanTraceStyle,
+  //   ...trace8MeanConf
+  // };
 
-  const trace9Mean = {
-    ...baseMeanTrace,
-    ...baseMeanTraceStyle,
-    ...trace9MeanConf
-  };
+  // const trace9Mean = {
+  //   ...baseMeanTrace,
+  //   ...baseMeanTraceStyle,
+  //   ...trace9MeanConf
+  // };
 
   const observedFeaturesDataObject = [
     trace1,
@@ -802,35 +811,20 @@ const getObservedFeaturesPlotData = (
     trace2,
     trace2Mean,
     trace3,
-    trace3Mean,
+    // trace3Mean,
     trace4,
-    trace4Mean,
+    // trace4Mean,
     trace5,
-    trace5Mean,
+    // trace5Mean,
     trace6,
-    trace6Mean,
+    // trace6Mean,
     trace7,
-    trace7Mean,
+    // trace7Mean,
     trace8,
-    trace8Mean,
-    trace9,
-    trace9Mean
+    // trace8Mean,
+    trace9
+    // trace9Mean
   ];
-
-  const layoutColors = {
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)'
-  };
-
-  const basePlotLayout = getPlotLayout(
-    plotTitle,
-    plotOrientation,
-    showPlotLegend,
-    plotXDataLabel,
-    plotXDataAxisType,
-    plotYDataLabel,
-    plotYDataAxisType
-  );
 
   const plotLayout = {
     ...basePlotLayout,
@@ -839,12 +833,6 @@ const getObservedFeaturesPlotData = (
     ...traceDomainRangeMapping,
     ...layoutColors
   };
-
-  // const plotData = getPlotDataBars(
-  //   'observed',
-  //   observedFeaturesDataObject,
-  //   plotOrientation
-  // );
 
   const plotData = observedFeaturesDataObject;
 
