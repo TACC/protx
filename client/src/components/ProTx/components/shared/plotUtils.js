@@ -318,8 +318,6 @@ const getMaltreatmentPlotData = (
 
 /******************************/
 /**
- * TODO: Recreate the timeseries_histogram implementation from the Jupyter notyebook here.
- * TODO: Define the data, layout and config objects for the new plot.
  *
  * @param {*} typesDataArray
  * @returns
@@ -336,10 +334,6 @@ const getObservedFeaturesPlotData = (
 ) => {
   const newObservedFeaturesPlotData = dataHistogram;
 
-  /**
-   * TODO: Fix focal_value: the value for each year for the selected geographic feature (currently null).
-   */
-
   // eslint-disable-next-line no-restricted-syntax
   for (const [iYear, yearData] of Object.entries(dataHistogram.years)) {
     yearData.focal_value = getObservedFeatureValue(
@@ -351,7 +345,6 @@ const getObservedFeaturesPlotData = (
       showRate
     );
   }
-  // console.log(dataHistogram);
 
   const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
   // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
@@ -369,7 +362,6 @@ const getObservedFeaturesPlotData = (
   const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
   // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
   const PlotDataYears = newObservedFeaturesPlotData.years;
-  // console.log(PlotDataYears);
 
   const plotTitle = 'Demographics';
   const plotOrientation = 'v';
@@ -646,7 +638,9 @@ const getObservedFeaturesPlotData = (
   }
 
   /**
-   * TODO: Add mean, median, focal_value markers to subplot trace.
+   * TODO: Render the MEAN, MEDIAN and FOCAL_VALUE on each year's subplot.
+   * TODO: Render only one legend entry for MEAN, MEDIAN, FOCAL_VALUE traces.
+   * TODO: Add colors to support proper trace rendering for lines.
    */
 
   const meanTraceType = traceMarkerTypes[0];
@@ -684,72 +678,73 @@ const getObservedFeaturesPlotData = (
     }
   };
 
-  const trace1MeanConfY = PlotDataYears[2011].mean.toFixed();
-  const trace2MeanConfY = PlotDataYears[2012].mean.toFixed();
-  // const trace3MeanConfY = PlotDataYears[2013].mean.toFixed();
-  // const trace4MeanConfY = PlotDataYears[2014].mean.toFixed();
-  // const trace5MeanConfY = PlotDataYears[2015].mean.toFixed();
-  // const trace6MeanConfY = PlotDataYears[2016].mean.toFixed();
-  // const trace7MeanConfY = PlotDataYears[2017].mean.toFixed();
-  // const trace8MeanConfY = PlotDataYears[2018].mean.toFixed();
-  // const trace9MeanConfY = PlotDataYears[2019].mean.toFixed();
+  const roundingAmount = 3;
+  const trace1MeanConfY = PlotDataYears[2011].mean.toFixed(roundingAmount);
+  const trace2MeanConfY = PlotDataYears[2012].mean.toFixed(roundingAmount);
+  const trace3MeanConfY = PlotDataYears[2013].mean.toFixed(roundingAmount);
+  const trace4MeanConfY = PlotDataYears[2014].mean.toFixed(roundingAmount);
+  const trace5MeanConfY = PlotDataYears[2015].mean.toFixed(roundingAmount);
+  const trace6MeanConfY = PlotDataYears[2016].mean.toFixed(roundingAmount);
+  const trace7MeanConfY = PlotDataYears[2017].mean.toFixed(roundingAmount);
+  const trace8MeanConfY = PlotDataYears[2018].mean.toFixed(roundingAmount);
+  const trace9MeanConfY = PlotDataYears[2019].mean.toFixed(roundingAmount);
 
   const trace1MeanConf = {
     name: '2011 Mean',
     y: [trace1MeanConfY, trace1MeanConfY],
-    xaxis: {
-      anchor: 'xaxis1'
-    },
+    // xaxis: {
+    //   anchor: 'xaxis1'
+    // },
     yaxis: {
-      anchor: 'y1'
+      anchor: 'x1'
     }
   };
 
   const trace2MeanConf = {
     name: '2012 Mean',
     y: [trace2MeanConfY, trace2MeanConfY],
-    xaxis: {
-      anchor: 'xaxis2'
-    },
+    // xaxis: {
+    //   anchor: 'xaxis2'
+    // },
     yaxis: {
-      anchor: 'yaxis2'
+      anchor: 'x1'
     }
   };
 
-  // const trace3MeanConf = {
-  //   name: '2013 Mean',
-  //   y: [trace3MeanConfY, trace3MeanConfY],
-  // };
+  const trace3MeanConf = {
+    name: '2013 Mean',
+    y: [trace3MeanConfY, trace3MeanConfY]
+  };
 
-  // const trace4MeanConf = {
-  //   name: '2014 Mean',
-  //   y: [trace4MeanConfY, trace4MeanConfY]
-  // };
+  const trace4MeanConf = {
+    name: '2014 Mean',
+    y: [trace4MeanConfY, trace4MeanConfY]
+  };
 
-  // const trace5MeanConf = {
-  //   name: '2015 Mean',
-  //   y: [trace5MeanConfY, trace5MeanConfY]
-  // };
+  const trace5MeanConf = {
+    name: '2015 Mean',
+    y: [trace5MeanConfY, trace5MeanConfY]
+  };
 
-  // const trace6MeanConf = {
-  //   name: '2016 Mean',
-  //   y: [trace6MeanConfY, trace6MeanConfY]
-  // };
+  const trace6MeanConf = {
+    name: '2016 Mean',
+    y: [trace6MeanConfY, trace6MeanConfY]
+  };
 
-  // const trace7MeanConf = {
-  //   name: '2017 Mean',
-  //   y: [trace7MeanConfY, trace7MeanConfY]
-  // };
+  const trace7MeanConf = {
+    name: '2017 Mean',
+    y: [trace7MeanConfY, trace7MeanConfY]
+  };
 
-  // const trace8MeanConf = {
-  //   name: '2018 Mean',
-  //   y: [trace8MeanConfY, trace8MeanConfY]
-  // };
+  const trace8MeanConf = {
+    name: '2018 Mean',
+    y: [trace8MeanConfY, trace8MeanConfY]
+  };
 
-  // const trace9MeanConf = {
-  //   name: '2019 Mean',
-  //   y: [trace9MeanConfY, trace9MeanConfY]
-  // };
+  const trace9MeanConf = {
+    name: '2019 Mean',
+    y: [trace9MeanConfY, trace9MeanConfY]
+  };
 
   const trace1Mean = {
     ...baseMeanTrace,
@@ -763,67 +758,73 @@ const getObservedFeaturesPlotData = (
     ...trace2MeanConf
   };
 
-  // const trace3Mean = {
-  //   ...baseMeanTrace,
-  //   ...baseMeanTraceStyle,
-  //   ...trace3MeanConf
-  // };
+  const trace3Mean = {
+    ...baseMeanTrace,
+    ...baseMeanTraceStyle,
+    ...trace3MeanConf
+  };
 
-  // const trace4Mean = {
-  //   ...baseMeanTrace,
-  //   ...baseMeanTraceStyle,
-  //   ...trace4MeanConf
-  // };
+  const trace4Mean = {
+    ...baseMeanTrace,
+    ...baseMeanTraceStyle,
+    ...trace4MeanConf
+  };
 
-  // const trace5Mean = {
-  //   ...baseMeanTrace,
-  //   ...baseMeanTraceStyle,
-  //   ...trace5MeanConf
-  // };
+  const trace5Mean = {
+    ...baseMeanTrace,
+    ...baseMeanTraceStyle,
+    ...trace5MeanConf
+  };
 
-  // const trace6Mean = {
-  //   ...baseMeanTrace,
-  //   ...baseMeanTraceStyle,
-  //   ...trace6MeanConf
-  // };
+  const trace6Mean = {
+    ...baseMeanTrace,
+    ...baseMeanTraceStyle,
+    ...trace6MeanConf
+  };
 
-  // const trace7Mean = {
-  //   ...baseMeanTrace,
-  //   ...baseMeanTraceStyle,
-  //   ...trace7MeanConf
-  // };
+  const trace7Mean = {
+    ...baseMeanTrace,
+    ...baseMeanTraceStyle,
+    ...trace7MeanConf
+  };
 
-  // const trace8Mean = {
-  //   ...baseMeanTrace,
-  //   ...baseMeanTraceStyle,
-  //   ...trace8MeanConf
-  // };
+  const trace8Mean = {
+    ...baseMeanTrace,
+    ...baseMeanTraceStyle,
+    ...trace8MeanConf
+  };
 
-  // const trace9Mean = {
-  //   ...baseMeanTrace,
-  //   ...baseMeanTraceStyle,
-  //   ...trace9MeanConf
-  // };
+  const trace9Mean = {
+    ...baseMeanTrace,
+    ...baseMeanTraceStyle,
+    ...trace9MeanConf
+  };
 
   const observedFeaturesDataObject = [
+    // Subplot Base.
     trace1,
-    trace1Mean,
     trace2,
-    trace2Mean,
     trace3,
-    // trace3Mean,
     trace4,
-    // trace4Mean,
     trace5,
-    // trace5Mean,
     trace6,
-    // trace6Mean,
     trace7,
-    // trace7Mean,
     trace8,
-    // trace8Mean,
-    trace9
-    // trace9Mean
+    trace9,
+    // Subplot MEAN.
+    trace1Mean,
+    trace2Mean,
+    trace3Mean,
+    trace4Mean,
+    trace5Mean,
+    trace6Mean,
+    trace7Mean,
+    trace8Mean,
+    trace9Mean
+    // Subplot MEDIAN.
+    // TBD...
+    // Subplot focal_value.
+    // TBD...
   ];
 
   const plotLayout = {
