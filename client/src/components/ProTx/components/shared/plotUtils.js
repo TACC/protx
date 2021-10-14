@@ -383,6 +383,7 @@ const getObservedFeaturesPlotData = (
   const minSubplot = plotDataXRange[0];
   const maxSubplot = plotDataXRange[1];
   const subplotRange = [minSubplot, maxSubplot];
+  // console.log(subplotRange);
 
   const gridLayouts = [
     [1, 9],
@@ -421,8 +422,30 @@ const getObservedFeaturesPlotData = (
     name: 'trace name',
     y: plotDataBarLabels,
     x: PlotDataYears[2011].bars,
-    xaxis: 'x',
-    yaxis: 'y',
+    xaxis: {
+      anchor: 'x',
+      title: '',
+      ticks: ''
+      // autotick: true,
+      // autorange: true,
+      // showticklabels: false,
+      // visible: false,
+      // zeroline: false,
+      // showline: false,
+      // showgrid: false
+    },
+    yaxis: {
+      anchor: 'y',
+      title: '',
+      ticks: ''
+      // autotick: true,
+      // autorange: true,
+      // showticklabels: false,
+      // visible: false,
+      // zeroline: false,
+      // showline: false,
+      // showgrid: false
+    },
     type: traceType,
     orientation: 'h',
     opacity: markerOpacity,
@@ -432,7 +455,7 @@ const getObservedFeaturesPlotData = (
   };
 
   const trace1Conf = {
-    name: 2011,
+    name: '2011',
     x: PlotDataYears[2011].bars,
     xaxis: 'x1',
     yaxis: 'y1',
@@ -566,77 +589,6 @@ const getObservedFeaturesPlotData = (
     ...trace9Conf
   };
 
-  const traceDomainRangeMappingBase = {
-    xaxis1: {
-      range: subplotRange,
-      rangeselector: {
-        bordercolor: 'rgb(0, 0, 0)',
-        borderwidth: 1
-      }
-    },
-    yaxis1: { anchor: 'x1' },
-    xaxis2: {
-      range: subplotRange
-    },
-    yaxis2: { anchor: 'x1' },
-    xaxis3: {
-      range: subplotRange
-    },
-    yaxis3: { anchor: 'x1' },
-    xaxis4: {
-      range: subplotRange
-    },
-    yaxis4: { anchor: 'x1' },
-    xaxis5: {
-      range: subplotRange
-    },
-    yaxis5: { anchor: 'x1' },
-    xaxis6: {
-      range: subplotRange
-    },
-    yaxis6: { anchor: 'x1' },
-    xaxis7: {
-      range: subplotRange
-    },
-    yaxis7: { anchor: 'x1' },
-    xaxis8: {
-      range: subplotRange
-    },
-    yaxis8: { anchor: 'x1' },
-    xaxis9: {
-      range: subplotRange
-    },
-    yaxis9: { anchor: 'x1' }
-  };
-
-  const gridLayout0Title = {
-    xaxis5: {
-      title: plotDataLabelXUnits // Label "centers" on subplots in 1x9 grid.
-    }
-  };
-
-  const gridLayout1Title = {
-    xaxis8: {
-      title: plotDataLabelXUnits // Label "centers" on subplots in 3x3 grid.
-    }
-  };
-
-  let traceDomainRangeMapping;
-
-  if (selectedGridLayout === 0) {
-    traceDomainRangeMapping = {
-      ...traceDomainRangeMappingBase,
-      ...gridLayout0Title
-    };
-  }
-
-  if (selectedGridLayout === 1) {
-    traceDomainRangeMapping = {
-      ...traceDomainRangeMappingBase,
-      ...gridLayout1Title
-    };
-  }
-
   /**
    * TODO: Render the MEAN, MEDIAN and FOCAL_VALUE on each year's subplot.
    * TODO: Render only one legend entry for MEAN, MEDIAN, FOCAL_VALUE traces.
@@ -655,26 +607,26 @@ const getObservedFeaturesPlotData = (
     xaxis: {
       anchor: 'x',
       title: '',
-      ticks: '',
-      autotick: true,
-      autorange: true,
-      showticklabels: false,
-      visible: false,
-      zeroline: false,
-      showline: false,
-      showgrid: false
+      ticks: ''
+      // autotick: true,
+      // autorange: true,
+      // showticklabels: false,
+      // visible: false,
+      // zeroline: false,
+      // showline: false,
+      // showgrid: false
     },
     yaxis: {
       anchor: 'y',
       title: '',
-      ticks: '',
-      autotick: true,
-      autorange: true,
-      showticklabels: false,
-      visible: false,
-      zeroline: false,
-      showline: false,
-      showgrid: false
+      ticks: ''
+      // autotick: true,
+      // autorange: true,
+      // showticklabels: false,
+      // visible: false,
+      // zeroline: false,
+      // showline: false,
+      // showgrid: false
     }
   };
 
@@ -692,58 +644,72 @@ const getObservedFeaturesPlotData = (
   const trace1MeanConf = {
     name: '2011 Mean',
     y: [trace1MeanConfY, trace1MeanConfY],
-    // xaxis: {
-    //   anchor: 'xaxis1'
-    // },
-    yaxis: {
-      anchor: 'x1'
+    xaxis: { anchor: 'x1' },
+    yaxis: { anchor: 'y1' },
+    layout: {
+      col: 1,
+      row: 1
     }
   };
 
   const trace2MeanConf = {
     name: '2012 Mean',
     y: [trace2MeanConfY, trace2MeanConfY],
-    // xaxis: {
-    //   anchor: 'xaxis2'
-    // },
-    yaxis: {
-      anchor: 'x1'
+    xaxis: { anchor: 'x2' },
+    yaxis: { anchor: 'y2' },
+    layout: {
+      col: 2,
+      row: 1
     }
   };
 
   const trace3MeanConf = {
     name: '2013 Mean',
-    y: [trace3MeanConfY, trace3MeanConfY]
+    y: [trace3MeanConfY, trace3MeanConfY],
+    xaxis: { anchor: 'x3' },
+    yaxis: { anchor: 'y3' }
   };
 
   const trace4MeanConf = {
     name: '2014 Mean',
-    y: [trace4MeanConfY, trace4MeanConfY]
+    y: [trace4MeanConfY, trace4MeanConfY],
+    xaxis: { anchor: 'x4' },
+    yaxis: { anchor: 'y4' }
   };
 
   const trace5MeanConf = {
     name: '2015 Mean',
-    y: [trace5MeanConfY, trace5MeanConfY]
+    y: [trace5MeanConfY, trace5MeanConfY],
+    xaxis: { anchor: 'x5' },
+    yaxis: { anchor: 'y5' }
   };
 
   const trace6MeanConf = {
     name: '2016 Mean',
-    y: [trace6MeanConfY, trace6MeanConfY]
+    y: [trace6MeanConfY, trace6MeanConfY],
+    xaxis: { anchor: 'x6' },
+    yaxis: { anchor: 'y6' }
   };
 
   const trace7MeanConf = {
     name: '2017 Mean',
-    y: [trace7MeanConfY, trace7MeanConfY]
+    y: [trace7MeanConfY, trace7MeanConfY],
+    xaxis: { anchor: 'x7' },
+    yaxis: { anchor: 'y7' }
   };
 
   const trace8MeanConf = {
     name: '2018 Mean',
-    y: [trace8MeanConfY, trace8MeanConfY]
+    y: [trace8MeanConfY, trace8MeanConfY],
+    xaxis: { anchor: 'x8' },
+    yaxis: { anchor: 'y8' }
   };
 
   const trace9MeanConf = {
     name: '2019 Mean',
-    y: [trace9MeanConfY, trace9MeanConfY]
+    y: [trace9MeanConfY, trace9MeanConfY],
+    xaxis: { anchor: 'x9' },
+    yaxis: { anchor: 'y9' }
   };
 
   const trace1Mean = {
@@ -801,31 +767,92 @@ const getObservedFeaturesPlotData = (
   };
 
   const observedFeaturesDataObject = [
-    // Subplot Base.
     trace1,
+    // trace1Mean,
     trace2,
+    // trace2Mean,
     trace3,
+    // trace3Mean,
     trace4,
+    // trace4Mean,
     trace5,
+    // trace5Mean,
     trace6,
+    // trace6Mean,
     trace7,
+    // trace7Mean,
     trace8,
-    trace9,
-    // Subplot MEAN.
-    trace1Mean,
-    trace2Mean,
-    trace3Mean,
-    trace4Mean,
-    trace5Mean,
-    trace6Mean,
-    trace7Mean,
-    trace8Mean,
-    trace9Mean
-    // Subplot MEDIAN.
-    // TBD...
-    // Subplot focal_value.
-    // TBD...
+    // trace8Mean,
+    trace9
+    // trace9Mean
   ];
+
+  const traceDomainRangeMappingBase = {
+    x1: {
+      range: subplotRange
+    },
+    y1: { anchor: 'x1' },
+    x2: {
+      range: subplotRange
+    },
+    y2: { anchor: 'x1' },
+    x3: {
+      range: subplotRange
+    },
+    y3: { anchor: 'x1' },
+    x4: {
+      range: subplotRange
+    },
+    y4: { anchor: 'x1' },
+    x5: {
+      range: subplotRange
+    },
+    y5: { anchor: 'x1' },
+    x6: {
+      range: subplotRange
+    },
+    y6: { anchor: 'x1' },
+    x7: {
+      range: subplotRange
+    },
+    y7: { anchor: 'x1' },
+    x8: {
+      range: subplotRange
+    },
+    y8: { anchor: 'x1' },
+    x9: {
+      range: subplotRange
+    },
+    y9: { anchor: 'x1' }
+  };
+
+  const gridLayout0Title = {
+    xaxis5: {
+      title: plotDataLabelXUnits // Label "centers" on subplots in 1x9 grid.
+    }
+  };
+
+  const gridLayout1Title = {
+    xaxis8: {
+      title: plotDataLabelXUnits // Label "centers" on subplots in 3x3 grid.
+    }
+  };
+
+  let traceDomainRangeMapping;
+
+  if (selectedGridLayout === 0) {
+    traceDomainRangeMapping = {
+      ...traceDomainRangeMappingBase,
+      ...gridLayout0Title
+    };
+  }
+
+  if (selectedGridLayout === 1) {
+    traceDomainRangeMapping = {
+      ...traceDomainRangeMappingBase,
+      ...gridLayout1Title
+    };
+  }
 
   const plotLayout = {
     ...basePlotLayout,
