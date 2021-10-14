@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getFipsIdName } from '../shared/dataUtils';
-import { getPredictiveFeaturesPlotData } from '../shared/plotUtils';
-
+import {
+  getFipsIdName,
+  getPredictiveFeaturesDataObject
+} from '../shared/dataUtils';
+import {
+  plotConfig,
+  getPlotLayout,
+  getPlotDataBars
+} from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
@@ -51,7 +57,60 @@ function PredictiveFeaturesPlot({
     );
   };
 
-  const predictiveFeaturesPlotData = getPredictiveFeaturesPlotData();
+  const prepPredictiveFeaturesPlotData = () => {
+    const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
+
+    // Transform the response from the query into the required object structure for the plot.
+    const predictiveFeaturesDataObject = [];
+
+    const axisCategories = [
+      'category',
+      'linear',
+      'log',
+      'date',
+      'multicategory',
+      '-'
+    ];
+
+    const plotTitle = 'Predictive Features';
+    const plotOrientation = 'v';
+    const showPlotLegend = true;
+    const plotXDataLabel = 'X DATA LABEL';
+    const plotXDataAxisType = axisCategories[1];
+    const plotYDataLabel = 'Y DATA LABEL';
+    const plotYDataAxisType = axisCategories[1];
+
+    const plotLayout = getPlotLayout(
+      plotTitle,
+      plotOrientation,
+      showPlotLegend,
+      plotXDataLabel,
+      plotXDataAxisType,
+      plotYDataLabel,
+      plotYDataAxisType
+    );
+
+    const plotData = getPlotDataBars(
+      'predictive',
+      predictiveFeaturesDataObject,
+      plotOrientation
+    );
+
+    const plotState = {
+      data: plotData,
+      layout: plotLayout,
+      config: plotConfig,
+      raw: newPredictiveFeaturesDataObject
+    };
+
+    const predictiveFeaturesPlotData = {
+      predictiveFeaturesPlotState: plotState
+    };
+
+    return predictiveFeaturesPlotData;
+  };
+
+  const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 

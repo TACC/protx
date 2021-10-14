@@ -4,9 +4,17 @@ import Plot from 'react-plotly.js';
 import {
   getFipsIdName,
   capitalizeString,
-  getMaltreatmentLabel
+  getMaltreatmentLabel,
+  getMaltreatmentTypeNames,
+  getMaltreatmentSelectedValues,
+  getMaltreatmentAggregatedValue,
+  getMaltreatmentTypesDataObject
 } from '../shared/dataUtils';
-import { getMaltreatmentPlotData } from '../shared/plotUtils';
+import {
+  plotConfig,
+  getPlotLayout,
+  getPlotDataBars
+} from '../shared/plotUtils';
 import DebugPlot from './DebugPlot';
 import './MaltreatmentTypesPlot.css';
 
@@ -114,7 +122,84 @@ function MaltreatmentTypesPlot({
     );
   };
 
-  const maltreatmentPlotData = getMaltreatmentPlotData(
+  const prepMaltreatmentPlotData = (
+    selectedGeographicFeaturePrep,
+    maltreatmentTypesPrep,
+    dataPrep,
+    geographyPrep,
+    yearPrep,
+    showRatePrep
+  ) => {
+    const geoid = selectedGeographicFeaturePrep;
+    const maltreatmentTypesList = getMaltreatmentTypeNames(
+      maltreatmentTypesPrep,
+      dataPrep
+    );
+
+    const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+      dataPrep,
+      geographyPrep,
+      yearPrep,
+      showRatePrep,
+      geoid,
+      maltreatmentTypesPrep
+    );
+
+    const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+      dataPrep,
+      geographyPrep,
+      yearPrep,
+      showRatePrep,
+      geoid,
+      maltreatmentTypesPrep
+    ).toFixed(0);
+
+    const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
+      maltreatmentTypesPrep,
+      maltreatmentTypesList,
+      maltreatmentTypesDataValues
+    );
+
+    const plotTitle = 'Maltreatment Types';
+    const plotOrientation = 'v';
+    const showPlotLegend = false;
+    const plotXDataLabel = 'Maltreatment Type';
+    const plotXDataAxisType = 'category';
+    const plotYDataLabel = 'Total Number of Cases in Selected County';
+    const plotYDataAxisType = 'linear';
+
+    const plotLayout = getPlotLayout(
+      plotTitle,
+      plotOrientation,
+      showPlotLegend,
+      plotXDataLabel,
+      plotXDataAxisType,
+      plotYDataLabel,
+      plotYDataAxisType
+    );
+
+    const plotData = getPlotDataBars(
+      'maltreatment',
+      maltreatmentTypesDataObject,
+      plotOrientation
+    );
+
+    const plotState = {
+      data: plotData,
+      layout: plotLayout,
+      config: plotConfig
+    };
+
+    const maltreatmentPlotData = {
+      malTypesAggregate: maltreatmentTypesDataAggregate,
+      malTypesList: maltreatmentTypesList,
+      malPlotState: plotState
+    };
+
+    return maltreatmentPlotData;
+  };
+
+  const maltreatmentPlotData = prepMaltreatmentPlotData(
     selectedGeographicFeature,
     maltreatmentTypes,
     data,
