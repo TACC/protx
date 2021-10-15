@@ -1125,12 +1125,20 @@ function ObservedFeaturesPlotHardcoded({
     }
   };
 
+  const style = {
+    marginTop: 50,
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 900
+  };
+
   const getObservedFeaturesPlotLayout = () => {
     return (
       <div className="observed-features-plot-layout">
         <div className="observed-features-plot-header" />
         <div className="observed-features-plot-chart-body">
           <div className="observed-features-plot-chart-body-plot">
+            <div style={style}>HARDCODED JUPYTER FIGURE DATA</div>
             <Plot
               divId="observed-features-plot"
               className="observed-features-plot"
