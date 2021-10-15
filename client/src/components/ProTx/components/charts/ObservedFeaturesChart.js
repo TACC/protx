@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import ObservedFeaturesPlot from './ObservedFeaturesPlot';
+// import ObservedFeaturesPlot from './ObservedFeaturesPlot';
+import ObservedFeaturesPlotHardcoded from './ObservedFeaturesPlotHardcoded';
 import ChartInstructions from './ChartInstructions';
 import './ObservedFeaturesChart.css';
 
@@ -44,7 +45,8 @@ function ObservedFeaturesChart({
   if (selectedGeographicFeature && observedFeature) {
     return (
       <div className="observed-features-report">
-        <ObservedFeaturesPlot
+        {/* <ObservedFeaturesPlot */}
+        <ObservedFeaturesPlotHardcoded
           mapType={mapType}
           geography={geography}
           observedFeature={observedFeature}
