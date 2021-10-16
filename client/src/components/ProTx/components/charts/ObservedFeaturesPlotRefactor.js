@@ -13,15 +13,14 @@ import {
 import './ObservedFeaturesPlot.css';
 import { histColors, plotConfig, getPlotLayout } from '../shared/plotUtils';
 
-function ObservedFeaturesPlot({
+function ObservedFeaturesPlotRefactor({
   mapType,
   geography,
   observedFeature,
   year,
   selectedGeographicFeature,
   data,
-  showRate,
-  debug
+  showRate
 }) {
   const protxDemographicsDistribution = useSelector(
     state => state.protxDemographicsDistribution
@@ -67,41 +66,41 @@ function ObservedFeaturesPlot({
     );
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
-    let featureTotalUnit = 'Total';
-    if (showRate) {
-      featureTotalUnit = '';
-    }
-
     return (
       <div className="observed-features-plot-layout">
-        <div className="observed-features-plot-info">
-          <div className="observed-features-plot-info-region">
-            <div className="observed-features-plot-selected-region">
-              <span className="observed-features-plot-selected-region-label">
-                FIPS: {selectedGeographicFeatureObservedFeatures}
-              </span>
-              <span className="observed-features-plot-selected-region-value">
-                {selectedGeographicFeatureName} {geographyType}
-              </span>
-            </div>
-            <div className="observed-features-plot-aggregated-count">
-              <span className="observed-features-plot-aggregated-count-value">
-                {observedFeatureTotalCount}
-              </span>
-              <span className="observed-features-plot-aggregated-count-label">
-                {featureTotalUnit}
-              </span>
+        <div className="observed-features-plot-header">
+          <div className="observed-features-plot-info">
+            <div className="observed-features-plot-info-item">
+              <div className="observed-features-plot-selected-region">
+                <span className="observed-features-plot-selected-region-label">
+                  {geographyType}
+                </span>
+                <span className="observed-features-plot-selected-region-value">
+                  {selectedGeographicFeatureName}
+                </span>
+                <span className="observed-features-plot-selected-region-code">
+                  ({selectedGeographicFeatureObservedFeatures})
+                </span>
+              </div>
+              <div className="observed-features-plot-aggregated-count">
+                <span className="observed-features-plot-aggregated-count-label">
+                  Total
+                </span>
+                <span className="observed-features-plot-aggregated-count-value">
+                  {observedFeatureTotalCount}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="observed-features-plot-selected">
-          <div className="observed-features-plot-selected-feature">
-            <span className="observed-features-plot-selected-feature-label">
-              Selected Feature:
-            </span>
-            <span className="observed-features-plot-selected-feature-value">
-              {observedFeaturesLabel}
-            </span>
+          <div className="observed-features-plot-info">
+            <div className="observed-features-plot-selected-feature">
+              <span className="observed-features-plot-selected-feature-label">
+                Feature
+              </span>
+              <span className="observed-features-plot-selected-feature-value">
+                {observedFeaturesLabel}
+              </span>
+            </div>
           </div>
         </div>
         <div className="observed-features-plot-chart-body">
@@ -714,14 +713,13 @@ function ObservedFeaturesPlot({
   );
 
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   return (
     <div className="observed-features-plot">{observedFeaturesChartLayout}</div>
   );
 }
 
-ObservedFeaturesPlot.propTypes = {
+ObservedFeaturesPlotRefactor.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   observedFeature: PropTypes.string.isRequired,
@@ -732,6 +730,6 @@ ObservedFeaturesPlot.propTypes = {
   showRate: PropTypes.bool.isRequired
 };
 
-ObservedFeaturesPlot.defaultProps = {};
+ObservedFeaturesPlotRefactor.defaultProps = {};
 
-export default ObservedFeaturesPlot;
+export default ObservedFeaturesPlotRefactor;

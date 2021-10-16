@@ -11,8 +11,7 @@ function ObservedFeaturesPlotHardcoded({
   year,
   selectedGeographicFeature,
   data,
-  showRate,
-  debug
+  showRate
 }) {
   const hardcoded = {
     data: [
@@ -1169,13 +1168,9 @@ ObservedFeaturesPlotHardcoded.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
-  showRate: PropTypes.bool.isRequired,
-  /** Render component data in debug mode. */
-  debug: PropTypes.bool
+  showRate: PropTypes.bool.isRequired
 };
 
-ObservedFeaturesPlotHardcoded.defaultProps = {
-  debug: false
-};
+ObservedFeaturesPlotHardcoded.defaultProps = {};
 
 export default ObservedFeaturesPlotHardcoded;

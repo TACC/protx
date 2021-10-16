@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import ObservedFeaturesPlot from './ObservedFeaturesPlot';
 import ObservedFeaturesPlotHardcoded from './ObservedFeaturesPlotHardcoded';
+import ObservedFeaturesPlotRefactor from './ObservedFeaturesPlotRefactor';
 import ChartInstructions from './ChartInstructions';
 import './ObservedFeaturesChart.css';
 
@@ -46,7 +47,9 @@ function ObservedFeaturesChart({
     return (
       <div className="observed-features-report">
         {/* <ObservedFeaturesPlot */}
-        <ObservedFeaturesPlotHardcoded
+        {/* <ObservedFeaturesPlotHardcoded */}
+        {/* <ObservedFeaturesPlotRefactor */}
+        <ObservedFeaturesPlot
           mapType={mapType}
           geography={geography}
           observedFeature={observedFeature}

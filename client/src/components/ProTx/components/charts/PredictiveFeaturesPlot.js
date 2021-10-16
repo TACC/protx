@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {
-  getFipsIdName,
-  getPredictiveFeaturesDataObject
-} from '../shared/dataUtils';
+import { getPredictiveFeaturesDataObject } from '../shared/dataUtils';
 import {
   plotConfig,
   getPlotLayout,
   getPlotDataBars
 } from '../shared/plotUtils';
-import DebugPlot from './DebugPlot';
 import './PredictiveFeaturesPlot.css';
 
 function PredictiveFeaturesPlot({
@@ -18,11 +14,8 @@ function PredictiveFeaturesPlot({
   observedFeature,
   year,
   selectedGeographicFeature,
-  data,
-  debug
+  data
 }) {
-  const PLOT_TYPE = 'predictiveFeatures';
-
   const getPredictiveFeaturesChartLayout = (
     predictiveFeaturePredictiveFeatures,
     geographyPredictiveFeatures,
@@ -111,8 +104,6 @@ function PredictiveFeaturesPlot({
   };
 
   const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
-  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   const predictiveFeaturesChartLayout = getPredictiveFeaturesChartLayout(
     observedFeature,
@@ -120,24 +111,6 @@ function PredictiveFeaturesPlot({
     selectedGeographicFeature,
     predictiveFeaturesPlotData.predictiveFeaturesPlotState
   );
-
-  if (debug) {
-    return (
-      <DebugPlot
-        className="plot-debug"
-        mapType="predictiveFeatures"
-        geography={geography}
-        observedFeature={observedFeature}
-        year={year}
-        selectedGeographicFeature={selectedGeographicFeature}
-        fipsIdValue={fipsIdValue}
-        geoId={geoId}
-        plotType={PLOT_TYPE}
-        plotData={predictiveFeaturesPlotData}
-        data={data}
-      />
-    );
-  }
 
   return (
     <div className="predictive-features-plot">
@@ -152,13 +125,9 @@ PredictiveFeaturesPlot.propTypes = {
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired,
-  /** Render component data in debug mode. */
-  debug: PropTypes.bool
+  data: PropTypes.object.isRequired
 };
 
-PredictiveFeaturesPlot.defaultProps = {
-  debug: false
-};
+PredictiveFeaturesPlot.defaultProps = {};
 
 export default PredictiveFeaturesPlot;
