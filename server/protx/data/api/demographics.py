@@ -232,6 +232,7 @@ def demographic_histogram_data(area, unit, variable):
     selection = {'area': area, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
     query = yearly_data_query.format(**selection)
     query_result = pd.read_sql_query(query, db_conn)
+    db_conn.close()
 
     # munge data
     result = demographic_data_prep(query_result)
