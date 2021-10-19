@@ -154,6 +154,7 @@ def get_demographics_distribution_plot_data(request, area, variable, unit):
     result = demographics.demographic_histogram_data(area=area, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
+
 def get_display(request):
     """Get display information data
     """
@@ -163,5 +164,11 @@ def get_display(request):
         display_data = connection.execute("SELECT * FROM display_data")
         result = []
         for variable_info in display_data:
-            result.append(dict(variable_info))
+            var = dict(variable_info)
+            # Interpret some variables used to control dropdown population https://jira.tacc.utexas.edu/browse/COOKS-148
+            for boolean_var_key in ["DISPLAY_DEMOGRAPHIC_COUNT", "DISPLAY_DEMOGRAPHIC_RATE",
+                                    "DISPLAY_MALTREATMENT_COUNT", "DISPLAY_MALTREATMENT_RATE"]:
+                current_value = var[boolean_var_key]
+                var[boolean_var_key] = True if (current_value == 1 or current_value == "1") else False
+            result.append(var)
         return JsonResponse({"variables": result})
