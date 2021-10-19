@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import ObservedFeaturesPlot from './ObservedFeaturesPlot';
-import ObservedFeaturesPlotHardcoded from './ObservedFeaturesPlotHardcoded';
+// import ObservedFeaturesPlot from './ObservedFeaturesPlot';
+// import ObservedFeaturesPlotHardcoded from './ObservedFeaturesPlotHardcoded';
 import ObservedFeaturesPlotRefactor from './ObservedFeaturesPlotRefactor';
 import ChartInstructions from './ChartInstructions';
 import './ObservedFeaturesChart.css';
@@ -49,7 +49,7 @@ function ObservedFeaturesChart({
         {/* <ObservedFeaturesPlot */}
         {/* <ObservedFeaturesPlotHardcoded */}
         {/* <ObservedFeaturesPlotRefactor */}
-        <ObservedFeaturesPlot
+        <ObservedFeaturesPlotRefactor
           mapType={mapType}
           geography={geography}
           observedFeature={observedFeature}

@@ -66,41 +66,41 @@ function ObservedFeaturesPlotRefactor({
     );
     const observedFeatureTotalCount = cleanValue(currentTargetValue);
 
+    let featureTotalUnit = 'Total';
+    if (showRate) {
+      featureTotalUnit = '';
+    }
+
     return (
       <div className="observed-features-plot-layout">
-        <div className="observed-features-plot-header">
-          <div className="observed-features-plot-info">
-            <div className="observed-features-plot-info-item">
-              <div className="observed-features-plot-selected-region">
-                <span className="observed-features-plot-selected-region-label">
-                  {geographyType}
-                </span>
-                <span className="observed-features-plot-selected-region-value">
-                  {selectedGeographicFeatureName}
-                </span>
-                <span className="observed-features-plot-selected-region-code">
-                  ({selectedGeographicFeatureObservedFeatures})
-                </span>
-              </div>
-              <div className="observed-features-plot-aggregated-count">
-                <span className="observed-features-plot-aggregated-count-label">
-                  Total
-                </span>
-                <span className="observed-features-plot-aggregated-count-value">
-                  {observedFeatureTotalCount}
-                </span>
-              </div>
+        <div className="observed-features-plot-info">
+          <div className="observed-features-plot-info-region">
+            <div className="observed-features-plot-selected-region">
+              <span className="observed-features-plot-selected-region-label">
+                FIPS: {selectedGeographicFeatureObservedFeatures}
+              </span>
+              <span className="observed-features-plot-selected-region-value">
+                {selectedGeographicFeatureName} {geographyType}
+              </span>
+            </div>
+            <div className="observed-features-plot-aggregated-count">
+              <span className="observed-features-plot-aggregated-count-value">
+                {observedFeatureTotalCount}
+              </span>
+              <span className="observed-features-plot-aggregated-count-label">
+                {featureTotalUnit}
+              </span>
             </div>
           </div>
-          <div className="observed-features-plot-info">
-            <div className="observed-features-plot-selected-feature">
-              <span className="observed-features-plot-selected-feature-label">
-                Feature
-              </span>
-              <span className="observed-features-plot-selected-feature-value">
-                {observedFeaturesLabel}
-              </span>
-            </div>
+        </div>
+        <div className="observed-features-plot-selected">
+          <div className="observed-features-plot-selected-feature">
+            <span className="observed-features-plot-selected-feature-label">
+              Selected Feature:
+            </span>
+            <span className="observed-features-plot-selected-feature-value">
+              {observedFeaturesLabel}
+            </span>
           </div>
         </div>
         <div className="observed-features-plot-chart-body">
@@ -198,497 +198,153 @@ function ObservedFeaturesPlotRefactor({
     const subplotRange = [minSubplot, maxSubplot];
     // console.log(subplotRange);
 
-    const gridLayouts = [
-      [1, 9],
-      [3, 3]
-    ];
-    const selectedGridLayout = 0;
-    const subplotRows = gridLayouts[selectedGridLayout][0];
-    const subPlotCols = gridLayouts[selectedGridLayout][1];
+    /**
+     * TODO: Recreate the hardcoded plot data.
+     */
 
-    const plotSubplotGrids = {
-      grid: { rows: subplotRows, columns: subPlotCols, pattern: 'independent' }
+    // Iterate over data array.
+    // Generate the following objects per year:
+    // - Marker object for histogram bar
+    // - Line object for Mean
+    // - Line object for Mediam
+    // - Line object for focal_value
+
+    const rawData = protxDemographicsDistribution.data;
+
+    // Variables used in iteration.
+    // const isMarker; // true, false
+    // const isLine; // mean, median, focal_value
+    // const plotMarkerColor; // 'rgb(0,0,0)'
+    // const plotMarkerOpacity;  // 1.0
+    // const plotMarkerOrientation;  // 'h'
+    // const plotLineColor; // 'rgb(0,0,0)'
+    // const plotLineType; // 'dash', 'dot', 'solid'
+    // const plotLineWidth;  // 3
+    // const plotLegendVisible;  // true, false
+    // const plotType; // 'bar', 'scatter'
+    // const lpotXDataArray; // [0,1,2,3,4,5,6,7,8,9]
+    // const plotXAxisAnchor; // 'x'
+    // const plotYDataArray;   // [minVal, maxVal]
+    // const plotYAxisAnchor;  // 'y'
+    // const plotName;   // focal_value
+
+    const generatePlotBar = () => {
+      const plotBarObject = {
+        // marker: { color: 'rgb(5.0, 200.0, 200.0)' },
+        // opacity: 0.4,
+        // orientation: 'h',
+        // showlegend: false,
+        // type: 'bar',
+        // x: [13, 46, 100, 62, 18, 11, 3, 1, 0, 0],
+        // xaxis: 'x',
+        // y: [
+        //   12232.77,
+        //   16482.51,
+        //   20732.25,
+        //   24981.989999999998,
+        //   29231.73,
+        //   33481.47,
+        //   37731.21,
+        //   41980.95,
+        //   46230.69,
+        //   50480.43
+        // ],
+        // yaxis: 'y'
+      };
+
+      return plotBarObject;
     };
 
-    const subplotBarLayout = {
-      barmode: 'group',
-      bargap: 0.02,
-      bargroupgap: 0
+    const generatePlotLine = () => {
+      const plotLineObject = {
+        // line: { color: 'gray', dash: 'dot', width: 3 },
+        // mode: 'lines',
+        // name: 'median',
+        // showlegend: true,
+        // type: 'scatter',
+        // x: [0, 115.50000000000001],
+        // xaxis: 'x',
+        // y: [21631.5, 21631.5],
+        // yaxis: 'y'
+      };
+
+      return plotLineObject;
     };
 
-    const layoutColors = {
-      paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: 'rgba(0,0,0,0)'
-    };
+    const prepPlotData = (targetName, inputData) => {
+      console.log(targetName, inputData);
+      const plotDataArray = [];
 
-    const basePlotLayout = getPlotLayout(
-      plotTitle,
-      plotOrientation,
-      showPlotLegend,
-      plotXDataLabel,
-      plotXDataAxisType,
-      plotYDataLabel,
-      plotYDataAxisType
-    );
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [index, [key, value]] of Object.entries(
+        Object.entries(inputData.years)
+      )) {
+        // console.log(`${index}: ${key} = `, value);
+        // console.log(histColors[index]);
 
-    const baseTrace = {
-      name: 'trace name',
-      y: plotDataBarLabels,
-      x: PlotDataYears[2011].bars,
-      xaxis: {
-        anchor: 'x',
-        title: '',
-        ticks: ''
-        // autotick: true,
-        // autorange: true,
-        // showticklabels: false,
-        // visible: false,
-        // zeroline: false,
-        // showline: false,
-        // showgrid: false
-      },
-      yaxis: {
-        anchor: 'y',
-        title: '',
-        ticks: ''
-        // autotick: true,
-        // autorange: true,
-        // showticklabels: false,
-        // visible: false,
-        // zeroline: false,
-        // showline: false,
-        // showgrid: false
-      },
-      type: traceType,
-      orientation: 'h',
-      opacity: markerOpacity,
-      marker: {
-        color: histColors[0]
+        const plotYearBarMarker = generatePlotBar();
+        const plotYearLineMean = generatePlotLine();
+        const plotYearLineMedian = generatePlotLine();
+        const plotYearLineFocalValue = generatePlotLine();
+
+        plotDataArray.push(
+          plotYearBarMarker,
+          plotYearLineMean,
+          plotYearLineMedian,
+          plotYearLineFocalValue
+        );
       }
-    };
 
-    const trace1Conf = {
-      name: '2011',
-      x: PlotDataYears[2011].bars,
-      xaxis: 'x1',
-      yaxis: 'y1',
-      marker: {
-        color: histColors[0]
-      }
-    };
-
-    const trace2Conf = {
-      name: '2012',
-      x: PlotDataYears[2012].bars,
-      xaxis: 'x2',
-      yaxis: 'y2',
-      marker: {
-        color: histColors[1]
-      }
-    };
-
-    const trace3Conf = {
-      name: '2013',
-      x: PlotDataYears[2013].bars,
-      xaxis: 'x3',
-      yaxis: 'y3',
-      marker: {
-        color: histColors[2]
-      }
-    };
-
-    const trace4Conf = {
-      name: '2014',
-      x: PlotDataYears[2014].bars,
-      xaxis: 'x4',
-      yaxis: 'y4',
-      marker: {
-        color: histColors[3]
-      }
-    };
-
-    const trace5Conf = {
-      name: '2015',
-      x: PlotDataYears[2015].bars,
-      xaxis: 'x5',
-      yaxis: 'y5',
-      marker: {
-        color: histColors[4]
-      }
-    };
-
-    const trace6Conf = {
-      name: '2016',
-      x: PlotDataYears[2016].bars,
-      xaxis: 'x6',
-      yaxis: 'y6',
-      marker: {
-        color: histColors[5]
-      }
-    };
-
-    const trace7Conf = {
-      name: '2017',
-      x: PlotDataYears[2017].bars,
-      xaxis: 'x7',
-      yaxis: 'y7',
-      marker: {
-        color: histColors[6]
-      }
-    };
-
-    const trace8Conf = {
-      name: '2018',
-      x: PlotDataYears[2018].bars,
-      xaxis: 'x8',
-      yaxis: 'y8',
-      marker: {
-        color: histColors[7]
-      }
-    };
-
-    const trace9Conf = {
-      name: '2019',
-      x: PlotDataYears[2019].bars,
-      xaxis: 'x9',
-      yaxis: 'y9',
-      marker: {
-        color: histColors[8]
-      }
-    };
-
-    const trace1 = {
-      ...baseTrace,
-      ...trace1Conf
-    };
-
-    const trace2 = {
-      ...baseTrace,
-      ...trace2Conf
-    };
-
-    const trace3 = {
-      ...baseTrace,
-      ...trace3Conf
-    };
-
-    const trace4 = {
-      ...baseTrace,
-      ...trace4Conf
-    };
-
-    const trace5 = {
-      ...baseTrace,
-      ...trace5Conf
-    };
-
-    const trace6 = {
-      ...baseTrace,
-      ...trace6Conf
-    };
-
-    const trace7 = {
-      ...baseTrace,
-      ...trace7Conf
-    };
-
-    const trace8 = {
-      ...baseTrace,
-      ...trace8Conf
-    };
-
-    const trace9 = {
-      ...baseTrace,
-      ...trace9Conf
+      // console.log(plotDataArray);
+      return plotDataArray;
     };
 
     /**
-     * TODO: Render the MEAN, MEDIAN and FOCAL_VALUE on each year's subplot.
-     * TODO: Render only one legend entry for MEAN, MEDIAN, FOCAL_VALUE traces.
-     * TODO: Add colors to support proper trace rendering for lines.
+     * TODO: Recreate the hardcoded layout.
      */
 
-    const meanTraceType = traceMarkerTypes[0];
+    const bargapValue = 0;
 
-    const baseMeanTraceStyle = {
-      opacity: 0.7
+    const plotLayoutRefactor = {
+      annotations: [],
+      bargap: bargapValue,
+      template: {},
+      xaxis: {},
+      xaxis2: {},
+      xaxis3: {},
+      xaxis4: {},
+      xaxis5: {},
+      xaxis6: {},
+      xaxis7: {},
+      xaxis8: {},
+      xaxis9: {},
+      yaxis: {},
+      yaxis2: {},
+      yaxis3: {},
+      yaxis4: {},
+      yaxis5: {},
+      yaxis6: {},
+      yaxis7: {},
+      yaxis8: {},
+      yaxis9: {}
     };
 
-    const baseMeanTrace = {
-      x: [minSubplot, maxSubplot],
-      type: meanTraceType,
-      xaxis: {
-        anchor: 'x',
-        title: '',
-        ticks: ''
-        // autotick: true,
-        // autorange: true,
-        // showticklabels: false,
-        // visible: false,
-        // zeroline: false,
-        // showline: false,
-        // showgrid: false
-      },
-      yaxis: {
-        anchor: 'y',
-        title: '',
-        ticks: ''
-        // autotick: true,
-        // autorange: true,
-        // showticklabels: false,
-        // visible: false,
-        // zeroline: false,
-        // showline: false,
-        // showgrid: false
-      }
-    };
+    const selectedRegion = getFipsIdName(selectedGeographicFeature);
+    const plotDataRefactor = prepPlotData(selectedRegion, rawData);
 
-    const roundingAmount = 3;
-    const trace1MeanConfY = PlotDataYears[2011].mean.toFixed(roundingAmount);
-    const trace2MeanConfY = PlotDataYears[2012].mean.toFixed(roundingAmount);
-    const trace3MeanConfY = PlotDataYears[2013].mean.toFixed(roundingAmount);
-    const trace4MeanConfY = PlotDataYears[2014].mean.toFixed(roundingAmount);
-    const trace5MeanConfY = PlotDataYears[2015].mean.toFixed(roundingAmount);
-    const trace6MeanConfY = PlotDataYears[2016].mean.toFixed(roundingAmount);
-    const trace7MeanConfY = PlotDataYears[2017].mean.toFixed(roundingAmount);
-    const trace8MeanConfY = PlotDataYears[2018].mean.toFixed(roundingAmount);
-    const trace9MeanConfY = PlotDataYears[2019].mean.toFixed(roundingAmount);
-
-    const trace1MeanConf = {
-      name: '2011 Mean',
-      y: [trace1MeanConfY, trace1MeanConfY],
-      xaxis: { anchor: 'x1' },
-      yaxis: { anchor: 'y1' },
-      layout: {
-        col: 1,
-        row: 1
-      }
-    };
-
-    const trace2MeanConf = {
-      name: '2012 Mean',
-      y: [trace2MeanConfY, trace2MeanConfY],
-      xaxis: { anchor: 'x2' },
-      yaxis: { anchor: 'y2' },
-      layout: {
-        col: 2,
-        row: 1
-      }
-    };
-
-    const trace3MeanConf = {
-      name: '2013 Mean',
-      y: [trace3MeanConfY, trace3MeanConfY],
-      xaxis: { anchor: 'x3' },
-      yaxis: { anchor: 'y3' }
-    };
-
-    const trace4MeanConf = {
-      name: '2014 Mean',
-      y: [trace4MeanConfY, trace4MeanConfY],
-      xaxis: { anchor: 'x4' },
-      yaxis: { anchor: 'y4' }
-    };
-
-    const trace5MeanConf = {
-      name: '2015 Mean',
-      y: [trace5MeanConfY, trace5MeanConfY],
-      xaxis: { anchor: 'x5' },
-      yaxis: { anchor: 'y5' }
-    };
-
-    const trace6MeanConf = {
-      name: '2016 Mean',
-      y: [trace6MeanConfY, trace6MeanConfY],
-      xaxis: { anchor: 'x6' },
-      yaxis: { anchor: 'y6' }
-    };
-
-    const trace7MeanConf = {
-      name: '2017 Mean',
-      y: [trace7MeanConfY, trace7MeanConfY],
-      xaxis: { anchor: 'x7' },
-      yaxis: { anchor: 'y7' }
-    };
-
-    const trace8MeanConf = {
-      name: '2018 Mean',
-      y: [trace8MeanConfY, trace8MeanConfY],
-      xaxis: { anchor: 'x8' },
-      yaxis: { anchor: 'y8' }
-    };
-
-    const trace9MeanConf = {
-      name: '2019 Mean',
-      y: [trace9MeanConfY, trace9MeanConfY],
-      xaxis: { anchor: 'x9' },
-      yaxis: { anchor: 'y9' }
-    };
-
-    const trace1Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace1MeanConf
-    };
-
-    const trace2Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace2MeanConf
-    };
-
-    const trace3Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace3MeanConf
-    };
-
-    const trace4Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace4MeanConf
-    };
-
-    const trace5Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace5MeanConf
-    };
-
-    const trace6Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace6MeanConf
-    };
-
-    const trace7Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace7MeanConf
-    };
-
-    const trace8Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace8MeanConf
-    };
-
-    const trace9Mean = {
-      ...baseMeanTrace,
-      ...baseMeanTraceStyle,
-      ...trace9MeanConf
-    };
-
-    const observedFeaturesDataObject = [
-      trace1,
-      // trace1Mean,
-      trace2,
-      // trace2Mean,
-      trace3,
-      // trace3Mean,
-      trace4,
-      // trace4Mean,
-      trace5,
-      // trace5Mean,
-      trace6,
-      // trace6Mean,
-      trace7,
-      // trace7Mean,
-      trace8,
-      // trace8Mean,
-      trace9
-      // trace9Mean
-    ];
-
-    const traceDomainRangeMappingBase = {
-      x1: {
-        range: subplotRange
-      },
-      y1: { anchor: 'x1' },
-      x2: {
-        range: subplotRange
-      },
-      y2: { anchor: 'x1' },
-      x3: {
-        range: subplotRange
-      },
-      y3: { anchor: 'x1' },
-      x4: {
-        range: subplotRange
-      },
-      y4: { anchor: 'x1' },
-      x5: {
-        range: subplotRange
-      },
-      y5: { anchor: 'x1' },
-      x6: {
-        range: subplotRange
-      },
-      y6: { anchor: 'x1' },
-      x7: {
-        range: subplotRange
-      },
-      y7: { anchor: 'x1' },
-      x8: {
-        range: subplotRange
-      },
-      y8: { anchor: 'x1' },
-      x9: {
-        range: subplotRange
-      },
-      y9: { anchor: 'x1' }
-    };
-
-    const gridLayout0Title = {
-      xaxis5: {
-        title: plotDataLabelXUnits // Label "centers" on subplots in 1x9 grid.
-      }
-    };
-
-    const gridLayout1Title = {
-      xaxis8: {
-        title: plotDataLabelXUnits // Label "centers" on subplots in 3x3 grid.
-      }
-    };
-
-    let traceDomainRangeMapping;
-
-    if (selectedGridLayout === 0) {
-      traceDomainRangeMapping = {
-        ...traceDomainRangeMappingBase,
-        ...gridLayout0Title
-      };
-    }
-
-    if (selectedGridLayout === 1) {
-      traceDomainRangeMapping = {
-        ...traceDomainRangeMappingBase,
-        ...gridLayout1Title
-      };
-    }
-
-    const plotLayout = {
-      ...basePlotLayout,
-      ...plotSubplotGrids,
-      ...subplotBarLayout,
-      ...traceDomainRangeMapping,
-      ...layoutColors
-    };
-
-    const plotData = observedFeaturesDataObject;
-
-    const plotState = {
-      data: plotData,
-      layout: plotLayout,
+    const plotStateRefactor = {
+      data: plotDataRefactor,
+      layout: plotLayoutRefactor,
       config: plotConfig,
       raw: newObservedFeaturesPlotData
     };
 
     const observedFeaturesPlotData = {
-      observedFeaturesPlotState: plotState
+      // observedFeaturesPlotState: plotState
+      observedFeaturesPlotState: plotStateRefactor
     };
 
-    console.log(observedFeaturesPlotData);
+    // console.log(observedFeaturesPlotData);
     return observedFeaturesPlotData;
   };
 
@@ -711,8 +367,6 @@ function ObservedFeaturesPlotRefactor({
     observedFeaturesPlotData.observedFeaturesPlotState,
     observedFeaturesPlotData.observedFeatureTargetValue
   );
-
-  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
 
   return (
     <div className="observed-features-plot">{observedFeaturesChartLayout}</div>

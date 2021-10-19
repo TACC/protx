@@ -20,8 +20,7 @@ function ObservedFeaturesPlot({
   year,
   selectedGeographicFeature,
   data,
-  showRate,
-  debug
+  showRate
 }) {
   const protxDemographicsDistribution = useSelector(
     state => state.protxDemographicsDistribution
@@ -712,9 +711,6 @@ function ObservedFeaturesPlot({
     observedFeaturesPlotData.observedFeaturesPlotState,
     observedFeaturesPlotData.observedFeatureTargetValue
   );
-
-  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
 
   return (
     <div className="observed-features-plot">{observedFeaturesChartLayout}</div>
