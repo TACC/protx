@@ -11,7 +11,7 @@ import {
   getObservedFeatureValue
 } from '../shared/dataUtils';
 import './ObservedFeaturesPlot.css';
-import { histColors, plotConfig, getPlotLayout } from '../shared/plotUtils';
+import { histColors, plotConfig } from '../shared/plotUtils'; // getPlotLayout
 
 function ObservedFeaturesPlotRefactor({
   mapType,
@@ -160,142 +160,242 @@ function ObservedFeaturesPlotRefactor({
     }
 
     const plotDataXRange = newObservedFeaturesPlotData.fig_aes.xrange;
-    // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
-    const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
-
-    let plotDataLabelXUnits = '';
-    if (plotDataGeotype === 'county') {
-      plotDataLabelXUnits = 'Number of Counties';
-    }
-    if (plotDataGeotype === 'tract') {
-      plotDataLabelXUnits = 'Number of Census Tracts';
-    }
-
-    const plotDataLabelYUnits = newObservedFeaturesPlotData.fig_aes.label_units;
-    const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
-    // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
-    const PlotDataYears = newObservedFeaturesPlotData.years;
-
-    const plotTitle = 'Demographics';
-    const plotOrientation = 'v';
-    const showPlotLegend = true;
-    const plotXDataLabel = ''; // plotDataLabelXUnits
-    let plotYDataLabel = plotDataLabelYUnits;
-
-    let plotXDataAxisType = 'linear';
-    const plotYDataAxisType = 'category';
-
-    if (geography === 'cbsa') {
-      plotXDataAxisType = 'log';
-      plotYDataLabel = 'Core Base Statistical Areas';
-    }
-
-    const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
-    const traceType = traceMarkerTypes[1];
-    const markerOpacity = 0.8;
     const minSubplot = plotDataXRange[0];
     const maxSubplot = plotDataXRange[1];
     const subplotRange = [minSubplot, maxSubplot];
     // console.log(subplotRange);
 
-    /**
-     * TODO: Recreate the hardcoded plot data.
-     */
+    // // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
+    // const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
 
-    // Iterate over data array.
-    // Generate the following objects per year:
-    // - Marker object for histogram bar
-    // - Line object for Mean
-    // - Line object for Mediam
-    // - Line object for focal_value
+    // let plotDataLabelXUnits = '';
+    // if (plotDataGeotype === 'county') {
+    //   plotDataLabelXUnits = 'Number of Counties';
+    // }
+    // if (plotDataGeotype === 'tract') {
+    //   plotDataLabelXUnits = 'Number of Census Tracts';
+    // }
+
+    // const plotDataLabelYUnits = newObservedFeaturesPlotData.fig_aes.label_units;
+    // const plotDataBarLabels = newObservedFeaturesPlotData.fig_aes.bar_labels;
+    // // const plotDataBarCenters = newObservedFeaturesPlotData.fig_aes.bar_centers;
+    // const PlotDataYears = newObservedFeaturesPlotData.years;
+
+    // const plotTitle = 'Demographics';
+    // const plotOrientation = 'v';
+    // const showPlotLegend = true;
+    // const plotXDataLabel = ''; // plotDataLabelXUnits
+    // let plotYDataLabel = plotDataLabelYUnits;
+
+    // let plotXDataAxisType = 'linear';
+    // const plotYDataAxisType = 'category';
+
+    // if (geography === 'cbsa') {
+    //   plotXDataAxisType = 'log';
+    //   plotYDataLabel = 'Core Base Statistical Areas';
+    // }
+
+    // const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
+    // const traceType = traceMarkerTypes[1];
+    // const markerOpacity = 0.8;
 
     const rawData = protxDemographicsDistribution.data;
 
-    // Variables used in iteration.
-    // const isMarker; // true, false
-    // const isLine; // mean, median, focal_value
-    // const plotMarkerColor; // 'rgb(0,0,0)'
-    // const plotMarkerOpacity;  // 1.0
-    // const plotMarkerOrientation;  // 'h'
-    // const plotLineColor; // 'rgb(0,0,0)'
-    // const plotLineType; // 'dash', 'dot', 'solid'
-    // const plotLineWidth;  // 3
-    // const plotLegendVisible;  // true, false
-    // const plotType; // 'bar', 'scatter'
-    // const lpotXDataArray; // [0,1,2,3,4,5,6,7,8,9]
-    // const plotXAxisAnchor; // 'x'
-    // const plotYDataArray;   // [minVal, maxVal]
-    // const plotYAxisAnchor;  // 'y'
-    // const plotName;   // focal_value
-
-    const generatePlotBar = () => {
+    const generatePlotBar = (
+      plotMarkerColor,
+      plotMarkerOpacity,
+      plotMarkerOrientation,
+      plotLegendVisible,
+      plotType,
+      plotXDataArray,
+      plotXAxisAnchorValue,
+      plotYDataArray,
+      plotYAxisAnchorValue
+    ) => {
       const plotBarObject = {
-        // marker: { color: 'rgb(5.0, 200.0, 200.0)' },
-        // opacity: 0.4,
-        // orientation: 'h',
-        // showlegend: false,
-        // type: 'bar',
-        // x: [13, 46, 100, 62, 18, 11, 3, 1, 0, 0],
-        // xaxis: 'x',
-        // y: [
-        //   12232.77,
-        //   16482.51,
-        //   20732.25,
-        //   24981.989999999998,
-        //   29231.73,
-        //   33481.47,
-        //   37731.21,
-        //   41980.95,
-        //   46230.69,
-        //   50480.43
-        // ],
-        // yaxis: 'y'
+        marker: { color: plotMarkerColor },
+        opacity: plotMarkerOpacity,
+        orientation: plotMarkerOrientation,
+        showlegend: plotLegendVisible,
+        type: plotType,
+        x: plotXDataArray,
+        xaxis: plotXAxisAnchorValue,
+        y: plotYDataArray,
+        yaxis: plotYAxisAnchorValue
       };
 
       return plotBarObject;
     };
 
-    const generatePlotLine = () => {
+    const generatePlotLine = (
+      plotLineColor,
+      plotLineType,
+      plotLineWidth,
+      plotTypeLineMode,
+      plotNameLegend,
+      plotLegendVisible,
+      plotTypeLine,
+      plotXDataArray,
+      plotXAxisAnchorValue,
+      plotYDataArray,
+      plotYAxisAnchorValue
+    ) => {
       const plotLineObject = {
-        // line: { color: 'gray', dash: 'dot', width: 3 },
-        // mode: 'lines',
-        // name: 'median',
-        // showlegend: true,
-        // type: 'scatter',
-        // x: [0, 115.50000000000001],
-        // xaxis: 'x',
-        // y: [21631.5, 21631.5],
-        // yaxis: 'y'
+        line: {
+          color: plotLineColor,
+          dash: plotLineType,
+          width: plotLineWidth
+        },
+        mode: plotTypeLineMode,
+        name: plotNameLegend,
+        showlegend: plotLegendVisible,
+        type: plotTypeLine,
+        x: plotXDataArray,
+        xaxis: plotXAxisAnchorValue,
+        y: plotYDataArray,
+        yaxis: plotYAxisAnchorValue
       };
 
       return plotLineObject;
     };
 
     const prepPlotData = (targetName, inputData) => {
-      console.log(targetName, inputData);
+      // console.log(inputData);
       const plotDataArray = [];
 
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [index, [key, value]] of Object.entries(
-        Object.entries(inputData.years)
-      )) {
-        // console.log(`${index}: ${key} = `, value);
-        // console.log(histColors[index]);
+      // Object.values(inputData).forEach((inputValue, inputValueIndex) => {
+      //   console.log(`${inputValueIndex}:`, inputValue);
+      //   const figureAesthetics = inputValue.fig_aes;
+      //   const yearsDataArray = inputValue.years;
+      //   console.log(figureAesthetics);
+      //   console.log(yearsDataArray);
+      // });
 
-        const plotYearBarMarker = generatePlotBar();
-        const plotYearLineMean = generatePlotLine();
-        const plotYearLineMedian = generatePlotLine();
-        const plotYearLineFocalValue = generatePlotLine();
+      // Object.values(yearsData).forEach((targetValue, targetIndex) => {
+      //   console.log(`${targetIndex}:`, targetValue);
 
-        plotDataArray.push(
-          plotYearBarMarker,
-          plotYearLineMean,
-          plotYearLineMedian,
-          plotYearLineFocalValue
-        );
-      }
+      //   // Recurse to build individual year traces.
+      //   Object.values(yearsData).forEach((value, index) => {
+      //     console.log(`${index}:`, value);
+      //   });
+      // });
 
-      // console.log(plotDataArray);
+      Object.entries(inputData).forEach(([key, value], index) => {
+        console.log(`${index}, ${key}:`, value);
+        const plotTraceIndex = index;
+        console.log(plotTraceIndex);
+
+        if (key === 'fig_aes') {
+          // console.log('key is fig_aes');
+        }
+        if (key === 'years') {
+          // console.log('key is years');
+
+          Object.entries(inputData[key]).forEach(
+            ([yearKey, yearValue], yearIndex) => {
+              console.log('===NEW LOOP===');
+              console.log(`${yearIndex}`);
+              // console.log(`${yearIndex}, ${yearKey}:`, yearValue);
+
+              const plotMarkerColor = histColors[yearIndex];
+              const plotMarkerOpacity = 0.8;
+              const plotMarkerOrientation = 'h';
+
+              const plotLineColorMean = '#ff0000';
+              const plotLineColorMedian = '#00ff00';
+              const plotLineColorFocalValue = '#0000ff';
+
+              const plotLineDashStyle = [
+                'solid',
+                'dot',
+                'dash',
+                'longdash',
+                'dashdot',
+                'longdashdot',
+                '5px,10px,2px,2px'
+              ];
+              const plotLineTypeMean = plotLineDashStyle[2];
+              const plotLineTypeMedian = plotLineDashStyle[1];
+              const plotLineTypeFocalValue = plotLineDashStyle[0];
+              const plotLineWidth = 3;
+
+              const traceMarkerTypes = [
+                'scatter',
+                'bar',
+                'histogram',
+                'marker'
+              ];
+
+              const plotXDataArray = yearValue.bars;
+              const plotXAxisAnchor = `x${plotTraceIndex}`;
+              const plotYDataArray = subplotRange; // [minVal, maxVal]
+              const plotYAxisAnchor = `y${plotTraceIndex}`;
+
+              // Generate traces.
+              const plotYearBarMarker = generatePlotBar(
+                plotMarkerColor,
+                plotMarkerOpacity,
+                plotMarkerOrientation,
+                false,
+                traceMarkerTypes[1],
+                plotXDataArray,
+                plotXAxisAnchor,
+                plotYDataArray,
+                plotYAxisAnchor
+              );
+              const plotYearLineMean = generatePlotLine(
+                plotLineColorMean,
+                plotLineTypeMean,
+                plotLineWidth,
+                'lines',
+                'Mean',
+                true,
+                traceMarkerTypes[0],
+                plotXDataArray,
+                plotXAxisAnchor,
+                plotYDataArray,
+                plotYAxisAnchor
+              );
+              const plotYearLineMedian = generatePlotLine(
+                plotLineColorMedian,
+                plotLineTypeMedian,
+                plotLineWidth,
+                'lines',
+                'Median',
+                true,
+                traceMarkerTypes[0],
+                plotXDataArray,
+                plotXAxisAnchor,
+                plotYDataArray,
+                plotYAxisAnchor
+              );
+
+              const plotYearLineFocalValue = generatePlotLine(
+                plotLineColorFocalValue,
+                plotLineTypeFocalValue,
+                plotLineWidth,
+                'lines',
+                targetName,
+                true,
+                traceMarkerTypes[0],
+                plotXDataArray,
+                plotXAxisAnchor,
+                plotYDataArray,
+                plotYAxisAnchor
+              );
+
+              plotDataArray.push(
+                plotYearBarMarker,
+                plotYearLineMean,
+                plotYearLineMedian,
+                plotYearLineFocalValue
+              );
+            }
+          );
+        }
+      });
+
+      console.log(plotDataArray);
       return plotDataArray;
     };
 
@@ -303,34 +403,40 @@ function ObservedFeaturesPlotRefactor({
      * TODO: Recreate the hardcoded layout.
      */
 
-    const bargapValue = 0;
+    const bargap = 0;
 
-    const plotLayoutRefactor = {
-      annotations: [],
-      bargap: bargapValue,
-      template: {},
-      xaxis: {},
-      xaxis2: {},
-      xaxis3: {},
-      xaxis4: {},
-      xaxis5: {},
-      xaxis6: {},
-      xaxis7: {},
-      xaxis8: {},
-      xaxis9: {},
-      yaxis: {},
-      yaxis2: {},
-      yaxis3: {},
-      yaxis4: {},
-      yaxis5: {},
-      yaxis6: {},
-      yaxis7: {},
-      yaxis8: {},
-      yaxis9: {}
+    const getPlotLayoutRefactor = bargapValue => {
+      const plotLayoutObject = {
+        annotations: [],
+        bargap: bargapValue,
+        template: {},
+        xaxis: {},
+        xaxis2: {},
+        xaxis3: {},
+        xaxis4: {},
+        xaxis5: {},
+        xaxis6: {},
+        xaxis7: {},
+        xaxis8: {},
+        xaxis9: {},
+        yaxis: {},
+        yaxis2: {},
+        yaxis3: {},
+        yaxis4: {},
+        yaxis5: {},
+        yaxis6: {},
+        yaxis7: {},
+        yaxis8: {},
+        yaxis9: {}
+      };
+      // console.log(plotLayoutObject);
+      return plotLayoutObject;
     };
 
     const selectedRegion = getFipsIdName(selectedGeographicFeature);
     const plotDataRefactor = prepPlotData(selectedRegion, rawData);
+
+    const plotLayoutRefactor = getPlotLayoutRefactor(bargap);
 
     const plotStateRefactor = {
       data: plotDataRefactor,
@@ -340,7 +446,6 @@ function ObservedFeaturesPlotRefactor({
     };
 
     const observedFeaturesPlotData = {
-      // observedFeaturesPlotState: plotState
       observedFeaturesPlotState: plotStateRefactor
     };
 

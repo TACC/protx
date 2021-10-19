@@ -22,7 +22,7 @@ function ObservedFeaturesPlotHardcoded({
         showlegend: false,
         type: 'bar',
         x: [13, 46, 100, 62, 18, 11, 3, 1, 0, 0],
-        xaxis: 'x',
+        xaxis: 'x1',
         y: [
           12232.77,
           16482.51,
@@ -44,9 +44,9 @@ function ObservedFeaturesPlotHardcoded({
         showlegend: true,
         type: 'scatter',
         x: [0, 115.50000000000001],
-        xaxis: 'x',
+        xaxis: 'x1',
         y: [22028.86220472441, 22028.86220472441],
-        yaxis: 'y'
+        yaxis: 'y1'
       },
       {
         line: { color: 'gray', dash: 'dot', width: 3 },
@@ -55,9 +55,9 @@ function ObservedFeaturesPlotHardcoded({
         showlegend: true,
         type: 'scatter',
         x: [0, 115.50000000000001],
-        xaxis: 'x',
+        xaxis: 'x1',
         y: [21631.5, 21631.5],
-        yaxis: 'y'
+        yaxis: 'y1'
       },
       {
         line: { color: 'black', width: 3 },
@@ -66,9 +66,9 @@ function ObservedFeaturesPlotHardcoded({
         showlegend: true,
         type: 'scatter',
         x: [0, 115.50000000000001],
-        xaxis: 'x',
+        xaxis: 'x1',
         y: [27920, 27920],
-        yaxis: 'y'
+        yaxis: 'y1'
       },
       {
         marker: { color: 'rgb(29.375, 176.25, 176.25)' },
