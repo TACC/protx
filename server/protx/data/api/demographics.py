@@ -125,8 +125,11 @@ def demographic_data_prep(query_return_df):
     # RETURN DATA PROCESSING -- AESTHETICS FOR ALL SUBPLOTS ##
     ###########################################################
 
-    # parse the units themselves; dollars use label_template "currency" and all others use "not_currency"
-    if query_return_df['units'].unique().item() == 'dollars':
+    # parse the units themselves; dollars use label_template "currency"
+    # with the exception of median rent as a percent of household income, which uses "not_currency"
+    # all others use "not_currency"
+    if (query_return_df['units'].unique().item() == 'dollars') and \
+            (query_return_df['DEMOGRAPHICS_NAME'] != 'MEDIAN_GROSS_RENT_PCT_HH_INCOME').unique().item():
         label_template = currency
         # division is done in formatting helper but could be pushed up to .db file
         label_units = query_return_df[
