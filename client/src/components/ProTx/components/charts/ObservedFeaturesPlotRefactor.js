@@ -11,7 +11,11 @@ import {
   getObservedFeatureValue
 } from '../shared/dataUtils';
 import './ObservedFeaturesPlot.css';
-import { histColors, plotConfig } from '../shared/plotUtils'; // getPlotLayout
+import {
+  histColors,
+  plotConfig,
+  plotTraceBaseTemplate
+} from '../shared/plotUtils'; // getPlotLayout
 
 function ObservedFeaturesPlotRefactor({
   mapType,
@@ -165,6 +169,8 @@ function ObservedFeaturesPlotRefactor({
     const subplotRange = [minSubplot, maxSubplot];
     // console.log(subplotRange);
 
+    /**
+
     // // const plotDataYRange = newObservedFeaturesPlotData.fig_aes.yrange;
     // const plotDataGeotype = newObservedFeaturesPlotData.fig_aes.geotype;
 
@@ -198,6 +204,8 @@ function ObservedFeaturesPlotRefactor({
     // const traceMarkerTypes = ['scatter', 'bar', 'histogram', 'marker'];
     // const traceType = traceMarkerTypes[1];
     // const markerOpacity = 0.8;
+
+    **/
 
     const rawData = protxDemographicsDistribution.data;
 
@@ -261,6 +269,8 @@ function ObservedFeaturesPlotRefactor({
 
     const prepPlotData = (targetName, inputData) => {
       // console.log(inputData);
+
+      const plotBarCenters = inputData.fig_aes.bar_centers;
       const plotDataArray = [];
 
       // Object.values(inputData).forEach((inputValue, inputValueIndex) => {
@@ -281,9 +291,7 @@ function ObservedFeaturesPlotRefactor({
       // });
 
       Object.entries(inputData).forEach(([key, value], index) => {
-        console.log(`${index}, ${key}:`, value);
-        const plotTraceIndex = index;
-        console.log(plotTraceIndex);
+        // console.log(`${index}, ${key}:`, value);
 
         if (key === 'fig_aes') {
           // console.log('key is fig_aes');
@@ -293,10 +301,7 @@ function ObservedFeaturesPlotRefactor({
 
           Object.entries(inputData[key]).forEach(
             ([yearKey, yearValue], yearIndex) => {
-              console.log('===NEW LOOP===');
-              console.log(`${yearIndex}`);
-              // console.log(`${yearIndex}, ${yearKey}:`, yearValue);
-
+              const plotTraceIndex = yearIndex + 1;
               const plotMarkerColor = histColors[yearIndex];
               const plotMarkerOpacity = 0.8;
               const plotMarkerOrientation = 'h';
@@ -319,6 +324,8 @@ function ObservedFeaturesPlotRefactor({
               const plotLineTypeFocalValue = plotLineDashStyle[0];
               const plotLineWidth = 3;
 
+              const plotDisplayLegend = false;
+
               const traceMarkerTypes = [
                 'scatter',
                 'bar',
@@ -327,7 +334,7 @@ function ObservedFeaturesPlotRefactor({
               ];
 
               const plotXDataArray = yearValue.bars;
-              const plotXAxisAnchor = `x${plotTraceIndex}`;
+              const plotXAxisAnchor = `x${String(plotTraceIndex)}`;
               const plotYDataArray = subplotRange; // [minVal, maxVal]
               const plotYAxisAnchor = `y${plotTraceIndex}`;
 
@@ -336,11 +343,11 @@ function ObservedFeaturesPlotRefactor({
                 plotMarkerColor,
                 plotMarkerOpacity,
                 plotMarkerOrientation,
-                false,
+                plotDisplayLegend,
                 traceMarkerTypes[1],
                 plotXDataArray,
                 plotXAxisAnchor,
-                plotYDataArray,
+                plotBarCenters,
                 plotYAxisAnchor
               );
               const plotYearLineMean = generatePlotLine(
@@ -349,7 +356,7 @@ function ObservedFeaturesPlotRefactor({
                 plotLineWidth,
                 'lines',
                 'Mean',
-                true,
+                plotDisplayLegend,
                 traceMarkerTypes[0],
                 plotXDataArray,
                 plotXAxisAnchor,
@@ -362,7 +369,7 @@ function ObservedFeaturesPlotRefactor({
                 plotLineWidth,
                 'lines',
                 'Median',
-                true,
+                plotDisplayLegend,
                 traceMarkerTypes[0],
                 plotXDataArray,
                 plotXAxisAnchor,
@@ -376,7 +383,7 @@ function ObservedFeaturesPlotRefactor({
                 plotLineWidth,
                 'lines',
                 targetName,
-                true,
+                plotDisplayLegend,
                 traceMarkerTypes[0],
                 plotXDataArray,
                 plotXAxisAnchor,
@@ -395,7 +402,7 @@ function ObservedFeaturesPlotRefactor({
         }
       });
 
-      console.log(plotDataArray);
+      // console.log(plotDataArray);
       return plotDataArray;
     };
 
@@ -403,13 +410,127 @@ function ObservedFeaturesPlotRefactor({
      * TODO: Recreate the hardcoded layout.
      */
 
+    const observedFeaturesAnnotations = [
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2011',
+        x: 0.04567901234567901,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2012',
+        x: 0.15925925925925927,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2013',
+        x: 0.27283950617283953,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2014',
+        x: 0.38641975308641974,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2015',
+        x: 0.5,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2016',
+        x: 0.6135802469135803,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2017',
+        x: 0.7271604938271605,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2018',
+        x: 0.8407407407407408,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: '2019',
+        x: 0.954320987654321,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 1,
+        yanchor: 'bottom',
+        yref: 'paper'
+      },
+      {
+        font: { size: 16 },
+        showarrow: false,
+        text: 'Number of counties',
+        x: 0.5,
+        xanchor: 'center',
+        xref: 'paper',
+        y: 0,
+        yanchor: 'top',
+        yref: 'paper',
+        yshift: -30
+      }
+    ];
+
     const bargap = 0;
 
     const getPlotLayoutRefactor = bargapValue => {
       const plotLayoutObject = {
-        annotations: [],
+        annotations: observedFeaturesAnnotations,
         bargap: bargapValue,
-        template: {},
+        template: plotTraceBaseTemplate,
         xaxis: {},
         xaxis2: {},
         xaxis3: {},
@@ -430,6 +551,7 @@ function ObservedFeaturesPlotRefactor({
         yaxis9: {}
       };
       // console.log(plotLayoutObject);
+
       return plotLayoutObject;
     };
 

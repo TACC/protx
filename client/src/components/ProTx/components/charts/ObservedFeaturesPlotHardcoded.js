@@ -21,20 +21,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [13, 46, 100, 62, 18, 11, 3, 1, 0, 0],
-        xaxis: 'x1',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        x: [1, 17, 212, 24, 0, 0, 0, 0, 0, 0],
+        xaxis: 'x',
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y'
       },
       {
@@ -43,10 +32,10 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: true,
         type: 'scatter',
-        x: [0, 115.50000000000001],
-        xaxis: 'x1',
-        y: [22028.86220472441, 22028.86220472441],
-        yaxis: 'y1'
+        x: [0, 233.20000000000002],
+        xaxis: 'x',
+        y: [24.97394237000418, 24.97394237000418],
+        yaxis: 'y'
       },
       {
         line: { color: 'gray', dash: 'dot', width: 3 },
@@ -54,10 +43,10 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: true,
         type: 'scatter',
-        x: [0, 115.50000000000001],
-        xaxis: 'x1',
-        y: [21631.5, 21631.5],
-        yaxis: 'y1'
+        x: [0, 233.20000000000002],
+        xaxis: 'x',
+        y: [24.74837640874301, 24.74837640874301],
+        yaxis: 'y'
       },
       {
         line: { color: 'black', width: 3 },
@@ -65,10 +54,10 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: true,
         type: 'scatter',
-        x: [0, 115.50000000000001],
-        xaxis: 'x1',
-        y: [27920, 27920],
-        yaxis: 'y1'
+        x: [0, 233.20000000000002],
+        xaxis: 'x',
+        y: [28.03897343741225, 28.03897343741225],
+        yaxis: 'y'
       },
       {
         marker: { color: 'rgb(29.375, 176.25, 176.25)' },
@@ -76,20 +65,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [9, 40, 100, 69, 21, 12, 2, 1, 0, 0],
+        x: [2, 24, 207, 21, 0, 0, 0, 0, 0, 0],
         xaxis: 'x2',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y2'
       },
       {
@@ -98,9 +76,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x2',
-        y: [22431.716535433072, 22431.716535433072],
+        y: [24.816857472516148, 24.816857472516148],
         yaxis: 'y2'
       },
       {
@@ -109,9 +87,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x2',
-        y: [21992, 21992],
+        y: [24.769712605878944, 24.769712605878944],
         yaxis: 'y2'
       },
       {
@@ -120,9 +98,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x2',
-        y: [28125, 28125],
+        y: [27.88318738369078, 27.88318738369078],
         yaxis: 'y2'
       },
       {
@@ -131,20 +109,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [13, 46, 100, 62, 18, 11, 3, 1, 0, 0],
+        x: [1, 17, 212, 24, 0, 0, 0, 0, 0, 0],
         xaxis: 'x3',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y3'
       },
       {
@@ -153,9 +120,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x3',
-        y: [22028.86220472441, 22028.86220472441],
+        y: [24.97394237000418, 24.97394237000418],
         yaxis: 'y3'
       },
       {
@@ -164,9 +131,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x3',
-        y: [21631.5, 21631.5],
+        y: [24.74837640874301, 24.74837640874301],
         yaxis: 'y3'
       },
       {
@@ -175,9 +142,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x3',
-        y: [27920, 27920],
+        y: [28.03897343741225, 28.03897343741225],
         yaxis: 'y3'
       },
       {
@@ -186,20 +153,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [6, 27, 93, 82, 30, 10, 5, 0, 1, 0],
+        x: [1, 28, 205, 20, 0, 0, 0, 0, 0, 0],
         xaxis: 'x4',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y4'
       },
       {
@@ -208,9 +164,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x4',
-        y: [23318.91338582677, 23318.91338582677],
+        y: [24.594482295379198, 24.594482295379198],
         yaxis: 'y4'
       },
       {
@@ -219,9 +175,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x4',
-        y: [22901, 22901],
+        y: [24.60842796266163, 24.60842796266163],
         yaxis: 'y4'
       },
       {
@@ -230,9 +186,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x4',
-        y: [28541, 28541],
+        y: [27.51339511838888, 27.51339511838888],
         yaxis: 'y4'
       },
       {
@@ -241,20 +197,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [5, 26, 100, 73, 34, 10, 5, 0, 1, 0],
+        x: [1, 31, 199, 23, 0, 0, 0, 0, 0, 0],
         xaxis: 'x5',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y5'
       },
       {
@@ -263,9 +208,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x5',
-        y: [23551.799212598424, 23551.799212598424],
+        y: [24.50574732802516, 24.50574732802516],
         yaxis: 'y5'
       },
       {
@@ -274,9 +219,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x5',
-        y: [22747.5, 22747.5],
+        y: [24.393512457340737, 24.393512457340737],
         yaxis: 'y5'
       },
       {
@@ -285,9 +230,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x5',
-        y: [29058, 29058],
+        y: [27.292604017913572, 27.292604017913572],
         yaxis: 'y5'
       },
       {
@@ -296,20 +241,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [4, 23, 80, 88, 40, 10, 7, 2, 0, 0],
+        x: [1, 28, 203, 22, 0, 0, 0, 0, 0, 0],
         xaxis: 'x6',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y6'
       },
       {
@@ -318,9 +252,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x6',
-        y: [24076.55905511811, 24076.55905511811],
+        y: [24.393982349346047, 24.393982349346047],
         yaxis: 'y6'
       },
       {
@@ -329,9 +263,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x6',
-        y: [23605, 23605],
+        y: [24.34006392751236, 24.34006392751236],
         yaxis: 'y6'
       },
       {
@@ -340,9 +274,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x6',
-        y: [29791, 29791],
+        y: [27.104397418472328, 27.104397418472328],
         yaxis: 'y6'
       },
       {
@@ -351,20 +285,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [6, 18, 65, 98, 41, 15, 10, 1, 0, 0],
+        x: [1, 30, 203, 20, 0, 0, 0, 0, 0, 0],
         xaxis: 'x7',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y7'
       },
       {
@@ -373,9 +296,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x7',
-        y: [24859.01968503937, 24859.01968503937],
+        y: [24.397605175275064, 24.397605175275064],
         yaxis: 'y7'
       },
       {
@@ -384,9 +307,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x7',
-        y: [24284.5, 24284.5],
+        y: [24.147503773672828, 24.147503773672828],
         yaxis: 'y7'
       },
       {
@@ -395,9 +318,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x7',
-        y: [30857, 30857],
+        y: [26.923714822236505, 26.923714822236505],
         yaxis: 'y7'
       },
       {
@@ -406,20 +329,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [5, 20, 46, 105, 48, 19, 8, 3, 0, 0],
+        x: [0, 28, 204, 22, 0, 0, 0, 0, 0, 0],
         xaxis: 'x8',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y8'
       },
       {
@@ -428,9 +340,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x8',
-        y: [25497.251968503937, 25497.251968503937],
+        y: [24.35159363183508, 24.35159363183508],
         yaxis: 'y8'
       },
       {
@@ -439,9 +351,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x8',
-        y: [25128.5, 25128.5],
+        y: [24.069962898547406, 24.069962898547406],
         yaxis: 'y8'
       },
       {
@@ -450,9 +362,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x8',
-        y: [32092, 32092],
+        y: [26.746888702198092, 26.746888702198092],
         yaxis: 'y8'
       },
       {
@@ -461,20 +373,9 @@ function ObservedFeaturesPlotHardcoded({
         orientation: 'h',
         showlegend: false,
         type: 'bar',
-        x: [3, 17, 42, 90, 65, 23, 7, 5, 2, 0],
+        x: [0, 32, 200, 22, 0, 0, 0, 0, 0, 0],
         xaxis: 'x9',
-        y: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
+        y: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
         yaxis: 'y9'
       },
       {
@@ -483,9 +384,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'mean',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x9',
-        y: [26280.503937007874, 26280.503937007874],
+        y: [24.27714052824787, 24.27714052824787],
         yaxis: 'y9'
       },
       {
@@ -494,9 +395,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'median',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x9',
-        y: [25928.5, 25928.5],
+        y: [24.153115917908572, 24.153115917908572],
         yaxis: 'y9'
       },
       {
@@ -505,9 +406,9 @@ function ObservedFeaturesPlotHardcoded({
         name: 'Tarrant County',
         showlegend: false,
         type: 'scatter',
-        x: [0, 115.50000000000001],
+        x: [0, 233.20000000000002],
         xaxis: 'x9',
-        y: [33292, 33292],
+        y: [26.522195173116987, 26.522195173116987],
         yaxis: 'y9'
       }
     ],
@@ -668,7 +569,10 @@ function ObservedFeaturesPlotHardcoded({
             }
           ],
           choropleth: [
-            { colorbar: { outlinewidth: 0, ticks: '' }, type: 'choropleth' }
+            {
+              colorbar: { outlinewidth: 0, ticks: '' },
+              type: 'choropleth'
+            }
           ],
           contour: [
             {
@@ -689,7 +593,10 @@ function ObservedFeaturesPlotHardcoded({
             }
           ],
           contourcarpet: [
-            { colorbar: { outlinewidth: 0, ticks: '' }, type: 'contourcarpet' }
+            {
+              colorbar: { outlinewidth: 0, ticks: '' },
+              type: 'contourcarpet'
+            }
           ],
           heatmap: [
             {
@@ -856,8 +763,14 @@ function ObservedFeaturesPlotHardcoded({
           ],
           table: [
             {
-              cells: { fill: { color: '#EBF0F8' }, line: { color: 'white' } },
-              header: { fill: { color: '#C8D4E3' }, line: { color: 'white' } },
+              cells: {
+                fill: { color: '#EBF0F8' },
+                line: { color: 'white' }
+              },
+              header: {
+                fill: { color: '#C8D4E3' },
+                line: { color: 'white' }
+              },
               type: 'table'
             }
           ]
@@ -936,9 +849,17 @@ function ObservedFeaturesPlotHardcoded({
           paper_bgcolor: 'white',
           plot_bgcolor: '#E5ECF6',
           polar: {
-            angularaxis: { gridcolor: 'white', linecolor: 'white', ticks: '' },
+            angularaxis: {
+              gridcolor: 'white',
+              linecolor: 'white',
+              ticks: ''
+            },
             bgcolor: '#E5ECF6',
-            radialaxis: { gridcolor: 'white', linecolor: 'white', ticks: '' }
+            radialaxis: {
+              gridcolor: 'white',
+              linecolor: 'white',
+              ticks: ''
+            }
           },
           scene: {
             xaxis: {
@@ -1000,125 +921,114 @@ function ObservedFeaturesPlotHardcoded({
       xaxis: {
         anchor: 'y',
         domain: [0, 0.09135802469135802],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis2: {
         anchor: 'y2',
         domain: [0.11358024691358025, 0.20493827160493827],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis3: {
         anchor: 'y3',
         domain: [0.2271604938271605, 0.31851851851851853],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis4: {
         anchor: 'y4',
         domain: [0.34074074074074073, 0.43209876543209874],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis5: {
         anchor: 'y5',
         domain: [0.454320987654321, 0.5456790123456791],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis6: {
         anchor: 'y6',
         domain: [0.5679012345679012, 0.6592592592592592],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis7: {
         anchor: 'y7',
         domain: [0.6814814814814815, 0.7728395061728395],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis8: {
         anchor: 'y8',
         domain: [0.7950617283950617, 0.8864197530864197],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       xaxis9: {
         anchor: 'y9',
         domain: [0.908641975308642, 1],
-        range: [0, 115.50000000000001]
+        range: [0, 233.20000000000002]
       },
       yaxis: {
         anchor: 'x',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         ticktext: [
-          '10-14',
-          '14-19',
-          '19-23',
-          '23-27',
-          '27-31',
-          '31-36',
-          '36-40',
-          '40-44',
-          '44-48',
-          '48-53'
+          '0-10',
+          '10-20',
+          '20-30',
+          '30-40',
+          '40-50',
+          '50-60',
+          '60-70',
+          '70-80',
+          '80-90',
+          '90-100'
         ],
-        tickvals: [
-          12232.77,
-          16482.51,
-          20732.25,
-          24981.989999999998,
-          29231.73,
-          33481.47,
-          37731.21,
-          41980.95,
-          46230.69,
-          50480.43
-        ],
-        title: { text: 'per capita income (1000s of dollars)' },
+        tickvals: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
+        title: { text: 'population 17 years old and under' },
         visible: true
       },
       yaxis2: {
         anchor: 'x2',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       },
       yaxis3: {
         anchor: 'x3',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       },
       yaxis4: {
         anchor: 'x4',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       },
       yaxis5: {
         anchor: 'x5',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       },
       yaxis6: {
         anchor: 'x6',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       },
       yaxis7: {
         anchor: 'x7',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       },
       yaxis8: {
         anchor: 'x8',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       },
       yaxis9: {
         anchor: 'x9',
         domain: [0, 1],
-        range: [10107.9, 52605.3],
+        range: [0, 100],
         visible: false
       }
     }
