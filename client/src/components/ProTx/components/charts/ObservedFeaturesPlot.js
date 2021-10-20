@@ -280,7 +280,7 @@ function ObservedFeaturesPlot({
               const plotMode = yearValue.median;
               const plotFocalValue = yearValue.focal_value;
               const plotYAxisAnchor = `y${plotTraceIndex}`;
-              const plotHoverTemplate = ''; // hoverTemplate;
+              const plotHoverTemplate = ''; // hoverTemplate or ''
 
               const plotYDataLines = [
                 [plotMean, plotMean],
