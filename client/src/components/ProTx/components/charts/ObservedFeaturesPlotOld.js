@@ -581,23 +581,23 @@ function ObservedFeaturesPlot({
 
     const observedFeaturesDataObject = [
       trace1,
-      // trace1Mean,
+      trace1Mean,
       trace2,
-      // trace2Mean,
+      trace2Mean,
       trace3,
-      // trace3Mean,
+      trace3Mean,
       trace4,
-      // trace4Mean,
+      trace4Mean,
       trace5,
-      // trace5Mean,
+      trace5Mean,
       trace6,
-      // trace6Mean,
+      trace6Mean,
       trace7,
-      // trace7Mean,
+      trace7Mean,
       trace8,
-      // trace8Mean,
-      trace9
-      // trace9Mean
+      trace8Mean,
+      trace9,
+      trace9Mean
     ];
 
     const traceDomainRangeMappingBase = {
@@ -688,7 +688,6 @@ function ObservedFeaturesPlot({
       observedFeaturesPlotState: plotState
     };
 
-    console.log(observedFeaturesPlotData);
     return observedFeaturesPlotData;
   };
 
