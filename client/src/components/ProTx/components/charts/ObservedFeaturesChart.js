@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-// import ObservedFeaturesPlot from './ObservedFeaturesPlotOld';
-// import ObservedFeaturesPlot from './ObservedFeaturesPlotHardcoded';
-import ObservedFeaturesPlot from './ObservedFeaturesPlot';
+import ObservedFeaturesPlot from './ObservedFeaturesPlot'; // Hardcoded, Old
 import ChartInstructions from './ChartInstructions';
 import './ObservedFeaturesChart.css';
 

@@ -14,8 +14,8 @@ import './ObservedFeaturesPlot.css';
 import {
   histColors,
   plotConfig,
-  plotTraceBaseTemplate,
-  hoverTemplate
+  plotTraceBaseTemplate
+  // hoverTemplate
 } from '../shared/plotUtils';
 
 function ObservedFeaturesPlot({
@@ -450,9 +450,11 @@ function ObservedFeaturesPlot({
     ];
 
     let inputDomain = plotDataYRange;
+    let outputRange = plotDataYRange;
 
     if (showRatePrep) {
       inputDomain = [0, 100];
+      outputRange = [0, 100];
     }
 
     const baseXAxisLayoutObject = {
@@ -521,7 +523,7 @@ function ObservedFeaturesPlot({
     const baseYAxisLayoutObject = {
       anchor: 'x',
       domain: [0, 1],
-      range: [0, 100],
+      range: outputRange,
       visible: false
     };
 
@@ -529,7 +531,7 @@ function ObservedFeaturesPlot({
       ...baseYAxisLayoutObject,
       ticktext: newObservedFeaturesPlotData.fig_aes.bar_labels,
       tickvals: newObservedFeaturesPlotData.fig_aes.bar_centers,
-      title: observedFeaturesLabel,
+      title: { text: observedFeaturesLabel, standoff: 10, autosize: true },
       visible: true
     };
 
@@ -612,7 +614,6 @@ function ObservedFeaturesPlot({
     const observedFeaturesPlotData = {
       observedFeaturesPlotState: plotState
     };
-    console.log(observedFeaturesPlotData);
 
     return observedFeaturesPlotData;
   };
