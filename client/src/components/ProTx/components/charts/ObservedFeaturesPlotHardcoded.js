@@ -4,7 +4,7 @@ import Plot from 'react-plotly.js';
 import './ObservedFeaturesPlot.css';
 import { plotConfig } from '../shared/plotUtils';
 
-function ObservedFeaturesPlotHardcoded({
+function ObservedFeaturesPlot({
   mapType,
   geography,
   observedFeature,
@@ -1070,7 +1070,7 @@ function ObservedFeaturesPlotHardcoded({
   );
 }
 
-ObservedFeaturesPlotHardcoded.propTypes = {
+ObservedFeaturesPlot.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   observedFeature: PropTypes.string.isRequired,
@@ -1081,6 +1081,6 @@ ObservedFeaturesPlotHardcoded.propTypes = {
   showRate: PropTypes.bool.isRequired
 };
 
-ObservedFeaturesPlotHardcoded.defaultProps = {};
+ObservedFeaturesPlot.defaultProps = {};
 
-export default ObservedFeaturesPlotHardcoded;
+export default ObservedFeaturesPlot;

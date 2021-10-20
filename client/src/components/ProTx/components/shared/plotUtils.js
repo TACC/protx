@@ -631,11 +631,19 @@ const plotTraceBaseTemplate = {
   }
 };
 
+const hoverTemplate =
+  '<b>%{text}</b><br><br>' +
+  '%{yaxis.title.text}: %{y:$,.0f}<br>' +
+  '%{xaxis.title.text}: %{x:.0%}<br>' +
+  'String Text: %{marker.size:,}' +
+  '<extra></extra>';
+
 export {
   plotColors,
   histColors,
   plotConfig,
   getPlotLayout,
   getPlotDataBars,
-  plotTraceBaseTemplate
+  plotTraceBaseTemplate,
+  hoverTemplate
 };
