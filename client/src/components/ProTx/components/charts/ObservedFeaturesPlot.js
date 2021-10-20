@@ -293,7 +293,7 @@ function ObservedFeaturesPlot({
                 plotMarkerColor,
                 plotMarkerOpacity,
                 plotMarkerOrientation,
-                false, // plotDisplayLegend,
+                false, // always false.
                 traceMarkerTypes[1],
                 plotXDataBars,
                 plotXAxisAnchor,
