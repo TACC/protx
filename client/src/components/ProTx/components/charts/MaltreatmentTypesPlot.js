@@ -71,7 +71,6 @@ function MaltreatmentTypesPlot({
               for{' '}
               <span className="maltreatment-types-plot-selected-type">
                 {fipsIdNameMaltreatment} {geographyMaltreatment}
-                {/* (code{' '}{selectedGeographicFeatureMaltreatment})  */}
               </span>{' '}
               using data for the following type(s):{' '}
             </span>
