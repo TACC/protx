@@ -108,34 +108,29 @@ function ObservedFeaturesPlot({
             </span>
           </div>
         </div>
-        <div className="observed-features-plot-chart-body">
-          <div className="observed-features-plot-chart-body-plot">
-            <Plot
-              divId="observed-features-plot"
-              className="observed-features-plot"
-              data={plotStateObservedFeatures.data}
-              layout={plotStateObservedFeatures.layout}
-              config={plotStateObservedFeatures.config}
-              useResizeHandler
-            />
-          </div>
-        </div>
-        <div className="observed-features-plot-chart-footer">
-          <span className="observed-features-plot-chart-summary">
-            This chart was generated using data for{' '}
-            <span className="observed-features-plot-selected-type">
-              {selectedGeographicFeatureName} {geographyObservedFeatures}
-              {/* (code{' '}{selectedGeographicFeatureObservedFeatures}) */}
-            </span>{' '}
-            based on the{' '}
-            <span className="observed-features-plot-selected-type-value">
-              2011-2019 US Census Data
-            </span>{' '}
-            for{' '}
-            <span className="observed-features-plot-selected-type-summary">
-              {observedFeaturesLabel}
-            </span>
+        <div className="observed-features-plot-info-summary">
+          This chart was generated using data for{' '}
+          <span className="observed-features-plot-selected-type">
+            {selectedGeographicFeatureName} {geographyObservedFeatures}
+          </span>{' '}
+          based on the{' '}
+          <span className="observed-features-plot-selected-type-value">
+            2011-2019 US Census Data
+          </span>{' '}
+          for{' '}
+          <span className="observed-features-plot-selected-type-summary">
+            {observedFeaturesLabel}
           </span>
+        </div>
+        <div className="observed-features-plot-chart">
+          <Plot
+            divId="observed-features-plot"
+            className="observed-features-plot"
+            data={plotStateObservedFeatures.data}
+            layout={plotStateObservedFeatures.layout}
+            config={plotStateObservedFeatures.config}
+            useResizeHandler
+          />
         </div>
       </div>
     );
@@ -231,8 +226,6 @@ function ObservedFeaturesPlot({
     };
 
     const prepPlotData = (targetName, inputData) => {
-      // console.log(inputData);
-
       const plotBarCenters = inputData.fig_aes.bar_centers;
       const plotXRange = inputData.fig_aes.xrange;
       // const plotYRange = inputData.fig_aes.yrange;
@@ -244,11 +237,8 @@ function ObservedFeaturesPlot({
             ([yearKey, yearValue], yearIndex) => {
               const plotTraceIndex = yearIndex + 1;
               const plotMarkerColor = histColors[yearIndex];
-              const plotMarkerOpacity = 0.8;
+              const plotMarkerOpacity = 1.0;
               const plotMarkerOrientation = 'h';
-              const plotLineColorMean = '#ff00ff';
-              const plotLineColorMedian = '#ffff00';
-              const plotLineColorFocalValue = '#444444';
 
               const plotLineDashStyle = [
                 'solid',
@@ -264,7 +254,16 @@ function ObservedFeaturesPlot({
               const plotLineTypeMedian = plotLineDashStyle[1];
               const plotLineTypeFocalValue = plotLineDashStyle[0];
               const plotLineWidth = 2;
-              const plotDisplayLegend = false;
+
+              // '#7b2cbf' '#118ab2' '#06d6a0' '#ffd166' '#ff8500' '#ff6b6b' '#081c15'
+              const plotLineColorMean = '#ff6b6b';
+              const plotLineColorMedian = '#ffd166';
+              const plotLineColorFocalValue = '#06d6a0';
+
+              let plotDisplayLegend = false;
+              if (yearIndex === 0) {
+                plotDisplayLegend = true;
+              }
 
               const traceMarkerTypes = [
                 'scatter',
@@ -281,7 +280,7 @@ function ObservedFeaturesPlot({
               const plotMode = yearValue.median;
               const plotFocalValue = yearValue.focal_value;
               const plotYAxisAnchor = `y${plotTraceIndex}`;
-              const plotHoverTemplate = hoverTemplate;
+              const plotHoverTemplate = ''; // hoverTemplate;
 
               const plotYDataLines = [
                 [plotMean, plotMean],
@@ -294,7 +293,7 @@ function ObservedFeaturesPlot({
                 plotMarkerColor,
                 plotMarkerOpacity,
                 plotMarkerOrientation,
-                plotDisplayLegend,
+                false, // plotDisplayLegend,
                 traceMarkerTypes[1],
                 plotXDataBars,
                 plotXAxisAnchor,
