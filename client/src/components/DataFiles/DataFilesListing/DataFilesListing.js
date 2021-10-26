@@ -14,12 +14,11 @@ import {
 } from './DataFilesListingCells';
 import DataFilesSearchbar from '../DataFilesSearchbar/DataFilesSearchbar';
 import DataFilesTable from '../DataFilesTable/DataFilesTable';
-import fileTypes from '../DataFilesSearchbar/FileTypes';
 
 const DataFilesListing = ({ api, scheme, system, path, isPublic }) => {
   // Redux hooks
   const dispatch = useDispatch();
-  const queryString = parse(useLocation().search).query_string;
+  const { query_string: queryString, filter } = parse(useLocation().search);
   const { files, loading, error } = useSelector(
     state => ({
       files: state.files.listing.FilesListing,
@@ -28,6 +27,13 @@ const DataFilesListing = ({ api, scheme, system, path, isPublic }) => {
     }),
     shallowEqual
   );
+  const systems = useSelector(
+    state => state.systems.storage.configuration,
+    shallowEqual
+  );
+  const sharedWorkspaces = systems.find(e => e.scheme === 'projects');
+  const isPortalProject = scheme === 'projects';
+  const hideSearchBar = isPortalProject && sharedWorkspaces.hideSearchBar;
 
   const [filterType, setFilterType] = useState();
   const [filteredFiles, setFilteredFiles] = useState(files);
@@ -62,6 +68,7 @@ const DataFilesListing = ({ api, scheme, system, path, isPublic }) => {
         section: 'FilesListing',
         offset: files.length,
         queryString,
+        filter,
         nextPageToken: files.nextPageToken
       }
     });
@@ -91,6 +98,7 @@ const DataFilesListing = ({ api, scheme, system, path, isPublic }) => {
           scheme={scheme}
           href={row.original._links.self.href}
           isPublic={isPublic}
+          length={row.original.length}
         />
       );
     },
@@ -145,16 +153,16 @@ const DataFilesListing = ({ api, scheme, system, path, isPublic }) => {
 
   return (
     <>
-      <DataFilesSearchbar
-        api={api}
-        scheme={scheme}
-        system={system}
-        filterType={filterType}
-        setFilterType={setFilterType}
-        resultCount={filteredFiles.length}
-        publicData={isPublic}
-        disabled={loading || !!error}
-      />
+      {!hideSearchBar && (
+        <DataFilesSearchbar
+          api={api}
+          scheme={scheme}
+          system={system}
+          resultCount={files.length}
+          publicData={isPublic}
+          disabled={loading || !!error}
+        />
+      )}
       <div className="o-flex-item-table-wrap">
         <DataFilesTable
           data={filteredFiles}
