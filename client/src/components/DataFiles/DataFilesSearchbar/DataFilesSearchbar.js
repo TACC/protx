@@ -174,7 +174,6 @@ DataFilesSearchbar.propTypes = {
   disabled: PropTypes.bool
 };
 DataFilesSearchbar.defaultProps = {
-  filterType: 'All Types',
   className: '',
   resultCount: 0,
   siteSearch: false,
