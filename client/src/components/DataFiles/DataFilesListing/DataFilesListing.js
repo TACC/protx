@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react'; //, useEffect, useState
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { parse } from 'query-string';
@@ -35,22 +35,22 @@ const DataFilesListing = ({ api, scheme, system, path, isPublic }) => {
   const isPortalProject = scheme === 'projects';
   const hideSearchBar = isPortalProject && sharedWorkspaces.hideSearchBar;
 
-  const [filterType, setFilterType] = useState();
-  const [filteredFiles, setFilteredFiles] = useState(files);
-  useEffect(() => {
-    const fileFilter = fileTypes.find(f => f.type === filterType);
-    if (!fileFilter) {
-      setFilteredFiles(files);
-    } else if (fileFilter.type === 'Folders') {
-      setFilteredFiles(files.filter(f => f.format === 'folder'));
-    } else {
-      setFilteredFiles(
-        files.filter(f =>
-          fileFilter.extensions.some(ext => f.name.endsWith(ext))
-        )
-      );
-    }
-  }, [filterType, files]);
+  // const [filterType, setFilterType] = useState();
+  // const [filteredFiles, setFilteredFiles] = useState(files);
+  // useEffect(() => {
+  //   const fileFilter = fileTypes.find(f => f.type === filterType);
+  //   if (!fileFilter) {
+  //     setFilteredFiles(files);
+  //   } else if (fileFilter.type === 'Folders') {
+  //     setFilteredFiles(files.filter(f => f.format === 'folder'));
+  //   } else {
+  //     setFilteredFiles(
+  //       files.filter(f =>
+  //         fileFilter.extensions.some(ext => f.name.endsWith(ext))
+  //       )
+  //     );
+  //   }
+  // }, [filterType, files]);
 
   const showViewPath = useSelector(
     state =>
@@ -165,7 +165,7 @@ const DataFilesListing = ({ api, scheme, system, path, isPublic }) => {
       )}
       <div className="o-flex-item-table-wrap">
         <DataFilesTable
-          data={filteredFiles}
+          data={files} // filteredFiles
           columns={columns}
           rowSelectCallback={rowSelectCallback}
           scrollBottomCallback={scrollBottomCallback}

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react'; //, useState
 import PropTypes from 'prop-types';
 import renderHtml from 'utils/renderHtml';
 import { InlineMessage, LoadingSpinner, InfiniteScrollTable } from '_common';
