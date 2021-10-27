@@ -1,9 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import configureStore from "redux-mock-store";
-import AppsHeader from "./AppLayout";
+import { Provider, useSelector } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { MemoryRouter, Route } from 'react-router-dom';
+import renderComponent from 'utils/testing';
+import AppsRoutes, { AppsLayout } from './AppLayout';
 import systemsFixture from '../../DataFiles/fixtures/DataFiles.systems.fixture';
 import { projectsFixture } from '../../../redux/sagas/fixtures/projects.fixture';
 import filesFixture from '../../DataFiles/fixtures/DataFiles.files.fixture';
@@ -14,19 +15,34 @@ import { jobsFixture } from '../AppForm/fixtures/AppForm.jobs.fixture';
 
 const mockStore = configureStore();
 
-function renderAppsHeader(store, appId) {
+function renderAppsRoutes(store, appId) {
   return render(
     <Provider store={store}>
       <MemoryRouter initialEntries={[`/applications/${appId}`]}>
-        <Route path='/:appId?'>
-          <AppsHeader categoryDict={appTrayExpectedFixture}/>
+        <Route path="/:appId?">
+          <AppsRoutes />
         </Route>
       </MemoryRouter>
     </Provider>
   );
 }
-
-describe('AppHeader', () => {
+describe('AppsLayout', () => {
+  it('should show a loading spinner while fetching data', () => {
+    const store = mockStore({
+      apps: { ...appTrayExpectedFixture, loading: true, categoryDict: {} }
+    });
+    const { getByText, getByTestId } = renderComponent(<AppsLayout />, store);
+    expect(getByTestId('loading-spinner')).toBeDefined();
+  });
+  it('Display the correct error message', () => {
+    const store = mockStore({
+      apps: { ...appTrayExpectedFixture, error: { isError: true } }
+    });
+    const { getByText } = renderComponent(<AppsLayout />, store);
+    expect(getByText('Something went wrong.')).toBeDefined();
+  });
+});
+describe('AppsHeader', () => {
   it('renders breadcrumbs', () => {
     const store = mockStore({
       systems: systemsFixture,
@@ -39,15 +55,14 @@ describe('AppHeader', () => {
         error: {
           isError: false
         },
-        ...namdAppFixture,
+        ...namdAppFixture
       },
       pushKeys: {
         modals: filesFixture.modals,
         modalProps: filesFixture.modalProps
       }
     });
-
-    let {getByText} = renderAppsHeader(store, 'arraytest-0.1');
+    const { getByText } = renderAppsRoutes(store, 'arraytest-0.1');
     expect(getByText(/Applications \/ Array Test/)).toBeDefined();
   });
 });
