@@ -128,6 +128,5 @@ PredictiveFeaturesPlot.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-PredictiveFeaturesPlot.defaultProps = {};
 
 export default PredictiveFeaturesPlot;
