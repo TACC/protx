@@ -216,5 +216,4 @@ MaltreatmentTypesPlot.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-
 export default MaltreatmentTypesPlot;
