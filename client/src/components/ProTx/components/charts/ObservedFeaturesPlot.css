@@ -1,66 +1,78 @@
+.data-error-message {
+  margin: 1rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-blood-orange);
+}
+.loading-spinner {
+  margin-top: 40%;
+}
 .observed-features-plot {
   font-family: var(--font-type-roboto-condensed);
+  width: 100%;
+  height: 100%;
 }
 .observed-features-plot-layout {
-  margin: 1vh 1vw;
+  margin: 0 0.5vw;
 }
 .observed-features-plot-info {
   border-bottom: 1px solid var(--color-gray-very-dark);
 }
-.observed-features-plot-info-item {
+.observed-features-plot-info-region {
+  min-height: 4.5rem;
   display: flex;
-  justify-content: space-between;
+}
+.observed-features-plot-selected-region-label,
+.observed-features-plot-aggregated-count-label,
+.observed-features-plot-selected-feature-label {
+  font-weight: var(--font-weight-normal-plus);
+  color: var(--color-gray);
 }
 .observed-features-plot-selected-region,
-.observed-features-plot-aggregated-count,
-.observed-features-plot-selected-feature {
+.observed-features-plot-aggregated-count {
   display: inline;
-  margin: 0.5vh 0.5vw;
+  margin: 1vh;
 }
 .observed-features-plot-selected-region {
   width: 60%;
+  text-align: right;
 }
 .observed-features-plot-aggregated-count {
-  width: 40%;
+  text-align: left;
   border-left: 1px solid var(--color-gray-dark);
 }
 .observed-features-plot-selected-region-label,
-.observed-features-plot-aggregated-count-label,
-.observed-features-plot-selected-feature-label {
-  color: var(--color-gray);
-}
-.observed-features-plot-selected-region-label,
-.observed-features-plot-aggregated-count-label,
-.observed-features-plot-selected-feature-label {
-  margin-left: 2rem;
+.observed-features-plot-aggregated-count-label {
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal-plus);
 }
-.observed-features-plot-selected-region-value,
-.observed-features-plot-aggregated-count-value {
-  margin-left: 1rem;
-  font-size: calc(var(--font-size-normal) * 3);
-  font-weight: var(--font-weight-x-heavy);
+.observed-features-plot-selected {
+  text-align: center;
+  border-bottom: 1px solid var(--color-gray-very-dark);
+}
+.observed-features-plot-selected-feature {
+  margin: 0.5vh;
 }
 .observed-features-plot-selected-feature-value {
   margin-left: 1rem;
   font-size: calc(var(--font-size-normal) * 1.2);
   font-weight: var(--font-weight-x-heavy);
 }
+.observed-features-plot-selected-region-value,
+.observed-features-plot-aggregated-count-value {
+  margin: 0 1vw;
+  font-size: calc(var(--font-size-normal) * 2.2);
+  font-weight: var(--font-weight-x-heavy);
+}
 .observed-features-plot-selected-region-code {
-  margin-left: 1rem;
+  font-size: var(--font-size-sm);
   font-style: italic;
 }
 .observed-feature-selection-label {
   font-weight: var(--font-weight-normal-plus);
 }
-.observed-features-plot-chart-body,
-.observed-features-plot-chart-body-plot {
-  height: 60vh;
-  width: 45vw;
-}
-.observed-features-plot-chart-footer {
-  margin: 0.5vh 0 0 2rem;
-  padding-top: 1vh;
+.observed-features-plot-info-summary {
+  margin: 0.8vh 1vw 0.5vh;
   text-align: center;
   font-size: var(--font-size-xs);
   line-height: 2vh;
@@ -75,4 +87,7 @@
 .observed-features-plot-selected-type-summary::after {
   font-weight: var(--font-weight-normal);
   content: '.';
+}
+.observed-features-plot-chart {
+  margin: 0 0.5vw;
 }

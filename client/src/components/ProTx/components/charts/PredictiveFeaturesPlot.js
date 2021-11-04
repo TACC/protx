@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getFipsIdName } from '../shared/dataUtils';
-import { getPredictiveFeaturesPlotData } from '../shared/plotUtils';
-
-import DebugPlot from './DebugPlot';
+import { getPredictiveFeaturesDataObject } from '../shared/dataUtils';
+import {
+  plotConfig,
+  getPlotLayout,
+  getPlotDataBars
+} from '../shared/plotUtils';
 import './PredictiveFeaturesPlot.css';
 
 function PredictiveFeaturesPlot({
@@ -12,11 +14,8 @@ function PredictiveFeaturesPlot({
   observedFeature,
   year,
   selectedGeographicFeature,
-  data,
-  debug
+  data
 }) {
-  const PLOT_TYPE = 'predictiveFeatures';
-
   const getPredictiveFeaturesChartLayout = (
     predictiveFeaturePredictiveFeatures,
     geographyPredictiveFeatures,
@@ -38,11 +37,12 @@ function PredictiveFeaturesPlot({
         <div className="predictive-features-plot-chart-body">
           <div className="predictive-features-plot-chart-body-plot">
             <Plot
+              divId="predictive-features-plot"
+              className="predictive-features-plot"
               data={plotStatePredictiveFeatures.data}
               layout={plotStatePredictiveFeatures.layout}
               config={plotStatePredictiveFeatures.config}
               useResizeHandler
-              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>
@@ -50,9 +50,60 @@ function PredictiveFeaturesPlot({
     );
   };
 
-  const predictiveFeaturesPlotData = getPredictiveFeaturesPlotData();
-  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-  const geoId = `${selectedGeographicFeature}:${fipsIdValue}`;
+  const prepPredictiveFeaturesPlotData = () => {
+    const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
+
+    // Transform the response from the query into the required object structure for the plot.
+    const predictiveFeaturesDataObject = [];
+
+    const axisCategories = [
+      'category',
+      'linear',
+      'log',
+      'date',
+      'multicategory',
+      '-'
+    ];
+
+    const plotTitle = 'Predictive Features';
+    const plotOrientation = 'v';
+    const showPlotLegend = true;
+    const plotXDataLabel = 'X DATA LABEL';
+    const plotXDataAxisType = axisCategories[1];
+    const plotYDataLabel = 'Y DATA LABEL';
+    const plotYDataAxisType = axisCategories[1];
+
+    const plotLayout = getPlotLayout(
+      plotTitle,
+      plotOrientation,
+      showPlotLegend,
+      plotXDataLabel,
+      plotXDataAxisType,
+      plotYDataLabel,
+      plotYDataAxisType
+    );
+
+    const plotData = getPlotDataBars(
+      'predictive',
+      predictiveFeaturesDataObject,
+      plotOrientation
+    );
+
+    const plotState = {
+      data: plotData,
+      layout: plotLayout,
+      config: plotConfig,
+      raw: newPredictiveFeaturesDataObject
+    };
+
+    const predictiveFeaturesPlotData = {
+      predictiveFeaturesPlotState: plotState
+    };
+
+    return predictiveFeaturesPlotData;
+  };
+
+  const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
 
   const predictiveFeaturesChartLayout = getPredictiveFeaturesChartLayout(
     observedFeature,
@@ -60,24 +111,6 @@ function PredictiveFeaturesPlot({
     selectedGeographicFeature,
     predictiveFeaturesPlotData.predictiveFeaturesPlotState
   );
-
-  if (debug) {
-    return (
-      <DebugPlot
-        className="plot-debug"
-        mapType="predictiveFeatures"
-        geography={geography}
-        observedFeature={observedFeature}
-        year={year}
-        selectedGeographicFeature={selectedGeographicFeature}
-        fipsIdValue={fipsIdValue}
-        geoId={geoId}
-        plotType={PLOT_TYPE}
-        plotData={predictiveFeaturesPlotData}
-        data={data}
-      />
-    );
-  }
 
   return (
     <div className="predictive-features-plot">
@@ -92,13 +125,7 @@ PredictiveFeaturesPlot.propTypes = {
   year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired,
-  /** Render component data in debug mode. */
-  debug: PropTypes.bool
-};
-
-PredictiveFeaturesPlot.defaultProps = {
-  debug: false
+  data: PropTypes.object.isRequired
 };
 
 export default PredictiveFeaturesPlot;

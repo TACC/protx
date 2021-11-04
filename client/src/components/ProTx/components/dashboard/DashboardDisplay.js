@@ -21,7 +21,7 @@ function DashboardDisplay() {
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
   );
-  const [showRate, setShowRate] = useState(false);
+  const [showRate, setShowRate] = useState(true);
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const protxRoute = '/protx';

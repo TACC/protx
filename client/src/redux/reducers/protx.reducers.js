@@ -4,7 +4,7 @@ export const initialState = {
   data: null
 };
 
-export default function protx(state = initialState, action) {
+export function protx(state = initialState, action) {
   switch (action.type) {
     case 'PROTX_INIT':
       return {
@@ -20,6 +20,38 @@ export default function protx(state = initialState, action) {
     case 'PROTX_FAILURE':
       return {
         ...initialState,
+        error: true
+      };
+    default:
+      return state;
+  }
+}
+
+export const initialDemographicsDistributionState = {
+  loading: true,
+  error: false,
+  data: null
+};
+
+export function protxDemographicsDistribution(
+  state = initialDemographicsDistributionState,
+  action
+) {
+  switch (action.type) {
+    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_INIT':
+      return {
+        ...initialDemographicsDistributionState,
+        loading: true
+      };
+    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_SUCCESS':
+      return {
+        ...state,
+        data: action.payload.data,
+        loading: false
+      };
+    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_FAILURE':
+      return {
+        ...initialDemographicsDistributionState,
         error: true
       };
     default:

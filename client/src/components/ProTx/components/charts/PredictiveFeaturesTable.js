@@ -107,9 +107,11 @@ function PredictiveFeaturesTable({ selectedGeographicFeature }) {
               </span>
             </div>
             <table>
-              {featureTableHeader}
-              {featureTableData}
-              {selectedFeatureTableData}
+              <thead>{featureTableHeader}</thead>
+              <tbody>
+                {featureTableData}
+                {selectedFeatureTableData}
+              </tbody>
             </table>
           </div>
           <div className="feature-table-info">{featureTableAnnotations}</div>
@@ -126,8 +128,8 @@ function PredictiveFeaturesTable({ selectedGeographicFeature }) {
             </span>
           </div>
           <table>
-            {featureTableHeader}
-            {featureTableData}
+            <thead>{featureTableHeader}</thead>
+            <tbody>{featureTableData}</tbody>
           </table>
         </div>
         <div className="feature-table-info">{featureTableAnnotations}</div>
