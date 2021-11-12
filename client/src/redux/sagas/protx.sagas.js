@@ -4,7 +4,7 @@ import { fetchUtil } from '../../utils/fetchUtil';
 export function* fetchProtx(action) {
   yield put({ type: 'PROTX_INIT' });
   try {
-    const { maltreatment, demographics, texasBoundary, display } = yield all({
+    const { maltreatment, demographics, texasBoundary, display, resources } = yield all({
       maltreatment: call(fetchUtil, {
         url: `/api/protx/maltreatment`
       }),
@@ -16,6 +16,9 @@ export function* fetchProtx(action) {
       }),
       display: call(fetchUtil, {
         url: `/api/protx/display`
+      }),
+      resources: call(fetchUtil, {
+        url: `/api/protx/resources`
       })
     });
     yield put({
@@ -26,7 +29,8 @@ export function* fetchProtx(action) {
         maltreatment: maltreatment.data,
         maltreatmentMeta: maltreatment.meta,
         texasBoundary,
-        display
+        display,
+        resources
       }
     });
   } catch (error) {
