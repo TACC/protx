@@ -2,12 +2,19 @@ import React, { useEffect, useState, useRef } from 'react';
 
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
+import 'leaflet.markercluster';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import MapProviders from './MapProviders';
 import { GEOID_KEY } from '../data/meta';
 import './MainMap.css';
 import './MainMap.module.scss';
 import 'leaflet/dist/leaflet.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+
 import {
   getMetaData,
   getMaltreatmentLabel,
@@ -17,6 +24,13 @@ import getFeatureStyle from '../shared/mapUtils';
 import IntervalColorScale from '../shared/colorsUtils';
 
 let mapContainer;
+
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 function MainMap({
   mapType,
@@ -30,6 +44,8 @@ function MainMap({
   setSelectedGeographicFeature
 }) {
   const dataServer = window.location.origin;
+
+  const resources = useSelector(state => state.protx.data.resources);
 
   // Leaflet related layers, controls, and map
   const [legendControl, setLegendControl] = useState(null);
@@ -144,7 +160,36 @@ function MainMap({
   ]);
 
   useEffect(() => {
+    // display resources data
+    if (map && layersControl && resources) {
+      const markersClusterGroup = L.markerClusterGroup({
+        showCoverageOnHover: false
+      });
+      resources.forEach(point => {
+        const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
+          title: point.NAME
+        });
+        marker.bindPopup(point.NAME);
+        markersClusterGroup.addLayers(marker);
+      });
+
+      map.addLayer(markersClusterGroup);
+      layersControl.addOverlay(markersClusterGroup, 'Resources');
+      // save this layer?
+
+      // TODO
+      // - where i am at:  make marker with values etc
+      // - layer for each of the categories
+      // - placeholder for only showing data for the current year (i.e. add year to effect and check boolean)
+
+      // ensure that texas outline is on top
+      // texasOutlineLayer.bringToFront();
+    }
+  }, [layersControl, map, resources]);
+
+  useEffect(() => {
     const vectorTile = `${dataServer}/data-static/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
+
     if (map && layersControl) {
       const newDataLayer = L.vectorGrid.protobuf(vectorTile, {
         vectorTileLayerStyles: {
