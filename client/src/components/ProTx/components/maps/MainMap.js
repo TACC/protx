@@ -175,15 +175,6 @@ function MainMap({
 
       map.addLayer(markersClusterGroup);
       layersControl.addOverlay(markersClusterGroup, 'Resources');
-      // save this layer?
-
-      // TODO
-      // - where i am at:  make marker with values etc
-      // - layer for each of the categories
-      // - placeholder for only showing data for the current year (i.e. add year to effect and check boolean)
-
-      // ensure that texas outline is on top
-      // texasOutlineLayer.bringToFront();
     }
   }, [layersControl, map, resources]);
 
