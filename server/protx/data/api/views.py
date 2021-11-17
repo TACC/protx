@@ -51,6 +51,8 @@ GROUP BY
 '''
 
 SQLALCHEMY_DATABASE_URL = 'sqlite:////protx-data/cooks.db'
+SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:////protx-data/resources.db'
+
 MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
@@ -155,6 +157,7 @@ def get_demographics_distribution_plot_data(request, area, variable, unit):
     return JsonResponse({"result": result})
 
 
+# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
 def get_display(request):
     """Get display information data
     """
@@ -172,3 +175,16 @@ def get_display(request):
                 var[boolean_var_key] = True if (current_value == 1 or current_value == "1") else False
             result.append(var)
         return JsonResponse({"variables": result})
+
+
+# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+def get_resources(request):
+    """Get display information data
+    """
+    engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
+    with engine.connect() as connection:
+        resources = connection.execute("SELECT * FROM business_locations")
+        result = []
+        for r in resources:
+            result.append(dict(r))
+    return JsonResponse({"resources": result})
