@@ -163,19 +163,32 @@ function MainMap({
   useEffect(() => {
     // display resources data
     if (map && layersControl && resources) {
-      const markersClusterGroup = L.markerClusterGroup({
-        showCoverageOnHover: false
-      });
+      const resourcesClusterGroups = {};
       resources.forEach(point => {
+        if (!(point.NAICS_CODE in resourcesClusterGroups)) {
+          resourcesClusterGroups[point.NAICS_CODE] = L.markerClusterGroup({
+            showCoverageOnHover: false
+          });
+        }
+
         const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
           title: point.NAME
         });
         marker.bindPopup(point.NAME);
-        markersClusterGroup.addLayers(marker);
+        resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
       });
 
-      map.addLayer(markersClusterGroup);
-      layersControl.addOverlay(markersClusterGroup, 'Resources');
+      Object.keys(resourcesClusterGroups).forEach(naicsCode => {
+        const markersClusterGroup = resourcesClusterGroups[naicsCode];
+        map.addLayer(markersClusterGroup);
+        const matchingMeta = resourcesMeta.find(
+          r => r.NAICS_CODE === parseInt(naicsCode, 10)
+        );
+        const layerLabel = matchingMeta
+          ? matchingMeta.DESCRIPTION
+          : `Unknown Resource (${naicsCode})`;
+        layersControl.addOverlay(markersClusterGroup, layerLabel);
+      });
     }
   }, [layersControl, map, resources]);
 
