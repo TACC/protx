@@ -12,19 +12,19 @@ export function* fetchProtx(action) {
       resources
     } = yield all({
       maltreatment: call(fetchUtil, {
-        url: `/api/protx/maltreatment`
+        url: `/api/protx/maltreatment/`
       }),
       demographics: call(fetchUtil, {
-        url: `/api/protx/demographics`
+        url: `/api/protx/demographics/`
       }),
       texasBoundary: call(fetchUtil, {
         url: `/data-static/Texas_State_Boundary.geojson`
       }),
       display: call(fetchUtil, {
-        url: `/api/protx/display`
+        url: `/api/protx/display/`
       }),
       resources: call(fetchUtil, {
-        url: `/api/protx/resources`
+        url: `/api/protx/resources/`
       })
     });
     yield put({
@@ -36,7 +36,8 @@ export function* fetchProtx(action) {
         maltreatmentMeta: maltreatment.meta,
         texasBoundary,
         display,
-        resources: resources.resources
+        resources: resources.resources,
+        resourcesMeta: resources.display
       }
     });
   } catch (error) {
