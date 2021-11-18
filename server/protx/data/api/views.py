@@ -184,7 +184,11 @@ def get_resources(request):
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
         resources = connection.execute("SELECT * FROM business_locations")
-        result = []
+        resources_result = []
         for r in resources:
-            result.append(dict(r))
-    return JsonResponse({"resources": result})
+            resources_result.append(dict(r))
+        meta = connection.execute("SELECT * FROM business_menu")
+        display_result = []
+        for m in meta:
+            display_result.append(dict(m))
+    return JsonResponse({"resources": resources_result, "display": display_result})
