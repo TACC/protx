@@ -11,7 +11,7 @@
   line-height: 10px;
 }
 
-.legend-title{
+.legend-title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal-plus);
   width: 100%;
@@ -35,4 +35,9 @@
 .scale-value span {
   font-weight: var(--font-weight-light);
   font-size: var(--font-size-xs);
+}
+.leaflet-popup-content .marker-popup-content {
+  background-color: var(--color-gold);
+  color: var(--color-purple);
+  font-weight: var(--font-weight-heavy);
 }
