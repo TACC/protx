@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import 'leaflet.markercluster';
+import 'leaflet-easybutton';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -81,6 +82,10 @@ function MainMap({
       maxBoundsViscosity: 1.0,
       doubleClickZoom: false
     }).fitBounds(texasBounds);
+
+    L.easyButton('icon icon-globe', (btn, currentMap) => {
+      currentMap.fitBounds(texasBounds);
+    }).addTo(newMap);
 
     const texasOutline = L.vectorGrid
       .slicer(data.texasBoundary, {
