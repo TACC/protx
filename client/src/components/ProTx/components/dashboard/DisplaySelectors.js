@@ -78,7 +78,7 @@ function DisplaySelectors({
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
   const rateLabel =
-    mapType === 'maltreatment' ? 'Rate per 100k children' : 'Percentages';
+    mapType === 'maltreatment' ? 'Rate per 100K children' : 'Percentages';
   const nonRateLabel = 'Totals';
   const display = useSelector(state => state.protx.data.display);
 
