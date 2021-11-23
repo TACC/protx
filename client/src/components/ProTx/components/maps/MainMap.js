@@ -53,17 +53,24 @@ function MainMap({
   const [legendControl, setLegendControl] = useState(null);
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
+  const [resourceLayers, setResourceLayers] = useState(null);
   const [texasOutlineLayer, setTexasOutlineLayer] = useState(null);
   const [map, setMap] = useState(null);
   const [colorScale, setColorScale] = useState(null);
   const [selectedGeoid, setSelectedGeoid] = useState(null);
 
   const refSelectedGeoid = useRef(selectedGeoid); // Make a ref of the selected feature
+  const refResourceLayers = useRef(resourceLayers); // Make a ref of the resources layers
 
   function updateSelectedGeographicFeature(newSelectedFeature) {
     refSelectedGeoid.current = newSelectedFeature;
     setSelectedGeoid(newSelectedFeature);
     setSelectedGeographicFeature(newSelectedFeature);
+  }
+
+  function updateResourceLayers(newResourceLayers) {
+    refResourceLayers.current = newResourceLayers;
+    setResourceLayers(newResourceLayers);
   }
 
   useEffect(() => {
@@ -105,10 +112,29 @@ function MainMap({
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
     providers[3].addTo(newMap);
-    setLayersControl(L.control.layers(baseMaps).addTo(newMap));
+    const layerControl = L.control.layers(baseMaps).addTo(newMap);
+    setLayersControl(layerControl);
     setMap(newMap);
     setTexasOutlineLayer(texasOutline);
   }, [data, mapContainer]);
+  useEffect(() => {
+    if (map && layersControl) {
+      map.on('zoomend', () => {
+        const currentZoom = map.getZoom();
+        if (currentZoom > 7) {
+          layersControl.expand();
+          refResourceLayers.current.forEach(resourceLayer => {
+            map.addLayer(resourceLayer.layer);
+          });
+        } else {
+          layersControl.collapse();
+          refResourceLayers.current.forEach(resourceLayer => {
+            map.removeLayer(resourceLayer.layer);
+          });
+        }
+      });
+    }
+  }, [map, layersControl]);
 
   useEffect(() => {
     if (map) {
@@ -183,6 +209,15 @@ function MainMap({
         resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
       });
 
+      // remove previous layers
+      if (refResourceLayers.current) {
+        refResourceLayers.current.forEach(resourceLayer => {
+          map.removeLayer(resourceLayer.layer);
+        });
+      }
+
+      const newResourceLayers = [];
+      const currentZoom = map.getZoom();
       Object.keys(resourcesClusterGroups).forEach(naicsCode => {
         const markersClusterGroup = resourcesClusterGroups[naicsCode];
         map.addLayer(markersClusterGroup);
@@ -193,7 +228,12 @@ function MainMap({
           ? matchingMeta.DESCRIPTION
           : `Unknown Resource (${naicsCode})`;
         layersControl.addOverlay(markersClusterGroup, layerLabel);
+        newResourceLayers.push({
+          label: layerLabel,
+          layer: markersClusterGroup
+        });
       });
+      updateResourceLayers(newResourceLayers);
     }
   }, [layersControl, map, resources]);
 
