@@ -174,7 +174,53 @@ function MainMap({
         const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
           title: point.NAME
         });
-        marker.bindPopup(point.NAME);
+        // marker.bindPopup(point.NAME);
+
+        const popupValues = {
+          name: '',
+          description: '',
+          street: '',
+          city: '',
+          state: '',
+          postal_code: '',
+          phone: '',
+          website: ''
+        };
+
+        if (point.NAME !== null) {
+          popupValues.name = point.NAME;
+        }
+        if (point.HOVER_DESCRIPTION !== null) {
+          popupValues.description = point.HOVER_DESCRIPTION;
+        }
+        if (point.STREET !== null) {
+          popupValues.street = point.STREET;
+        }
+        if (point.CITY !== null) {
+          popupValues.city = point.CITY;
+        }
+        if (point.STATE !== null) {
+          popupValues.state = point.STATE;
+        }
+        if (point.POSTAL_CODE !== null) {
+          popupValues.postal_code = point.POSTAL_CODE;
+        }
+        if (point.PHONE !== null) {
+          popupValues.phone = point.PHONE;
+        }
+        if (point.WEBSITE !== null) {
+          popupValues.website = point.WEBSITE;
+        }
+
+        const popupContent = `<div class="marker-popup-content">
+            <div class="marker-popup-name">${popupValues.name}</div>
+            <div class="marker-popup-description">${popupValues.description}</div>
+            <div class="marker-popup-street">${popupValues.street}</div>
+            <div class="marker-popup-location">${popupValues.city}, ${popupValues.state}, ${popupValues.postal_code}</div>
+            <div class="marker-popup-phone">${popupValues.phone}</div>
+            <div class="marker-popup-website">${popupValues.website}</div>
+          </div>`;
+        marker.bindPopup(popupContent);
         resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
       });
 
