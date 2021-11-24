@@ -321,8 +321,8 @@ const getMaltreatmentSelectedValues = (
 const getMaltreatmentLabel = (maltreatmentTypes, showRate) => {
   if (showRate) {
     return maltreatmentTypes.length > 1
-      ? 'Aggregated rate per 100k children'
-      : 'Rate per 100k children';
+      ? 'Aggregated rate per 100K children'
+      : 'Rate per 100K children';
   }
   return maltreatmentTypes.length > 1 ? 'Aggregated Count' : 'Count';
 };
