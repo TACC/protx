@@ -174,52 +174,37 @@ function MainMap({
         const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
           title: point.NAME
         });
-        // marker.bindPopup(point.NAME);
 
-        const popupValues = {
-          name: '',
-          description: '',
-          street: '',
-          city: '',
-          state: '',
-          postal_code: '',
-          phone: '',
-          website: ''
-        };
-
+        let popupContentAssemblage = `<div class="marker-popup-content">`;
         if (point.NAME !== null) {
-          popupValues.name = point.NAME;
+          popupContentAssemblage += `<div class="marker-popup-name">${point.NAME}</div>`;
         }
         if (point.HOVER_DESCRIPTION !== null) {
-          popupValues.description = point.HOVER_DESCRIPTION;
+          popupContentAssemblage += `<div class="marker-popup-description">${point.HOVER_DESCRIPTION}</div>`;
         }
         if (point.STREET !== null) {
-          popupValues.street = point.STREET;
+          popupContentAssemblage += `<div class="marker-popup-street">${point.STREET}</div>`;
         }
+        popupContentAssemblage += `<div class="marker-popup-location">`;
         if (point.CITY !== null) {
-          popupValues.city = point.CITY;
+          popupContentAssemblage += `${point.CITY}, `;
         }
         if (point.STATE !== null) {
-          popupValues.state = point.STATE;
+          popupContentAssemblage += `${point.STATE}, `;
         }
         if (point.POSTAL_CODE !== null) {
-          popupValues.postal_code = point.POSTAL_CODE;
+          popupContentAssemblage += `${point.POSTAL_CODE}`;
         }
+        popupContentAssemblage += `</div>`;
         if (point.PHONE !== null) {
-          popupValues.phone = point.PHONE;
+          popupContentAssemblage += `<div class="marker-popup-phone">${point.PHONE}</div>`;
         }
         if (point.WEBSITE !== null) {
-          popupValues.website = point.WEBSITE;
+          popupContentAssemblage += `<div class="marker-popup-website"><a href="${point.WEBSITE}" target="_blank">website</a></div>`;
         }
+        popupContentAssemblage += `</div>`;
 
-        const popupContent = `<div class="marker-popup-content">
-            <div class="marker-popup-name">${popupValues.name}</div>
-            <div class="marker-popup-description">${popupValues.description}</div>
-            <div class="marker-popup-street">${popupValues.street}</div>
-            <div class="marker-popup-location">${popupValues.city}, ${popupValues.state}, ${popupValues.postal_code}</div>
-            <div class="marker-popup-phone">${popupValues.phone}</div>
-            <div class="marker-popup-website">${popupValues.website}</div>
-          </div>`;
+        const popupContent = popupContentAssemblage;
         marker.bindPopup(popupContent);
         resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
       });
