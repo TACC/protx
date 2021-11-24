@@ -36,8 +36,37 @@
   font-weight: var(--font-weight-light);
   font-size: var(--font-size-xs);
 }
-.leaflet-popup-content .marker-popup-content {
-  background-color: var(--color-gold);
-  color: var(--color-purple);
+.marker-popup-content {
+  margin: 0.4rem;
+  line-height: 1.2;
+  font-family: var(--font-type-roboto-condensed);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-light);
+  text-align: center;
+  color: var(--color-black);
+}
+.marker-popup-name {
+  font-size: var(--font-size-normal);
   font-weight: var(--font-weight-heavy);
+}
+.marker-popup-description {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+}
+.marker-popup-street {
+  font-style: italic;
+  color: var(--color-gray-dark);
+}
+.marker-popup-location {
+  font-style: italic;
+  color: var(--color-gray-dark);
+}
+.marker-popup-phone {
+  font-style: italic;
+  color: var(--color-gray-dark);
+}
+.marker-popup-website {
+  font-style: italic;
+  font-weight: var(--font-weight-x-light);
+  color: var(--color-cornflower-blue);
 }

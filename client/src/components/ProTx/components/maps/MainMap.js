@@ -212,15 +212,13 @@ function MainMap({
           popupValues.website = point.WEBSITE;
         }
 
-        const popupContent = `<div className="marker-popup-content">
-            <div>${popupValues.name}</div>
-            <div>${popupValues.description}</div>
-            <div>${popupValues.street}</div>
-            <div>${popupValues.city}</div>
-            <div>${popupValues.state}</div>
-            <div>${popupValues.postal_code}</div>
-            <div>${popupValues.phone}</div>
-            <div>${popupValues.website}</div>
+        const popupContent = `<div class="marker-popup-content">
+            <div class="marker-popup-name">${popupValues.name}</div>
+            <div class="marker-popup-description">${popupValues.description}</div>
+            <div class="marker-popup-street">${popupValues.street}</div>
+            <div class="marker-popup-location">${popupValues.city}, ${popupValues.state}, ${popupValues.postal_code}</div>
+            <div class="marker-popup-phone">${popupValues.phone}</div>
+            <div class="marker-popup-website">${popupValues.website}</div>
           </div>`;
         marker.bindPopup(popupContent);
         resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
