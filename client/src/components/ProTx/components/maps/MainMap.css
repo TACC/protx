@@ -10,8 +10,7 @@
 .legend {
   line-height: 10px;
 }
-
-.legend-title{
+.legend-title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal-plus);
   width: 100%;
@@ -20,7 +19,6 @@
   padding-bottom: 10px;
   line-height: 16px;
 }
-
 .scale-value * {
   vertical-align: sub;
 }
@@ -35,4 +33,33 @@
 .scale-value span {
   font-weight: var(--font-weight-light);
   font-size: var(--font-size-xs);
+}
+.marker-popup-content * {
+  line-height: 1.2;
+  font-family: var(--font-type-roboto-condensed);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  color: var(--color-black);
+}
+.marker-popup-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal-plus);
+}
+.marker-popup-description {
+  font-weight: var(--font-weight-normal);
+}
+.marker-popup-street {
+  font-style: italic;
+  color: var(--color-gray-dark);
+}
+.marker-popup-location {
+  font-style: italic;
+  color: var(--color-gray-dark);
+}
+.marker-popup-phone {
+  color: var(--color-gray);
+}
+.marker-popup-website {
+  color: var(--color-cornflower-blue);
 }
