@@ -26,6 +26,8 @@ import IntervalColorScale from '../shared/colorsUtils';
 
 let mapContainer;
 
+const RESOURCE_ZOOM_LEVEL = 8; // resources will be displayed at this zoom level or higher
+
 const DefaultIcon = L.icon({
   iconUrl: icon,
   shadowUrl: iconShadow
@@ -213,6 +215,7 @@ function MainMap({
       if (refResourceLayers.current) {
         refResourceLayers.current.forEach(resourceLayer => {
           map.removeLayer(resourceLayer.layer);
+          layersControl.removeLayer(resourceLayer.layer);
         });
       }
 
@@ -220,7 +223,6 @@ function MainMap({
       const currentZoom = map.getZoom();
       Object.keys(resourcesClusterGroups).forEach(naicsCode => {
         const markersClusterGroup = resourcesClusterGroups[naicsCode];
-        map.addLayer(markersClusterGroup);
         const matchingMeta = resourcesMeta.find(
           r => r.NAICS_CODE === parseInt(naicsCode, 10)
         );
@@ -228,6 +230,10 @@ function MainMap({
           ? matchingMeta.DESCRIPTION
           : `Unknown Resource (${naicsCode})`;
         layersControl.addOverlay(markersClusterGroup, layerLabel);
+        if (currentZoom > RESOURCE_ZOOM_LEVEL) {
+          // we would only want to add to map (i.e. selection is ON) if zoomed in
+          map.addLayer(markersClusterGroup);
+        }
         newResourceLayers.push({
           label: layerLabel,
           layer: markersClusterGroup
