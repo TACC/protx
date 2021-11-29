@@ -60,9 +60,11 @@ function MainMap({
   const [map, setMap] = useState(null);
   const [colorScale, setColorScale] = useState(null);
   const [selectedGeoid, setSelectedGeoid] = useState(null);
+  const [zoomLevel, setZoomLevel] = useState(6);
 
   const refSelectedGeoid = useRef(selectedGeoid); // Make a ref of the selected feature
   const refResourceLayers = useRef(resourceLayers); // Make a ref of the resources layers
+  const refZoomLevel = useRef(zoomLevel); // Make a ref of the resources layers
 
   function updateSelectedGeographicFeature(newSelectedFeature) {
     refSelectedGeoid.current = newSelectedFeature;
@@ -75,6 +77,36 @@ function MainMap({
     setResourceLayers(newResourceLayers);
   }
 
+  function updateZoomLevel(newZoomLevel) {
+    refZoomLevel.current = newZoomLevel;
+    setZoomLevel(newZoomLevel);
+  }
+
+  /** Handle changes in zoom and show resources when zoomed into map
+   */
+  const handleZoom = (newZoomLevel, currentMap, currentLayerControl) => {
+    const previousZoomLevel = refZoomLevel.current;
+    const zoomTransitionOccurred =
+      (newZoomLevel < RESOURCE_ZOOM_LEVEL &&
+        previousZoomLevel >= RESOURCE_ZOOM_LEVEL) ||
+      (newZoomLevel >= RESOURCE_ZOOM_LEVEL &&
+        previousZoomLevel < RESOURCE_ZOOM_LEVEL);
+    if (zoomTransitionOccurred) {
+      if (newZoomLevel >= RESOURCE_ZOOM_LEVEL) {
+        currentLayerControl.expand();
+        refResourceLayers.current.forEach(resourceLayer => {
+          currentMap.addLayer(resourceLayer.layer);
+        });
+      } else {
+        currentLayerControl.collapse();
+        refResourceLayers.current.forEach(resourceLayer => {
+          currentMap.removeLayer(resourceLayer.layer);
+        });
+      }
+    }
+    updateZoomLevel(newZoomLevel);
+  };
+
   useEffect(() => {
     if (map) {
       return;
@@ -84,7 +116,7 @@ function MainMap({
     const texasBounds = texasOutlineGeojson.getBounds(texasOutlineGeojson);
 
     const newMap = L.map(mapContainer, {
-      zoom: 6,
+      zoom: zoomLevel,
       minZoom: 6,
       maxZoom: 16,
       maxBounds: texasBounds,
@@ -123,17 +155,7 @@ function MainMap({
     if (map && layersControl) {
       map.on('zoomend', () => {
         const currentZoom = map.getZoom();
-        if (currentZoom > 7) {
-          layersControl.expand();
-          refResourceLayers.current.forEach(resourceLayer => {
-            map.addLayer(resourceLayer.layer);
-          });
-        } else {
-          layersControl.collapse();
-          refResourceLayers.current.forEach(resourceLayer => {
-            map.removeLayer(resourceLayer.layer);
-          });
-        }
+        handleZoom(currentZoom, map, layersControl);
       });
     }
   }, [map, layersControl]);
