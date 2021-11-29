@@ -6,6 +6,7 @@ export default function Maptiles() {
 
   // Provider: Stamen.
   // No key required.
+  // eslint-disable-next-line no-unused-vars
   const basemapToner = L.tileLayer(
     'https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}',
     {
@@ -32,6 +33,7 @@ export default function Maptiles() {
     }
   );
 
+  // eslint-disable-next-line no-unused-vars
   const basemapTerrain = L.tileLayer(
     'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}',
     {
@@ -47,6 +49,7 @@ export default function Maptiles() {
 
   // Provider: Open Street Maps
   // No key required.
+  // eslint-disable-next-line no-unused-vars
   const basemapOsmDefault = L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -59,6 +62,7 @@ export default function Maptiles() {
     }
   );
 
+  // eslint-disable-next-line no-unused-vars
   const basemapOsmTopo = L.tileLayer(
     'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
     {
@@ -71,6 +75,7 @@ export default function Maptiles() {
     }
   );
 
+  // eslint-disable-next-line no-unused-vars
   const basemapOsmMapnik = L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -95,13 +100,8 @@ export default function Maptiles() {
     }
   );
 
-  providers.push(basemapOsmDefault);
-  providers.push(basemapOsmTopo);
-  providers.push(basemapOsmMapnik);
   providers.push(basemapOsmBw);
-  providers.push(basemapToner);
   providers.push(basemapTonerLite);
-  providers.push(basemapTerrain);
 
   Object.keys(providers).forEach(k => {
     const layer = providers[k];

@@ -113,7 +113,7 @@ function MainMap({
 
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
-    providers[3].addTo(newMap);
+    providers[0].addTo(newMap);
     const layerControl = L.control.layers(baseMaps).addTo(newMap);
     setLayersControl(layerControl);
     setMap(newMap);
