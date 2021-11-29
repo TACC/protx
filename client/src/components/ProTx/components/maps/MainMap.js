@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import 'leaflet.markercluster';
+import 'leaflet-easybutton';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -24,6 +25,8 @@ import getFeatureStyle from '../shared/mapUtils';
 import IntervalColorScale from '../shared/colorsUtils';
 
 let mapContainer;
+
+const RESOURCE_ZOOM_LEVEL = 8; // resources will be displayed at this zoom level or higher
 
 const DefaultIcon = L.icon({
   iconUrl: icon,
@@ -52,18 +55,57 @@ function MainMap({
   const [legendControl, setLegendControl] = useState(null);
   const [layersControl, setLayersControl] = useState(null);
   const [dataLayer, setDataLayer] = useState(null);
+  const [resourceLayers, setResourceLayers] = useState(null);
   const [texasOutlineLayer, setTexasOutlineLayer] = useState(null);
   const [map, setMap] = useState(null);
   const [colorScale, setColorScale] = useState(null);
   const [selectedGeoid, setSelectedGeoid] = useState(null);
+  const [zoomLevel, setZoomLevel] = useState(6);
 
   const refSelectedGeoid = useRef(selectedGeoid); // Make a ref of the selected feature
+  const refResourceLayers = useRef(resourceLayers); // Make a ref of the resources layers
+  const refZoomLevel = useRef(zoomLevel); // Make a ref of the resources layers
 
   function updateSelectedGeographicFeature(newSelectedFeature) {
     refSelectedGeoid.current = newSelectedFeature;
     setSelectedGeoid(newSelectedFeature);
     setSelectedGeographicFeature(newSelectedFeature);
   }
+
+  function updateResourceLayers(newResourceLayers) {
+    refResourceLayers.current = newResourceLayers;
+    setResourceLayers(newResourceLayers);
+  }
+
+  function updateZoomLevel(newZoomLevel) {
+    refZoomLevel.current = newZoomLevel;
+    setZoomLevel(newZoomLevel);
+  }
+
+  /** Handle changes in zoom and show resources when zoomed into map
+   */
+  const handleZoom = (newZoomLevel, currentMap, currentLayerControl) => {
+    const previousZoomLevel = refZoomLevel.current;
+    const zoomTransitionOccurred =
+      (newZoomLevel < RESOURCE_ZOOM_LEVEL &&
+        previousZoomLevel >= RESOURCE_ZOOM_LEVEL) ||
+      (newZoomLevel >= RESOURCE_ZOOM_LEVEL &&
+        previousZoomLevel < RESOURCE_ZOOM_LEVEL);
+    if (zoomTransitionOccurred) {
+      if (newZoomLevel >= RESOURCE_ZOOM_LEVEL) {
+        currentLayerControl.expand();
+        refResourceLayers.current.forEach(resourceLayer => {
+          currentMap.addLayer(resourceLayer.layer);
+        });
+      } else {
+        currentLayerControl.collapse();
+        refResourceLayers.current.forEach(resourceLayer => {
+          currentMap.removeLayer(resourceLayer.layer);
+        });
+      }
+    }
+    updateZoomLevel(newZoomLevel);
+  };
 
   useEffect(() => {
     if (map) {
@@ -74,13 +116,17 @@ function MainMap({
     const texasBounds = texasOutlineGeojson.getBounds(texasOutlineGeojson);
 
     const newMap = L.map(mapContainer, {
-      zoom: 6,
+      zoom: zoomLevel,
       minZoom: 6,
       maxZoom: 16,
       maxBounds: texasBounds,
       maxBoundsViscosity: 1.0,
       doubleClickZoom: false
     }).fitBounds(texasBounds);
+
+    L.easyButton('icon icon-globe', (btn, currentMap) => {
+      currentMap.fitBounds(texasBounds);
+    }).addTo(newMap);
 
     const texasOutline = L.vectorGrid
       .slicer(data.texasBoundary, {
@@ -99,11 +145,20 @@ function MainMap({
 
     // Create Layers Control.
     const { providers, layers: baseMaps } = MapProviders();
-    providers[3].addTo(newMap);
-    setLayersControl(L.control.layers(baseMaps).addTo(newMap));
+    providers[0].addTo(newMap);
+    const layerControl = L.control.layers(baseMaps).addTo(newMap);
+    setLayersControl(layerControl);
     setMap(newMap);
     setTexasOutlineLayer(texasOutline);
   }, [data, mapContainer]);
+  useEffect(() => {
+    if (map && layersControl) {
+      map.on('zoomend', () => {
+        const currentZoom = map.getZoom();
+        handleZoom(currentZoom, map, layersControl);
+      });
+    }
+  }, [map, layersControl]);
 
   useEffect(() => {
     if (map) {
@@ -209,9 +264,18 @@ function MainMap({
         resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
       });
 
+      // remove previous layers
+      if (refResourceLayers.current) {
+        refResourceLayers.current.forEach(resourceLayer => {
+          map.removeLayer(resourceLayer.layer);
+          layersControl.removeLayer(resourceLayer.layer);
+        });
+      }
+
+      const newResourceLayers = [];
+      const currentZoom = map.getZoom();
       Object.keys(resourcesClusterGroups).forEach(naicsCode => {
         const markersClusterGroup = resourcesClusterGroups[naicsCode];
-        map.addLayer(markersClusterGroup);
         const matchingMeta = resourcesMeta.find(
           r => r.NAICS_CODE === parseInt(naicsCode, 10)
         );
@@ -219,7 +283,16 @@ function MainMap({
           ? matchingMeta.DESCRIPTION
           : `Unknown Resource (${naicsCode})`;
         layersControl.addOverlay(markersClusterGroup, layerLabel);
+        if (currentZoom > RESOURCE_ZOOM_LEVEL) {
+          // we would only want to add to map (i.e. selection is ON) if zoomed in
+          map.addLayer(markersClusterGroup);
+        }
+        newResourceLayers.push({
+          label: layerLabel,
+          layer: markersClusterGroup
+        });
       });
+      updateResourceLayers(newResourceLayers);
     }
   }, [layersControl, map, resources]);
 
@@ -287,6 +360,11 @@ function MainMap({
             clickedGeographicFeature,
             highlightedStyle
           );
+          if (geography === 'county') {
+            // Simple zoom to point clicked and having fixed zoom level for counties
+            // See https://jira.tacc.utexas.edu/browse/COOKS-54
+            map.setView(e.latlng, 9);
+          }
         } else {
           updateSelectedGeographicFeature('');
         }
