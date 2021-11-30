@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 import logging
 
 from protx.data.api import demographics
+from protx.data.api.decorators import onboarded_required
 from portal.exceptions.api import ApiException
 
 
@@ -112,7 +113,7 @@ def create_dict(data, level_keys):
     return result
 
 
-# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+@onboarded_required
 @ensure_csrf_cookie
 def get_maltreatment(request):
     """Get maltreatment data
@@ -129,7 +130,7 @@ def get_maltreatment(request):
         return JsonResponse({"data": data, "meta": meta})
 
 
-# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+@onboarded_required
 @ensure_csrf_cookie
 def get_demographics(request):
     """Get maltreatment data
@@ -146,7 +147,7 @@ def get_demographics(request):
         return JsonResponse({"data": data, "meta": meta})
 
 
-# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+@onboarded_required
 @ensure_csrf_cookie
 def get_demographics_distribution_plot_data(request, area, variable, unit):
     """Get demographics distribution data for plotting
@@ -157,7 +158,7 @@ def get_demographics_distribution_plot_data(request, area, variable, unit):
     return JsonResponse({"result": result})
 
 
-# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+@onboarded_required
 def get_display(request):
     """Get display information data
     """
@@ -177,7 +178,7 @@ def get_display(request):
         return JsonResponse({"variables": result})
 
 
-# Require login depending on https://jira.tacc.utexas.edu/browse/COOKS-119
+@onboarded_required
 def get_resources(request):
     """Get display information data
     """
