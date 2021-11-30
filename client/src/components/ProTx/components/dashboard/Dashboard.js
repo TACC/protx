@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useRouteMatch, Redirect } from 'react-router-dom';
 import DashboardHeader from './DashboardHeader';
