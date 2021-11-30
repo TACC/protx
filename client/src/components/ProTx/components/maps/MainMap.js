@@ -144,9 +144,9 @@ function MainMap({
       .addTo(newMap);
 
     // Create Layers Control.
-    const { providers, layers: baseMaps } = MapProviders();
+    const { providers } = MapProviders();
     providers[0].addTo(newMap);
-    const layerControl = L.control.layers(baseMaps).addTo(newMap);
+    const layerControl = L.control.layers().addTo(newMap);
     setLayersControl(layerControl);
     setMap(newMap);
     setTexasOutlineLayer(texasOutline);
@@ -334,8 +334,7 @@ function MainMap({
       });
 
       if (dataLayer && layersControl) {
-        // we will remove data layer from mapand from control
-        layersControl.removeLayer(dataLayer);
+        // we will remove data layer from map
         dataLayer.remove();
       }
 
@@ -379,9 +378,8 @@ function MainMap({
         }
       });
 
-      // add new data layer to map and controls
+      // add new data layer to map
       newDataLayer.addTo(map);
-      layersControl.addOverlay(newDataLayer, 'Data');
       setDataLayer(newDataLayer);
 
       // updated/new layer
