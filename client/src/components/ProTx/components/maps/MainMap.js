@@ -243,7 +243,9 @@ function MainMap({
             });
           }
 
-          const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE));
+          const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
+            title: point.NAME
+          });
 
           let popupContentAssemblage = `<div class="marker-popup-content">`;
           if (point.NAME !== null) {
