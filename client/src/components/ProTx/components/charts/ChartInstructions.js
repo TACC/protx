@@ -2,36 +2,89 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './ChartInstructions.css';
 
-function ChartInstructions({
-  dropdownInstructions,
-  mapInstructions,
-  showDescription,
-  description
-}) {
-  const getCurrentDescription = (
-    showCurrentDescription,
-    currentDescription
-  ) => {
-    if (showCurrentDescription) {
-      return (
-        <div>
-          <div className="chart-description-label">Description</div>
-          <div className="chart-description">{currentDescription}</div>
-        </div>
-      );
+function ChartInstructions({ currentReportType }) {
+  // Observed Features.
+  const observedFeaturesDropdownInstructions = [
+    'Select an Area.',
+    'Select a Demographic Feature.',
+    'TimeFrame is restricted to the last census count from 2019.'
+  ];
+  const observedFeaturesMapInstructions = ['Select a Geographic Region.'];
+  const observedFeaturesShowDescription = true;
+  const observedFeaturesDescription =
+    'Demographic feature percents/counts for individual geographic regions with the selected observable feature during the selected timeframe.';
+
+  // Maltreatment Types.
+  const maltreatmentDropdownInstructions = [
+    'Using Map Type Maltreatment',
+    'Data is restricted to the county area',
+    'Select one or more Maltreatment Types',
+    'Select a Year'
+  ];
+  const maltreatmentMapInstructions = ['Select a Geographic Region'];
+  const maltreatmentShowDescription = true;
+  const maltreatmentDescription =
+    'Maltreatment counts for individual geographic regions with specifc maltreatment types during the selected year.';
+
+  // Predictive Features.
+  const predictiveFeaturesDropdownInstructions = [
+    'Map is restricted to the County Area.',
+    'Demographic is restrcited to the top seven predictive features.',
+    'Year is restricted to 2019 (the most recent census data).'
+  ];
+  const predictiveFeaturesMapInstructions = ['Select a Geographic Region.'];
+  const predictiveFeaturesShowDescription = false;
+  const predictiveFeaturesDescription = 'Description needed.';
+
+  const instructions = {
+    observed: {
+      dd: observedFeaturesDropdownInstructions,
+      map: observedFeaturesMapInstructions,
+      showDesc: observedFeaturesShowDescription,
+      desc: observedFeaturesDescription
+    },
+    maltreatment: {
+      dd: maltreatmentDropdownInstructions,
+      map: maltreatmentMapInstructions,
+      showDesc: maltreatmentShowDescription,
+      desc: maltreatmentDescription
+    },
+    predictive: {
+      dd: predictiveFeaturesDropdownInstructions,
+      map: predictiveFeaturesMapInstructions,
+      showDesc: predictiveFeaturesShowDescription,
+      desc: predictiveFeaturesDescription
     }
-    return <div />;
   };
 
-  const currentDescription = getCurrentDescription(
-    showDescription,
-    description
-  );
+  console.log(instructions);
+
+  // const getCurrentDescription = (
+  //   showCurrentDescription,
+  //   currentDescription
+  // ) => {
+  //   if (showCurrentDescription) {
+  //     return (
+  //       <div>
+  //         <div className="chart-description-label">Description</div>
+  //         <div className="chart-description">{currentDescription}</div>
+  //       </div>
+  //     );
+  //   }
+  //   return <div />;
+  // };
+
+  // const currentDescription = getCurrentDescription(
+  //   showDescription,
+  //   description
+  // );
 
   return (
     <div className="chart-instructions">
       <div className="chart-instructions-label">Instructions</div>
-      <h3>In the Dropdown Selection Menu (top):</h3>
+      <div>Current Report Type: {currentReportType}</div>
+      {/* <div>{instructions[predictive][desc]}</div> */}
+      {/* <h3>In the Dropdown Selection Menu (top):</h3>
       <ul>
         {dropdownInstructions.map(instruction => (
           <li key={instruction}>{instruction}</li>
@@ -43,16 +96,13 @@ function ChartInstructions({
           <li key={instruction}>{instruction}</li>
         ))}
       </ul>
-      {currentDescription}
+      {currentDescription} */}
     </div>
   );
 }
 
 ChartInstructions.propTypes = {
-  dropdownInstructions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  mapInstructions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  showDescription: PropTypes.bool.isRequired,
-  description: PropTypes.string.isRequired
+  currentReportType: PropTypes.string.isRequired
 };
 
 export default ChartInstructions;

@@ -14,17 +14,6 @@ function MaltreatmentChart({
   data,
   showInstructions
 }) {
-  const maltreatmentDropdownInstructions = [
-    'Using Map Type Maltreatment',
-    'Data is restricted to the county area',
-    'Select one or more Maltreatment Types',
-    'Select a Year'
-  ];
-  const maltreatmentMapInstructions = ['Select a Geographic Region'];
-  const maltreatmentShowDescription = true;
-  const maltreatmentDescription =
-    'Maltreatment counts for individual geographic regions with specifc maltreatment types during the selected year.';
-
   if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
     return (
       <div className="maltreatment-report">
@@ -43,12 +32,7 @@ function MaltreatmentChart({
   return (
     <div className="maltreatment-report">
       {showInstructions && (
-        <ChartInstructions
-          dropdownInstructions={maltreatmentDropdownInstructions}
-          mapInstructions={maltreatmentMapInstructions}
-          showDescription={maltreatmentShowDescription}
-          description={maltreatmentDescription}
-        />
+        <ChartInstructions currentReportType="maltreatment" />
       )}
     </div>
   );

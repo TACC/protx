@@ -6,6 +6,7 @@ import ChartInstructions from './ChartInstructions';
 import './PredictiveFeaturesChart.css';
 
 function PredictiveFeaturesChart({
+  mapType,
   geography,
   observedFeature,
   year,
@@ -13,15 +14,7 @@ function PredictiveFeaturesChart({
   data,
   showInstructions
 }) {
-  const predictiveFeaturesDropdownInstructions = [
-    'Map is restricted to the County Area.',
-    'Demographic is restrcited to the top seven predictive features.',
-    'Year is restricted to 2019 (the most recent census data).'
-  ];
-  const predictiveFeaturesMapInstructions = ['Select a Geographic Region.'];
-  const predictiveFeaturesShowDescription = false;
-  const predictiveFeaturesDescription = 'Description needed.';
-  const showPlot = false; // Hide as this is a work-in-progress
+  const showPlot = false; // Hide the plot while its still a work-in-progress.
 
   if (selectedGeographicFeature) {
     return (
@@ -31,6 +24,7 @@ function PredictiveFeaturesChart({
         />
         {showPlot && (
           <PredictiveFeaturesPlot
+            mapType={mapType}
             geography={geography}
             observedFeature={observedFeature}
             year={year}
@@ -45,19 +39,13 @@ function PredictiveFeaturesChart({
   return (
     <div className="predictive-features-chart">
       <PredictiveFeaturesTable />
-      {showInstructions && (
-        <ChartInstructions
-          dropdownInstructions={predictiveFeaturesDropdownInstructions}
-          mapInstructions={predictiveFeaturesMapInstructions}
-          showDescription={predictiveFeaturesShowDescription}
-          description={predictiveFeaturesDescription}
-        />
-      )}
+      {showInstructions && <ChartInstructions currentReportType="predictive" />}
     </div>
   );
 }
 
 PredictiveFeaturesChart.propTypes = {
+  mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
