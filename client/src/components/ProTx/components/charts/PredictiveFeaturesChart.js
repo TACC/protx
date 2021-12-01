@@ -39,9 +39,6 @@ function PredictiveFeaturesChart({
 
   return (
     <div className="predictive-features-chart">
-      <PredictiveFeaturesTable
-        selectedGeographicFeature={selectedGeographicFeature}
-      />
       {showInstructions && <ChartInstructions currentReportType="predictive" />}
     </div>
   );
