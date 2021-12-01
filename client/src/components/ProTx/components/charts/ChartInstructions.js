@@ -3,100 +3,106 @@ import PropTypes from 'prop-types';
 import './ChartInstructions.css';
 
 function ChartInstructions({ currentReportType }) {
-  // Observed Features.
-  const observedFeaturesDropdownInstructions = [
-    'Select an Area.',
-    'Select a Demographic Feature.',
-    'TimeFrame is restricted to the last census count from 2019.'
-  ];
-  const observedFeaturesMapInstructions = ['Select a Geographic Region.'];
-  const observedFeaturesShowDescription = true;
-  const observedFeaturesDescription =
-    'Demographic feature percents/counts for individual geographic regions with the selected observable feature during the selected timeframe.';
+  // const observedFeaturesDropdownInstructions = [
+  //   'Select an Area.',
+  //   'Select a Demographic Feature.',
+  //   'TimeFrame is restricted to the last census count from 2019.'
+  // ];
+  // const observedFeaturesDescription =
+  //   'Demographic feature percents/counts for individual geographic regions with the selected observable feature during the selected timeframe.';
 
-  // Maltreatment Types.
-  const maltreatmentDropdownInstructions = [
-    'Using Map Type Maltreatment',
-    'Data is restricted to the county area',
-    'Select one or more Maltreatment Types',
-    'Select a Year'
-  ];
-  const maltreatmentMapInstructions = ['Select a Geographic Region'];
-  const maltreatmentShowDescription = true;
-  const maltreatmentDescription =
-    'Maltreatment counts for individual geographic regions with specifc maltreatment types during the selected year.';
+  // const maltreatmentDropdownInstructions = [
+  //   'Using Map Type Maltreatment',
+  //   'Data is restricted to the county area',
+  //   'Select one or more Maltreatment Types',
+  //   'Select a Year'
+  // ];
+  // const maltreatmentDescription =
+  //   'Maltreatment counts for individual geographic regions with specifc maltreatment types during the selected year.';
 
-  // Predictive Features.
-  const predictiveFeaturesDropdownInstructions = [
-    'Map is restricted to the County Area.',
-    'Demographic is restrcited to the top seven predictive features.',
-    'Year is restricted to 2019 (the most recent census data).'
-  ];
-  const predictiveFeaturesMapInstructions = ['Select a Geographic Region.'];
-  const predictiveFeaturesShowDescription = false;
-  const predictiveFeaturesDescription = 'Description needed.';
+  // const predictiveFeaturesDropdownInstructions = [
+  //   'Map is restricted to the County Area.',
+  //   'Demographic is restrcited to the top seven predictive features.',
+  //   'Year is restricted to 2019 (the most recent census data).'
+  // ];
 
   const instructions = {
-    observed: {
-      dd: observedFeaturesDropdownInstructions,
-      map: observedFeaturesMapInstructions,
-      showDesc: observedFeaturesShowDescription,
-      desc: observedFeaturesDescription
+    type: '',
+    title: '',
+    description: 'How to use the instructions description text goes here.',
+    selections: {
+      subtitle: 'Selecting data values',
+      steps: [
+        'Usage instruction step 01.',
+        'Usage instruction step 02.',
+        'Usage instruction step 03.',
+        'Usage instruction step 04.'
+      ]
     },
-    maltreatment: {
-      dd: maltreatmentDropdownInstructions,
-      map: maltreatmentMapInstructions,
-      showDesc: maltreatmentShowDescription,
-      desc: maltreatmentDescription
-    },
-    predictive: {
-      dd: predictiveFeaturesDropdownInstructions,
-      map: predictiveFeaturesMapInstructions,
-      showDesc: predictiveFeaturesShowDescription,
-      desc: predictiveFeaturesDescription
-    }
+    footer: 'Usage instructions summary text goes here.'
   };
 
-  console.log(instructions);
+  if (currentReportType === 'observed') {
+    instructions.type = 'observed';
+    instructions.title = 'Using the Demographics Data Reporting Tool';
+    // instructions.description = 'How to use the instructions description text goes here.';
+    // instructions.selections.subtitle = 'Selecting data values';
+    // instructions.selections.steps = [
+    //   'Usage instruction step 01.',
+    //   'Usage instruction step 02.',
+    //   'Usage instruction step 03.',
+    //   'Usage instruction step 04.'
+    // ];
+    // instructions.footer = 'Usage instructions summary text goes here.';
+  }
 
-  // const getCurrentDescription = (
-  //   showCurrentDescription,
-  //   currentDescription
-  // ) => {
-  //   if (showCurrentDescription) {
-  //     return (
-  //       <div>
-  //         <div className="chart-description-label">Description</div>
-  //         <div className="chart-description">{currentDescription}</div>
-  //       </div>
-  //     );
-  //   }
-  //   return <div />;
-  // };
+  if (currentReportType === 'maltreatment') {
+    instructions.type = 'maltreatment';
+    instructions.title = 'Using the Maltreatment Data Reporting Tool';
+    // instructions.description = 'How to use the instructions description text goes here.';
+    // instructions.selections.subtitle = 'Selecting data values';
+    // instructions.selections.steps = [
+    //   'Usage instruction step 01.',
+    //   'Usage instruction step 02.',
+    //   'Usage instruction step 03.',
+    //   'Usage instruction step 04.'
+    // ];
+    // instructions.footer = 'Usage instructions summary text goes here.';
+  }
 
-  // const currentDescription = getCurrentDescription(
-  //   showDescription,
-  //   description
-  // );
+  if (currentReportType === 'predictive') {
+    instructions.type = 'predictive';
+    instructions.title = 'Using the Analytics Reporting Tool';
+    // instructions.description = 'How to use the instructions description text goes here.';
+    // instructions.selections.subtitle = 'Selecting data values';
+    // instructions.selections.steps = [
+    //   'Usage instruction step 01.',
+    //   'Usage instruction step 02.',
+    //   'Usage instruction step 03.',
+    //   'Usage instruction step 04.'
+    // ];
+    // instructions.footer = 'Usage instructions summary text goes here.';
+  }
+
+  // console.log(instructions);
 
   return (
-    <div className="chart-instructions">
-      <div className="chart-instructions-label">Instructions</div>
-      <div>Current Report Type: {currentReportType}</div>
-      {/* <div>{instructions[predictive][desc]}</div> */}
-      {/* <h3>In the Dropdown Selection Menu (top):</h3>
-      <ul>
-        {dropdownInstructions.map(instruction => (
-          <li key={instruction}>{instruction}</li>
+    <div className="report-instructions">
+      <div className="report-instructions-title">{instructions.title}</div>
+      <div className="report-instructions-description">
+        {instructions.description}
+      </div>
+      <div className="report-instructions-subtitle">
+        {instructions.selections.subtitle}
+      </div>
+      <ul className="report-instructions-steps-group">
+        {instructions.selections.steps.map(step => (
+          <li key={step} className="report-instructions-step">
+            {step}
+          </li>
         ))}
       </ul>
-      <h3>On the Map (left):</h3>
-      <ul>
-        {mapInstructions.map(instruction => (
-          <li key={instruction}>{instruction}</li>
-        ))}
-      </ul>
-      {currentDescription} */}
+      <div className="report-instructions-footer">{instructions.footer}</div>
     </div>
   );
 }

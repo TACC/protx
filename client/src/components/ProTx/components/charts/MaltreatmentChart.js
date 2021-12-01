@@ -26,6 +26,9 @@ function MaltreatmentChart({
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
         />
+        {showInstructions && (
+          <ChartInstructions currentReportType="maltreatment" />
+        )}
       </div>
     );
   }

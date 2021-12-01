@@ -32,13 +32,18 @@ function PredictiveFeaturesChart({
             data={data}
           />
         )}
+        {showInstructions && (
+          <ChartInstructions currentReportType="predictive" />
+        )}
       </div>
     );
   }
 
   return (
     <div className="predictive-features-chart">
-      <PredictiveFeaturesTable />
+      <PredictiveFeaturesTable
+        selectedGeographicFeature={selectedGeographicFeature}
+      />
       {showInstructions && <ChartInstructions currentReportType="predictive" />}
     </div>
   );

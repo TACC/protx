@@ -43,6 +43,7 @@ function ObservedFeaturesChart({
           data={data}
           showRate={showRate}
         />
+        {showInstructions && <ChartInstructions currentReportType="observed" />}
       </div>
     );
   }
