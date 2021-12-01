@@ -1,39 +1,49 @@
+.report-instructions-hidden {
+  margin: 3rem 1.5rem;
+  border-top: 1px solid var(--color-gray);
+  padding: 1rem 0 0;
+  font-style: italic;
+  text-align: center;
+}
 .report-instructions * {
-  /* font-family: var(--font-type-roboto); */
+  font-family: var(--font-type-roboto);
   margin: 0.5rem;
 }
 .report-instructions {
-  margin: 2rem 0.5rem;
-  border-top: 1px solid var(--color-gray);
+  margin: 3rem 1.5rem;
+  border-top: 1px solid var(--color-gray-dark);
   padding: 1rem 0 0;
-  /* text-align: center; */
 }
 .report-instructions-title {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-heavy);
-  color: var(--color-gray-light);
 }
 .report-instructions-subtitle {
-  font-size: var(--font-size-normal);
-  font-weight: var(--font-weight-normal-plus);
-  color: var(--color-gray-light);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-heavy);
 }
 .report-instructions-description {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-normal);
-  color: var(--color-gray-light);
+  margin-bottom: 1.5rem;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-light);
 }
 .report-instructions-steps-group * {
-  font-size: var(--font-size-sm);
+  padding: 0.1rem 0;
+  font-size: var(--font-size-normal);
   font-weight: var(--font-weight-light);
-  color: var(--color-gray-light);
 }
-/* .report-instructions-steps-group {
+.report-instructions-steps-group {
+  margin: 0 0 0 1rem;
+}
+.report-instructions-steps {
+  margin: 0 0 0 1rem;
+  padding: 0 0 0 1rem;
 }
 .report-instructions-step {
-} */
+  margin: 0;
+}
 .report-instructions-footer {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-x-light);
-  color: var(--color-gray-light);
+  font-style: italic;
 }

@@ -32,9 +32,7 @@ function PredictiveFeaturesChart({
             data={data}
           />
         )}
-        {showInstructions && (
-          <ChartInstructions currentReportType="predictive" />
-        )}
+        <ChartInstructions currentReportType="hidden" />
       </div>
     );
   }

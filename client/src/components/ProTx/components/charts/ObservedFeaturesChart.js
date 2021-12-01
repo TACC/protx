@@ -43,7 +43,7 @@ function ObservedFeaturesChart({
           data={data}
           showRate={showRate}
         />
-        {showInstructions && <ChartInstructions currentReportType="observed" />}
+        <ChartInstructions currentReportType="hidden" />
       </div>
     );
   }
