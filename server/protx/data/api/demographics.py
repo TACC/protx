@@ -37,7 +37,7 @@ def pearson_kurtosis(x):
     deviation = x - mean
     ratio = deviation / sigma
     k_vector = ratio ** 4
-    k = sum(k_vector)
+    k = np.mean(k_vector)
 
     return k
 
