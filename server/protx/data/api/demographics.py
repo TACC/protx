@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import sqlite3
+from scipy.stats import kurtosis
 
 
 # Aesthetics for plots
@@ -12,12 +13,11 @@ def not_currency(value1, value2):
     return '{:.0f}-{:.0f}'.format(value1, value2)
 
 
-def hist_to_bar(vector, range_vals, label_template, _n_bins=10):
+def hist_to_bar(vector, range_vals, bins):
     """
     vector: range of values
     range_vals: tuple of (min, max) or None
-    label_template: function for formatting bin label
-    n_bins: number of bins to pass to np.histogram()
+    bins: number of bins to pass to np.histogram()
     """
 
     try:
@@ -26,11 +26,58 @@ def hist_to_bar(vector, range_vals, label_template, _n_bins=10):
         print('Data vector is empty.')
         return
 
-    height, label = np.histogram(vector, range=range_vals)
-    bar_centers = [(label[i - 1] + label[i]) / 2.0 for i in range(1, len(label))]
-    label_fmt = [label_template(label[i - 1], label[i]) for i in range(1, len(label))]
+    height, edges = np.histogram(vector, range=range_vals, bins=bins, density=False)
 
-    return height, bar_centers, label_fmt
+    return height, edges
+
+
+def get_bin_edges(query_return_df, label_template):
+    all_data = query_return_df['VALUE'].values
+    all_data = all_data[np.logical_not(np.isnan(all_data))]
+
+    # resample data down to an annual sample size (data size is used in bin calc algorithms)
+    n_draws = len(query_return_df['GEOID'].unique()) - 2
+
+    # could perform resampling multiple times and average edges
+    # but doing calc only once for efficiency
+    sampled_data = list(np.random.choice(all_data, size=n_draws, replace=True))
+
+    # make sure the min and max are always in the data or bin range will be wrong
+    sampled_data.append(max(all_data))
+    sampled_data.append(min(all_data))
+
+    # Freedman Diaconis Estimator
+    bin_edges = np.histogram_bin_edges(sampled_data, bins='fd')
+    bar_centers = [round(((bin_edges[i - 1] + bin_edges[i]) / 2.0), 2) for i in range(1, len(bin_edges))]
+
+    # measure kurtosis to determine binning strategy
+    k = kurtosis(all_data)
+
+    # k = 0 is close to a normal distribution; some of our data have k = 80
+    if k < 10:
+
+        label_fmt = [label_template(bin_edges[i - 1], bin_edges[i]) for i in range(1, len(bin_edges))]
+        return bin_edges, bar_centers, label_fmt
+
+    else:
+
+        # find the 95th percentile of all data to use as binning threshold
+        threshold_95 = np.quantile(all_data, 0.95)
+
+        # subset the bin edges under the threshold
+        edges_threshold = list(bin_edges[bin_edges < threshold_95])
+
+        # add the maximum value back to the sequence
+        edges_threshold.append(max(bin_edges))
+
+        # calculate the bar centers so that the final wide bar isn't stretched
+        bar_centers_threshold = bar_centers[0: len(edges_threshold) + 1]
+
+        # update the bar labels
+        label_fmt_threshold = [label_template(edges_threshold[i - 1], edges_threshold[i]) for i in
+                               range(1, len(edges_threshold))]
+
+        return edges_threshold, bar_centers_threshold, label_fmt_threshold
 
 
 subplot_mapping_aes = {
@@ -109,17 +156,8 @@ def demographic_data_prep(query_return_df):
     # USER INPUT PARSING ## (but below shows parsing from return data)
     ########################
 
-    # parse range based on unit type (todo: push this out of data prep?)
-    # for counts, range should be min - 10%, max + 10% (range is (0, 100) for percents)
-    count_or_pct = query_return_df['count_or_pct'].unique().item()
-    if count_or_pct == 'count':
-        range_vals = (np.nanmin(query_return_df['VALUE'])*0.9, np.nanmax(query_return_df['VALUE'])*1.1)
-
-    # for percents, range should be 0-100
-    elif count_or_pct == 'percent':
-        range_vals = (0.0, 100.0)
-    else:
-        raise ValueError('Demographics data should contain only counts or percents.')
+    # range should be min - 10%, max + 10%
+    range_vals = (np.nanmin(query_return_df['VALUE']) * 0.9, np.nanmax(query_return_df['VALUE']) * 1.1)
 
     ###########################################################
     # RETURN DATA PROCESSING -- AESTHETICS FOR ALL SUBPLOTS ##
@@ -132,19 +170,35 @@ def demographic_data_prep(query_return_df):
             (query_return_df['DEMOGRAPHICS_NAME'] != 'MEDIAN_GROSS_RENT_PCT_HH_INCOME').unique().item():
         label_template = currency
         # division is done in formatting helper but could be pushed up to .db file
-        label_units = query_return_df[
-                          'units_display'].unique().item() + ' (1000s of dollars)'
+        label_units = query_return_df['units_display'].unique().item() + ' (1000s of dollars)'
     else:
         label_template = not_currency
         label_units = query_return_df['units_display'].unique().item()
+        # for line plots, PCI should use median and others should use mean
+    if query_return_df['DEMOGRAPHICS_NAME'].unique().item() == 'PCI':
+        center = 'median'
+    else:
+        center = 'mean'
 
-    #################################################################################
-    # RETURN DATA PROCESSING -- CALCULATE HISTOGRAMS AND FINALIZE PLOT AESTHETICS ##
-    #################################################################################
+    ############################################################
+    # CALCULATE HISTOGRAM BIN EDGES FOR DATA ACROSS ALL YEARS ##
+    ############################################################
+
+    bin_edges, bar_centers, bar_labels = get_bin_edges(query_return_df, label_template)
+    bin_width = bin_edges[1] - bin_edges[0]
+    # add the width to the second-to-last element in the bin edge vector
+    # this avoids inflating the max if there extra-wide final bins for skewed distributions
+    hist_min = bin_edges[0]
+    hist_max = bin_edges[-2] + bin_width
+
+    ################################################
+    # RESPONSE VALUE FOR DATA AND PLOT AESTHETICS ##
+    ################################################
 
     # set up response dictionary
     data_response = {
         'fig_aes': {
+            'hist_yrange': (hist_min, hist_max),
             'yrange': range_vals,
             'xrange': (0, 0),  # for horizontal boxplots, updated dynamically
             'geotype': query_return_df['GEOTYPE'].unique().item(),
@@ -152,6 +206,7 @@ def demographic_data_prep(query_return_df):
             'bar_labels': None,
             'bar_centers': None,
             'focal_display': None,
+            'center': center
         },
         'years': {
             i: {'focal_value': None,
@@ -159,15 +214,20 @@ def demographic_data_prep(query_return_df):
                 'median': None,
                 'bars': [None]} for i in range(2011, 2020)}
     }
+
+    ################################
+    # CALCULATE ANNUAL HISTOGRAMS ##
+    ################################
+
     for year in range(2010, 2020):
         data = query_return_df[query_return_df['YEAR'] == year]['VALUE'].values
         data = data[np.logical_not(np.isnan(data))]
 
         if len(data) > 0:
-            hbar, bar_center, bar_label = hist_to_bar(
+            hbar, _ = hist_to_bar(
                 data,
                 range_vals=range_vals,
-                label_template=label_template
+                bins=bin_edges
             )
 
             ####################
@@ -184,17 +244,13 @@ def demographic_data_prep(query_return_df):
             # update the max xrange to the greater of (prior max, new height + 10%)
             data_response['fig_aes']['xrange'] = (0, max(data_response['fig_aes']['xrange'][1], max(hbar) * 1.1))
 
-            ############################
+            ###########################
             # SHARED BY ALL SUBPLOTS ##
-            ############################
+            ###########################
 
-            # bar labels and centers will always be the same; add the first time and double check all subsequent times
             if not data_response['fig_aes']['bar_labels']:
-                data_response['fig_aes']['bar_labels'] = bar_label
-                data_response['fig_aes']['bar_centers'] = bar_center
-            else:
-                assert data_response['fig_aes']['bar_labels'] == bar_label
-                assert data_response['fig_aes']['bar_centers'] == bar_center
+                data_response['fig_aes']['bar_labels'] = bar_labels
+                data_response['fig_aes']['bar_centers'] = bar_centers
 
     return data_response
 
