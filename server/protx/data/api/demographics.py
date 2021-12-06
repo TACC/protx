@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import sqlite3
-from scipy.stats import kurtosis
 
 
 # Aesthetics for plots
@@ -31,6 +30,18 @@ def hist_to_bar(vector, range_vals, bins):
     return height, edges
 
 
+def pearson_kurtosis(x):
+
+    sigma = np.std(x)
+    mean = np.mean(x)
+    deviation = x - mean
+    ratio = deviation / sigma
+    k_vector = ratio ** 4
+    k = sum(k_vector)
+
+    return k
+
+
 def get_bin_edges(query_return_df, label_template):
     all_data = query_return_df['VALUE'].values
     all_data = all_data[np.logical_not(np.isnan(all_data))]
@@ -51,7 +62,7 @@ def get_bin_edges(query_return_df, label_template):
     bar_centers = [round(((bin_edges[i - 1] + bin_edges[i]) / 2.0), 2) for i in range(1, len(bin_edges))]
 
     # measure kurtosis to determine binning strategy
-    k = kurtosis(all_data)
+    k = pearson_kurtosis(all_data)
 
     # k = 0 is close to a normal distribution; some of our data have k = 80
     if k < 10:
@@ -198,8 +209,8 @@ def demographic_data_prep(query_return_df):
     # set up response dictionary
     data_response = {
         'fig_aes': {
-            'hist_yrange': (hist_min, hist_max),
-            'yrange': range_vals,
+            'yrange': (hist_min, hist_max),
+            'simple_yrange': range_vals,
             'xrange': (0, 0),  # for horizontal boxplots, updated dynamically
             'geotype': query_return_df['GEOTYPE'].unique().item(),
             'label_units': label_units,
