@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import ObservedFeaturesPlot from './ObservedFeaturesPlot'; // Sub (subplots)
+import ObservedFeaturesPlot from './ObservedFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
 import './ObservedFeaturesChart.css';
 
@@ -31,16 +31,6 @@ function ObservedFeaturesChart({
     });
   }, [mapType, geography, observedFeature, showRate]);
 
-  const observedFeaturesDropdownInstructions = [
-    'Select an Area.',
-    'Select a Demographic Feature.',
-    'TimeFrame is restricted to the last census count from 2019.'
-  ];
-  const observedFeaturesMapInstructions = ['Select a Geographic Region.'];
-  const observedFeaturesShowDescription = true;
-  const observedFeaturesDescription =
-    'Demographic feature percents/counts for individual geographic regions with the selected observable feature during the selected timeframe.';
-
   if (selectedGeographicFeature && observedFeature) {
     return (
       <div className="observed-features-report">
@@ -53,19 +43,13 @@ function ObservedFeaturesChart({
           data={data}
           showRate={showRate}
         />
+        <ChartInstructions currentReportType="hidden" />
       </div>
     );
   }
   return (
     <div className="observed-features-report">
-      {showInstructions && (
-        <ChartInstructions
-          dropdownInstructions={observedFeaturesDropdownInstructions}
-          mapInstructions={observedFeaturesMapInstructions}
-          showDescription={observedFeaturesShowDescription}
-          description={observedFeaturesDescription}
-        />
-      )}
+      {showInstructions && <ChartInstructions currentReportType="observed" />}
     </div>
   );
 }

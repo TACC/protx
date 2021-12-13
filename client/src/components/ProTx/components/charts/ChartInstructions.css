@@ -1,16 +1,49 @@
-.chart-instructions * {
-  font-family: var(--font-type-roboto-condensed);
+.report-instructions-hidden {
+  margin: 3rem 1.5rem;
+  border-top: 1px solid var(--color-gray);
+  padding: 1rem 0 0;
+  font-style: italic;
+  text-align: center;
 }
-.chart-instructions {
-  margin: 2vh 0 0 2vw;
+.report-instructions * {
+  font-family: var(--font-type-roboto);
+  margin: 0.5rem;
 }
-.chart-instructions-label,
-.chart-description-label {
-  margin: 1vh 0;
+.report-instructions {
+  margin: 3rem 1.5rem;
+  border-top: 1px solid var(--color-gray-dark);
+  padding: 1rem 0 0;
+}
+.report-instructions-title {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-heavy);
-  color: var(-color-gray);
 }
-.chart-description {
-  width: 90%;
+.report-instructions-subtitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-heavy);
+}
+.report-instructions-description {
+  margin-bottom: 1.5rem;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-light);
+}
+.report-instructions-steps-group * {
+  padding: 0.1rem 0;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-light);
+}
+.report-instructions-steps-group {
+  margin: 0 0 0 1rem;
+}
+.report-instructions-steps {
+  margin: 0 0 0 1rem;
+  padding: 0 0 0 1rem;
+}
+.report-instructions-step {
+  margin: 0;
+}
+.report-instructions-footer {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-x-light);
+  font-style: italic;
 }

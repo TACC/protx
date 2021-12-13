@@ -10,6 +10,7 @@ import {
 import './PredictiveFeaturesPlot.css';
 
 function PredictiveFeaturesPlot({
+  mapType,
   geography,
   observedFeature,
   year,
@@ -120,6 +121,7 @@ function PredictiveFeaturesPlot({
 }
 
 PredictiveFeaturesPlot.propTypes = {
+  mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,

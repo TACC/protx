@@ -198,12 +198,14 @@ function DashboardDisplay() {
                   </div>
                   <div className="display-layout-chart">
                     <PredictiveFeaturesChart
+                      mapType={mapType}
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                      showInstructions
                     />
                   </div>
                 </div>
