@@ -42,6 +42,16 @@
 .report-instructions-step {
   margin: 0;
 }
+.report-instructions-icon-layers {
+  display: inline-block;
+  margin: 0 !important;
+  scale: 0.8;
+  vertical-align: calc(-1.4vh);
+}
+.report-instructions-icon-globe {
+  margin: 0 0.2vw 0.3vh;
+  font-size: 1.4rem !important;
+}
 .report-instructions-footer {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-x-light);
