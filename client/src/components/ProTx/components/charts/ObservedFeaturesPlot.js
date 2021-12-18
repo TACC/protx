@@ -123,6 +123,7 @@ function ObservedFeaturesPlot({
           </span>
         </div>
         <div className="observed-features-plot-chart">
+          {/* TODO: Rewire this to use the data directly from the server in the view response, not client-side munged. */}
           <Plot
             divId="observed-features-plot"
             className="observed-features-plot"
