@@ -1,14 +1,9 @@
-import sqlite3
-import json
-import numpy as np
 import pandas as pd
-
-# VVVV -- THIS IMPORT IS FAILING -- VVVV #
-# from utils.plotly_figures import timeseries_lineplot
+import numpy as np
+import sqlite3
 
 
 # Aesthetics for plots
-
 def currency(value1, value2):
     return '{:.0f}-{:.0f}'.format(round(value1 / 1000, 0), round(value2 / 1000, 0))
 
@@ -298,56 +293,19 @@ def update_focal_area(display_dict, focal_data):
     return display_dict
 
 
-def demographic_data_query(area, unit, variable):
+def demographic_histogram_data(area, unit, variable):
     db_name = '/protx-data/cooks.db'
     db_conn = sqlite3.connect(db_name)
     selection = {'area': area, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
     query = yearly_data_query.format(**selection)
     query_result = pd.read_sql_query(query, db_conn)
     db_conn.close()
-    return query_result
 
-
-def demographics_simple_lineplot_figure(area, unit, variable):
-    # Get Statewide data.
-    state_data = demographic_data_query('county', unit, variable)
-    # Munge statewide data.
-    state_result = demographic_data_prep(state_data)
-
-    # Get selected geography data.
-    geography_data = demographic_data_query(area, unit, variable)
-    # Munge selected geography data.
-    geography_result = demographic_data_prep(geography_data)
-
-    ####################
-    # Once the timeseries_lineplot import is working, we can jettison this code block.
-
-    # Unused in the linegraph.
-    # Used in the histogram.
-    for year in geography_result['years'].values():
+    # munge data
+    result = demographic_data_prep(query_result)
+    for year in result['years'].values():
         year['bars'] = year['bars'].tolist()
-
-    return geography_result
-
-    # Once the timeseries_lineplot import is working, resume from here with the above block removed.
-    ####################
-
-    # Combine statewide and geography data results.
-    plot_result = dict(
-        state_result,
-        geography_result
-    )
-
-    # Generate the plot figure data object.
-    plot_figure = timeseries_lineplot(plot_result)
-
-    # convert the plot figure data object to JSON.
-    plot_figure_json = plot_figure.to_json()
-    # plot_json = display(JSON(plot_figure_json))
-    plot_json = json.dumps(plot_figure_json.__dict__)
-
-    # return the plot data JSON to the view.
-    return plot_json
+    return result
 
 
 if None:
