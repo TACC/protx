@@ -143,13 +143,29 @@ function MainMap({
       })
       .addTo(newMap);
 
+    // Title for layers control
+    const layerControlTitle = L.control({ position: 'topleft' });
+    layerControlTitle.onAdd = function() {
+      const div = L.DomUtil.create('div');
+      // here is Your part:
+      div.innerHTML = "<span class='dfdf'>Resources</span>";
+      return div;
+    };
+    layerControlTitle.addTo(newMap);
+
     // Create Layers Control.
     const { providers } = MapProviders();
     providers[0].addTo(newMap);
-    const layerControl = L.control.layers().addTo(newMap);
-    setLayersControl(layerControl);
+    const layerCtrl = L.control.layers().addTo(newMap);
+    setLayersControl(layerCtrl);
     setMap(newMap);
     setTexasOutlineLayer(texasOutline);
+
+    const fooCtrlDiv = layerCtrl.getContainer();
+    fooCtrlDiv.insertBefore(
+      layerControlTitle.getContainer(),
+      fooCtrlDiv.firstChild
+    );
   }, [data, mapContainer]);
   useEffect(() => {
     if (map && layersControl) {
