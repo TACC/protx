@@ -4,7 +4,6 @@ import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import 'leaflet.markercluster';
 import 'leaflet-easybutton';
-import 'leaflet-groupedlayercontrol';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -147,7 +146,7 @@ function MainMap({
     // Create Layers Control.
     const { providers } = MapProviders();
     providers[0].addTo(newMap);
-    const layerControl = L.control.groupedLayers().addTo(newMap);
+    const layerControl = L.control.layers().addTo(newMap);
     setLayersControl(layerControl);
     setMap(newMap);
     setTexasOutlineLayer(texasOutline);
@@ -292,7 +291,7 @@ function MainMap({
         const layerLabel = matchingMeta
           ? matchingMeta.DESCRIPTION
           : `Unknown Resource (${naicsCode})`;
-        layersControl.addOverlay(markersClusterGroup, layerLabel, 'Resources');
+        layersControl.addOverlay(markersClusterGroup, layerLabel);
         if (currentZoom >= RESOURCE_ZOOM_LEVEL) {
           // we would only want to add to map (i.e. selection is ON) if zoomed in
           map.addLayer(markersClusterGroup);
