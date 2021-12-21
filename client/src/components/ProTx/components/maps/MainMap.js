@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
+import $ from 'jquery';
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
 import 'leaflet.markercluster';
@@ -150,6 +151,12 @@ function MainMap({
     setLayersControl(layerControl);
     setMap(newMap);
     setTexasOutlineLayer(texasOutline);
+
+    setTimeout(() => {
+      $('.leaflet-top.leaflet-right')
+        .children()
+        .prepend('<div class="resources-layers--title">Resources</div>');
+    }, 0);
   }, [data, mapContainer]);
   useEffect(() => {
     if (map && layersControl) {
