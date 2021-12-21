@@ -19,6 +19,18 @@
   padding-bottom: 10px;
   line-height: 16px;
 }
+.resources-layers--title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal-plus);
+  width: 100%;
+  max-width: 150px;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 3px;
+  line-height: 16px;
+}
 .scale-value * {
   vertical-align: sub;
 }
