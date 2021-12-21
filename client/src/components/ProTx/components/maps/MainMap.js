@@ -234,59 +234,49 @@ function MainMap({
       }
 
       const resourcesClusterGroups = {};
-      resources
-        .filter(point => {
-          const currectYear = point[`OPEN_${year}`] === 1;
-          const hasData = point.LATITUDE && point.LONGITUDE;
-          if (hasData) {
-            return currectYear;
-          }
-          return false;
-        })
-        .forEach(point => {
-          if (!(point.NAICS_CODE in resourcesClusterGroups)) {
-            resourcesClusterGroups[point.NAICS_CODE] = L.markerClusterGroup({
-              showCoverageOnHover: false
-            });
-          }
-
-          const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
-            title: point.NAME
+      resources.forEach(point => {
+        if (!(point.NAICS_CODE in resourcesClusterGroups)) {
+          resourcesClusterGroups[point.NAICS_CODE] = L.markerClusterGroup({
+            showCoverageOnHover: false
           });
+        }
 
-          let popupContentAssemblage = `<div class="marker-popup-content">`;
-          if (point.NAME !== null) {
-            popupContentAssemblage += `<div class="marker-popup-name">${point.NAME}</div>`;
-          }
-          if (point.HOVER_DESCRIPTION !== null) {
-            popupContentAssemblage += `<div class="marker-popup-description">${point.HOVER_DESCRIPTION}</div>`;
-          }
-          if (point.STREET !== null) {
-            popupContentAssemblage += `<div class="marker-popup-street">${point.STREET}</div>`;
-          }
-          popupContentAssemblage += `<div class="marker-popup-location">`;
-          if (point.CITY !== null) {
-            popupContentAssemblage += `${point.CITY}, `;
-          }
-          if (point.STATE !== null) {
-            popupContentAssemblage += `${point.STATE}, `;
-          }
-          if (point.POSTAL_CODE !== null) {
-            popupContentAssemblage += `${point.POSTAL_CODE}`;
-          }
-          popupContentAssemblage += `</div>`;
-          if (point.PHONE !== null) {
-            popupContentAssemblage += `<div class="marker-popup-phone">${point.PHONE}</div>`;
-          }
-          if (point.WEBSITE !== null) {
-            popupContentAssemblage += `<div class="marker-popup-website"><a href="${point.WEBSITE}" target="_blank">website</a></div>`;
-          }
-          popupContentAssemblage += `</div>`;
-
-          const popupContent = popupContentAssemblage;
-          marker.bindPopup(popupContent);
-          resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
+        const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
+          title: point.NAME
         });
+
+        let popupContentAssemblage = `<div class="marker-popup-content">`;
+        if (point.NAME !== null) {
+          popupContentAssemblage += `<div class="marker-popup-name">${point.NAME}</div>`;
+        }
+        if (point.HOVER_DESCRIPTION !== null) {
+          popupContentAssemblage += `<div class="marker-popup-description">${point.HOVER_DESCRIPTION}</div>`;
+        }
+        if (point.STREET !== null) {
+          popupContentAssemblage += `<div class="marker-popup-street">${point.STREET}</div>`;
+        }
+        popupContentAssemblage += `<div class="marker-popup-location">`;
+        if (point.CITY !== null) {
+          popupContentAssemblage += `${point.CITY}, `;
+        }
+        if (point.STATE !== null) {
+          popupContentAssemblage += `${point.STATE}, `;
+        }
+        if (point.POSTAL_CODE !== null) {
+          popupContentAssemblage += `${point.POSTAL_CODE}`;
+        }
+        popupContentAssemblage += `</div>`;
+        if (point.PHONE !== null) {
+          popupContentAssemblage += `<div class="marker-popup-phone">${point.PHONE}</div>`;
+        }
+        if (point.WEBSITE !== null) {
+          popupContentAssemblage += `<div class="marker-popup-website"><a href="${point.WEBSITE}" target="_blank">website</a></div>`;
+        }
+        popupContentAssemblage += `</div>`;
+        const popupContent = popupContentAssemblage;
+        marker.bindPopup(popupContent);
+        resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
+      });
 
       const newResourceLayers = [];
       const currentZoom = map.getZoom();
@@ -310,7 +300,7 @@ function MainMap({
       });
       updateResourceLayers(newResourceLayers);
     }
-  }, [layersControl, map, resources, year]);
+  }, [layersControl, map, resources]);
 
   useEffect(() => {
     const vectorTile = `${dataServer}/data-static/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
