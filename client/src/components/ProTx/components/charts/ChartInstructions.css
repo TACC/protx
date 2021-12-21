@@ -39,6 +39,9 @@
   margin: 0 0 0 1rem;
   padding: 0 0 0 1rem;
 }
+.report-instructions-steps--resources-panel {
+  font-weight: var(--font-weight-heavy);
+}
 .report-instructions-step {
   margin: 0;
 }
