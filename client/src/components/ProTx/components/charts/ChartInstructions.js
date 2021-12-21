@@ -156,6 +156,9 @@ function ChartInstructions({ currentReportType }) {
           <li className="report-instructions-step">
             After the map zooms to the selected region, resource markers will
             populate the map and the resource layer panel{' '}
+            <span className="report-instructions-steps--resources-panel">
+              Resources
+            </span>
             <span className="leaflet-control-layers-toggle report-instructions-icon-layers" />
             (located in the top-right corner of the map) will open.
           </li>
