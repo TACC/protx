@@ -21,21 +21,29 @@ function ObservedFeaturesChart({
     if (observedFeature === 'maltreatment') {
       return;
     }
-    dispatch({
-      type: 'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
-      payload: {
-        area: geography,
-        variable: observedFeature,
-        unit: showRate ? 'percent' : 'count'
-      }
-    });
-  }, [mapType, geography, observedFeature, showRate]);
+    if (selectedGeographicFeature) {
+      dispatch({
+        type: 'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
+        payload: {
+          area: geography,
+          selectedArea: selectedGeographicFeature,
+          variable: observedFeature,
+          unit: showRate ? 'percent' : 'count'
+        }
+      });
+    }
+  }, [
+    mapType,
+    geography,
+    observedFeature,
+    selectedGeographicFeature,
+    showRate
+  ]);
 
   if (selectedGeographicFeature && observedFeature) {
     return (
       <div className="observed-features-report">
         <ObservedFeaturesPlot
-          mapType={mapType}
           geography={geography}
           observedFeature={observedFeature}
           year={year}

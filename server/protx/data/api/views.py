@@ -149,15 +149,12 @@ def get_demographics(request):
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_demographics_distribution_plot_data(request, area, variable, unit):
+def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
 
     """
-    logger.info("Getting demographic distribution data for {} {} {}".format(area, variable, unit))
-    # result = demographics.demographic_histogram_data(area=area, variable=variable, unit=unit)
-    # Call the new simple lineplot method instead.
-    # Return the figure data object as JSON to the front end for rendering.
-    result = demographics.demographics_simple_lineplot_figure(area=area, variable=variable, unit=unit)
+    logger.info("Getting demographic plot data for {} {} {} {}".format(area, geoid, variable, unit))
+    result = demographics.demographics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 

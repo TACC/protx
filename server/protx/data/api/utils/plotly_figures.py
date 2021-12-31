@@ -5,6 +5,8 @@
   Extracted directly from functional cells in example Jupyter notebooks:
   - https://github.com/TACC/protx-db/blob/main/notebooks/Simple_and_Detailed_Demo.ipynb
 """
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 
 def timeseries_lineplot(line_data):
