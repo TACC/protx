@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ObservedFeaturesPlot from './ObservedFeaturesPlot';
 import ChartInstructions from './ChartInstructions';
@@ -15,6 +15,9 @@ function ObservedFeaturesChart({
   showInstructions,
   showRate
 }) {
+  const protxDemographicsDistribution = useSelector(
+    state => state.protxDemographicsDistribution
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,7 +54,9 @@ function ObservedFeaturesChart({
           data={data}
           showRate={showRate}
         />
-        <ChartInstructions currentReportType="hidden" />
+        {!protxDemographicsDistribution && (
+          <ChartInstructions currentReportType="hidden" />
+        )}
       </div>
     );
   }
