@@ -1,9 +1,12 @@
-import pandas as pd
-import numpy as np
 import sqlite3
-
+import json
+import numpy as np
+import pandas as pd
+from plotly.subplots import make_subplots
+from protx.data.api.utils.plotly_figures import timeseries_lineplot
 
 # Aesthetics for plots
+
 def currency(value1, value2):
     return '{:.0f}-{:.0f}'.format(round(value1 / 1000, 0), round(value2 / 1000, 0))
 
@@ -155,7 +158,7 @@ join display_data u on
 where d.GEOTYPE = "{area}" and
     d.UNITS = "{unit}" and
     d.DEMOGRAPHICS_NAME = "{variable}" and
-    g.DISPLAY_TEXT = "{focal_area}" and
+    d.GEOID = "{geoid}" and
     d.GEOTYPE = "{area}";
 '''
 
@@ -293,77 +296,44 @@ def update_focal_area(display_dict, focal_data):
     return display_dict
 
 
-def demographic_histogram_data(area, unit, variable):
+def demographic_data_query(area, unit, variable):
     db_name = '/protx-data/cooks.db'
     db_conn = sqlite3.connect(db_name)
     selection = {'area': area, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
     query = yearly_data_query.format(**selection)
     query_result = pd.read_sql_query(query, db_conn)
     db_conn.close()
-
-    # munge data
-    result = demographic_data_prep(query_result)
-    for year in result['years'].values():
-        year['bars'] = year['bars'].tolist()
-    return result
+    return query_result
 
 
-if None:
-    dollars_example = dict(
-        area='county',
-        report_type='demographics',
-        unit='count',
-        variable='PCI'
+def demographic_focal_area_data_query(area, geoid, unit, variable):
+    db_name = '/protx-data/cooks.db'
+    db_conn = sqlite3.connect(db_name)
+    selection = {'area': area, 'geoid': geoid, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
+    query = focal_query.format(**selection)
+    query_result = pd.read_sql_query(query, db_conn)
+    db_conn.close()
+    return query_result
+
+
+def demographics_simple_lineplot_figure(area, geoid, unit, variable):
+    # Get Statewide data.
+    state_data = demographic_data_query(area, unit, variable)
+    # Munge statewide data.
+    state_result = demographic_data_prep(state_data)
+
+    # Get selected geography data.
+    geography_data = demographic_focal_area_data_query(area, geoid, unit, variable)
+
+    # Combine statewide and geography data results.
+    plot_result = update_focal_area(
+        state_result,
+        geography_data
     )
 
-    # QUERY
-    dollars_query = yearly_data_query.format(**dollars_example)
-    dollars_data = pd.read_sql_query(dollars_query, db_conn)
-
-    # MUNGE DATA
-    dollars_hist_data = demographic_data_prep(dollars_data)
-
-    count_example = dict(
-        area='tract',
-        report_type='demographics',
-        unit='count',
-        variable='AGE17'
-    )
-
-    # QUERY
-    count_query = yearly_data_query.format(**count_example)
-    count_data = pd.read_sql_query(count_query, db_conn)
-
-    # MUNGE DATA
-    count_hist_data = demographic_data_prep(count_data)
-
-    percent_example = dict(
-        area='tract',
-        report_type='demographics',
-        unit='percent',
-        variable='AGE17'
-    )
-
-    # QUERY
-    percent_query = yearly_data_query.format(**percent_example)
-    percent_data = pd.read_sql_query(percent_query, db_conn)
-
-    # MUNGE DATA
-    percent_hist_data = demographic_data_prep(percent_data)
-
-    # FOCAL AREA QUERY
-    # update existing user inputs with a new value, the focal county
-    # in this example, make a new query to the sqlite db
-    # alternatively, the existing return data could be filtered in pandas
-    dollars_example['focal_area'] = 'Tarrant County'
-    focal_query = focal_query.format(**dollars_example)
-    focal_data = pd.read_sql_query(focal_query, db_conn)
-
-    # UPDATE PLOT DICTIONARY
-    focal_dict = update_focal_area(
-        dollars_hist_data,
-        focal_data
-    )
+    # Generate the plot figure data object.
+    plot_figure = timeseries_lineplot(plot_result)
+    return json.loads(plot_figure.to_json())
 
 
 if None:
