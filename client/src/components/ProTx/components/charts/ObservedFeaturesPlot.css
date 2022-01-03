@@ -22,26 +22,19 @@
   display: flex;
 }
 .observed-features-plot-selected-region-label,
-.observed-features-plot-aggregated-count-label,
 .observed-features-plot-selected-feature-label {
   font-weight: var(--font-weight-normal-plus);
   color: var(--color-gray);
 }
-.observed-features-plot-selected-region,
-.observed-features-plot-aggregated-count {
+.observed-features-plot-selected-region {
   display: inline;
   margin: 1vh;
 }
 .observed-features-plot-selected-region {
-  width: 60%;
-  text-align: right;
+  width: 100%;
+  text-align: center;
 }
-.observed-features-plot-aggregated-count {
-  text-align: left;
-  border-left: 1px solid var(--color-gray-dark);
-}
-.observed-features-plot-selected-region-label,
-.observed-features-plot-aggregated-count-label {
+.observed-features-plot-selected-region-label{
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal-plus);
 }
@@ -57,8 +50,7 @@
   font-size: calc(var(--font-size-normal) * 1.2);
   font-weight: var(--font-weight-x-heavy);
 }
-.observed-features-plot-selected-region-value,
-.observed-features-plot-aggregated-count-value {
+.observed-features-plot-selected-region-value {
   margin: 0 1vw;
   font-size: calc(var(--font-size-normal) * 2.2);
   font-weight: var(--font-weight-x-heavy);
