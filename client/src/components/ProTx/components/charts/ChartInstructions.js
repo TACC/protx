@@ -128,7 +128,8 @@ function ChartInstructions({ currentReportType }) {
         Note: Left-clicking on the globe icon{' '}
         <span className="icon icon-globe report-instructions-icon-globe" />{' '}
         (located in the top-left corner of the map) will reset the map zoom
-        level to the default (the entire state of Texas) and display the instructions again.
+        level to the default (the entire state of Texas) and display the
+        instructions again.
       </div>
     );
   }
