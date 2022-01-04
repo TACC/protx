@@ -236,12 +236,7 @@ function MainMap({
       const resourcesClusterGroups = {};
       resources
         .filter(point => {
-          const currectYear = point[`OPEN_${year}`] === 1;
-          const hasData = point.LATITUDE && point.LONGITUDE;
-          if (hasData) {
-            return currectYear;
-          }
-          return false;
+          return point.LATITUDE && point.LONGITUDE;
         })
         .forEach(point => {
           if (!(point.NAICS_CODE in resourcesClusterGroups)) {
@@ -310,7 +305,7 @@ function MainMap({
       });
       updateResourceLayers(newResourceLayers);
     }
-  }, [layersControl, map, resources, year]);
+  }, [layersControl, map, resources]);
 
   useEffect(() => {
     const vectorTile = `${dataServer}/data-static/vector/${geography}/2019/{z}/{x}/{y}.pbf`;
