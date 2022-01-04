@@ -85,7 +85,12 @@ function MainMap({
 
   /** Handle changes in zoom and show resources when zoomed into map
    */
-  const handleZoom = (newZoomLevel, currentMap, currentLayerControl) => {
+  const handleZoom = (
+    newZoomLevel,
+    currentMap,
+    currentLayerControl,
+    currentDataLayer
+  ) => {
     const previousZoomLevel = refZoomLevel.current;
     const zoomTransitionOccurred =
       (newZoomLevel < RESOURCE_ZOOM_LEVEL &&
@@ -103,6 +108,14 @@ function MainMap({
         refResourceLayers.current.forEach(resourceLayer => {
           currentMap.removeLayer(resourceLayer.layer);
         });
+        // unselect geographic feature
+        if (refSelectedGeoid.current) {
+          // deselecting here as well as in click handler; deselecting here
+          // is covering the scenario when we are zooming out
+          /// https://jira.tacc.utexas.edu/browse/COOKS-181
+          currentDataLayer.resetFeatureStyle(refSelectedGeoid.current);
+        }
+        updateSelectedGeographicFeature('');
       }
     }
     updateZoomLevel(newZoomLevel);
@@ -159,13 +172,13 @@ function MainMap({
     }, 0);
   }, [data, mapContainer]);
   useEffect(() => {
-    if (map && layersControl) {
+    if (map && layersControl && dataLayer) {
       map.on('zoomend', () => {
         const currentZoom = map.getZoom();
-        handleZoom(currentZoom, map, layersControl);
+        handleZoom(currentZoom, map, layersControl, dataLayer);
       });
     }
-  }, [map, layersControl]);
+  }, [map, layersControl, dataLayer]);
 
   useEffect(() => {
     if (map) {
