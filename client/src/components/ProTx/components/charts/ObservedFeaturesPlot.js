@@ -6,19 +6,15 @@ import { LoadingSpinner } from '_common';
 import {
   getFipsIdName,
   capitalizeString,
-  cleanValue,
-  getObservedFeaturesLabel,
-  getObservedFeatureValue
+  getObservedFeaturesLabel
 } from '../shared/dataUtils';
 import './ObservedFeaturesPlot.css';
 
 function ObservedFeaturesPlot({
   geography,
   observedFeature,
-  year,
   selectedGeographicFeature,
-  data,
-  showRate
+  data
 }) {
   const protxDemographicsDistribution = useSelector(
     state => state.protxDemographicsDistribution
@@ -46,20 +42,6 @@ function ObservedFeaturesPlot({
     selectedGeographicFeature
   );
   const geographyType = capitalizeString(geography);
-  const currentTargetValue = getObservedFeatureValue(
-    data,
-    geography,
-    year,
-    selectedGeographicFeature,
-    observedFeature,
-    showRate
-  );
-  const observedFeatureTotalCount = cleanValue(currentTargetValue);
-
-  let featureTotalUnit = 'Total';
-  if (showRate) {
-    featureTotalUnit = '';
-  }
 
   return (
     <div className="observed-features-plot">
@@ -72,14 +54,6 @@ function ObservedFeaturesPlot({
               </span>
               <span className="observed-features-plot-selected-region-value">
                 {selectedGeographicFeatureName} {geographyType}
-              </span>
-            </div>
-            <div className="observed-features-plot-aggregated-count">
-              <span className="observed-features-plot-aggregated-count-value">
-                {observedFeatureTotalCount}
-              </span>
-              <span className="observed-features-plot-aggregated-count-label">
-                {featureTotalUnit}
               </span>
             </div>
           </div>
@@ -125,11 +99,9 @@ function ObservedFeaturesPlot({
 ObservedFeaturesPlot.propTypes = {
   geography: PropTypes.string.isRequired,
   observedFeature: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired,
-  showRate: PropTypes.bool.isRequired
+  data: PropTypes.object.isRequired
 };
 
 ObservedFeaturesPlot.defaultProps = {};

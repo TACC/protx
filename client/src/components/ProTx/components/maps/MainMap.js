@@ -85,7 +85,12 @@ function MainMap({
 
   /** Handle changes in zoom and show resources when zoomed into map
    */
-  const handleZoom = (newZoomLevel, currentMap, currentLayerControl) => {
+  const handleZoom = (
+    newZoomLevel,
+    currentMap,
+    currentLayerControl,
+    currentDataLayer
+  ) => {
     const previousZoomLevel = refZoomLevel.current;
     const zoomTransitionOccurred =
       (newZoomLevel < RESOURCE_ZOOM_LEVEL &&
@@ -103,6 +108,14 @@ function MainMap({
         refResourceLayers.current.forEach(resourceLayer => {
           currentMap.removeLayer(resourceLayer.layer);
         });
+        // unselect geographic feature
+        if (refSelectedGeoid.current) {
+          // deselecting here as well as in click handler; deselecting here
+          // is covering the scenario when we are zooming out
+          /// https://jira.tacc.utexas.edu/browse/COOKS-181
+          currentDataLayer.resetFeatureStyle(refSelectedGeoid.current);
+        }
+        updateSelectedGeographicFeature('');
       }
     }
     updateZoomLevel(newZoomLevel);
@@ -159,13 +172,13 @@ function MainMap({
     }, 0);
   }, [data, mapContainer]);
   useEffect(() => {
-    if (map && layersControl) {
+    if (map && layersControl && dataLayer) {
       map.on('zoomend', () => {
         const currentZoom = map.getZoom();
-        handleZoom(currentZoom, map, layersControl);
+        handleZoom(currentZoom, map, layersControl, dataLayer);
       });
     }
-  }, [map, layersControl]);
+  }, [map, layersControl, dataLayer]);
 
   useEffect(() => {
     if (map) {
@@ -234,49 +247,54 @@ function MainMap({
       }
 
       const resourcesClusterGroups = {};
-      resources.forEach(point => {
-        if (!(point.NAICS_CODE in resourcesClusterGroups)) {
-          resourcesClusterGroups[point.NAICS_CODE] = L.markerClusterGroup({
-            showCoverageOnHover: false
+      resources
+        .filter(point => {
+          return point.LATITUDE && point.LONGITUDE;
+        })
+        .forEach(point => {
+          if (!(point.NAICS_CODE in resourcesClusterGroups)) {
+            resourcesClusterGroups[point.NAICS_CODE] = L.markerClusterGroup({
+              showCoverageOnHover: false
+            });
+          }
+
+          const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
+            title: point.NAME
           });
-        }
 
-        const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
-          title: point.NAME
+          let popupContentAssemblage = `<div class="marker-popup-content">`;
+          if (point.NAME !== null) {
+            popupContentAssemblage += `<div class="marker-popup-name">${point.NAME}</div>`;
+          }
+          if (point.HOVER_DESCRIPTION !== null) {
+            popupContentAssemblage += `<div class="marker-popup-description">${point.HOVER_DESCRIPTION}</div>`;
+          }
+          if (point.STREET !== null) {
+            popupContentAssemblage += `<div class="marker-popup-street">${point.STREET}</div>`;
+          }
+          popupContentAssemblage += `<div class="marker-popup-location">`;
+          if (point.CITY !== null) {
+            popupContentAssemblage += `${point.CITY}, `;
+          }
+          if (point.STATE !== null) {
+            popupContentAssemblage += `${point.STATE}, `;
+          }
+          if (point.POSTAL_CODE !== null) {
+            popupContentAssemblage += `${point.POSTAL_CODE}`;
+          }
+          popupContentAssemblage += `</div>`;
+          if (point.PHONE !== null) {
+            popupContentAssemblage += `<div class="marker-popup-phone">${point.PHONE}</div>`;
+          }
+          if (point.WEBSITE !== null) {
+            popupContentAssemblage += `<div class="marker-popup-website"><a href="${point.WEBSITE}" target="_blank">website</a></div>`;
+          }
+          popupContentAssemblage += `</div>`;
+
+          const popupContent = popupContentAssemblage;
+          marker.bindPopup(popupContent);
+          resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
         });
-
-        let popupContentAssemblage = `<div class="marker-popup-content">`;
-        if (point.NAME !== null) {
-          popupContentAssemblage += `<div class="marker-popup-name">${point.NAME}</div>`;
-        }
-        if (point.HOVER_DESCRIPTION !== null) {
-          popupContentAssemblage += `<div class="marker-popup-description">${point.HOVER_DESCRIPTION}</div>`;
-        }
-        if (point.STREET !== null) {
-          popupContentAssemblage += `<div class="marker-popup-street">${point.STREET}</div>`;
-        }
-        popupContentAssemblage += `<div class="marker-popup-location">`;
-        if (point.CITY !== null) {
-          popupContentAssemblage += `${point.CITY}, `;
-        }
-        if (point.STATE !== null) {
-          popupContentAssemblage += `${point.STATE}, `;
-        }
-        if (point.POSTAL_CODE !== null) {
-          popupContentAssemblage += `${point.POSTAL_CODE}`;
-        }
-        popupContentAssemblage += `</div>`;
-        if (point.PHONE !== null) {
-          popupContentAssemblage += `<div class="marker-popup-phone">${point.PHONE}</div>`;
-        }
-        if (point.WEBSITE !== null) {
-          popupContentAssemblage += `<div class="marker-popup-website"><a href="${point.WEBSITE}" target="_blank">website</a></div>`;
-        }
-        popupContentAssemblage += `</div>`;
-        const popupContent = popupContentAssemblage;
-        marker.bindPopup(popupContent);
-        resourcesClusterGroups[point.NAICS_CODE].addLayers(marker);
-      });
 
       const newResourceLayers = [];
       const currentZoom = map.getZoom();

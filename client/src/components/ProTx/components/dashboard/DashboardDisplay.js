@@ -148,7 +148,6 @@ function DashboardDisplay() {
                       mapType={mapType}
                       geography={geography}
                       observedFeature={observedFeature}
-                      year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
                       showRate={showRate}

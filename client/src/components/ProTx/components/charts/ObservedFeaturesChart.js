@@ -9,7 +9,6 @@ function ObservedFeaturesChart({
   mapType,
   geography,
   observedFeature,
-  year,
   selectedGeographicFeature,
   data,
   showInstructions,
@@ -49,12 +48,10 @@ function ObservedFeaturesChart({
         <ObservedFeaturesPlot
           geography={geography}
           observedFeature={observedFeature}
-          year={year}
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
-          showRate={showRate}
         />
-        {!protxDemographicsDistribution && (
+        {!protxDemographicsDistribution.loading && (
           <ChartInstructions currentReportType="hidden" />
         )}
       </div>
@@ -71,7 +68,6 @@ ObservedFeaturesChart.propTypes = {
   mapType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   observedFeature: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
