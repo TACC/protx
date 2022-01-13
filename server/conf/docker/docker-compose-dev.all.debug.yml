@@ -78,7 +78,7 @@ services:
       - ../nginx/certificates/cep.dev.key:/etc/ssl/cep.dev.key
       - ../nginx/dhparam.pem:/etc/ssl/dhparam.pem
       - ../../../.:/srv/www/portal
-      - ~/protx-data:/protx-data
+      - protx_geospatial_data:/protx-data/static
     ports:
       - 80:80
       - 443:443
@@ -138,9 +138,19 @@ services:
     command: ['mkdocs', 'build']
     container_name: frontera_docs
 
+  protx_geospatial:
+    image: taccwma/protx-geospatial:latest
+    volumes:
+      - type: volume
+        source: protx_geospatial_data
+        target: /data
+    command: ['echo', 'Container provides data to volume and then exits']
+    container_name: protx_geospatial
+
 volumes:
   core_portal_redis_data:
   core_portal_es_data:
   core_portal_rabbitmq_data:
   core_portal_postgres_data:
   core_cms_postgres_data:
+  protx_geospatial_data:
