@@ -7,6 +7,9 @@ from protx.data.api import demographics
 from protx.data.api.decorators import onboarded_required
 from portal.exceptions.api import ApiException
 
+from diskcache import Cache
+
+cache = Cache("database_cache")
 
 logger = logging.getLogger(__name__)
 
@@ -116,6 +119,11 @@ def create_dict(data, level_keys):
 @onboarded_required
 @ensure_csrf_cookie
 def get_maltreatment(request):
+    return get_maltreatment_cached()
+
+
+@cache.memoize()
+def get_maltreatment_cached():
     """Get maltreatment data
 
     """
@@ -133,7 +141,12 @@ def get_maltreatment(request):
 @onboarded_required
 @ensure_csrf_cookie
 def get_demographics(request):
-    """Get maltreatment data
+    return get_demographics_cached()
+
+
+@cache.memoize()
+def get_demographics_cached():
+    """Get demographics data
 
     """
     engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
@@ -182,6 +195,11 @@ def get_display(request):
 def get_resources(request):
     """Get display information data
     """
+    return get_resources_cached()
+
+
+@cache.memoize()
+def get_resources_cached():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
         resources = connection.execute("SELECT * FROM business_locations")
