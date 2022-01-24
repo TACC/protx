@@ -69,8 +69,8 @@ function ObservedFeaturesPlot({
           </div>
         </div>
         <div className="observed-features-plot-info-summary">
-          All graphs are showing data for calendar years 2011-2019, not fiscal
-          or academic years.
+          Note: All graphs are showing data for calendar years 2011-2019, not
+          fiscal or academic years.
         </div>
         <div className="observed-features-plot-chart">
           <Plot
