@@ -86,16 +86,18 @@ function PredictiveFeaturesPlot({
   const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
 
   return (
-    <div className="predictive-features-plot">
+    <div className="predictive-features-plot-root">
       <div className="predictive-features-plot-layout">
         <div className="predictive-features-plot-info">
-          <div className="predictive-features-plot-selected-region">
-            <span className="predictive-features-plot-selected-region-label">
-              FIPS: {selectedGeographicFeature}
-            </span>
-            <span className="predictive-features-plot-selected-region-value">
-              {selectedGeographicFeatureName} {geographyType}
-            </span>
+          <div className="observed-features-plot-info-region">
+            <div className="predictive-features-plot-selected-region">
+              <span className="predictive-features-plot-selected-region-label">
+                FIPS: {selectedGeographicFeature}
+              </span>
+              <span className="predictive-features-plot-selected-region-value">
+                {selectedGeographicFeatureName} {geographyType}
+              </span>
+            </div>
           </div>
         </div>
         <div className="predictive-features-plot-selected">

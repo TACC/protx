@@ -14,7 +14,7 @@ function PredictiveFeaturesChart({
   data,
   showInstructions
 }) {
-  const showPlot = true; // Hide the plot while its still a work-in-progress.
+  const showPlot = false; // Hide the plot while its still a work-in-progress.
 
   if (selectedGeographicFeature) {
     return (
