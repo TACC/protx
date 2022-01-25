@@ -69,18 +69,8 @@ function ObservedFeaturesPlot({
           </div>
         </div>
         <div className="observed-features-plot-info-summary">
-          This chart was generated using data for{' '}
-          <span className="observed-features-plot-selected-type">
-            {selectedGeographicFeatureName} {observedFeature}
-          </span>{' '}
-          based on the{' '}
-          <span className="observed-features-plot-selected-type-value">
-            2011-2019 US Census Data
-          </span>{' '}
-          for{' '}
-          <span className="observed-features-plot-selected-type-summary">
-            {observedFeaturesLabel}
-          </span>
+          Note: All graphs are showing data for calendar years 2011-2019, not
+          fiscal or academic years.
         </div>
         <div className="observed-features-plot-chart">
           <Plot
