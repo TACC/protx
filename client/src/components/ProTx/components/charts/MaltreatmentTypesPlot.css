@@ -36,7 +36,8 @@
   border-bottom: 1px solid var(--color-gray-very-dark);
 }
 .maltreatment-types-plot-selected-region-label,
-.maltreatment-types-plot-aggregated-count-label {
+.maltreatment-types-plot-aggregated-count-label,
+.maltreatment-types-plot-aggregated-selection-list-label {
   color: var(--color-gray);
   font-weight: var(--font-weight-normal-plus);
 }

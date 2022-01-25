@@ -139,7 +139,9 @@ function MaltreatmentTypesPlot({
             {maltreatmentPlotData.malTypesAggregate}
           </span>
           <div className="maltreatment-types-plot-aggregated-selection-list">
-            Selected:{' '}
+            <span className="maltreatment-types-plot-aggregated-selection-list-label">
+              Current Aggregation:{'  '}
+            </span>
             {maltreatmentPlotData.malTypesList.map(type => (
               <span
                 className="maltreatment-types-plot-selected-type-summary"
