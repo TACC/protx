@@ -129,29 +129,17 @@ function MaltreatmentTypesPlot({
                 {fipsIdValue} {geographyLabel}
               </span>
             </div>
-            <div className="maltreatment-types-plot-aggregated-count">
-              <span className="maltreatment-types-plot-aggregated-count-value">
-                {maltreatmentPlotData.malTypesAggregate}
-              </span>
-              <span className="maltreatment-types-plot-aggregated-count-label">
-                {maltreatmentLabel}
-              </span>
-            </div>
           </div>
         </div>
-        <div className="maltreatment-types-plot-info">
-          <div className="maltreatment-types-plot-info-chart">
-            <span className="maltreatment-types-plot-chart-summary">
-              This chart was generated with{' '}
-              <span className="maltreatment-types-plot-selected-type">
-                {year} {mapType} data
-              </span>{' '}
-              for{' '}
-              <span className="maltreatment-types-plot-selected-type">
-                {fipsIdValue} {geography}
-              </span>{' '}
-              using data for the following type(s):{' '}
-            </span>
+        <div className="maltreatment-types-plot-aggregated-count">
+          <span className="maltreatment-types-plot-aggregated-count-label">
+            {maltreatmentLabel}
+          </span>
+          <span className="maltreatment-types-plot-aggregated-count-value">
+            {maltreatmentPlotData.malTypesAggregate}
+          </span>
+          <div className="maltreatment-types-plot-aggregated-selection-list">
+            Selected:{' '}
             {maltreatmentPlotData.malTypesList.map(type => (
               <span
                 className="maltreatment-types-plot-selected-type-summary"
@@ -160,8 +148,11 @@ function MaltreatmentTypesPlot({
                 {type}
               </span>
             ))}
-            {'.'}
           </div>
+        </div>
+        <div className="maltreatment-types-plot-info-summary">
+          Note: All graphs are showing data for calendar years 2011-2019, not
+          fiscal or academic years.
         </div>
         <div className="maltreatment-types-plot-chart">
           <Plot

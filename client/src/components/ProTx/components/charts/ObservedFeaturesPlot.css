@@ -34,7 +34,7 @@
   width: 100%;
   text-align: center;
 }
-.observed-features-plot-selected-region-label{
+.observed-features-plot-selected-region-label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal-plus);
 }
