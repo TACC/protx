@@ -3,10 +3,10 @@
   width: 100%;
 }
 .predictive-features-plot-layout {
-  margin: 1vh 1vw;
+  margin: 0 0.5vw;
 }
 .predictive-features-plot-info {
-  /* border-bottom: 1px solid var(--color-gray-very-dark); */
+  border-bottom: 1px solid var(--color-gray-very-dark);
 }
 .predictive-features-plot-placeholder-text {
   font-weight: var(--font-weight-normal-plus);

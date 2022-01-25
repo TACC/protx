@@ -16,7 +16,7 @@ function MaltreatmentChart({
 }) {
   if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
     return (
-      <div className="maltreatment-report">
+      <div className="maltreatment-chart">
         <MaltreatmentTypesPlot
           mapType={mapType}
           geography={geography}
@@ -31,7 +31,7 @@ function MaltreatmentChart({
     );
   }
   return (
-    <div className="maltreatment-report">
+    <div className="maltreatment-chart">
       {showInstructions && (
         <ChartInstructions currentReportType="maltreatment" />
       )}
