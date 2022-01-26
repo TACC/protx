@@ -26,79 +26,6 @@ function MaltreatmentTypesPlot({
   selectedGeographicFeature,
   data
 }) {
-  const getMaltreatmentChartLayout = (
-    mapTypeMaltreatment,
-    geographyMaltreatment,
-    yearMaltreatment,
-    selectedGeographicFeatureMaltreatment,
-    fipsIdNameMaltreatment,
-    maltreatmentLabel,
-    maltreatmentTypesDataAggregateMaltreatment,
-    maltreatmentTypesListMaltreatment,
-    plotStateMaltreatment
-  ) => {
-    const geographyLabel = capitalizeString(geographyMaltreatment);
-
-    return (
-      <div className="maltreatment-types-plot-layout">
-        <div className="maltreatment-types-plot-info">
-          <div className="maltreatment-types-plot-info-region">
-            <div className="maltreatment-types-plot-selected-region">
-              <span className="maltreatment-types-plot-selected-region-label">
-                FIPS: {selectedGeographicFeatureMaltreatment}
-              </span>
-              <span className="maltreatment-types-plot-selected-region-value">
-                {fipsIdNameMaltreatment} {geographyLabel}
-              </span>
-            </div>
-            <div className="maltreatment-types-plot-aggregated-count">
-              <span className="maltreatment-types-plot-aggregated-count-value">
-                {maltreatmentTypesDataAggregateMaltreatment}
-              </span>
-              <span className="maltreatment-types-plot-aggregated-count-label">
-                {maltreatmentLabel}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="maltreatment-types-plot-info">
-          <div className="maltreatment-types-plot-info-chart">
-            <span className="maltreatment-types-plot-chart-summary">
-              This chart was generated with{' '}
-              <span className="maltreatment-types-plot-selected-type">
-                {yearMaltreatment} {mapTypeMaltreatment} data
-              </span>{' '}
-              for{' '}
-              <span className="maltreatment-types-plot-selected-type">
-                {fipsIdNameMaltreatment} {geographyMaltreatment}
-              </span>{' '}
-              using data for the following type(s):{' '}
-            </span>
-            {maltreatmentTypesListMaltreatment.map(type => (
-              <span
-                className="maltreatment-types-plot-selected-type-summary"
-                key={type}
-              >
-                {type}
-              </span>
-            ))}
-            {'.'}
-          </div>
-        </div>
-        <div className="maltreatment-types-plot-chart">
-          <Plot
-            divId="maltreatment-types-plot"
-            className="maltreatment-types-plot"
-            data={plotStateMaltreatment.data}
-            layout={plotStateMaltreatment.layout}
-            config={plotStateMaltreatment.config}
-            useResizeHandler
-          />
-        </div>
-      </div>
-    );
-  };
-
   const prepMaltreatmentPlotData = (
     selectedGeographicFeaturePrep,
     maltreatmentTypesPrep,
@@ -187,21 +114,60 @@ function MaltreatmentTypesPlot({
 
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const maltreatmentLabel = getMaltreatmentLabel(maltreatmentTypes, showRate);
-
-  const maltreatmentChartLayout = getMaltreatmentChartLayout(
-    mapType,
-    geography,
-    year,
-    selectedGeographicFeature,
-    fipsIdValue,
-    maltreatmentLabel,
-    maltreatmentPlotData.malTypesAggregate,
-    maltreatmentPlotData.malTypesList,
-    maltreatmentPlotData.malPlotState
-  );
+  const geographyLabel = capitalizeString(geography);
 
   return (
-    <div className="maltreatment-types-plot">{maltreatmentChartLayout}</div>
+    <div className="maltreatment-types-plot">
+      <div className="maltreatment-types-plot-layout">
+        <div className="maltreatment-types-plot-info">
+          <div className="maltreatment-types-plot-info-region">
+            <div className="maltreatment-types-plot-selected-region">
+              <span className="maltreatment-types-plot-selected-region-label">
+                FIPS: {selectedGeographicFeature}
+              </span>
+              <span className="maltreatment-types-plot-selected-region-value">
+                {fipsIdValue} {geographyLabel}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="maltreatment-types-plot-aggregated-count">
+          <span className="maltreatment-types-plot-aggregated-count-label">
+            {maltreatmentLabel}
+          </span>
+          <span className="maltreatment-types-plot-aggregated-count-value">
+            {maltreatmentPlotData.malTypesAggregate}
+          </span>
+          <div className="maltreatment-types-plot-aggregated-selection-list">
+            <span className="maltreatment-types-plot-aggregated-selection-list-label">
+              Current Aggregation:{'  '}
+            </span>
+            {maltreatmentPlotData.malTypesList.map(type => (
+              <span
+                className="maltreatment-types-plot-selected-type-summary"
+                key={type}
+              >
+                {type}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="maltreatment-types-plot-info-summary">
+          Note: All graphs are showing data for calendar years 2011-2019, not
+          fiscal or academic years.
+        </div>
+        <div className="maltreatment-types-plot-chart">
+          <Plot
+            divId="maltreatment-types-plot"
+            className="maltreatment-types-plot"
+            data={maltreatmentPlotData.malPlotState.data}
+            layout={maltreatmentPlotData.malPlotState.layout}
+            config={maltreatmentPlotData.malPlotState.config}
+            useResizeHandler
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -215,5 +181,7 @@ MaltreatmentTypesPlot.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
 };
+
+MaltreatmentTypesPlot.defaultProps = {};
 
 export default MaltreatmentTypesPlot;
