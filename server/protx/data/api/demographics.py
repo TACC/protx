@@ -2,7 +2,6 @@ import sqlite3
 import json
 import numpy as np
 import pandas as pd
-from plotly.subplots import make_subplots
 from protx.data.api.utils.plotly_figures import timeseries_lineplot
 
 db_name = '/protx-data/cooks.db'
@@ -333,8 +332,3 @@ def demographics_simple_lineplot_figure(area, geoid, unit, variable):
     # Generate the plot figure data object.
     plot_figure = timeseries_lineplot(plot_result)
     return json.loads(plot_figure.to_json())
-
-
-if None:
-    result = demographic_histogram_data(area='county', unit='count', variable='DISABL')
-    print(result)
