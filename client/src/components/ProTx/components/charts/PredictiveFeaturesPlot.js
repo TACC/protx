@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { getPredictiveFeaturesDataObject } from '../shared/dataUtils';
+import {
+  getPredictiveFeaturesDataObject,
+  getFipsIdName,
+  capitalizeString,
+  getObservedFeaturesLabel
+  // getMaltreatmentLabel,
+} from '../shared/dataUtils';
+
 import {
   plotConfig,
   getPlotLayout,
@@ -17,40 +24,6 @@ function PredictiveFeaturesPlot({
   selectedGeographicFeature,
   data
 }) {
-  const getPredictiveFeaturesChartLayout = (
-    predictiveFeaturePredictiveFeatures,
-    geographyPredictiveFeatures,
-    selectedGeographicFeaturePredictiveFeatures,
-    plotStatePredictiveFeatures
-  ) => {
-    return (
-      <div className="predictive-features-plot-layout">
-        <div className="predictive-features-plot-header">
-          <div className="predictive-features-plot-info">
-            <div className="predictive-features-plot-placeholder-text">
-              TARGET: predictiveFeaturesPlot for the selected feature{' '}
-              {predictiveFeaturePredictiveFeatures} in the{' '}
-              {geographyPredictiveFeatures} of{' '}
-              {selectedGeographicFeaturePredictiveFeatures}.
-            </div>
-          </div>
-        </div>
-        <div className="predictive-features-plot-chart-body">
-          <div className="predictive-features-plot-chart-body-plot">
-            <Plot
-              divId="predictive-features-plot"
-              className="predictive-features-plot"
-              data={plotStatePredictiveFeatures.data}
-              layout={plotStatePredictiveFeatures.layout}
-              config={plotStatePredictiveFeatures.config}
-              useResizeHandler
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const prepPredictiveFeaturesPlotData = () => {
     const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
 
@@ -104,18 +77,58 @@ function PredictiveFeaturesPlot({
     return predictiveFeaturesPlotData;
   };
 
+  const geographyType = capitalizeString(geography);
+  const selectedGeographicFeatureName = getFipsIdName(
+    selectedGeographicFeature
+  );
+  const observedFeaturesLabel = getObservedFeaturesLabel(observedFeature, data);
+
   const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
 
-  const predictiveFeaturesChartLayout = getPredictiveFeaturesChartLayout(
-    observedFeature,
-    geography,
-    selectedGeographicFeature,
-    predictiveFeaturesPlotData.predictiveFeaturesPlotState
-  );
-
   return (
-    <div className="predictive-features-plot">
-      {predictiveFeaturesChartLayout}
+    <div className="predictive-features-plot-root">
+      <div className="predictive-features-plot-layout">
+        <div className="predictive-features-plot-info">
+          <div className="observed-features-plot-info-region">
+            <div className="predictive-features-plot-selected-region">
+              <span className="predictive-features-plot-selected-region-label">
+                FIPS: {selectedGeographicFeature}
+              </span>
+              <span className="predictive-features-plot-selected-region-value">
+                {selectedGeographicFeatureName} {geographyType}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="predictive-features-plot-selected">
+          <div className="predictive-features-plot-selected-feature">
+            <span className="predictive-features-plot-selected-feature-label">
+              Selected Feature:
+            </span>
+            <span className="predictive-features-plot-selected-feature-value">
+              {observedFeaturesLabel}
+            </span>
+          </div>
+        </div>
+        <div className="predictive-features-plot-info-summary">
+          Note: All graphs are showing data for calendar years 2011-2019, not
+          fiscal or academic years.
+        </div>
+        <div className="predictive-features-plot-chart">
+          <Plot
+            divId="predictive-features-plot"
+            className="predictive-features-plot"
+            data={predictiveFeaturesPlotData.predictiveFeaturesPlotState.data}
+            layout={
+              predictiveFeaturesPlotData.predictiveFeaturesPlotState.layout
+            }
+            config={
+              predictiveFeaturesPlotData.predictiveFeaturesPlotState.config
+            }
+            useResizeHandler
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -129,5 +142,7 @@ PredictiveFeaturesPlot.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
 };
+
+PredictiveFeaturesPlot.defaultProps = {};
 
 export default PredictiveFeaturesPlot;

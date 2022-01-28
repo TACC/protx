@@ -44,7 +44,7 @@ function ObservedFeaturesChart({
 
   if (selectedGeographicFeature && observedFeature) {
     return (
-      <div className="observed-features-report">
+      <div className="observed-features-chart">
         <ObservedFeaturesPlot
           geography={geography}
           observedFeature={observedFeature}
@@ -58,7 +58,7 @@ function ObservedFeaturesChart({
     );
   }
   return (
-    <div className="observed-features-report">
+    <div className="observed-features-chart">
       {showInstructions && <ChartInstructions currentReportType="observed" />}
     </div>
   );
