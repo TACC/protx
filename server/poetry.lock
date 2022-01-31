@@ -418,6 +418,14 @@ optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*"
 
 [[package]]
+name = "diskcache"
+version = "5.3.0"
+description = "Disk Cache -- Disk and file backed persistent cache."
+category = "main"
+optional = false
+python-versions = ">=3"
+
+[[package]]
 name = "django"
 version = "2.2.17"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
@@ -1662,7 +1670,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7.1,<4.0"
-content-hash = "ee39a34a3922c32a24c4decdcd1423acc6a639784ba982ef238b9c50fad4282f"
+content-hash = "6ccfbfadbc7cd8d3ad15ce3e887161809265099f5b14952084586686851ffca7"
 
 [metadata.files]
 agavepy = [
@@ -1876,6 +1884,10 @@ daphne = [
 decorator = [
     {file = "decorator-4.4.2-py2.py3-none-any.whl", hash = "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760"},
     {file = "decorator-4.4.2.tar.gz", hash = "sha256:e3a62f0520172440ca0dcc823749319382e377f37f140a0b99ef45fecb84bfe7"},
+]
+diskcache = [
+    {file = "diskcache-5.3.0-py3-none-any.whl", hash = "sha256:75138cacec6c1d7b8339cc78912dd218d955f0706123e447a322a7ea4c97f270"},
+    {file = "diskcache-5.3.0.tar.gz", hash = "sha256:3f1fa30b29fdff26cfddcb3ee7d61376903f82c769ea2907a2b82a5bfb8abbe2"},
 ]
 django = [
     {file = "Django-2.2.17-py3-none-any.whl", hash = "sha256:558cb27930defd9a6042133258caf797b2d1dee233959f537e3dc475cb49bd7c"},

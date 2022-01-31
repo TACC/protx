@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 import logging
 
 from protx.data.api import demographics
-from protx.data.api.decorators import onboarded_required
+from protx.data.api.decorators import onboarded_required, memoize_db_results
 from portal.exceptions.api import ApiException
 
 
@@ -51,8 +51,10 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
-SQLALCHEMY_DATABASE_URL = 'sqlite:////protx-data/cooks.db'
-SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:////protx-data/resources.db'
+resources_db = '/protx-data/resources.db'
+
+SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(demographics.db_name)
+SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
 
 MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
@@ -116,6 +118,11 @@ def create_dict(data, level_keys):
 @onboarded_required
 @ensure_csrf_cookie
 def get_maltreatment(request):
+    return get_maltreatment_cached()
+
+
+@memoize_db_results(db_file=demographics.db_name)
+def get_maltreatment_cached():
     """Get maltreatment data
 
     """
@@ -133,7 +140,12 @@ def get_maltreatment(request):
 @onboarded_required
 @ensure_csrf_cookie
 def get_demographics(request):
-    """Get maltreatment data
+    return get_demographics_cached()
+
+
+@memoize_db_results(db_file=demographics.db_name)
+def get_demographics_cached():
+    """Get demographics data
 
     """
     engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
@@ -182,6 +194,11 @@ def get_display(request):
 def get_resources(request):
     """Get display information data
     """
+    return get_resources_cached()
+
+
+@memoize_db_results(db_file=resources_db)
+def get_resources_cached():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
         resources = connection.execute("SELECT * FROM business_locations")

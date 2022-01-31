@@ -2,10 +2,10 @@ import sqlite3
 import json
 import numpy as np
 import pandas as pd
-from plotly.subplots import make_subplots
 from protx.data.api.utils.plotly_figures import timeseries_lineplot
 
-# Aesthetics for plots
+db_name = '/protx-data/cooks.db'
+
 
 def currency(value1, value2):
     return '{:.0f}-{:.0f}'.format(round(value1 / 1000, 0), round(value2 / 1000, 0))
@@ -297,7 +297,6 @@ def update_focal_area(display_dict, focal_data):
 
 
 def demographic_data_query(area, unit, variable):
-    db_name = '/protx-data/cooks.db'
     db_conn = sqlite3.connect(db_name)
     selection = {'area': area, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
     query = yearly_data_query.format(**selection)
@@ -307,7 +306,6 @@ def demographic_data_query(area, unit, variable):
 
 
 def demographic_focal_area_data_query(area, geoid, unit, variable):
-    db_name = '/protx-data/cooks.db'
     db_conn = sqlite3.connect(db_name)
     selection = {'area': area, 'geoid': geoid, 'unit': unit, 'variable': variable, 'report_type': 'demographics'}
     query = focal_query.format(**selection)
@@ -334,8 +332,3 @@ def demographics_simple_lineplot_figure(area, geoid, unit, variable):
     # Generate the plot figure data object.
     plot_figure = timeseries_lineplot(plot_result)
     return json.loads(plot_figure.to_json())
-
-
-if None:
-    result = demographic_histogram_data(area='county', unit='count', variable='DISABL')
-    print(result)
