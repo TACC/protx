@@ -177,3 +177,6 @@ portal_crypt.key
 # local dev files retained but deprecated from codebase.
 *deprecated*
 client/src/components/ProTx/components/shared/timeseries_histogram.py
+
+# server-side caching
+server/database_cache/
