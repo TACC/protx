@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 import logging
 
 from protx.data.api import demographics
+from protx.data.api import maltreatment
 from protx.data.api.decorators import onboarded_required, memoize_db_results
 from portal.exceptions.api import ApiException
 
@@ -167,6 +168,17 @@ def get_demographics_distribution_plot_data(request, area, geoid, variable, unit
     """
     logger.info("Getting demographic plot data for {} {} {} {}".format(area, geoid, variable, unit))
     result = demographics.demographics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    return JsonResponse({"result": result})
+
+
+@onboarded_required
+@ensure_csrf_cookie
+def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit):
+    """Get maltreatment distribution data for plotting
+
+    """
+    logger.info("Getting maltreatment plot data for {} {} {} {}".format(area, geoid, variable, unit))
+    result = maltreatment.maltreatment_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 
