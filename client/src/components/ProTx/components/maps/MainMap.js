@@ -373,7 +373,8 @@ function MainMap({
               year,
               clickedGeographicFeature,
               observedFeature,
-              maltreatmentTypes
+              maltreatmentTypes,
+              showRate
             ),
             color: 'black',
             weight: 2.0,
@@ -408,7 +409,8 @@ function MainMap({
             year,
             selectedGeographicFeature,
             observedFeature,
-            maltreatmentTypes
+            maltreatmentTypes,
+            showRate
           ),
           color: 'black',
           weight: 2.0,
