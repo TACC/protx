@@ -66,6 +66,25 @@ export function* fetchProtxDemographicDistribution(action) {
   }
 }
 
+export function* fetchProtxMaltreatmentDistribution(action) {
+  yield put({ type: 'PROTX_MALTREATMENT_DISTRIBUTION_INIT' });
+  try {
+    const data = yield call(fetchUtil, {
+      url: `/api/protx/maltreatment-plot-distribution/${action.payload.area}/${action.payload.selectedArea}/${action.payload.variable}/${action.payload.unit}/`
+    });
+    yield put({
+      type: 'PROTX_MALTREATMENT_DISTRIBUTION_SUCCESS',
+      payload: {
+        data: data.result
+      }
+    });
+  } catch (error) {
+    yield put({
+      type: 'PROTX_MALTREATMENT_DISTRIBUTION_FAILURE'
+    });
+  }
+}
+
 export function* watchProtx() {
   yield takeLeading('FETCH_PROTX', fetchProtx);
 }
@@ -74,5 +93,12 @@ export function* watchProtxDemographicDistribution() {
   yield takeLeading(
     'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
     fetchProtxDemographicDistribution
+  );
+}
+
+export function* watchProtxMaltreatmentDistribution() {
+  yield takeLeading(
+    'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
+    fetchProtxMaltreatmentDistribution
   );
 }

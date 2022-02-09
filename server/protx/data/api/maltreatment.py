@@ -7,6 +7,7 @@ from protx.data.api.utils.plotly_figures import timeseries_lineplot
 db_name = '/protx-data/cooks.db'
 
 # Missing methods and Variables.
+# This is placeholder methods copypastad from demogrpahics to get scaffolded.
 
 
 def maltreatment_data_query(area, unit, variable):

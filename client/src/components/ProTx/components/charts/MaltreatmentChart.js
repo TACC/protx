@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import MaltreatmentTypesPlot from './MaltreatmentTypesPlot';
 import ChartInstructions from './ChartInstructions';
@@ -14,6 +15,34 @@ function MaltreatmentChart({
   data,
   showInstructions
 }) {
+  // const protxMaltreatmentDistribution = useSelector(
+  //   state => state.protxMaltreatmentDistribution
+  // );
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (observedFeature === 'maltreatment') {
+  //     return;
+  //   }
+  //   if (selectedGeographicFeature) {
+  //     dispatch({
+  //       type: 'FETCH_PROTXMALTREATMENT_DISTRIBUTION',
+  //       payload: {
+  //         area: geography,
+  //         selectedArea: selectedGeographicFeature,
+  //         variable: observedFeature,
+  //         unit: showRate ? 'percent' : 'count'
+  //       }
+  //     });
+  //   }
+  // }, [
+  //   mapType,
+  //   geography,
+  //   observedFeature,
+  //   selectedGeographicFeature,
+  //   showRate
+  // ]);
+
   if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
     return (
       <div className="maltreatment-chart">
@@ -26,7 +55,9 @@ function MaltreatmentChart({
           selectedGeographicFeature={selectedGeographicFeature}
           data={data}
         />
+        {/* {!protxMaltreatmentDistribution.loading && ( */}
         <ChartInstructions currentReportType="hidden" />
+        {/* )} */}
       </div>
     );
   }
