@@ -55,7 +55,6 @@ function MainMap({
   // Leaflet related layers, controls, and map
   const [legendControl, setLegendControl] = useState(null);
   const [layersControl, setLayersControl] = useState(null);
-  const [dataLayer, setDataLayer] = useState(null);
   const [resourceLayers, setResourceLayers] = useState(null);
   const [texasOutlineLayer, setTexasOutlineLayer] = useState(null);
   const [map, setMap] = useState(null);
@@ -66,6 +65,7 @@ function MainMap({
   const refSelectedGeoid = useRef(selectedGeoid); // Make a ref of the selected feature
   const refResourceLayers = useRef(resourceLayers); // Make a ref of the resources layers
   const refZoomLevel = useRef(zoomLevel); // Make a ref of the resources layers
+  const refDataLayer = useRef(null); // Make a ref of the data layer
 
   function updateSelectedGeographicFeature(newSelectedFeature) {
     refSelectedGeoid.current = newSelectedFeature;
@@ -85,12 +85,7 @@ function MainMap({
 
   /** Handle changes in zoom and show resources when zoomed into map
    */
-  const handleZoom = (
-    newZoomLevel,
-    currentMap,
-    currentLayerControl,
-    currentDataLayer
-  ) => {
+  const handleZoom = (newZoomLevel, currentMap, currentLayerControl) => {
     const previousZoomLevel = refZoomLevel.current;
     const zoomTransitionOccurred =
       (newZoomLevel < RESOURCE_ZOOM_LEVEL &&
@@ -113,7 +108,7 @@ function MainMap({
           // deselecting here as well as in click handler; deselecting here
           // is covering the scenario when we are zooming out
           /// https://jira.tacc.utexas.edu/browse/COOKS-181
-          currentDataLayer.resetFeatureStyle(refSelectedGeoid.current);
+          refDataLayer.current.resetFeatureStyle(refSelectedGeoid.current);
         }
         updateSelectedGeographicFeature('');
       }
@@ -172,13 +167,13 @@ function MainMap({
     }, 0);
   }, [data, mapContainer]);
   useEffect(() => {
-    if (map && layersControl && dataLayer) {
+    if (map && layersControl && refDataLayer.current) {
       map.on('zoomend', () => {
         const currentZoom = map.getZoom();
-        handleZoom(currentZoom, map, layersControl, dataLayer);
+        handleZoom(currentZoom, map, layersControl);
       });
     }
-  }, [map, layersControl, dataLayer]);
+  }, [map, layersControl, refDataLayer.current]);
 
   useEffect(() => {
     if (map) {
@@ -348,9 +343,9 @@ function MainMap({
         maxNativeZoom: 14 // All tiles generated up to 14 zoom level
       });
 
-      if (dataLayer && layersControl) {
+      if (refDataLayer.current && layersControl) {
         // we will remove data layer from map
-        dataLayer.remove();
+        refDataLayer.current.remove();
       }
 
       // Add click handler
@@ -359,7 +354,7 @@ function MainMap({
           e.layer.properties[GEOID_KEY[geography]];
 
         if (refSelectedGeoid.current) {
-          newDataLayer.resetFeatureStyle(refSelectedGeoid.current);
+          refDataLayer.current.resetFeatureStyle(refSelectedGeoid.current);
         }
 
         if (clickedGeographicFeature !== refSelectedGeoid.current) {
@@ -373,7 +368,8 @@ function MainMap({
               year,
               clickedGeographicFeature,
               observedFeature,
-              maltreatmentTypes
+              maltreatmentTypes,
+              showRate
             ),
             color: 'black',
             weight: 2.0,
@@ -395,7 +391,6 @@ function MainMap({
 
       // add new data layer to map
       newDataLayer.addTo(map);
-      setDataLayer(newDataLayer);
 
       // updated/new layer
       if (selectedGeographicFeature) {
@@ -408,7 +403,8 @@ function MainMap({
             year,
             selectedGeographicFeature,
             observedFeature,
-            maltreatmentTypes
+            maltreatmentTypes,
+            showRate
           ),
           color: 'black',
           weight: 2.0,
@@ -419,6 +415,8 @@ function MainMap({
           highlightedStyle
         );
       }
+
+      refDataLayer.current = newDataLayer;
 
       // ensure that texas outline is on top
       texasOutlineLayer.bringToFront();
