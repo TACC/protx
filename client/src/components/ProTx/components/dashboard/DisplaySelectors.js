@@ -58,7 +58,7 @@ RateSelector.propTypes = {
  *    (and user can't switch between value types like between percent/total)
  * Note:
  * Maltreatment data is available at the county level.
- * Demographic Features only has 2019 data
+ * Demographic Features only has 2019 data.
  *
  */
 function DisplaySelectors({
