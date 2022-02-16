@@ -5,9 +5,9 @@ import {
   capitalizeString,
   getObservedFeaturesLabel
 } from '../shared/dataUtils';
-import './DemographicDetails.css';
+import './DemographicsDetails.css';
 
-function DemographicDetails({
+function DemographicsDetails({
   geography,
   observedFeature,
   selectedGeographicFeature,
@@ -52,7 +52,7 @@ function DemographicDetails({
   );
 }
 
-DemographicDetails.propTypes = {
+DemographicsDetails.propTypes = {
   geography: PropTypes.string.isRequired,
   observedFeature: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
@@ -60,4 +60,4 @@ DemographicDetails.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default DemographicDetails;
+export default DemographicsDetails;

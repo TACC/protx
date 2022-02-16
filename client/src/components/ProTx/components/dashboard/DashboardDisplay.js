@@ -5,7 +5,6 @@ import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import MainMap from '../maps/MainMap';
 import MainChart from '../charts/MainChart';
-
 import './DashboardDisplay.css';
 import './DashboardDisplay.module.scss';
 
@@ -48,7 +47,7 @@ function DashboardDisplay() {
     );
   }
 
-  const displayLayout = plotType => {
+  const displayLayout = chartType => {
     return (
       <>
         <DisplaySelectors
@@ -81,7 +80,7 @@ function DashboardDisplay() {
           <div className="display-layout-chart">
             <MainChart
               mapType={mapType}
-              plotType={plotType}
+              chartType={chartType}
               geography={geography}
               maltreatmentTypes={maltreatmentTypes}
               observedFeature={observedFeature}
@@ -106,8 +105,8 @@ function DashboardDisplay() {
             setMapType('maltreatment');
             // Maltreatment only has county data.
             setGeography('county');
-            const plotType = 'maltreatment';
-            return displayLayout(plotType);
+            const chartType = 'maltreatment';
+            return displayLayout(chartType);
           }}
         />
         <Route
@@ -116,8 +115,8 @@ function DashboardDisplay() {
             setMapType('observedFeatures');
             // observedFeatures (i.e. Demographic Features) only has 2019 data.
             setYear('2019');
-            const plotType = 'demographics';
-            return displayLayout(plotType);
+            const chartType = 'demographics';
+            return displayLayout(chartType);
           }}
         />
         <Route
@@ -130,8 +129,8 @@ function DashboardDisplay() {
             setGeography('county');
             // Do not show the rate.
             setShowRate(false);
-            const plotType = 'analytics';
-            return displayLayout(plotType);
+            const chartType = 'analytics';
+            return displayLayout(chartType);
           }}
         />
         <Redirect from={protxRoute} to={`${protxRoute}/analytics`} />

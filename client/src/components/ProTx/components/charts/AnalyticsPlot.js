@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import './MaltreatmentPlot.css';
+import './AnalyticsPlot.css';
 
-function MaltreatmentPlot({ plotState }) {
+function AnalyticsPlot({ plotState }) {
   return (
-    <div className="maltreatment-types-plot-chart">
+    <div className="predictive-features-plot-chart">
       <Plot
-        divId="maltreatment-types-plot"
-        className="maltreatment-types-plot"
+        divId="predictive-features-plot"
+        className="predictive-features-plot"
         data={plotState.data}
         layout={plotState.layout}
         config={plotState.config}
@@ -18,11 +18,11 @@ function MaltreatmentPlot({ plotState }) {
   );
 }
 
-MaltreatmentPlot.propTypes = {
+AnalyticsPlot.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   plotState: PropTypes.object.isRequired
 };
 
-MaltreatmentPlot.defaultProps = {};
+AnalyticsPlot.defaultProps = {};
 
-export default MaltreatmentPlot;
+export default AnalyticsPlot;

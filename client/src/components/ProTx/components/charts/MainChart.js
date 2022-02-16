@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { LoadingSpinner } from '_common';
 import ChartInstructions from './ChartInstructions';
-import DemographicDetails from './DemographicDetails';
+import DemographicsDetails from './DemographicsDetails';
+import DemographicsPlot from './DemographicsPlot';
 import MaltreatmentDetails from './MaltreatmentDetails';
-import MainPlot from './MainPlot';
-import MaltreatmentTypesPlot from './MaltreatmentPlot';
+import MaltreatmentPlot from './MaltreatmentPlot';
+import AnalyticsDetails from './AnalyticsDetails';
+import AnalyticsPlot from './AnalyticsPlot';
 import './MainChart.css';
 
 import {
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
   getMaltreatmentAggregatedValue,
-  getMaltreatmentTypesDataObject
+  getMaltreatmentTypesDataObject,
+  getPredictiveFeaturesDataObject
 } from '../shared/dataUtils';
 import {
   plotConfig,
@@ -23,7 +27,7 @@ import './MaltreatmentPlot.css';
 
 function MainChart({
   mapType,
-  plotType,
+  chartType,
   geography,
   maltreatmentTypes,
   observedFeature,
@@ -33,19 +37,11 @@ function MainChart({
   showRate,
   showInstructions
 }) {
-  /** Component Logic.
-   * TODO:
-   * - Need to seperate the Plot into the generic Plot component (`MainPlot`) and the plot-specific header layout needed for chart details not included in the plotly figure (`DemographicsDetails`, `MaltreatmentDetails`, `AnalyticsDetails`).
-   **/
-  // console.log(plotType);
-
   /***********************/
   /** DEMOGRAPHICS PLOT **/
   /***********************/
 
-  if (plotType === 'demographics') {
-    // console.log('DEMOGRAPHICS PLOT LOGIC');
-
+  if (chartType === 'demographics') {
     const protxDemographicsDistribution = useSelector(
       state => state.protxDemographicsDistribution
     );
@@ -76,25 +72,35 @@ function MainChart({
     ]);
 
     if (selectedGeographicFeature && observedFeature) {
+      if (protxDemographicsDistribution.error) {
+        return (
+          <div className="data-error-message">
+            There was a problem loading the data.
+          </div>
+        );
+      }
+
+      if (protxDemographicsDistribution.loading) {
+        return (
+          <div className="loading-spinner">
+            <LoadingSpinner />
+          </div>
+        );
+      }
+
+      const plotState = protxDemographicsDistribution.data;
+
       return (
-        <div className="observed-features-chart main-chart">
-          <div className="observed-features-plot main-plot">
+        <div className="observed-features-chart">
+          <div className="observed-features-plot">
             <div className="observed-features-plot-layout">
-              <DemographicDetails
+              <DemographicsDetails
                 geography={geography}
                 observedFeature={observedFeature}
                 selectedGeographicFeature={selectedGeographicFeature}
                 data={data}
               />
-              <MainPlot
-                divId="main-plot"
-                className="main-plot"
-                geography={geography}
-                maltreatmentTypes={maltreatmentTypes}
-                observedFeature={observedFeature}
-                selectedGeographicFeature={selectedGeographicFeature}
-                data={data}
-              />
+              <DemographicsPlot plotState={plotState} />;
               {!protxDemographicsDistribution.loading && (
                 <ChartInstructions currentReportType="hidden" />
               )}
@@ -109,9 +115,7 @@ function MainChart({
   /** MALTEATMENT PLOT  **/
   /***********************/
 
-  if (plotType === 'maltreatment') {
-    // console.log('MALTEATMENT PLOT LOGIC');
-
+  if (chartType === 'maltreatment') {
     const prepMaltreatmentPlotData = (
       selectedGeographicFeaturePrep,
       maltreatmentTypesPrep,
@@ -215,10 +219,8 @@ function MainChart({
                 maltreatmentTypesList={maltreatmentPlotData.malTypesList}
                 showRate={showRate}
               />
-              <MaltreatmentTypesPlot plotState={plotState} />
-              {/* {!protxMaltreatmentDistribution.loading && ( */}
+              <MaltreatmentPlot plotState={plotState} />
               <ChartInstructions currentReportType="hidden" />
-              {/* )} */}
             </div>
           </div>
         </div>
@@ -230,8 +232,82 @@ function MainChart({
   /** ANALYTICS PLOT    **/
   /***********************/
 
-  if (plotType === 'analytics') {
-    // console.log('ANALYTICS PLOT LOGIC');
+  if (chartType === 'analytics') {
+    const showPlot = true; // Hide the plot while its still a work-in-progress.
+
+    const prepPredictiveFeaturesPlotData = () => {
+      const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
+
+      // Transform the response from the query into the required object structure for the plot.
+      const predictiveFeaturesDataObject = [];
+
+      const axisCategories = [
+        'category',
+        'linear',
+        'log',
+        'date',
+        'multicategory',
+        '-'
+      ];
+
+      const plotTitle = 'Predictive Features';
+      const plotOrientation = 'v';
+      const showPlotLegend = true;
+      const plotXDataLabel = 'X DATA LABEL';
+      const plotXDataAxisType = axisCategories[1];
+      const plotYDataLabel = 'Y DATA LABEL';
+      const plotYDataAxisType = axisCategories[1];
+
+      const plotLayout = getPlotLayout(
+        plotTitle,
+        plotOrientation,
+        showPlotLegend,
+        plotXDataLabel,
+        plotXDataAxisType,
+        plotYDataLabel,
+        plotYDataAxisType
+      );
+
+      const plotData = getPlotDataBars(
+        'predictive',
+        predictiveFeaturesDataObject,
+        plotOrientation
+      );
+
+      const plotState = {
+        data: plotData,
+        layout: plotLayout,
+        config: plotConfig,
+        raw: newPredictiveFeaturesDataObject
+      };
+
+      const predictiveFeaturesPlotData = {
+        predictiveFeaturesPlotState: plotState
+      };
+
+      return predictiveFeaturesPlotData;
+    };
+
+    const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
+
+    const plotState = predictiveFeaturesPlotData.predictiveFeaturesPlotState;
+
+    return (
+      <div className="predictive-features-chart">
+        <div className="predictive-features-plot">
+          <div className="predictive-features-plot-layout">
+            <AnalyticsDetails
+              geography={geography}
+              observedFeature={observedFeature}
+              selectedGeographicFeature={selectedGeographicFeature}
+              data={data}
+            />
+            {showPlot && <AnalyticsPlot plotState={plotState} />}
+            <ChartInstructions currentReportType="hidden" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   /***********************/
@@ -240,14 +316,14 @@ function MainChart({
 
   return (
     <div className="main-chart">
-      {showInstructions && <ChartInstructions currentReportType={plotType} />}
+      {showInstructions && <ChartInstructions currentReportType={chartType} />}
     </div>
   );
 }
 
 MainChart.propTypes = {
   mapType: PropTypes.string.isRequired,
-  plotType: PropTypes.string.isRequired,
+  chartType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,

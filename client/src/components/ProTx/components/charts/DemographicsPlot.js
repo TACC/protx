@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import './MaltreatmentPlot.css';
+import './DemographicsPlot.css';
 
-function MaltreatmentPlot({ plotState }) {
+function DemographicsPlot({ plotState }) {
   return (
     <div className="maltreatment-types-plot-chart">
       <Plot
@@ -18,11 +18,11 @@ function MaltreatmentPlot({ plotState }) {
   );
 }
 
-MaltreatmentPlot.propTypes = {
+DemographicsPlot.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   plotState: PropTypes.object.isRequired
 };
 
-MaltreatmentPlot.defaultProps = {};
+DemographicsPlot.defaultProps = {};
 
-export default MaltreatmentPlot;
+export default DemographicsPlot;
