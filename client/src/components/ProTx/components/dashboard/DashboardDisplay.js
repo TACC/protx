@@ -6,8 +6,10 @@ import DisplaySelectors from './DisplaySelectors';
 import MainMap from '../maps/MainMap';
 // import MaltreatmentChart from '../charts/MaltreatmentChart';
 import MaltreatmentChart from '../charts/MaltreatmentChart.OLD';
-import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
+// import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
 import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
+import MainChart from '../charts/MainChart';
+
 import './DashboardDisplay.css';
 import './DashboardDisplay.module.scss';
 
@@ -50,6 +52,54 @@ function DashboardDisplay() {
     );
   }
 
+  const displayLayout = () => {
+    return (
+      <>
+        <DisplaySelectors
+          mapType={mapType}
+          geography={geography}
+          maltreatmentTypes={maltreatmentTypes}
+          observedFeature={observedFeature}
+          year={year}
+          showRate={showRate}
+          setGeography={setGeography}
+          setMaltreatmentTypes={setMaltreatmentTypes}
+          setObservedFeature={setObservedFeature}
+          setYear={setYear}
+          setShowRate={setShowRate}
+        />
+        <div className="display-layout-root">
+          <div className="display-layout-map">
+            <MainMap
+              mapType={mapType}
+              geography={geography}
+              maltreatmentTypes={maltreatmentTypes}
+              observedFeature={observedFeature}
+              year={year}
+              showRate={showRate}
+              data={data}
+              selectedGeographicFeature={selectedGeographicFeature}
+              setSelectedGeographicFeature={setSelectedGeographicFeature}
+            />
+          </div>
+          <div className="display-layout-chart">
+            <MainChart
+              mapType={mapType}
+              geography={geography}
+              maltreatmentTypes={maltreatmentTypes}
+              observedFeature={observedFeature}
+              year={year}
+              selectedGeographicFeature={selectedGeographicFeature}
+              data={data}
+              showRate="false"
+              showInstructions
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div styleName="root">
       <Switch>
@@ -91,7 +141,7 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    <MaltreatmentChart
+                    {/* <MaltreatmentChart
                       mapType={mapType}
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
@@ -100,6 +150,17 @@ function DashboardDisplay() {
                       showRate={showRate}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                      showInstructions
+                    /> */}
+                    <MainChart
+                      mapType={mapType}
+                      geography={geography}
+                      maltreatmentTypes={maltreatmentTypes}
+                      observedFeature={observedFeature}
+                      year={year}
+                      selectedGeographicFeature={selectedGeographicFeature}
+                      data={data}
+                      showRate="false"
                       showInstructions
                     />
                   </div>
@@ -114,50 +175,62 @@ function DashboardDisplay() {
             // observedFeatures (i.e. Demographic Features) only has 2019 data.
             setYear('2019');
             setMapType('observedFeatures');
-            return (
-              <>
-                <DisplaySelectors
-                  mapType={mapType}
-                  geography={geography}
-                  maltreatmentTypes={maltreatmentTypes}
-                  observedFeature={observedFeature}
-                  year={year}
-                  showRate={showRate}
-                  setMaltreatmentTypes={setMaltreatmentTypes}
-                  setObservedFeature={setObservedFeature}
-                  setGeography={setGeography}
-                  setShowRate={setShowRate}
-                />
-                <div className="display-layout-root">
-                  <div className="display-layout-map">
-                    <MainMap
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      showRate={showRate}
-                      year={year}
-                      data={data}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      setSelectedGeographicFeature={
-                        setSelectedGeographicFeature
-                      }
-                    />
-                  </div>
-                  <div className="display-layout-chart">
-                    <ObservedFeaturesChart
-                      mapType={mapType}
-                      geography={geography}
-                      observedFeature={observedFeature}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      data={data}
-                      showRate={showRate}
-                      showInstructions
-                    />
-                  </div>
-                </div>
-              </>
-            );
+            // return (
+            //   <>
+            //     <DisplaySelectors
+            //       mapType={mapType}
+            //       geography={geography}
+            //       maltreatmentTypes={maltreatmentTypes}
+            //       observedFeature={observedFeature}
+            //       year={year}
+            //       showRate={showRate}
+            //       setMaltreatmentTypes={setMaltreatmentTypes}
+            //       setObservedFeature={setObservedFeature}
+            //       setGeography={setGeography}
+            //       setShowRate={setShowRate}
+            //     />
+            //     <div className="display-layout-root">
+            //       <div className="display-layout-map">
+            //         <MainMap
+            //           mapType={mapType}
+            //           geography={geography}
+            //           maltreatmentTypes={maltreatmentTypes}
+            //           observedFeature={observedFeature}
+            //           showRate={showRate}
+            //           year={year}
+            //           data={data}
+            //           selectedGeographicFeature={selectedGeographicFeature}
+            //           setSelectedGeographicFeature={
+            //             setSelectedGeographicFeature
+            //           }
+            //         />
+            //       </div>
+            //       <div className="display-layout-chart">
+            //         {/* <ObservedFeaturesChart
+            //           mapType={mapType}
+            //           geography={geography}
+            //           observedFeature={observedFeature}
+            //           selectedGeographicFeature={selectedGeographicFeature}
+            //           data={data}
+            //           showRate={showRate}
+            //           showInstructions
+            //         /> */}
+            //         <MainChart
+            //           mapType={mapType}
+            //           geography={geography}
+            //           maltreatmentTypes="[]"
+            //           observedFeature={observedFeature}
+            //           year={year}
+            //           selectedGeographicFeature={selectedGeographicFeature}
+            //           data={data}
+            //           showRate={showRate}
+            //           showInstructions
+            //         />
+            //       </div>
+            //     </div>
+            //   </>
+            // );
+            return displayLayout();
           }}
         />
         <Route
@@ -197,7 +270,7 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    <PredictiveFeaturesChart
+                    {/* <PredictiveFeaturesChart
                       mapType={mapType}
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
@@ -205,6 +278,17 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                      showInstructions
+                    /> */}
+                    <MainChart
+                      mapType={mapType}
+                      geography={geography}
+                      maltreatmentTypes={maltreatmentTypes}
+                      observedFeature={observedFeature}
+                      year={year}
+                      selectedGeographicFeature={selectedGeographicFeature}
+                      data={data}
+                      showRate="false"
                       showInstructions
                     />
                   </div>
