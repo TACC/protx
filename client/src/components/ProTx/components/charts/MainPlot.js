@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import { useSelector } from 'react-redux';
 import { LoadingSpinner } from '_common';
-import DemographicDetails from './DemographicDetails';
 import './MainPlot.css';
 
 function MainPlot({
@@ -33,24 +32,14 @@ function MainPlot({
   }
 
   return (
-    <div className="observed-features-plot main-plot">
-      <div className="observed-features-plot-layout">
-        <DemographicDetails
-          geography={geography}
-          observedFeature={observedFeature}
-          selectedGeographicFeature={selectedGeographicFeature}
-          data={data}
-        />
-        <div className="observed-features-plot-chart">
-          <Plot
-            divId="observed-features-plot"
-            className="observed-features-plot"
-            data={protxDemographicsDistribution.data.data}
-            layout={protxDemographicsDistribution.data.layout}
-            useResizeHandler
-          />
-        </div>
-      </div>
+    <div className="observed-features-plot-chart">
+      <Plot
+        divId="observed-features-plot"
+        className="observed-features-plot"
+        data={protxDemographicsDistribution.data.data}
+        layout={protxDemographicsDistribution.data.layout}
+        useResizeHandler
+      />
     </div>
   );
 }

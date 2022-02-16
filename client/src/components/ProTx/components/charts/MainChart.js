@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ChartInstructions from './ChartInstructions';
-// import DemographicDetails from './DemographicDetails';
+import DemographicDetails from './DemographicDetails';
 import MainPlot from './MainPlot';
 import MaltreatmentTypesPlot from './MaltreatmentTypesPlot';
 import './MainChart.css';
@@ -66,16 +66,26 @@ function MainChart({
     if (selectedGeographicFeature && observedFeature) {
       return (
         <div className="observed-features-chart main-chart">
-          <MainPlot
-            geography={geography}
-            maltreatmentTypes={maltreatmentTypes}
-            observedFeature={observedFeature}
-            selectedGeographicFeature={selectedGeographicFeature}
-            data={data}
-          />
-          {!protxDemographicsDistribution.loading && (
-            <ChartInstructions currentReportType="hidden" />
-          )}
+          <div className="observed-features-plot main-plot">
+            <div className="observed-features-plot-layout">
+              <DemographicDetails
+                geography={geography}
+                observedFeature={observedFeature}
+                selectedGeographicFeature={selectedGeographicFeature}
+                data={data}
+              />
+              <MainPlot
+                geography={geography}
+                maltreatmentTypes={maltreatmentTypes}
+                observedFeature={observedFeature}
+                selectedGeographicFeature={selectedGeographicFeature}
+                data={data}
+              />
+              {!protxDemographicsDistribution.loading && (
+                <ChartInstructions currentReportType="hidden" />
+              )}
+            </div>
+          </div>
         </div>
       );
     }
@@ -164,6 +174,10 @@ function MainChart({
     // console.log('ANALYTICS PLOT LOGIC');
   }
 
+  /***********************/
+  /** PLOT INSTRUCTIONS **/
+  /***********************/
+
   return (
     <div className="main-chart">
       {showInstructions && <ChartInstructions currentReportType={plotType} />}
@@ -186,9 +200,7 @@ MainChart.propTypes = {
 };
 
 MainChart.defaultProps = {
-  // maltreatmentTypes: [],
   showInstructions: false
-  // showRate: false
 };
 
 export default MainChart;
