@@ -1,0 +1,14 @@
+.data-error-message {
+  margin: 1rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-blood-orange);
+}
+.loading-spinner {
+  margin-top: 40%;
+}
+.main-plot {
+  margin: 0 0.5vw;
+  width: 100%;
+  font-family: var(--font-type-roboto-condensed);
+}

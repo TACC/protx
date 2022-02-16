@@ -1,1 +1,79 @@
 /* MaltreatmentDetails.css */
+.data-error-message {
+  margin: 1rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-blood-orange);
+}
+.loading-spinner {
+  margin-top: 40%;
+}
+.maltreatment-types-plot {
+  font-family: var(--font-type-roboto-condensed);
+  width: 100%;
+}
+.maltreatment-types-plot-layout {
+  margin: 0 0.5vw;
+}
+.maltreatment-types-plot-info {
+  border-bottom: 1px solid var(--color-gray-very-dark);
+}
+.maltreatment-types-plot-info-region {
+  min-height: 4.5rem;
+  display: flex;
+}
+.maltreatment-types-plot-selected-region {
+  display: inline;
+  margin: 1vh;
+}
+.maltreatment-types-plot-selected-region {
+  width: 100%;
+  text-align: center;
+}
+.maltreatment-types-plot-aggregated-count {
+  margin: 0.5vh;
+  padding: 0 0 0.5vh 0;
+  text-align: center;
+  border-bottom: 1px solid var(--color-gray-very-dark);
+}
+.maltreatment-types-plot-selected-region-label,
+.maltreatment-types-plot-aggregated-count-label,
+.maltreatment-types-plot-aggregated-selection-list-label {
+  color: var(--color-gray);
+  font-weight: var(--font-weight-normal-plus);
+}
+.maltreatment-types-plot-selected-region-value,
+.maltreatment-types-plot-aggregated-count-value {
+  margin: 0 1vw;
+  font-weight: var(--font-weight-x-heavy);
+}
+.maltreatment-types-plot-selected-region-value {
+  font-size: calc(var(--font-size-normal) * 2.2);
+}
+.maltreatment-types-plot-aggregated-count-value {
+  font-size: calc(var(--font-size-normal) * 1.2);
+}
+.maltreatment-types-plot-aggregated-selection-list {
+  margin: 0.5vh 7vw;
+  font-size: calc(var(--font-size-normal) * 0.8);
+}
+.maltreatment-types-plot-selected-region-code {
+  font-style: italic;
+}
+.maltreatment-types-plot-info-summary {
+  text-align: center;
+  font-style: italic;
+}
+.maltreatment-types-plot-info-chart {
+  min-height: 4rem;
+  margin: 0.5vh 1vw;
+  font-size: var(--font-size-sm);
+  line-height: 2vh;
+}
+.maltreatment-types-plot-selected-type:not(:last-child)::after,
+.maltreatment-types-plot-selected-type-summary:not(:last-child)::after {
+  content: ', ';
+}
+.maltreatment-types-plot-chart {
+  margin: 0 0.5vw;
+}
