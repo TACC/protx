@@ -4,10 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import MainMap from '../maps/MainMap';
-// import MaltreatmentChart from '../charts/MaltreatmentChart';
-// import MaltreatmentChart from '../charts/MaltreatmentChart.OLD';
-// import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
-// import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
 import MainChart from '../charts/MainChart';
 
 import './DashboardDisplay.css';

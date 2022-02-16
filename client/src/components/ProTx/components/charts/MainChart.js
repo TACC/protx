@@ -3,9 +3,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ChartInstructions from './ChartInstructions';
 import DemographicDetails from './DemographicDetails';
+import MaltreatmentDetails from './MaltreatmentDetails';
 import MainPlot from './MainPlot';
-import MaltreatmentTypesPlot from './MaltreatmentTypesPlot';
+import MaltreatmentTypesPlot from './MaltreatmentPlot';
 import './MainChart.css';
+
+import {
+  getMaltreatmentTypeNames,
+  getMaltreatmentSelectedValues,
+  getMaltreatmentAggregatedValue,
+  getMaltreatmentTypesDataObject
+} from '../shared/dataUtils';
+import {
+  plotConfig,
+  getPlotLayout,
+  getPlotDataBars
+} from '../shared/plotUtils';
+import './MaltreatmentPlot.css';
 
 function MainChart({
   mapType,
@@ -56,9 +70,7 @@ function MainChart({
     }, [
       mapType,
       geography,
-      // maltreatmentTypes
       observedFeature,
-      // year,
       selectedGeographicFeature,
       showRate
     ]);
@@ -75,6 +87,8 @@ function MainChart({
                 data={data}
               />
               <MainPlot
+                divId="main-plot"
+                className="main-plot"
                 geography={geography}
                 maltreatmentTypes={maltreatmentTypes}
                 observedFeature={observedFeature}
@@ -98,72 +112,118 @@ function MainChart({
   if (plotType === 'maltreatment') {
     // console.log('MALTEATMENT PLOT LOGIC');
 
-    // OLD PLOT.
+    const prepMaltreatmentPlotData = (
+      selectedGeographicFeaturePrep,
+      maltreatmentTypesPrep,
+      dataPrep,
+      geographyPrep,
+      yearPrep,
+      showRatePrep
+    ) => {
+      const geoid = selectedGeographicFeaturePrep;
+      const maltreatmentTypesList = getMaltreatmentTypeNames(
+        maltreatmentTypesPrep,
+        dataPrep
+      );
+
+      const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
+        dataPrep,
+        geographyPrep,
+        yearPrep,
+        showRatePrep,
+        geoid,
+        maltreatmentTypesPrep
+      );
+
+      const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
+        dataPrep,
+        geographyPrep,
+        yearPrep,
+        showRatePrep,
+        geoid,
+        maltreatmentTypesPrep
+      ).toFixed(0);
+
+      const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
+        maltreatmentTypesPrep,
+        maltreatmentTypesList,
+        maltreatmentTypesDataValues
+      );
+
+      const plotTitle = 'Maltreatment Types';
+      const plotOrientation = 'v';
+      const showPlotLegend = false;
+      const plotXDataLabel = 'Maltreatment Type';
+      const plotXDataAxisType = 'category';
+      const plotYDataLabel = 'Total Number of Cases in Selected County';
+      const plotYDataAxisType = 'linear';
+
+      const plotLayout = getPlotLayout(
+        plotTitle,
+        plotOrientation,
+        showPlotLegend,
+        plotXDataLabel,
+        plotXDataAxisType,
+        plotYDataLabel,
+        plotYDataAxisType
+      );
+
+      const plotData = getPlotDataBars(
+        'maltreatment',
+        maltreatmentTypesDataObject,
+        plotOrientation
+      );
+
+      const plotState = {
+        data: plotData,
+        layout: plotLayout,
+        config: plotConfig
+      };
+
+      const maltreatmentPlotData = {
+        malTypesAggregate: maltreatmentTypesDataAggregate,
+        malTypesList: maltreatmentTypesList,
+        malPlotState: plotState
+      };
+
+      return maltreatmentPlotData;
+    };
+
+    const maltreatmentPlotData = prepMaltreatmentPlotData(
+      selectedGeographicFeature,
+      maltreatmentTypes,
+      data,
+      geography,
+      year,
+      showRate
+    );
+
+    const plotState = maltreatmentPlotData.malPlotState;
+
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       return (
         <div className="maltreatment-chart">
-          <MaltreatmentTypesPlot
-            mapType={mapType}
-            geography={geography}
-            maltreatmentTypes={maltreatmentTypes}
-            year={year}
-            showRate={showRate}
-            selectedGeographicFeature={selectedGeographicFeature}
-            data={data}
-          />
-          {/* {!protxMaltreatmentDistribution.loading && ( */}
-          <ChartInstructions currentReportType="hidden" />
-          {/* )} */}
+          <div className="maltreatment-types-plot">
+            <div className="maltreatment-types-plot-layout">
+              <MaltreatmentDetails
+                geography={geography}
+                selectedGeographicFeature={selectedGeographicFeature}
+                maltreatmentTypes={maltreatmentTypes}
+                maltreatmentPlotAggregate={
+                  maltreatmentPlotData.malTypesAggregate
+                }
+                maltreatmentTypesList={maltreatmentPlotData.malTypesList}
+                showRate={showRate}
+              />
+              <MaltreatmentTypesPlot plotState={plotState} />
+              {/* {!protxMaltreatmentDistribution.loading && ( */}
+              <ChartInstructions currentReportType="hidden" />
+              {/* )} */}
+            </div>
+          </div>
         </div>
       );
     }
-
-    // NEW PLOT (MIMICS DEMOGRAPHICS).
-    /*
-    const protxMaltreatmentDistribution = useSelector(
-      state => state.protxDemographicsDistribution
-    );
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-      if (observedFeature === 'maltreatment') {
-        return;
-      }
-      if (selectedGeographicFeature) {
-        dispatch({
-          type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
-          payload: {
-            area: geography,
-            selectedArea: selectedGeographicFeature,
-            variable: observedFeature,
-            unit: showRate ? 'percent' : 'count'
-          }
-        });
-      }
-    }, [
-      mapType,
-      geography,
-      observedFeature,
-      selectedGeographicFeature,
-      showRate
-    ]);
-
-    if (selectedGeographicFeature && observedFeature) {
-      return (
-        <div className="observed-features-chart">
-          <ObservedFeaturesPlot
-            geography={geography}
-            observedFeature={observedFeature}
-            selectedGeographicFeature={selectedGeographicFeature}
-            data={data}
-          />
-          {!protxMaltreatmentDistribution.loading && (
-            <ChartInstructions currentReportType="hidden" />
-          )}
-        </div>
-      );
-    }
-    */
   }
 
   /***********************/
