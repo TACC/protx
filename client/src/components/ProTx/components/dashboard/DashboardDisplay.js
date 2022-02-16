@@ -29,7 +29,7 @@ function DashboardDisplay() {
   const { loading, error, data } = useSelector(state => state.protx);
   const protxRoute = '/protx';
 
-  // Get systems and any other initial data we need from the backend
+  // Get systems and any other initial data we need from the backend.
   useEffect(() => {
     dispatch({ type: 'FETCH_PROTX' });
   }, []);
@@ -52,7 +52,7 @@ function DashboardDisplay() {
     );
   }
 
-  const displayLayout = () => {
+  const displayLayout = plotType => {
     return (
       <>
         <DisplaySelectors
@@ -85,6 +85,7 @@ function DashboardDisplay() {
           <div className="display-layout-chart">
             <MainChart
               mapType={mapType}
+              plotType={plotType}
               geography={geography}
               maltreatmentTypes={maltreatmentTypes}
               observedFeature={observedFeature}
@@ -109,7 +110,8 @@ function DashboardDisplay() {
             setMapType('maltreatment');
             // Maltreatment only has county data.
             setGeography('county');
-            return displayLayout();
+            const plotType = 'maltreatment';
+            return displayLayout(plotType);
           }}
         />
         <Route
@@ -118,7 +120,8 @@ function DashboardDisplay() {
             setMapType('observedFeatures');
             // observedFeatures (i.e. Demographic Features) only has 2019 data.
             setYear('2019');
-            return displayLayout();
+            const plotType = 'demographics';
+            return displayLayout(plotType);
           }}
         />
         <Route
@@ -131,7 +134,8 @@ function DashboardDisplay() {
             setGeography('county');
             // Do not show the rate.
             setShowRate(false);
-            return displayLayout();
+            const plotType = 'analytics';
+            return displayLayout(plotType);
           }}
         />
         <Redirect from={protxRoute} to={`${protxRoute}/analytics`} />

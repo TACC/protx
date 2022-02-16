@@ -34,8 +34,8 @@ function ChartInstructions({ currentReportType }) {
     footer: 'Footer content for the current tool (if any).'
   };
 
-  if (currentReportType === 'observed') {
-    instructions.type = 'observed';
+  if (currentReportType === 'demographics') {
+    instructions.type = 'demographics';
     instructions.title = 'Demographics Data Reporting Tool Instructions';
     instructions.description =
       'The Demographics Data Reporting Tool is designed to view demographic feature data aggregated by geographic region types along side current resources.';
@@ -95,8 +95,8 @@ function ChartInstructions({ currentReportType }) {
     instructions.footer = '';
   }
 
-  if (currentReportType === 'predictive') {
-    instructions.type = 'predictive';
+  if (currentReportType === 'analytics') {
+    instructions.type = 'analytics';
     instructions.title = 'Analytics Reporting Tool Instructions';
     instructions.description =
       'The Analytics Reporting Tool is designed to view predictive features and compare them across geographic regions along side current resources. This tool is currently restricted to the top seven predictive features.';
