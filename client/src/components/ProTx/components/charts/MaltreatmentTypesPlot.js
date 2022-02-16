@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import {
-  getFipsIdName,
-  capitalizeString,
-  getMaltreatmentLabel,
+  // getFipsIdName,
+  // capitalizeString,
+  // getMaltreatmentLabels,
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
   getMaltreatmentAggregatedValue,
@@ -15,6 +15,7 @@ import {
   getPlotLayout,
   getPlotDataBars
 } from '../shared/plotUtils';
+import MaltreatmentDetails from './MaltreatmentDetails';
 import './MaltreatmentTypesPlot.css';
 
 function MaltreatmentTypesPlot({
@@ -112,14 +113,14 @@ function MaltreatmentTypesPlot({
     showRate
   );
 
-  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-  const maltreatmentLabel = getMaltreatmentLabel(maltreatmentTypes, showRate);
-  const geographyLabel = capitalizeString(geography);
+  // const fipsIdValue = getFipsIdName(selectedGeographicFeature);
+  // const maltreatmentLabel = getMaltreatmentLabel(maltreatmentTypes, showRate);
+  // const geographyLabel = capitalizeString(geography);
 
   return (
     <div className="maltreatment-types-plot">
       <div className="maltreatment-types-plot-layout">
-        <div className="maltreatment-types-plot-info">
+        {/* <div className="maltreatment-types-plot-info">
           <div className="maltreatment-types-plot-info-region">
             <div className="maltreatment-types-plot-selected-region">
               <span className="maltreatment-types-plot-selected-region-label">
@@ -155,7 +156,15 @@ function MaltreatmentTypesPlot({
         <div className="maltreatment-types-plot-info-summary">
           Note: All graphs are showing data for calendar years 2011-2019, not
           fiscal or academic years.
-        </div>
+        </div> */}
+        <MaltreatmentDetails
+          geography={geography}
+          selectedGeographicFeature={selectedGeographicFeature}
+          maltreatmentTypes={maltreatmentTypes}
+          maltreatmentPlotAggregate={maltreatmentPlotData.malTypesAggregate}
+          maltreatmentTypesList={maltreatmentPlotData.malTypesList}
+          showRate={showRate}
+        />
         <div className="maltreatment-types-plot-chart">
           <Plot
             divId="maltreatment-types-plot"
