@@ -5,9 +5,9 @@ import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import MainMap from '../maps/MainMap';
 // import MaltreatmentChart from '../charts/MaltreatmentChart';
-import MaltreatmentChart from '../charts/MaltreatmentChart.OLD';
+// import MaltreatmentChart from '../charts/MaltreatmentChart.OLD';
 // import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
-import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
+// import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
 import MainChart from '../charts/MainChart';
 
 import './DashboardDisplay.css';
@@ -91,7 +91,7 @@ function DashboardDisplay() {
               year={year}
               selectedGeographicFeature={selectedGeographicFeature}
               data={data}
-              showRate="false"
+              showRate={showRate}
               showInstructions
             />
           </div>
@@ -107,129 +107,17 @@ function DashboardDisplay() {
           path={`${protxRoute}/maltreatment`}
           render={() => {
             setMapType('maltreatment');
-            // maltreatment only has county data.
+            // Maltreatment only has county data.
             setGeography('county');
-            return (
-              <>
-                <DisplaySelectors
-                  mapType={mapType}
-                  geography={geography}
-                  maltreatmentTypes={maltreatmentTypes}
-                  observedFeature={observedFeature}
-                  year={year}
-                  showRate={showRate}
-                  setGeography={setGeography}
-                  setMaltreatmentTypes={setMaltreatmentTypes}
-                  setObservedFeature={setObservedFeature}
-                  setYear={setYear}
-                  setShowRate={setShowRate}
-                />
-                <div className="display-layout-root">
-                  <div className="display-layout-map">
-                    <MainMap
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      showRate={showRate}
-                      data={data}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      setSelectedGeographicFeature={
-                        setSelectedGeographicFeature
-                      }
-                    />
-                  </div>
-                  <div className="display-layout-chart">
-                    {/* <MaltreatmentChart
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      showRate={showRate}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      data={data}
-                      showInstructions
-                    /> */}
-                    <MainChart
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      data={data}
-                      showRate="false"
-                      showInstructions
-                    />
-                  </div>
-                </div>
-              </>
-            );
+            return displayLayout();
           }}
         />
         <Route
           path={`${protxRoute}/demographics`}
           render={() => {
+            setMapType('observedFeatures');
             // observedFeatures (i.e. Demographic Features) only has 2019 data.
             setYear('2019');
-            setMapType('observedFeatures');
-            // return (
-            //   <>
-            //     <DisplaySelectors
-            //       mapType={mapType}
-            //       geography={geography}
-            //       maltreatmentTypes={maltreatmentTypes}
-            //       observedFeature={observedFeature}
-            //       year={year}
-            //       showRate={showRate}
-            //       setMaltreatmentTypes={setMaltreatmentTypes}
-            //       setObservedFeature={setObservedFeature}
-            //       setGeography={setGeography}
-            //       setShowRate={setShowRate}
-            //     />
-            //     <div className="display-layout-root">
-            //       <div className="display-layout-map">
-            //         <MainMap
-            //           mapType={mapType}
-            //           geography={geography}
-            //           maltreatmentTypes={maltreatmentTypes}
-            //           observedFeature={observedFeature}
-            //           showRate={showRate}
-            //           year={year}
-            //           data={data}
-            //           selectedGeographicFeature={selectedGeographicFeature}
-            //           setSelectedGeographicFeature={
-            //             setSelectedGeographicFeature
-            //           }
-            //         />
-            //       </div>
-            //       <div className="display-layout-chart">
-            //         {/* <ObservedFeaturesChart
-            //           mapType={mapType}
-            //           geography={geography}
-            //           observedFeature={observedFeature}
-            //           selectedGeographicFeature={selectedGeographicFeature}
-            //           data={data}
-            //           showRate={showRate}
-            //           showInstructions
-            //         /> */}
-            //         <MainChart
-            //           mapType={mapType}
-            //           geography={geography}
-            //           maltreatmentTypes="[]"
-            //           observedFeature={observedFeature}
-            //           year={year}
-            //           selectedGeographicFeature={selectedGeographicFeature}
-            //           data={data}
-            //           showRate={showRate}
-            //           showInstructions
-            //         />
-            //       </div>
-            //     </div>
-            //   </>
-            // );
             return displayLayout();
           }}
         />
@@ -237,64 +125,13 @@ function DashboardDisplay() {
           path={`${protxRoute}/analytics`}
           render={() => {
             setMapType('observedFeatures');
+            // Year is fixed to 10 years of data.
             setYear('2019');
+            // Currently restricted to county data.
             setGeography('county');
+            // Do not show the rate.
             setShowRate(false);
-            return (
-              <>
-                <DisplaySelectors
-                  mapType={mapType}
-                  geography={geography}
-                  maltreatmentTypes={maltreatmentTypes}
-                  observedFeature={observedFeature}
-                  year={year}
-                  showRate={showRate}
-                  setMaltreatmentTypes={setMaltreatmentTypes}
-                  setObservedFeature={setObservedFeature}
-                  limitToTopObservedFeatureFields
-                />
-                <div className="display-layout-root">
-                  <div className="display-layout-map">
-                    <MainMap
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      showRate={showRate}
-                      data={data}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      setSelectedGeographicFeature={
-                        setSelectedGeographicFeature
-                      }
-                    />
-                  </div>
-                  <div className="display-layout-chart">
-                    {/* <PredictiveFeaturesChart
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      data={data}
-                      showInstructions
-                    /> */}
-                    <MainChart
-                      mapType={mapType}
-                      geography={geography}
-                      maltreatmentTypes={maltreatmentTypes}
-                      observedFeature={observedFeature}
-                      year={year}
-                      selectedGeographicFeature={selectedGeographicFeature}
-                      data={data}
-                      showRate="false"
-                      showInstructions
-                    />
-                  </div>
-                </div>
-              </>
-            );
+            return displayLayout();
           }}
         />
         <Redirect from={protxRoute} to={`${protxRoute}/analytics`} />
