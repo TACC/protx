@@ -5,7 +5,7 @@ import {
   capitalizeString,
   getMaltreatmentLabel
 } from '../shared/dataUtils';
-import './MaltreatmentDetails.css';
+import './PlotDetails.css';
 
 function MaltreatmentDetails({
   geography,
@@ -15,47 +15,49 @@ function MaltreatmentDetails({
   maltreatmentTypesList,
   showRate
 }) {
-  // Maltreatment Chart Information.
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const maltreatmentLabel = getMaltreatmentLabel(maltreatmentTypes, showRate);
   const geographyLabel = capitalizeString(geography);
 
   return (
     <>
-      <div className="maltreatment-types-plot-info">
-        <div className="maltreatment-types-plot-info-region">
-          <div className="maltreatment-types-plot-selected-region">
-            <span className="maltreatment-types-plot-selected-region-label">
+      <div className="plot-details">
+        <div className="plot-details-section">
+          <div className="plot-details-section-selected">
+            <span className="plot-details-section-selected-label">
               FIPS: {selectedGeographicFeature}
             </span>
-            <span className="maltreatment-types-plot-selected-region-value">
+            <span className="plot-details-section-selected-value">
               {fipsIdValue} {geographyLabel}
             </span>
           </div>
         </div>
-      </div>
-      <div className="maltreatment-types-plot-aggregated-count">
-        <span className="maltreatment-types-plot-aggregated-count-label">
-          {maltreatmentLabel}
-        </span>
-        <span className="maltreatment-types-plot-aggregated-count-value">
-          {maltreatmentPlotAggregate}
-        </span>
-        <div className="maltreatment-types-plot-aggregated-selection-list">
-          <span className="maltreatment-types-plot-aggregated-selection-list-label">
-            Current Aggregation:{'  '}
-          </span>
-          {maltreatmentTypesList.map(type => (
-            <span
-              className="maltreatment-types-plot-selected-type-summary"
-              key={type}
-            >
-              {type}
+        <div className="plot-details-section">
+          <div className="plot-details-section-selected">
+            <span className="plot-details-section-selected-label">
+              {maltreatmentLabel}
             </span>
-          ))}
+            <span className="plot-details-section-selected-value">
+              {maltreatmentPlotAggregate}
+            </span>
+          </div>
+        </div>
+        <div className="plot-details-section">
+          <div className="plot-details-section-selected">
+            <span className="plot-details-section-selected-label">
+              Current Aggregation:{'  '}
+            </span>
+            <span className="plot-details-section-selected-value-list">
+              {maltreatmentTypesList.map(type => (
+                <span className="details-list-item" key={type}>
+                  {type}
+                </span>
+              ))}
+            </span>
+          </div>
         </div>
       </div>
-      <div className="maltreatment-types-plot-info-summary">
+      <div className="plot-details-summary">
         Note: All graphs are showing data for calendar years 2011-2019, not
         fiscal or academic years.
       </div>

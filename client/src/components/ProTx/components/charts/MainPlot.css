@@ -5,10 +5,15 @@
   color: var(--color-blood-orange);
 }
 .loading-spinner {
+  margin: 5%;
   margin-top: 40%;
+  text-align: center;
+  font-weight: 700;
+}
+.main-plot * {
+  font-family: var(--font-type-roboto-condensed);
 }
 .main-plot {
-  margin: 0 0.5vw;
+  margin: 0 1vw;
   width: 100%;
-  font-family: var(--font-type-roboto-condensed);
 }

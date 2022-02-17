@@ -6,7 +6,7 @@ import {
   getObservedFeaturesLabel
 } from '../shared/dataUtils';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
-import './AnalyticsDetails.css';
+import './PlotDetails.css';
 
 function AnalyticsDetails({
   geography,
@@ -14,7 +14,6 @@ function AnalyticsDetails({
   selectedGeographicFeature,
   data
 }) {
-  // Demographics Chart Information.
   const observedFeaturesLabel = getObservedFeaturesLabel(observedFeature, data);
   const selectedGeographicFeatureName = getFipsIdName(
     selectedGeographicFeature
@@ -26,29 +25,29 @@ function AnalyticsDetails({
       <PredictiveFeaturesTable
         selectedGeographicFeature={selectedGeographicFeature}
       />
-      <div className="predictive-features-plot-info">
-        <div className="observed-features-plot-info-region">
-          <div className="predictive-features-plot-selected-region">
-            <span className="predictive-features-plot-selected-region-label">
+      <div className="plot-details">
+        <div className="plot-details-section">
+          <div className="plot-details-section-selected">
+            <span className="plot-details-section-selected-label">
               FIPS: {selectedGeographicFeature}
             </span>
-            <span className="predictive-features-plot-selected-region-value">
+            <span className="plot-details-section-selected-value">
               {selectedGeographicFeatureName} {geographyType}
             </span>
           </div>
         </div>
-      </div>
-      <div className="predictive-features-plot-selected">
-        <div className="predictive-features-plot-selected-feature">
-          <span className="predictive-features-plot-selected-feature-label">
-            Selected Feature:
-          </span>
-          <span className="predictive-features-plot-selected-feature-value">
-            {observedFeaturesLabel}
-          </span>
+        <div className="plot-details-section">
+          <div className="plot-details-section-selected">
+            <span className="plot-details-section-selected-label">
+              Selected Feature:
+            </span>
+            <span className="plot-details-section-selected-value">
+              {observedFeaturesLabel}
+            </span>
+          </div>
         </div>
       </div>
-      <div className="predictive-features-plot-info-summary">
+      <div className="plot-details-summary">
         Note: All graphs are showing data for calendar years 2011-2019, not
         fiscal or academic years.
       </div>
