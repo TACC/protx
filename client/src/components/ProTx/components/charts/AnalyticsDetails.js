@@ -5,7 +5,6 @@ import {
   capitalizeString,
   getObservedFeaturesLabel
 } from '../shared/dataUtils';
-import PredictiveFeaturesTable from './PredictiveFeaturesTable';
 import './PlotDetails.css';
 
 function AnalyticsDetails({
@@ -22,9 +21,6 @@ function AnalyticsDetails({
 
   return (
     <>
-      <PredictiveFeaturesTable
-        selectedGeographicFeature={selectedGeographicFeature}
-      />
       <div className="plot-details">
         <div className="plot-details-section">
           <div className="plot-details-section-selected">

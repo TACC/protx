@@ -17,9 +17,14 @@ import {
 import ChartInstructions from './ChartInstructions';
 import DemographicsDetails from './DemographicsDetails';
 import MaltreatmentDetails from './MaltreatmentDetails';
+import PredictiveFeaturesTable from './PredictiveFeaturesTable';
 import AnalyticsDetails from './AnalyticsDetails';
 import MainPlot from './MainPlot';
 import './MainChart.css';
+
+/**
+ * TODO:  Investigate using a common shared config object for the plots.
+ * */
 
 function MainChart({
   mapType,
@@ -106,6 +111,10 @@ function MainChart({
   /***********************/
   /** MALTEATMENT PLOT  **/
   /***********************/
+
+  /**
+   * TODO: Move maltreatment plot logic into redux saga and serverside module.
+   */
 
   if (chartType === 'maltreatment') {
     const prepMaltreatmentPlotData = (
@@ -224,9 +233,11 @@ function MainChart({
   /** ANALYTICS PLOT    **/
   /***********************/
 
-  if (chartType === 'analytics') {
-    const showPlot = true; // Hide the plot while its still a work-in-progress.
+  /**
+   * TODO: Move analytics plot logic into redux saga and serverside module.
+   */
 
+  if (chartType === 'analytics') {
     const prepPredictiveFeaturesPlotData = () => {
       const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
 
@@ -281,20 +292,27 @@ function MainChart({
     };
 
     const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
-
     const plotState = predictiveFeaturesPlotData.predictiveFeaturesPlotState;
+    const showPlot = false; // Hide the plot while its still a work-in-progress.
 
     return (
       <div className="predictive-features-chart">
         <div className="predictive-features-plot">
           <div className="predictive-features-plot-layout">
-            <AnalyticsDetails
-              geography={geography}
-              observedFeature={observedFeature}
+            <PredictiveFeaturesTable
               selectedGeographicFeature={selectedGeographicFeature}
-              data={data}
             />
-            {showPlot && <MainPlot plotState={plotState} />}
+            {showPlot && (
+              <>
+                <AnalyticsDetails
+                  geography={geography}
+                  observedFeature={observedFeature}
+                  selectedGeographicFeature={selectedGeographicFeature}
+                  data={data}
+                />
+                <MainPlot plotState={plotState} />
+              </>
+            )}
             <ChartInstructions currentReportType="hidden" />
           </div>
         </div>
