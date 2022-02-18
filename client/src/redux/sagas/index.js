@@ -48,8 +48,9 @@ import { watchUsers } from './users.sagas';
 import { watchSiteSearch } from './siteSearch.sagas';
 import {
   watchProtx,
-  watchProtxDemographicDistribution,
-  watchProtxMaltreatmentDistribution
+  // watchProtxAnalyticsDistribution,
+  watchProtxDemographicsDistribution
+  // watchProtxMaltreatmentDistribution
 } from './protx.sagas';
 
 export default function* rootSaga() {
@@ -98,8 +99,9 @@ export default function* rootSaga() {
     watchProjects(),
     watchUsers(),
     watchSiteSearch(),
-    watchProtxDemographicDistribution(),
-    watchProtxMaltreatmentDistribution(),
-    watchProtx()
+    watchProtx(),
+    // watchProtxAnalyticsDistribution(),
+    watchProtxDemographicsDistribution()
+    // watchProtxMaltreatmentDistribution()
   ]);
 }
