@@ -38,7 +38,7 @@ function MainChart({
   /***********************/
 
   if (chartType === 'analytics') {
-    const showPlot = true; // Hide the plot in deployment until its done.
+    const showPlot = false; // Hide the plot in deployment until its done.
 
     // Dummy state data to make the empty plot render.
     const protxAnalyticsDistribution = {
@@ -127,7 +127,6 @@ function MainChart({
     const protxDemographicsDistribution = useSelector(
       state => state.protxDemographicsDistribution
     );
-    // console.log(protxDemographicsDistribution);
 
     const dispatch = useDispatch();
 
@@ -171,7 +170,6 @@ function MainChart({
         );
       }
 
-      // console.log(protxDemographicsDistribution);
       const plotState = protxDemographicsDistribution.data;
 
       return (
@@ -196,11 +194,6 @@ function MainChart({
   /***********************/
 
   if (chartType === 'maltreatment') {
-    // Dummy state data to make the empty plot render.
-    const protxMaltreatmentDistribution = {
-      data: {}
-    };
-
     // const protxMaltreatmentDistribution = useSelector(
     //   state => state.protxMaltreatmentDistribution
     // );
@@ -312,16 +305,14 @@ function MainChart({
       return maltreatmentPlotData;
     };
 
-    // const maltreatmentPlotData = prepMaltreatmentPlotData(
-    //   selectedGeographicFeature,
-    //   maltreatmentTypes,
-    //   data,
-    //   geography,
-    //   year,
-    //   showRate
-    // );
-
-    // const plotState = maltreatmentPlotData.malPlotState;
+    const maltreatmentPlotData = prepMaltreatmentPlotData(
+      selectedGeographicFeature,
+      maltreatmentTypes,
+      data,
+      geography,
+      year,
+      showRate
+    );
 
     const maltreatmentTypesAggregate = getMaltreatmentAggregatedValue(
       data,
@@ -337,15 +328,7 @@ function MainChart({
       data
     );
 
-    protxMaltreatmentDistribution.data = prepMaltreatmentPlotData(
-      selectedGeographicFeature,
-      maltreatmentTypes,
-      data,
-      geography,
-      year,
-      showRate
-    );
-    const plotState = protxMaltreatmentDistribution.data;
+    const plotState = maltreatmentPlotData.malPlotState;
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       return (

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from sqlalchemy import create_engine
 import logging
 
+from protx.data.api import analytics
 from protx.data.api import demographics
 from protx.data.api import maltreatment
 from protx.data.api.decorators import onboarded_required, memoize_db_results
@@ -13,23 +14,23 @@ logger = logging.getLogger(__name__)
 
 # TODO single engine for django instance
 
+ANALYTICS_QUERY = "SELECT * FROM analytics d WHERE d.GEOTYPE='county'"
 
-MALTREATMENT_QUERY = "SELECT * FROM maltreatment"
-
-MALTREATMENT_MIN_MAX_QUERY = '''
+ANALYTICS_MIN_MAX_QUERY = '''
 SELECT
-    m.GEOTYPE,
-    m.UNITS,
-    m.YEAR,
-    m.MALTREATMENT_NAME,
-    MIN(m.value) as MIN,
-    MAX(m.value) as MAX
-FROM maltreatment m
+    d.GEOTYPE,
+    d.UNITS,
+    d.YEAR,
+    d.DEMOGRAPHICS_NAME,
+    MIN(d.value) AS MIN,
+    MAX(d.value) AS MAX
+FROM analytics d
+WHERE d.GEOTYPE='county'
 GROUP BY
-    m.GEOTYPE,
-    m.UNITS,
-    m.YEAR,
-    m.MALTREATMENT_NAME;
+    d.GEOTYPE,
+    d.UNITS,
+    d.YEAR,
+    d.DEMOGRAPHICS_NAME;
 '''
 
 # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135
@@ -52,11 +53,30 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
+MALTREATMENT_QUERY = "SELECT * FROM maltreatment"
+
+MALTREATMENT_MIN_MAX_QUERY = '''
+SELECT
+    m.GEOTYPE,
+    m.UNITS,
+    m.YEAR,
+    m.MALTREATMENT_NAME,
+    MIN(m.value) as MIN,
+    MAX(m.value) as MAX
+FROM maltreatment m
+GROUP BY
+    m.GEOTYPE,
+    m.UNITS,
+    m.YEAR,
+    m.MALTREATMENT_NAME;
+'''
+
 resources_db = '/protx-data/resources.db'
 
 SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(demographics.db_name)
 SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
 
+ANALYTICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
@@ -118,23 +138,23 @@ def create_dict(data, level_keys):
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_maltreatment(request):
-    return get_maltreatment_cached()
+def get_analytics(request):
+    return get_analytics_cached()
 
 
-@memoize_db_results(db_file=demographics.db_name)
-def get_maltreatment_cached():
-    """Get maltreatment data
+@memoize_db_results(db_file=analytics.db_name)
+def get_analytics_cached():
+    """Get analytics data
 
     """
     engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
 
     with engine.connect() as connection:
-        result = connection.execute(MALTREATMENT_QUERY)
-        data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
+        result = connection.execute(ANALYTICS_QUERY)
+        data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
 
-        result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
-        meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
+        result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
+        meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
 
@@ -162,6 +182,40 @@ def get_demographics_cached():
 
 @onboarded_required
 @ensure_csrf_cookie
+def get_maltreatment(request):
+    return get_maltreatment_cached()
+
+
+@memoize_db_results(db_file=maltreatment.db_name)
+def get_maltreatment_cached():
+    """Get maltreatment data
+
+    """
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
+
+    with engine.connect() as connection:
+        result = connection.execute(MALTREATMENT_QUERY)
+        data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
+
+        result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
+        meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
+        return JsonResponse({"data": data, "meta": meta})
+
+
+@onboarded_required
+@ensure_csrf_cookie
+def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
+    """Get analytics distribution data for plotting
+
+    """
+    logger.info("Getting analytics plot data for {} {} {} {}".format(area, geoid, variable, unit))
+    # Need Analytics solution implemented here.
+    result = maltreatment.maltreatment_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    return JsonResponse({"result": result})
+
+
+@onboarded_required
+@ensure_csrf_cookie
 def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
 
@@ -178,6 +232,7 @@ def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit
 
     """
     logger.info("Getting maltreatment plot data for {} {} {} {}".format(area, geoid, variable, unit))
+    # Need Maltreatment solution implemented here.
     result = maltreatment.maltreatment_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
