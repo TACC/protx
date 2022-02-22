@@ -16,6 +16,23 @@ logger = logging.getLogger(__name__)
 
 ANALYTICS_QUERY = "SELECT * FROM analytics d WHERE d.GEOTYPE='county'"
 
+ANALYTICS_MIN_MAX_QUERY = '''
+SELECT
+    d.GEOTYPE,
+    d.UNITS,
+    d.YEAR,
+    d.DEMOGRAPHICS_NAME,
+    MIN(d.value) AS MIN,
+    MAX(d.value) AS MAX
+FROM demographics d
+WHERE d.GEOTYPE='county'
+GROUP BY
+    d.GEOTYPE,
+    d.UNITS,
+    d.YEAR,
+    d.DEMOGRAPHICS_NAME;
+'''
+
 # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135
 DEMOGRAPHICS_QUERY = "SELECT * FROM demographics d WHERE d.GEOTYPE='county'"
 
@@ -83,7 +100,11 @@ SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(cooks_db)
 
 SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
 
+ANALYTICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
+
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
+
+MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOID"]
 
 
 def create_dict(data, level_keys):
@@ -152,16 +173,16 @@ def get_analytics_cached():
     """Get analytics data
     """
     # TODO: Wire up data query.
-    # engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
 
-    # with engine.connect() as connection:
-    #     result = connection.execute(ANALYTICS_QUERY)
-    #     data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
+    with engine.connect() as connection:
+        result = connection.execute(ANALYTICS_QUERY)
+        data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
 
-    #     result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
-    #     meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
-    #     return JsonResponse({"data": data, "meta": meta})
-    return JsonResponse({"data": {}, "meta": {}})
+        result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
+        meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
+        return JsonResponse({"data": data, "meta": meta})
+    # return JsonResponse({"data": {}, "meta": {}})
 
 
 @ onboarded_required
@@ -171,7 +192,6 @@ def get_demographics(request):
 
 
 @ memoize_db_results(db_file=demographics.db_name)
-# @memoize_db_results(db_file=db_name)
 def get_demographics_cached():
     """Get demographics data
 
@@ -193,8 +213,7 @@ def get_maltreatment(request):
     return get_maltreatment_cached()
 
 
-@ memoize_db_results(db_file=demographics.db_name)
-# @memoize_db_results(db_file=db_name)
+@ memoize_db_results(db_file=maltreatment.db_name)
 def get_maltreatment_cached():
     """Get maltreatment data
 

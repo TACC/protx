@@ -6,8 +6,7 @@ import {
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
   getMaltreatmentAggregatedValue,
-  getMaltreatmentTypesDataObject,
-  getPredictiveFeaturesDataObject
+  getMaltreatmentTypesDataObject
 } from '../shared/dataUtils';
 import {
   plotConfig,
@@ -39,96 +38,35 @@ function MainChart({
   /***********************/
 
   if (chartType === 'analytics') {
-    /***********************/
-    // OLD CLIENT-SIDE CODE.
-    const prepPredictiveFeaturesPlotData = () => {
-      const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-
-      // Transform the response from the query into the required object structure for the plot.
-      const predictiveFeaturesDataObject = [];
-
-      const axisCategories = [
-        'category',
-        'linear',
-        'log',
-        'date',
-        'multicategory',
-        '-'
-      ];
-
-      const plotTitle = 'Predictive Features';
-      const plotOrientation = 'v';
-      const showPlotLegend = true;
-      const plotXDataLabel = 'X DATA LABEL';
-      const plotXDataAxisType = axisCategories[1];
-      const plotYDataLabel = 'Y DATA LABEL';
-      const plotYDataAxisType = axisCategories[1];
-
-      const plotLayout = getPlotLayout(
-        plotTitle,
-        plotOrientation,
-        showPlotLegend,
-        plotXDataLabel,
-        plotXDataAxisType,
-        plotYDataLabel,
-        plotYDataAxisType
-      );
-
-      const plotData = getPlotDataBars(
-        'predictive',
-        predictiveFeaturesDataObject,
-        plotOrientation
-      );
-
-      const plotState = {
-        data: plotData,
-        layout: plotLayout,
-        config: plotConfig,
-        raw: newPredictiveFeaturesDataObject
-      };
-
-      const predictiveFeaturesPlotData = {
-        predictiveFeaturesPlotState: plotState
-      };
-
-      return predictiveFeaturesPlotData;
-    };
-
-    const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
-
-    /***********************/
-    // NEW SERVER-SIDE CODE.
-    // const protxAnalyticsDistribution = useSelector(
-    //   state => state.protxAnalyticsDistribution
-    // );
+    const protxAnalyticsDistribution = useSelector(
+      state => state.protxAnalyticsDistribution
+    );
+    console.log(protxAnalyticsDistribution);
 
     const dispatch = useDispatch();
 
-    useEffect(
-      () => {
-        if (observedFeature === 'maltreatment') {
-          return;
-        }
-        if (selectedGeographicFeature) {
-          dispatch({
-            type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
-            payload: {
-              // area: geography,
-              // selectedArea: selectedGeographicFeature,
-              // variable: observedFeature,
-              // unit: showRate ? 'percent' : 'count'
-            }
-          });
-        }
-      },
-      [
-        // mapType,
-        // geography,
-        // observedFeature,
-        // selectedGeographicFeature,
-        // showRate
-      ]
-    );
+    useEffect(() => {
+      if (observedFeature === 'maltreatment') {
+        return;
+      }
+      if (selectedGeographicFeature) {
+        dispatch({
+          type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
+          payload: {
+            area: geography,
+            selectedArea: selectedGeographicFeature,
+            variable: observedFeature,
+            unit: showRate ? 'percent' : 'count'
+          }
+        });
+      }
+    }, [
+      mapType,
+      geography,
+      observedFeature,
+      selectedGeographicFeature,
+      showRate
+    ]);
 
     if (selectedGeographicFeature && observedFeature) {
       // if (protxAnalyticsDistribution.error) {
@@ -147,8 +85,7 @@ function MainChart({
       //   );
       // }
 
-      const plotState = predictiveFeaturesPlotData.predictiveFeaturesPlotState;
-      // const plotState = protxAnalyticsDistribution.data;
+      const plotState = protxAnalyticsDistribution.data;
 
       const showPlot = false; // Hide the plot while its still a work-in-progress.
 
@@ -343,9 +280,10 @@ function MainChart({
 
     /***********************/
     // NEW SERVER-SIDE CODE.
-    // const protxMaltreatmntDistribution = useSelector(
-    //   state => state.protxMaltreatmentDistribution
-    // );
+    const protxMaltreatmntDistribution = useSelector(
+      state => state.protxMaltreatmentDistribution
+    );
+    console.log(protxMaltreatmntDistribution);
 
     const dispatch = useDispatch();
 
