@@ -39,7 +39,7 @@ function MainChart({
   /***********************/
 
   if (chartType === 'analytics') {
-    /// ///////////////////////////
+    /***********************/
     // OLD CLIENT-SIDE CODE.
     const prepPredictiveFeaturesPlotData = () => {
       const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
@@ -96,7 +96,7 @@ function MainChart({
 
     const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
 
-    /// ///////////////////////////
+    /***********************/
     // NEW SERVER-SIDE CODE.
     // const protxAnalyticsDistribution = useSelector(
     //   state => state.protxAnalyticsDistribution
@@ -253,7 +253,7 @@ function MainChart({
   /***********************/
 
   if (chartType === 'maltreatment') {
-    /// ///////////////////////////
+    /***********************/
     // OLD CLIENT-SIDE CODE.
     const prepMaltreatmentPlotData = (
       selectedGeographicFeaturePrep,
@@ -341,7 +341,7 @@ function MainChart({
       showRate
     );
 
-    /// /////////////////////////
+    /***********************/
     // NEW SERVER-SIDE CODE.
     // const protxMaltreatmntDistribution = useSelector(
     //   state => state.protxMaltreatmentDistribution
