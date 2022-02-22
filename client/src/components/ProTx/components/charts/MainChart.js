@@ -39,6 +39,8 @@ function MainChart({
   /***********************/
 
   if (chartType === 'analytics') {
+    /// ///////////////////////////
+    // OLD CLIENT-SIDE CODE.
     const prepPredictiveFeaturesPlotData = () => {
       const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
 
@@ -93,32 +95,87 @@ function MainChart({
     };
 
     const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
-    const plotState = predictiveFeaturesPlotData.predictiveFeaturesPlotState;
-    const showPlot = false; // Hide the plot while its still a work-in-progress.
 
-    return (
-      <div className="predictive-features-chart">
-        <div className="predictive-features-plot">
-          <div className="predictive-features-plot-layout">
-            <PredictiveFeaturesTable
-              selectedGeographicFeature={selectedGeographicFeature}
-            />
-            {showPlot && (
-              <>
-                <AnalyticsDetails
-                  geography={geography}
-                  observedFeature={observedFeature}
-                  selectedGeographicFeature={selectedGeographicFeature}
-                  data={data}
-                />
-                <MainPlot plotState={plotState} />
-              </>
-            )}
-            <ChartInstructions currentReportType="hidden" />
+    /// ///////////////////////////
+    // NEW SERVER-SIDE CODE.
+    // const protxAnalyticsDistribution = useSelector(
+    //   state => state.protxAnalyticsDistribution
+    // );
+
+    const dispatch = useDispatch();
+
+    useEffect(
+      () => {
+        if (observedFeature === 'maltreatment') {
+          return;
+        }
+        if (selectedGeographicFeature) {
+          dispatch({
+            type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
+            payload: {
+              // area: geography,
+              // selectedArea: selectedGeographicFeature,
+              // variable: observedFeature,
+              // unit: showRate ? 'percent' : 'count'
+            }
+          });
+        }
+      },
+      [
+        // mapType,
+        // geography,
+        // observedFeature,
+        // selectedGeographicFeature,
+        // showRate
+      ]
+    );
+
+    if (selectedGeographicFeature && observedFeature) {
+      // if (protxAnalyticsDistribution.error) {
+      //   return (
+      //     <div className="data-error-message">
+      //       There was a problem loading the data.
+      //     </div>
+      //   );
+      // }
+
+      // if (protxAnalyticsDistribution.loading) {
+      //   return (
+      //     <div className="loading-spinner">
+      //       <LoadingSpinner />
+      //     </div>
+      //   );
+      // }
+
+      const plotState = predictiveFeaturesPlotData.predictiveFeaturesPlotState;
+      // const plotState = protxAnalyticsDistribution.data;
+
+      const showPlot = false; // Hide the plot while its still a work-in-progress.
+
+      return (
+        <div className="predictive-features-chart">
+          <div className="predictive-features-plot">
+            <div className="predictive-features-plot-layout">
+              <PredictiveFeaturesTable
+                selectedGeographicFeature={selectedGeographicFeature}
+              />
+              {showPlot && (
+                <>
+                  <AnalyticsDetails
+                    geography={geography}
+                    observedFeature={observedFeature}
+                    selectedGeographicFeature={selectedGeographicFeature}
+                    data={data}
+                  />
+                  <MainPlot plotState={plotState} />
+                </>
+              )}
+              <ChartInstructions currentReportType="hidden" />
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   /***********************/
@@ -196,6 +253,7 @@ function MainChart({
   /***********************/
 
   if (chartType === 'maltreatment') {
+    /// ///////////////////////////
     // OLD CLIENT-SIDE CODE.
     const prepMaltreatmentPlotData = (
       selectedGeographicFeaturePrep,
@@ -283,39 +341,36 @@ function MainChart({
       showRate
     );
 
+    /// /////////////////////////
     // NEW SERVER-SIDE CODE.
     // const protxMaltreatmntDistribution = useSelector(
     //   state => state.protxMaltreatmentDistribution
     // );
-    // console.log(protxMaltreatmntDistribution);
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // useEffect(
-    //   () => {
-    //     // if (observedFeature === 'maltreatment') {
-    //     //   return;
-    //     // }
-    //     if (selectedGeographicFeature) {
-    //       dispatch({
-    //         type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
-    //         payload: {
-    //           // area: geography,
-    //           // selectedArea: selectedGeographicFeature,
-    //           // variable: observedFeature,
-    //           // unit: showRate ? 'percent' : 'count'
-    //         }
-    //       });
-    //     }
-    //   },
-    //   [
-    //     //   mapType,
-    //     //   geography,
-    //     //   observedFeature,
-    //     //   selectedGeographicFeature,
-    //     //   showRate
-    //   ]
-    // );
+    useEffect(
+      () => {
+        if (selectedGeographicFeature) {
+          dispatch({
+            type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
+            payload: {
+              // area: geography,
+              // selectedArea: selectedGeographicFeature,
+              // variable: observedFeature,
+              // unit: showRate ? 'percent' : 'count'
+            }
+          });
+        }
+      },
+      [
+        //   mapType,
+        //   geography,
+        //   observedFeature,
+        //   selectedGeographicFeature,
+        //   showRate
+      ]
+    );
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       // if (protxMaltreatmentDistribution.error) {
@@ -334,8 +389,8 @@ function MainChart({
       //   );
       // }
 
-      // const plotState = protxMaltreatmentDistribution.data;
       const plotState = maltreatmentPlotData.malPlotState;
+      // const plotState = protxMaltreatmentDistribution.data;
 
       return (
         <div className="maltreatment-chart">
