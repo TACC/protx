@@ -6,7 +6,8 @@ import {
   getMaltreatmentTypeNames,
   getMaltreatmentSelectedValues,
   getMaltreatmentAggregatedValue,
-  getMaltreatmentTypesDataObject
+  getMaltreatmentTypesDataObject,
+  getPredictiveFeaturesDataObject
 } from '../shared/dataUtils';
 import {
   plotConfig,
@@ -38,85 +39,86 @@ function MainChart({
   /***********************/
 
   if (chartType === 'analytics') {
-    const showPlot = false; // Hide the plot in deployment until its done.
+    const prepPredictiveFeaturesPlotData = () => {
+      const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
 
-    // Dummy state data to make the empty plot render.
-    const protxAnalyticsDistribution = {
-      data: {}
+      // Transform the response from the query into the required object structure for the plot.
+      const predictiveFeaturesDataObject = [];
+
+      const axisCategories = [
+        'category',
+        'linear',
+        'log',
+        'date',
+        'multicategory',
+        '-'
+      ];
+
+      const plotTitle = 'Predictive Features';
+      const plotOrientation = 'v';
+      const showPlotLegend = true;
+      const plotXDataLabel = 'X DATA LABEL';
+      const plotXDataAxisType = axisCategories[1];
+      const plotYDataLabel = 'Y DATA LABEL';
+      const plotYDataAxisType = axisCategories[1];
+
+      const plotLayout = getPlotLayout(
+        plotTitle,
+        plotOrientation,
+        showPlotLegend,
+        plotXDataLabel,
+        plotXDataAxisType,
+        plotYDataLabel,
+        plotYDataAxisType
+      );
+
+      const plotData = getPlotDataBars(
+        'predictive',
+        predictiveFeaturesDataObject,
+        plotOrientation
+      );
+
+      const plotState = {
+        data: plotData,
+        layout: plotLayout,
+        config: plotConfig,
+        raw: newPredictiveFeaturesDataObject
+      };
+
+      const predictiveFeaturesPlotData = {
+        predictiveFeaturesPlotState: plotState
+      };
+
+      return predictiveFeaturesPlotData;
     };
 
-    // const protxAnalyticsDistribution = useSelector(
-    //   state => state.protxAnalyticsDistribution
-    // );
+    const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
+    const plotState = predictiveFeaturesPlotData.predictiveFeaturesPlotState;
+    const showPlot = false; // Hide the plot while its still a work-in-progress.
 
-    // const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //   if (observedFeature === 'maltreatment') {
-    //     return;
-    //   }
-    //   if (selectedGeographicFeature) {
-    //     dispatch({
-    //       type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
-    //       payload: {
-    //         area: geography,
-    //         selectedArea: selectedGeographicFeature,
-    //         variable: observedFeature,
-    //         unit: showRate ? 'percent' : 'count'
-    //       }
-    //     });
-    //   }
-    // }, [
-    //   mapType,
-    //   geography,
-    //   observedFeature,
-    //   selectedGeographicFeature,
-    //   showRate
-    // ]);
-
-    if (selectedGeographicFeature && observedFeature) {
-      // if (protxAnalyticsDistribution.error) {
-      //   return (
-      //     <div className="data-error-message">
-      //       There was a problem loading the data.
-      //     </div>
-      //   );
-      // }
-
-      // if (protxAnalyticsDistribution.loading) {
-      //   return (
-      //     <div className="loading-spinner">
-      //       <LoadingSpinner />
-      //     </div>
-      //   );
-      // }
-
-      const plotState = protxAnalyticsDistribution.data;
-
-      return (
-        <div className="predictive-features-chart">
-          <div className="predictive-features-plot">
-            <div className="predictive-features-plot-layout">
-              <PredictiveFeaturesTable
-                selectedGeographicFeature={selectedGeographicFeature}
-              />
-              {showPlot && (
-                <>
-                  <AnalyticsDetails
-                    geography={geography}
-                    observedFeature={observedFeature}
-                    selectedGeographicFeature={selectedGeographicFeature}
-                    data={data}
-                  />
-                  <MainPlot plotState={plotState} />
-                </>
-              )}
-              <ChartInstructions currentReportType="hidden" />
-            </div>
+    return (
+      <div className="predictive-features-chart">
+        <div className="predictive-features-plot">
+          <div className="predictive-features-plot-layout">
+            <PredictiveFeaturesTable
+              selectedGeographicFeature={selectedGeographicFeature}
+            />
+            {showPlot && (
+              <>
+                <AnalyticsDetails
+                  geography={geography}
+                  observedFeature={observedFeature}
+                  selectedGeographicFeature={selectedGeographicFeature}
+                  data={data}
+                />
+                <MainPlot plotState={plotState} />
+              </>
+            )}
+            <ChartInstructions currentReportType="hidden" />
           </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   /***********************/
@@ -194,39 +196,8 @@ function MainChart({
   /***********************/
 
   if (chartType === 'maltreatment') {
-    // const protxMaltreatmentDistribution = useSelector(
-    //   state => state.protxMaltreatmentDistribution
-    // );
-    // console.log(protxMaltreatmentDistribution);
-
-    // const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //   if (observedFeature === 'maltreatment') {
-    //     return;
-    //   }
-    //   if (selectedGeographicFeature) {
-    //     dispatch({
-    //       type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
-    //       payload: {
-    //         area: geography,
-    //         selectedArea: selectedGeographicFeature,
-    //         variable: observedFeature,
-    //         unit: showRate ? 'percent' : 'count'
-    //       }
-    //     });
-    //   }
-    // }, [
-    //   mapType,
-    //   geography,
-    //   observedFeature,
-    //   selectedGeographicFeature,
-    //   showRate
-    // ]);
-
-    /**
-     * TODO: Move maltreatment plot logic into redux saga and serverside module.
-     */
+    // Dummy state data to make the empty plot render.
+    let protxMaltreatmentDistribution = {};
 
     const prepMaltreatmentPlotData = (
       selectedGeographicFeaturePrep,
@@ -305,7 +276,7 @@ function MainChart({
       return maltreatmentPlotData;
     };
 
-    const maltreatmentPlotData = prepMaltreatmentPlotData(
+    protxMaltreatmentDistribution = prepMaltreatmentPlotData(
       selectedGeographicFeature,
       maltreatmentTypes,
       data,
@@ -314,21 +285,7 @@ function MainChart({
       showRate
     );
 
-    const maltreatmentTypesAggregate = getMaltreatmentAggregatedValue(
-      data,
-      geography,
-      year,
-      showRate,
-      selectedGeographicFeature,
-      maltreatmentTypes
-    ).toFixed(0);
-
-    const maltreatmentTypesList = getMaltreatmentTypeNames(
-      maltreatmentTypes,
-      data
-    );
-
-    const plotState = maltreatmentPlotData.malPlotState;
+    const plotState = protxMaltreatmentDistribution;
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       return (
@@ -339,11 +296,11 @@ function MainChart({
                 geography={geography}
                 selectedGeographicFeature={selectedGeographicFeature}
                 maltreatmentTypes={maltreatmentTypes}
-                maltreatmentPlotAggregate={maltreatmentTypesAggregate}
-                maltreatmentTypesList={maltreatmentTypesList}
+                maltreatmentPlotAggregate={plotState.malTypesAggregate}
+                maltreatmentTypesList={plotState.malTypesList}
                 showRate={showRate}
               />
-              <MainPlot plotState={plotState} />
+              <MainPlot plotState={plotState.malPlotState} />
               <ChartInstructions currentReportType="hidden" />
             </div>
           </div>
