@@ -71,7 +71,7 @@ MaltreatmentDetails.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   maltreatmentPlotAggregate: PropTypes.string.isRequired,
   maltreatmentTypesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  showRate: PropTypes.string.isRequired
+  showRate: PropTypes.bool.isRequired
 };
 
 export default MaltreatmentDetails;
