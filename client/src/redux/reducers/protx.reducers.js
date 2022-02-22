@@ -38,18 +38,18 @@ export function protxDemographicsDistribution(
   action
 ) {
   switch (action.type) {
-    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_INIT':
+    case 'PROTX_DEMOGRAPHICS_DISTRIBUTION_INIT':
       return {
         ...initialDemographicsDistributionState,
         loading: true
       };
-    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_SUCCESS':
+    case 'PROTX_DEMOGRAPHICS_DISTRIBUTION_SUCCESS':
       return {
         ...state,
         data: action.payload.data,
         loading: false
       };
-    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_FAILURE':
+    case 'PROTX_DEMOGRAPHICS_DISTRIBUTION_FAILURE':
       return {
         ...initialDemographicsDistributionState,
         error: true

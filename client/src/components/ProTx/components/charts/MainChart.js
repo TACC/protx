@@ -142,7 +142,7 @@ function MainChart({
       }
       if (selectedGeographicFeature) {
         dispatch({
-          type: 'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
+          type: 'FETCH_PROTX_DEMOGRAPHICS_DISTRIBUTION',
           payload: {
             area: geography,
             selectedArea: selectedGeographicFeature,

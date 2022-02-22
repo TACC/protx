@@ -47,21 +47,21 @@ export function* fetchProtx(action) {
   }
 }
 
-export function* fetchProtxDemographicDistribution(action) {
-  yield put({ type: 'PROTX_DEMOGRAPHIC_DISTRIBUTION_INIT' });
+export function* fetchProtxDemographicsDistribution(action) {
+  yield put({ type: 'PROTX_DEMOGRAPHICS_DISTRIBUTION_INIT' });
   try {
     const data = yield call(fetchUtil, {
       url: `/api/protx/demographics-plot-distribution/${action.payload.area}/${action.payload.selectedArea}/${action.payload.variable}/${action.payload.unit}/`
     });
     yield put({
-      type: 'PROTX_DEMOGRAPHIC_DISTRIBUTION_SUCCESS',
+      type: 'PROTX_DEMOGRAPHICS_DISTRIBUTION_SUCCESS',
       payload: {
         data: data.result
       }
     });
   } catch (error) {
     yield put({
-      type: 'PROTX_DEMOGRAPHIC_DISTRIBUTION_FAILURE'
+      type: 'PROTX_DEMOGRAPHICS_DISTRIBUTION_FAILURE'
     });
   }
 }
@@ -89,10 +89,10 @@ export function* watchProtx() {
   yield takeLeading('FETCH_PROTX', fetchProtx);
 }
 
-export function* watchProtxDemographicDistribution() {
+export function* watchProtxDemographicsDistribution() {
   yield takeLeading(
-    'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
-    fetchProtxDemographicDistribution
+    'FETCH_PROTX_DEMOGRAPHICS_DISTRIBUTION',
+    fetchProtxDemographicsDistribution
   );
 }
 
