@@ -38,23 +38,32 @@ GROUP BY
 
 # maltrt_query = '''
 MALTREATMENT_QUERY = '''
-select d.VALUE, d.GEOID, d.GEOTYPE, d.MALTREATMENT_NAME, d.YEAR, d.UNITS as count_or_pct,
-    g.DISPLAY_TEXT as geo_display, u.UNITS as units, u.DISPLAY_TEXT as units_display
-from maltreatment d
-left join display_geotype g on
-    g.GEOID = d.GEOID and
-    g.GEOTYPE = d.GEOTYPE and
+SELECT
+    d.VALUE,
+    d.GEOID,
+    d.GEOTYPE,
+    d.MALTREATMENT_NAME,
+    d.YEAR,
+    d.UNITS as count_or_pct,
+    g.DISPLAY_TEXT as geo_display,
+    u.UNITS as units,
+    u.DISPLAY_TEXT as units_display
+FROM maltreatment d
+LEFT JOIN display_geotype g ON
+    g.GEOID = d.GEOID AND
+    g.GEOTYPE = d.GEOTYPE AND
     g.YEAR = d.YEAR
-join display_data u on
+JOIN display_data u ON
     d.MALTREATMENT_NAME = u.NAME
-where d.GEOTYPE = "{area}" and
-    g.DISPLAY_TEXT = "{focal_area}" and
-    d.MALTREATMENT_NAME in ({variable}) and
+WHERE d.GEOTYPE = "{area}" AND
+    g.DISPLAY_TEXT = "{focal_area}" AND
+    d.MALTREATMENT_NAME IN ({variable}) AND
     d.units = "{units}";
 '''
 
 # ten-color qualitative palette from colorbrewer2
-maltrt_palette = {
+# maltrt_palette = {
+MALTREATMENT_PALETTE = {
     'Abandonment': '#a6cee3',
     'Emotional abuse': '#1f78b4',
     'Labor trafficking': '#b2df8a',
@@ -67,9 +76,10 @@ maltrt_palette = {
     'Sex trafficing': '#6a3d9a'
 }
 
+cooks_db = '/protx-data/cooks.db'
 resources_db = '/protx-data/resources.db'
 
-SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(demographics.db_name)
+SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(cooks_db)
 
 SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
 
