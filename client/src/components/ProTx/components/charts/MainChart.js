@@ -138,7 +138,7 @@ function MainChart({
       }
       if (selectedGeographicFeature) {
         dispatch({
-          type: 'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
+          type: 'FETCH_PROTX_DEMOGRAPHICS_DISTRIBUTION',
           payload: {
             area: geography,
             selectedArea: selectedGeographicFeature,
@@ -196,9 +196,7 @@ function MainChart({
   /***********************/
 
   if (chartType === 'maltreatment') {
-    // Dummy state data to make the empty plot render.
-    let protxMaltreatmentDistribution = {};
-
+    // OLD CLIENT-SIDE CODE.
     const prepMaltreatmentPlotData = (
       selectedGeographicFeaturePrep,
       maltreatmentTypesPrep,
@@ -276,7 +274,7 @@ function MainChart({
       return maltreatmentPlotData;
     };
 
-    protxMaltreatmentDistribution = prepMaltreatmentPlotData(
+    const maltreatmentPlotData = prepMaltreatmentPlotData(
       selectedGeographicFeature,
       maltreatmentTypes,
       data,
@@ -285,9 +283,60 @@ function MainChart({
       showRate
     );
 
-    const plotState = protxMaltreatmentDistribution;
+    // NEW SERVER-SIDE CODE.
+    // const protxMaltreatmntDistribution = useSelector(
+    //   state => state.protxMaltreatmentDistribution
+    // );
+    // console.log(protxMaltreatmntDistribution);
+
+    // const dispatch = useDispatch();
+
+    // useEffect(
+    //   () => {
+    //     // if (observedFeature === 'maltreatment') {
+    //     //   return;
+    //     // }
+    //     if (selectedGeographicFeature) {
+    //       dispatch({
+    //         type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
+    //         payload: {
+    //           // area: geography,
+    //           // selectedArea: selectedGeographicFeature,
+    //           // variable: observedFeature,
+    //           // unit: showRate ? 'percent' : 'count'
+    //         }
+    //       });
+    //     }
+    //   },
+    //   [
+    //     //   mapType,
+    //     //   geography,
+    //     //   observedFeature,
+    //     //   selectedGeographicFeature,
+    //     //   showRate
+    //   ]
+    // );
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
+      // if (protxMaltreatmentDistribution.error) {
+      //   return (
+      //     <div className="data-error-message">
+      //       There was a problem loading the data.
+      //     </div>
+      //   );
+      // }
+
+      // if (protxMaltreatmentDistribution.loading) {
+      //   return (
+      //     <div className="loading-spinner">
+      //       <LoadingSpinner />
+      //     </div>
+      //   );
+      // }
+
+      // const plotState = protxMaltreatmentDistribution.data;
+      const plotState = maltreatmentPlotData.malPlotState;
+
       return (
         <div className="maltreatment-chart">
           <div className="maltreatment-types-plot">
@@ -296,11 +345,13 @@ function MainChart({
                 geography={geography}
                 selectedGeographicFeature={selectedGeographicFeature}
                 maltreatmentTypes={maltreatmentTypes}
-                maltreatmentPlotAggregate={plotState.malTypesAggregate}
-                maltreatmentTypesList={plotState.malTypesList}
+                maltreatmentPlotAggregate={
+                  maltreatmentPlotData.malTypesAggregate
+                }
+                maltreatmentTypesList={maltreatmentPlotData.malTypesList}
                 showRate={showRate}
               />
-              <MainPlot plotState={plotState.malPlotState} />
+              <MainPlot plotState={plotState} />
               <ChartInstructions currentReportType="hidden" />
             </div>
           </div>

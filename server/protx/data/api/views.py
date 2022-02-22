@@ -16,23 +16,6 @@ logger = logging.getLogger(__name__)
 
 ANALYTICS_QUERY = "SELECT * FROM analytics d WHERE d.GEOTYPE='county'"
 
-ANALYTICS_MIN_MAX_QUERY = '''
-SELECT
-    d.GEOTYPE,
-    d.UNITS,
-    d.YEAR,
-    d.DEMOGRAPHICS_NAME,
-    MIN(d.value) AS MIN,
-    MAX(d.value) AS MAX
-FROM analytics d
-WHERE d.GEOTYPE='county'
-GROUP BY
-    d.GEOTYPE,
-    d.UNITS,
-    d.YEAR,
-    d.DEMOGRAPHICS_NAME;
-'''
-
 # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135
 DEMOGRAPHICS_QUERY = "SELECT * FROM demographics d WHERE d.GEOTYPE='county'"
 
@@ -53,31 +36,43 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
-MALTREATMENT_QUERY = "SELECT * FROM maltreatment"
-
-MALTREATMENT_MIN_MAX_QUERY = '''
-SELECT
-    m.GEOTYPE,
-    m.UNITS,
-    m.YEAR,
-    m.MALTREATMENT_NAME,
-    MIN(m.value) as MIN,
-    MAX(m.value) as MAX
-FROM maltreatment m
-GROUP BY
-    m.GEOTYPE,
-    m.UNITS,
-    m.YEAR,
-    m.MALTREATMENT_NAME;
+# maltrt_query = '''
+MALTREATMENT_QUERY = '''
+select d.VALUE, d.GEOID, d.GEOTYPE, d.MALTREATMENT_NAME, d.YEAR, d.UNITS as count_or_pct,
+    g.DISPLAY_TEXT as geo_display, u.UNITS as units, u.DISPLAY_TEXT as units_display
+from maltreatment d
+left join display_geotype g on
+    g.GEOID = d.GEOID and
+    g.GEOTYPE = d.GEOTYPE and
+    g.YEAR = d.YEAR
+join display_data u on
+    d.MALTREATMENT_NAME = u.NAME
+where d.GEOTYPE = "{area}" and
+    g.DISPLAY_TEXT = "{focal_area}" and
+    d.MALTREATMENT_NAME in ({variable}) and
+    d.units = "{units}";
 '''
+
+# ten-color qualitative palette from colorbrewer2
+maltrt_palette = {
+    'Abandonment': '#a6cee3',
+    'Emotional abuse': '#1f78b4',
+    'Labor trafficking': '#b2df8a',
+    'Medical neglect': '#33a02c',
+    'Neglectful supervision': '#fb9a99',
+    'Physical abuse': '#e31a1c',
+    'Physical neglect': '#fdbf6f',
+    'Refusal to accept parental responsibility': '#ff7f00',
+    'Sexual abuse': '#cab2d6',
+    'Sex trafficing': '#6a3d9a'
+}
 
 resources_db = '/protx-data/resources.db'
 
 SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(demographics.db_name)
+
 SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
 
-ANALYTICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
-MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
 
@@ -145,26 +140,28 @@ def get_analytics(request):
 @memoize_db_results(db_file=analytics.db_name)
 def get_analytics_cached():
     """Get analytics data
-
     """
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
+    # TODO: Wire up data query.
+    # engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
 
-    with engine.connect() as connection:
-        result = connection.execute(ANALYTICS_QUERY)
-        data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
+    # with engine.connect() as connection:
+    #     result = connection.execute(ANALYTICS_QUERY)
+    #     data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
 
-        result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
-        meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
-        return JsonResponse({"data": data, "meta": meta})
+    #     result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
+    #     meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
+    #     return JsonResponse({"data": data, "meta": meta})
+    return JsonResponse({"data": {}, "meta": {}})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_demographics(request):
     return get_demographics_cached()
 
 
-@memoize_db_results(db_file=demographics.db_name)
+@ memoize_db_results(db_file=demographics.db_name)
+# @memoize_db_results(db_file=db_name)
 def get_demographics_cached():
     """Get demographics data
 
@@ -180,13 +177,14 @@ def get_demographics_cached():
         return JsonResponse({"data": data, "meta": meta})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_maltreatment(request):
     return get_maltreatment_cached()
 
 
-@memoize_db_results(db_file=maltreatment.db_name)
+@ memoize_db_results(db_file=demographics.db_name)
+# @memoize_db_results(db_file=db_name)
 def get_maltreatment_cached():
     """Get maltreatment data
 
@@ -195,38 +193,39 @@ def get_maltreatment_cached():
 
     with engine.connect() as connection:
         result = connection.execute(MALTREATMENT_QUERY)
-        data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
+        print(result)
+        # data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
 
-        result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
-        meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
+        # result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
+        # meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
+        data = {}
+        meta = {}
         return JsonResponse({"data": data, "meta": meta})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get analytics distribution data for plotting
-
     """
     logger.info("Getting analytics plot data for {} {} {} {}".format(area, geoid, variable, unit))
-    # Need Analytics solution implemented here.
-    result = maltreatment.maltreatment_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    result = analytics.analytics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
-
     """
+    # TODO: Wire up correct figure rendering method.
     logger.info("Getting demographic plot data for {} {} {} {}".format(area, geoid, variable, unit))
     result = demographics.demographics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit):
     """Get maltreatment distribution data for plotting
 
@@ -237,7 +236,7 @@ def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit
     return JsonResponse({"result": result})
 
 
-@onboarded_required
+@ onboarded_required
 def get_display(request):
     """Get display information data
     """
@@ -257,14 +256,14 @@ def get_display(request):
         return JsonResponse({"variables": result})
 
 
-@onboarded_required
+@ onboarded_required
 def get_resources(request):
     """Get display information data
     """
     return get_resources_cached()
 
 
-@memoize_db_results(db_file=resources_db)
+@ memoize_db_results(db_file=resources_db)
 def get_resources_cached():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:

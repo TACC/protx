@@ -229,3 +229,33 @@ def timeseries_histogram(hist_data):
         range=hist_data['fig_aes']['xrange']
     )
     return(fig)
+
+
+def maltrt_stacked_bar(maltrt_data_dict):
+
+    data_coords = maltrt_data_dict['coords']
+    data = maltrt_data_dict['data']
+    palette = maltrt_data_dict['colors']
+
+    fig_data = []
+    for c in data_coords:
+        try:
+            maltrt_count = data[c]
+        except KeyError:
+            maltrt_count = [0]
+
+        fig_data.append(
+            go.Bar(name=c[1], x=[str(c[0])], y=maltrt_count, marker_color=palette[c[1]])
+        )
+
+    fig = go.Figure(data=fig_data)
+    fig.update_layout(barmode='stack')
+
+    # to deduplicate the legend, from https://stackoverflow.com/questions/26939121/how-to-avoid-duplicate-legend-labels-in-plotly-or-pass-custom-legend-labels
+    names = set()
+    fig.for_each_trace(
+        lambda trace:
+            trace.update(showlegend=False)
+            if (trace.name in names) else names.add(trace.name))
+
+    return fig
