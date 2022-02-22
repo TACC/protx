@@ -27,6 +27,38 @@ export function protx(state = initialState, action) {
   }
 }
 
+export const initialAnalyticsDistributionState = {
+  loading: true,
+  error: false,
+  data: null
+};
+
+export function protxAnalyticsDistribution(
+  state = initialAnalyticsDistributionState,
+  action
+) {
+  switch (action.type) {
+    case 'PROTX_ANALYTICS_DISTRIBUTION_INIT':
+      return {
+        ...initialAnalyticsDistributionState,
+        loading: true
+      };
+    case 'PROTX_ANALYTICS_DISTRIBUTION_SUCCESS':
+      return {
+        ...state,
+        data: action.payload.data,
+        loading: false
+      };
+    case 'PROTX_ANALYTICS_DISTRIBUTION_FAILURE':
+      return {
+        ...initialAnalyticsDistributionState,
+        error: true
+      };
+    default:
+      return state;
+  }
+}
+
 export const initialDemographicsDistributionState = {
   loading: true,
   error: false,
@@ -52,6 +84,38 @@ export function protxDemographicsDistribution(
     case 'PROTX_DEMOGRAPHICS_DISTRIBUTION_FAILURE':
       return {
         ...initialDemographicsDistributionState,
+        error: true
+      };
+    default:
+      return state;
+  }
+}
+
+export const initialMaltreatmentDistributionState = {
+  loading: true,
+  error: false,
+  data: null
+};
+
+export function protxMaltreatmentDistribution(
+  state = initialMaltreatmentDistributionState,
+  action
+) {
+  switch (action.type) {
+    case 'PROTX_MALTREATMENT_DISTRIBUTION_INIT':
+      return {
+        ...initialMaltreatmentDistributionState,
+        loading: true
+      };
+    case 'PROTX_MALTREATMENT_DISTRIBUTION_SUCCESS':
+      return {
+        ...state,
+        data: action.payload.data,
+        loading: false
+      };
+    case 'PROTX_MALTREATMENT_DISTRIBUTION_FAILURE':
+      return {
+        ...initialMaltreatmentDistributionState,
         error: true
       };
     default:

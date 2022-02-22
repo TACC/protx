@@ -20,7 +20,12 @@ import { onboarding } from './onboarding.reducers';
 import projects from './projects.reducers';
 import { users } from './users.reducers';
 import siteSearch from './siteSearch.reducers';
-import { protx, protxDemographicsDistribution } from './protx.reducers';
+import {
+  protx,
+  protxAnalyticsDistribution,
+  protxDemographicsDistribution,
+  protxMaltreatmentDistribution
+} from './protx.reducers';
 
 export default combineReducers({
   jobs,
@@ -46,5 +51,7 @@ export default combineReducers({
   users,
   siteSearch,
   protx,
-  protxDemographicsDistribution
+  protxAnalyticsDistribution,
+  protxDemographicsDistribution,
+  protxMaltreatmentDistribution
 });
