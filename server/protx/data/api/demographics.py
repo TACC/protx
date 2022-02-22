@@ -34,7 +34,6 @@ def hist_to_bar(vector, range_vals, bins):
 
 
 def pearson_kurtosis(x):
-
     sigma = np.std(x)
     mean = np.mean(x)
     deviation = x - mean

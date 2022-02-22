@@ -14,24 +14,6 @@ logger = logging.getLogger(__name__)
 # TODO single engine for django instance
 
 
-MALTREATMENT_QUERY = "SELECT * FROM maltreatment"
-
-MALTREATMENT_MIN_MAX_QUERY = '''
-SELECT
-    m.GEOTYPE,
-    m.UNITS,
-    m.YEAR,
-    m.MALTREATMENT_NAME,
-    MIN(m.value) as MIN,
-    MAX(m.value) as MAX
-FROM maltreatment m
-GROUP BY
-    m.GEOTYPE,
-    m.UNITS,
-    m.YEAR,
-    m.MALTREATMENT_NAME;
-'''
-
 # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135
 DEMOGRAPHICS_QUERY = "SELECT * FROM demographics d WHERE d.GEOTYPE='county'"
 
@@ -52,12 +34,43 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
+# maltrt_query = '''
+MALTREATMENT_QUERY = '''
+select d.VALUE, d.GEOID, d.GEOTYPE, d.MALTREATMENT_NAME, d.YEAR, d.UNITS as count_or_pct,
+    g.DISPLAY_TEXT as geo_display, u.UNITS as units, u.DISPLAY_TEXT as units_display
+from maltreatment d
+left join display_geotype g on
+    g.GEOID = d.GEOID and
+    g.GEOTYPE = d.GEOTYPE and
+    g.YEAR = d.YEAR
+join display_data u on
+    d.MALTREATMENT_NAME = u.NAME
+where d.GEOTYPE = "{area}" and
+    g.DISPLAY_TEXT = "{focal_area}" and
+    d.MALTREATMENT_NAME in ({variable}) and
+    d.units = "{units}";
+'''
+
+# ten-color qualitative palette from colorbrewer2
+maltrt_palette = {
+    'Abandonment': '#a6cee3',
+    'Emotional abuse': '#1f78b4',
+    'Labor trafficking': '#b2df8a',
+    'Medical neglect': '#33a02c',
+    'Neglectful supervision': '#fb9a99',
+    'Physical abuse': '#e31a1c',
+    'Physical neglect': '#fdbf6f',
+    'Refusal to accept parental responsibility': '#ff7f00',
+    'Sexual abuse': '#cab2d6',
+    'Sex trafficing': '#6a3d9a'
+}
+
 resources_db = '/protx-data/resources.db'
 
 SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(demographics.db_name)
+
 SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
 
-MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
 
@@ -118,33 +131,12 @@ def create_dict(data, level_keys):
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_maltreatment(request):
-    return get_maltreatment_cached()
-
-
-@memoize_db_results(db_file=demographics.db_name)
-def get_maltreatment_cached():
-    """Get maltreatment data
-
-    """
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
-
-    with engine.connect() as connection:
-        result = connection.execute(MALTREATMENT_QUERY)
-        data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
-
-        result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
-        meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
-        return JsonResponse({"data": data, "meta": meta})
-
-
-@onboarded_required
-@ensure_csrf_cookie
 def get_demographics(request):
     return get_demographics_cached()
 
 
 @memoize_db_results(db_file=demographics.db_name)
+# @memoize_db_results(db_file=db_name)
 def get_demographics_cached():
     """Get demographics data
 
@@ -157,6 +149,32 @@ def get_demographics_cached():
 
         result = connection.execute(DEMOGRAPHICS_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=DEMOGRAPHICS_JSON_STRUCTURE_KEYS[:-1])
+        return JsonResponse({"data": data, "meta": meta})
+
+
+@onboarded_required
+@ensure_csrf_cookie
+def get_maltreatment(request):
+    return get_maltreatment_cached()
+
+
+@memoize_db_results(db_file=demographics.db_name)
+# @memoize_db_results(db_file=db_name)
+def get_maltreatment_cached():
+    """Get maltreatment data
+
+    """
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
+
+    with engine.connect() as connection:
+        result = connection.execute(MALTREATMENT_QUERY)
+        print(result)
+        # data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
+
+        # result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
+        # meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
+        data = {}
+        meta = {}
         return JsonResponse({"data": data, "meta": meta})
 
 
