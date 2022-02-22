@@ -4,6 +4,8 @@ from protx.data.api import views
 
 app_name = 'protx_api'
 urlpatterns = [
+    url('analytics/', views.get_analytics, name='data'),
+    path('analytics-plot-distribution/<area>/<geoid>/<variable>/<unit>/', views.get_analytics_distribution_plot_data, name='data'),
     url('demographics/', views.get_demographics, name='data'),
     path('demographics-plot-distribution/<area>/<geoid>/<variable>/<unit>/', views.get_demographics_distribution_plot_data, name='data'),
     url('display/', views.get_display, name='data'),

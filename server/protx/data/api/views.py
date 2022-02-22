@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from sqlalchemy import create_engine
 import logging
 
+from protx.data.api import analytics
 from protx.data.api import demographics
 from protx.data.api import maltreatment
 from protx.data.api.decorators import onboarded_required, memoize_db_results
@@ -131,11 +132,34 @@ def create_dict(data, level_keys):
 
 @onboarded_required
 @ensure_csrf_cookie
+def get_analytics(request):
+    return get_analytics_cached()
+
+
+@memoize_db_results(db_file=analytics.db_name)
+def get_analytics_cached():
+    """Get analytics data
+    """
+    # TODO: Wire up data query.
+    # engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
+
+    # with engine.connect() as connection:
+    #     result = connection.execute(ANALYTICS_QUERY)
+    #     data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
+
+    #     result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
+    #     meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
+    #     return JsonResponse({"data": data, "meta": meta})
+    return JsonResponse({"data": {}, "meta": {}})
+
+
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_demographics(request):
     return get_demographics_cached()
 
 
-@memoize_db_results(db_file=demographics.db_name)
+@ memoize_db_results(db_file=demographics.db_name)
 # @memoize_db_results(db_file=db_name)
 def get_demographics_cached():
     """Get demographics data
@@ -152,13 +176,13 @@ def get_demographics_cached():
         return JsonResponse({"data": data, "meta": meta})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_maltreatment(request):
     return get_maltreatment_cached()
 
 
-@memoize_db_results(db_file=demographics.db_name)
+@ memoize_db_results(db_file=demographics.db_name)
 # @memoize_db_results(db_file=db_name)
 def get_maltreatment_cached():
     """Get maltreatment data
@@ -178,19 +202,29 @@ def get_maltreatment_cached():
         return JsonResponse({"data": data, "meta": meta})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
+def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
+    """Get analytics distribution data for plotting
+    """
+    logger.info("Getting analytics plot data for {} {} {} {}".format(area, geoid, variable, unit))
+    result = analytics.analytics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    return JsonResponse({"result": result})
+
+
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
-
     """
+    # TODO: Wire up correct figure rendering method.
     logger.info("Getting demographic plot data for {} {} {} {}".format(area, geoid, variable, unit))
     result = demographics.demographics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 
-@onboarded_required
-@ensure_csrf_cookie
+@ onboarded_required
+@ ensure_csrf_cookie
 def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit):
     """Get maltreatment distribution data for plotting
 
@@ -200,7 +234,7 @@ def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit
     return JsonResponse({"result": result})
 
 
-@onboarded_required
+@ onboarded_required
 def get_display(request):
     """Get display information data
     """
@@ -220,14 +254,14 @@ def get_display(request):
         return JsonResponse({"variables": result})
 
 
-@onboarded_required
+@ onboarded_required
 def get_resources(request):
     """Get display information data
     """
     return get_resources_cached()
 
 
-@memoize_db_results(db_file=resources_db)
+@ memoize_db_results(db_file=resources_db)
 def get_resources_cached():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
