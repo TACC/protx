@@ -47,6 +47,25 @@ export function* fetchProtx(action) {
   }
 }
 
+export function* fetchProtxAnalyticsDistribution(action) {
+  yield put({ type: 'PROTX_ANALYTICS_DISTRIBUTION_INIT' });
+  try {
+    const data = yield call(fetchUtil, {
+      url: `/api/protx/analytics-plot-distribution/${action.payload.area}/${action.payload.selectedArea}/${action.payload.variable}/${action.payload.unit}/`
+    });
+    yield put({
+      type: 'PROTX_ANALYTICS_DISTRIBUTION_SUCCESS',
+      payload: {
+        data: data.result
+      }
+    });
+  } catch (error) {
+    yield put({
+      type: 'PROTX_ANALYTICS_DISTRIBUTION_FAILURE'
+    });
+  }
+}
+
 export function* fetchProtxDemographicsDistribution(action) {
   yield put({ type: 'PROTX_DEMOGRAPHICS_DISTRIBUTION_INIT' });
   try {
@@ -87,6 +106,13 @@ export function* fetchProtxMaltreatmentDistribution(action) {
 
 export function* watchProtx() {
   yield takeLeading('FETCH_PROTX', fetchProtx);
+}
+
+export function* watchProtxAnalyticsDistribution() {
+  yield takeLeading(
+    'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
+    fetchProtxAnalyticsDistribution
+  );
 }
 
 export function* watchProtxDemographicsDistribution() {
