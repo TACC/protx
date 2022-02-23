@@ -52,7 +52,6 @@ function MaltreatmentDetails({
               {maltreatmentLabel}
             </span>
             <span className="plot-details-section-selected-value">
-              {/* {maltreatmentPlotAggregate} */}
               {maltreatmentTypesAggregatedValue}
             </span>
           </div>
