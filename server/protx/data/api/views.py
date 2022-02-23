@@ -46,6 +46,7 @@ SELECT
     MIN(m.value) as MIN,
     MAX(m.value) as MAX
 FROM maltreatment m
+WHERE m.GEOTYPE='county'
 GROUP BY
     m.GEOTYPE,
     m.UNITS,
