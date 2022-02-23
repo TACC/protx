@@ -102,14 +102,14 @@ def maltrt_stacked_bar(maltrt_data_dict):
     return fig
 
 
-def maltreatment_plot_figure(area, selectedArea, variable, unit, malTypes):
+def maltreatment_plot_figure(area, geoid, variable, unit, malTypes):
     maltreatmentTypes = malTypes.split(",")
     separator = '", "'
     noBraces = '"' + separator.join(maltreatmentTypes) + '"'
 
     user_select_data = {
         'area': area,
-        'focal_area': selectedArea,
+        'focal_area': geoid,
         'units': unit,
         'variable': noBraces
     }
