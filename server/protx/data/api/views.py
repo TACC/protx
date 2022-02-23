@@ -222,7 +222,7 @@ def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get analytics distribution data for plotting
     """
     logger.info("Getting analytics plot data for {} {} {} {}".format(area, geoid, variable, unit))
-    result = analytics.analytics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    result = analytics.analytics_plot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 

@@ -28,51 +28,55 @@ function MainChart({
   /***********************/
 
   if (chartType === 'analytics') {
-    const protxAnalyticsDistribution = useSelector(
-      state => state.protxAnalyticsDistribution
-    );
+    // const protxAnalyticsDistribution = useSelector(
+    //   state => state.protxAnalyticsDistribution
+    // );
 
-    const dispatch = useDispatch();
+    const protxAnalyticsDistribution = {
+      data: {}
+    };
 
-    useEffect(() => {
-      if (observedFeature === 'maltreatment') {
-        return;
-      }
-      if (selectedGeographicFeature) {
-        dispatch({
-          type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
-          payload: {
-            area: geography,
-            selectedArea: selectedGeographicFeature,
-            variable: observedFeature,
-            unit: showRate ? 'percent' : 'count'
-          }
-        });
-      }
-    }, [
-      mapType,
-      geography,
-      observedFeature,
-      selectedGeographicFeature,
-      showRate
-    ]);
+    // const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //   if (observedFeature === 'maltreatment') {
+    //     return;
+    //   }
+    //   if (selectedGeographicFeature) {
+    //     dispatch({
+    //       type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
+    //       payload: {
+    //         area: geography,
+    //         selectedArea: selectedGeographicFeature,
+    //         variable: observedFeature,
+    //         unit: showRate ? 'percent' : 'count'
+    //       }
+    //     });
+    //   }
+    // }, [
+    //   mapType,
+    //   geography,
+    //   observedFeature,
+    //   selectedGeographicFeature,
+    //   showRate
+    // ]);
 
     if (selectedGeographicFeature && observedFeature) {
-      if (protxAnalyticsDistribution.error) {
-        return (
-          <div className="data-error-message">
-            There was a problem loading the data.
-          </div>
-        );
-      }
+      // if (protxAnalyticsDistribution.error) {
+      //   return (
+      //     <div className="data-error-message">
+      //       There was a problem loading the data.
+      //     </div>
+      //   );
+      // }
 
-      if (protxAnalyticsDistribution.loading) {
-        return (
-          <div className="loading-spinner">
-            <LoadingSpinner />
-          </div>
-        );
-      }
+      // if (protxAnalyticsDistribution.loading) {
+      //   return (
+      //     <div className="loading-spinner">
+      //       <LoadingSpinner />
+      //     </div>
+      //   );
+      // }
 
       const plotState = protxAnalyticsDistribution.data;
 
