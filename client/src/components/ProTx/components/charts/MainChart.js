@@ -8,6 +8,7 @@ import MaltreatmentDetails from './MaltreatmentDetails';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
 import AnalyticsDetails from './AnalyticsDetails';
 import MainPlot from './MainPlot';
+import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
 import './MainChart.css';
 
 function MainChart({
@@ -184,17 +185,35 @@ function MainChart({
 
     const dispatch = useDispatch();
 
+    const selectedGeographicFeatureName = getFipsIdName(
+      selectedGeographicFeature
+    );
+
+    const selectedGeographicFeatureNameComplete = `${selectedGeographicFeatureName} ${capitalizeString(
+      geography
+    )}`;
+
     useEffect(() => {
       if (selectedGeographicFeature) {
         dispatch({
           type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
           payload: {
-            selectedArea: selectedGeographicFeature,
-            variable: observedFeature
+            area: geography,
+            selectedArea: selectedGeographicFeatureNameComplete,
+            variable: observedFeature,
+            unit: showRate ? 'percent' : 'count',
+            malTypes: maltreatmentTypes
           }
         });
       }
-    }, [observedFeature, selectedGeographicFeature]);
+    }, [
+      mapType,
+      geography,
+      observedFeature,
+      selectedGeographicFeatureNameComplete,
+      showRate,
+      maltreatmentTypes
+    ]);
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       if (protxMaltreatmentDistribution.error) {

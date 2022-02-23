@@ -12,13 +12,15 @@ maltrt_palette = {
     'Abandonment': '#a6cee3',
     'Emotional abuse': '#1f78b4',
     'Labor trafficking': '#b2df8a',
+    'Labor trafficing': '#b2df8a',
     'Medical neglect': '#33a02c',
     'Neglectful supervision': '#fb9a99',
     'Physical abuse': '#e31a1c',
     'Physical neglect': '#fdbf6f',
     'Refusal to accept parental responsibility': '#ff7f00',
     'Sexual abuse': '#cab2d6',
-    'Sex trafficing': '#6a3d9a'
+    'Sex trafficing': '#6a3d9a',
+    'Sex trafficking': '#6a3d9a'
 }
 
 maltrt_query = '''
@@ -50,8 +52,8 @@ def query_return(user_selection, db_conn, palette=maltrt_palette):
 
     # don't show percents when user has selected all maltreatment types
     # todo: move this sanity check to elsewhere in processing?
-    if user_selection['units'] == 'percent':
-        assert user_selection['variable'] == '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
+    # if user_selection['units'] == 'percent':
+    #     assert user_selection['variable'] == '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
 
     # query user input (return all units, regardless of user selection)
     # query template defined in global namespace
@@ -101,16 +103,16 @@ def maltrt_stacked_bar(maltrt_data_dict):
     return fig
 
 
-def maltreatment_plot_figure(area, geoid, variable, unit):
-    print(area, geoid, variable, unit)
+def maltreatment_plot_figure(area, selectedArea, variable, unit, malTypes):
+    maltreatmentTypes = malTypes.split(",")
+    separator = '", "'
+    noBraces = '"' + separator.join(maltreatmentTypes) + '"'
 
-    # hard-coded example.
-    # Get this from the state.
     user_select_data = {
-        'area': 'county',
-        'focal_area': 'Harris County',
-        'units': 'percent',
-        'variable': '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
+        'area': area,
+        'focal_area': selectedArea,
+        'units': unit,
+        'variable': noBraces
     }
 
     db_conn = sqlite3.connect(db_name)

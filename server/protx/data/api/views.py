@@ -239,11 +239,11 @@ def get_demographics_distribution_plot_data(request, area, geoid, variable, unit
 
 @ onboarded_required
 @ ensure_csrf_cookie
-def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit):
+def get_maltreatment_distribution_plot_data(request, area, selectedArea, variable, unit, malTypes):
     """Get maltreatment distribution data for plotting
     """
-    logger.info("Getting maltreatment plot data for {} {} {} {}".format(area, geoid, variable, unit))
-    result = maltreatment.maltreatment_plot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    logger.info("Getting maltreatment plot data for {} {} {} {} {}".format(area, selectedArea, variable, unit, malTypes))
+    result = maltreatment.maltreatment_plot_figure(area=area, selectedArea=selectedArea, variable=variable, unit=unit, malTypes=malTypes)
     return JsonResponse({"result": result})
 
 
