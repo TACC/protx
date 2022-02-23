@@ -126,7 +126,7 @@ def get_demographics(request):
     return get_demographics_cached()
 
 
-@ memoize_db_results(db_file=demographics.db_name)
+@memoize_db_results(db_file=demographics.db_name)
 def get_demographics_cached():
     """Get demographics data
 
@@ -142,13 +142,13 @@ def get_demographics_cached():
         return JsonResponse({"data": data, "meta": meta})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_maltreatment(request):
     return get_maltreatment_cached()
 
 
-@ memoize_db_results(db_file=maltreatment.db_name)
+@memoize_db_results(db_file=maltreatment.db_name)
 def get_maltreatment_cached():
     """Get maltreatment data
 
@@ -164,8 +164,8 @@ def get_maltreatment_cached():
         return JsonResponse({"data": data, "meta": meta})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get analytics distribution data for plotting
     """
@@ -174,8 +174,8 @@ def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
     return JsonResponse({"result": result})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
     """
@@ -185,8 +185,8 @@ def get_demographics_distribution_plot_data(request, area, geoid, variable, unit
     return JsonResponse({"result": result})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_maltreatment_distribution_plot_data(request):
     """Get maltreatment distribution data for plotting
     """
@@ -204,7 +204,7 @@ def get_maltreatment_distribution_plot_data(request):
     return JsonResponse({"result": result})
 
 
-@ onboarded_required
+@onboarded_required
 def get_display(request):
     """Get display information data
     """
@@ -224,7 +224,7 @@ def get_display(request):
         return JsonResponse({"variables": result})
 
 
-@ onboarded_required
+@onboarded_required
 def get_resources(request):
     """Get display information data
     """
