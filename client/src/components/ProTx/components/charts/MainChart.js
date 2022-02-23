@@ -193,10 +193,6 @@ function MainChart({
       selectedGeographicFeature
     );
 
-    const selectedGeographicFeatureNameComplete = `${selectedGeographicFeatureName} ${capitalizeString(
-      geography
-    )}`;
-
     useEffect(() => {
       if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
         dispatch({
