@@ -23,27 +23,20 @@ maltrt_palette = {
     'Sex trafficking': '#6a3d9a'
 }
 
+
 maltrt_query = '''
-SELECT
-    d.VALUE,
-    d.GEOID,
-    d.GEOTYPE,
-    d.MALTREATMENT_NAME,
-    d.YEAR,
-    d.UNITS as count_or_pct,
-    g.DISPLAY_TEXT as geo_display,
-    u.UNITS as units,
-    u.DISPLAY_TEXT as units_display
-FROM maltreatment d
-LEFT JOIN display_geotype g ON
-    g.GEOID = d.GEOID AND
-    g.GEOTYPE = d.GEOTYPE AND
+select d.VALUE, d.GEOID, d.GEOTYPE, d.MALTREATMENT_NAME, d.YEAR, d.UNITS as count_or_pct,
+    g.DISPLAY_TEXT as geo_display, u.UNITS as units, u.DISPLAY_TEXT as units_display
+from maltreatment d
+left join display_geotype g on
+    g.GEOID = d.GEOID and
+    g.GEOTYPE = d.GEOTYPE and
     g.YEAR = d.YEAR
-JOIN display_data u ON
+join display_data u on
     d.MALTREATMENT_NAME = u.NAME
-WHERE d.GEOTYPE = "{area}" AND
-    g.DISPLAY_TEXT = "{focal_area}" AND
-    d.MALTREATMENT_NAME IN ({variable}) AND
+where d.GEOTYPE = "{area}" and
+    g.DISPLAY_TEXT = "{focal_area}" and
+    d.MALTREATMENT_NAME in ({variable}) and
     d.units = "{units}";
 '''
 
@@ -121,8 +114,6 @@ def maltreatment_plot_figure(area, selectedArea, variable, unit, malTypes):
         'variable': noBraces
     }
 
-    # db_conn = sqlite3.connect(db_name)
     maltrt_data = query_return(user_select_data, db_name)
-    # db_conn.close()
     plot_figure = maltrt_stacked_bar(maltrt_data)
     return json.loads(plot_figure.to_json())
