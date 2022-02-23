@@ -7,7 +7,7 @@ import pandas as pd
 db_name = '/protx-data/cooks.db'
 
 
-def analytics_plot_figure(area, selectedArea, variable, unit):
+def analytics_plot_figure(area, geoid, variable, unit):
     # TODO: Analytics plot logic.
     dummy_plot = {
         "data": [{"type": "bar",
@@ -16,4 +16,4 @@ def analytics_plot_figure(area, selectedArea, variable, unit):
         "layout": {"title": {"text": "Analytics"}}
     }
     plot_figure = dict(dummy_plot)
-    return json.loads(plot_figure.to_json())
+    return plot_figure

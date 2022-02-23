@@ -76,7 +76,7 @@ function MainChart({
 
       const plotState = protxAnalyticsDistribution.data;
 
-      const showPlot = false; // Hide the plot while in dev.
+      const showPlot = true; // Hide the plot while in dev.
 
       return (
         <div className="predictive-features-chart">
