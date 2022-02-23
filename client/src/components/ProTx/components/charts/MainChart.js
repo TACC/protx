@@ -185,16 +185,18 @@ function MainChart({
     const dispatch = useDispatch();
 
     useEffect(() => {
-      if (selectedGeographicFeature) {
+      if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
         dispatch({
           type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
           payload: {
-            selectedArea: selectedGeographicFeature,
-            variable: observedFeature
+            geography,
+            selectedGeographicFeature,
+            maltreatmentTypes,
+            showRate
           }
         });
       }
-    }, [observedFeature, selectedGeographicFeature]);
+    }, [geography, selectedGeographicFeature, maltreatmentTypes, showRate]);
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       if (protxMaltreatmentDistribution.error) {

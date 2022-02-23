@@ -2,6 +2,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from sqlalchemy import create_engine
 import logging
+import json
 
 from protx.data.api import analytics
 from protx.data.api import demographics
@@ -239,11 +240,20 @@ def get_demographics_distribution_plot_data(request, area, geoid, variable, unit
 
 @ onboarded_required
 @ ensure_csrf_cookie
-def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit):
+def get_maltreatment_distribution_plot_data(request):
     """Get maltreatment distribution data for plotting
     """
-    logger.info("Getting maltreatment plot data for {} {} {} {}".format(area, geoid, variable, unit))
-    result = maltreatment.maltreatment_plot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    body = json.loads(request.body)
+    area = body["area"]
+    geoid = body["geoid"]
+    unit = body["unit"]
+    variables = body["variables"]
+    logger.info("{}".format(variables))
+    logger.info("Getting maltreatment plot data for {} {} {} on the variables: {}".format(area,
+                                                                                             geoid,
+                                                                                             unit,
+                                                                                             variables))
+    result = maltreatment.maltreatment_plot_figure(area=area, geoid=geoid, variables=variables, unit=unit)
     return JsonResponse({"result": result})
 
 

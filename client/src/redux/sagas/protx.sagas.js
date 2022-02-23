@@ -92,7 +92,17 @@ export function* fetchProtxMaltreatmentDistribution(action) {
   yield put({ type: 'PROTX_MALTREATMENT_DISTRIBUTION_INIT' });
   try {
     const data = yield call(fetchUtil, {
-      url: `/api/protx/maltreatment-plot-distribution/${action.payload.area}/${action.payload.selectedArea}/${action.payload.variable}/${action.payload.unit}/`
+      url: `/api/protx/maltreatment-plot-distribution/`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'PATCH',
+      body: JSON.stringify({
+        area: action.payload.geography,
+        geoid: action.payload.selectedGeographicFeature,
+        variables: action.payload.maltreatmentTypes,
+        unit: action.payload.showRate ? 'percent' : 'count'
+      })
     });
     yield put({
       type: 'PROTX_MALTREATMENT_DISTRIBUTION_SUCCESS',
