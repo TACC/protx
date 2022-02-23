@@ -7,7 +7,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# from protx.data.api.utils.plotly_figures import maltrt_stacked_bar
 
 db_name = '/protx-data/cooks.db'
 
@@ -114,6 +113,7 @@ def maltreatment_plot_figure(area, geoid, variables, unit):
 
     db_conn = sqlite3.connect(db_name)
     maltrt_data = query_return(user_select_data, db_conn)
+    db_conn.close()
     plot_figure = maltrt_stacked_bar(maltrt_data)
     db_conn.close()
 
