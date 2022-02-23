@@ -179,12 +179,13 @@ function MainChart({
   /***********************/
 
   if (chartType === 'maltreatment') {
-    const protxMaltreatmentDistribution = useSelector(
-      state => state.protxMaltreatmentDistribution
-    );
-
-    const dispatch = useDispatch();
-
+    /**
+     * TODO: Use geoid value instead of selectedArea string value on backend.
+     * Description: The python maltreatment code renders off the selectedArea string value instead of the geoid value.
+     * We are passing the geoid to the back end already.
+     * We also pass along the munged string for selectedArea to be used as the key value in the plotly code. This is the way Kelly coded it.
+     * We should review the plotly server-side code and identify a way to use the geoid value rather than pass the munged string value for selectedArea.
+     **/
     const selectedGeographicFeatureName = getFipsIdName(
       selectedGeographicFeature
     );
@@ -192,6 +193,12 @@ function MainChart({
     const selectedGeographicFeatureNameComplete = `${selectedGeographicFeatureName} ${capitalizeString(
       geography
     )}`;
+
+    const protxMaltreatmentDistribution = useSelector(
+      state => state.protxMaltreatmentDistribution
+    );
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
       if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {

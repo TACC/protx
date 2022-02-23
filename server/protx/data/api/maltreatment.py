@@ -26,6 +26,10 @@ maltrt_palette = {
 }
 
 
+""" 
+TODO: Lookup the {focal_value} string value using the geoid value instead of passing the selectedArea string vaalue from the client. The {focal_value}is used as the DISPLAY_TEXT in the query.
+"""
+
 maltrt_query = '''
 select d.VALUE, d.GEOID, d.GEOTYPE, d.MALTREATMENT_NAME, d.YEAR, d.UNITS as count_or_pct,
     g.DISPLAY_TEXT as geo_display, u.UNITS as units, u.DISPLAY_TEXT as units_display
@@ -97,6 +101,8 @@ def maltrt_stacked_bar(maltrt_data_dict):
 
     return fig
 
+
+#  TODO: switch to using the geoid value instead of the selectedArea string.
 
 def maltreatment_plot_figure(area, selectedArea, geoid, variables, unit):
     logger.info("Selected maltreatment variables are: {}".format(variables))
