@@ -8,7 +8,6 @@ import MaltreatmentDetails from './MaltreatmentDetails';
 import PredictiveFeaturesTable from './PredictiveFeaturesTable';
 import AnalyticsDetails from './AnalyticsDetails';
 import MainPlot from './MainPlot';
-import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
 import './MainChart.css';
 
 function MainChart({
@@ -188,10 +187,6 @@ function MainChart({
     );
 
     const dispatch = useDispatch();
-
-    const selectedGeographicFeatureName = getFipsIdName(
-      selectedGeographicFeature
-    );
 
     useEffect(() => {
       if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
