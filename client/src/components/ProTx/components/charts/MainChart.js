@@ -181,10 +181,12 @@ function MainChart({
   if (chartType === 'maltreatment') {
     /**
      * TODO: Use geoid value instead of selectedArea string value on backend.
-     * Description: The python maltreatment code renders off the selectedArea string value instead of the geoid value.
-     * We are passing the geoid to the back end already.
-     * We also pass along the munged string for selectedArea to be used as the key value in the plotly code. This is the way Kelly coded it.
+     * Description: The python maltreatment code on the backend renders the plot off the selectedArea string value instead of the geoid value.
+     * Note: we are passing the geoid to the back end already.
+     * Currently we pass along a munged string for the selectedArea (by looking up the geoid and appending the capitalized geogrpahy type with a space) to be used as the key value in the plotly rendering code.
+     * This is the way Kelly coded it.
      * We should review the plotly server-side code and identify a way to use the geoid value rather than pass the munged string value for selectedArea.
+     * NOTE: We should identify a phased process for integrating a new plot from jupyter into the portal api so it is less intensive per sprint, makes more manageable PRs and helps WMA manage development  expectations better.
      **/
     const selectedGeographicFeatureName = getFipsIdName(
       selectedGeographicFeature
