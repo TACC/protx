@@ -2,17 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { LoadingSpinner } from '_common';
-import {
-  getMaltreatmentTypeNames,
-  getMaltreatmentSelectedValues,
-  getMaltreatmentAggregatedValue,
-  getMaltreatmentTypesDataObject
-} from '../shared/dataUtils';
-import {
-  plotConfig,
-  getPlotLayout,
-  getPlotDataBars
-} from '../shared/plotUtils';
 import ChartInstructions from './ChartInstructions';
 import DemographicsDetails from './DemographicsDetails';
 import MaltreatmentDetails from './MaltreatmentDetails';
@@ -41,7 +30,6 @@ function MainChart({
     const protxAnalyticsDistribution = useSelector(
       state => state.protxAnalyticsDistribution
     );
-    console.log(protxAnalyticsDistribution);
 
     const dispatch = useDispatch();
 
@@ -69,25 +57,25 @@ function MainChart({
     ]);
 
     if (selectedGeographicFeature && observedFeature) {
-      // if (protxAnalyticsDistribution.error) {
-      //   return (
-      //     <div className="data-error-message">
-      //       There was a problem loading the data.
-      //     </div>
-      //   );
-      // }
+      if (protxAnalyticsDistribution.error) {
+        return (
+          <div className="data-error-message">
+            There was a problem loading the data.
+          </div>
+        );
+      }
 
-      // if (protxAnalyticsDistribution.loading) {
-      //   return (
-      //     <div className="loading-spinner">
-      //       <LoadingSpinner />
-      //     </div>
-      //   );
-      // }
+      if (protxAnalyticsDistribution.loading) {
+        return (
+          <div className="loading-spinner">
+            <LoadingSpinner />
+          </div>
+        );
+      }
 
       const plotState = protxAnalyticsDistribution.data;
 
-      const showPlot = false; // Hide the plot while its still a work-in-progress.
+      const showPlot = true; // Hide the plot while in dev.
 
       return (
         <div className="predictive-features-chart">
@@ -190,145 +178,42 @@ function MainChart({
   /***********************/
 
   if (chartType === 'maltreatment') {
-    /***********************/
-    // OLD CLIENT-SIDE CODE.
-    const prepMaltreatmentPlotData = (
-      selectedGeographicFeaturePrep,
-      maltreatmentTypesPrep,
-      dataPrep,
-      geographyPrep,
-      yearPrep,
-      showRatePrep
-    ) => {
-      const geoid = selectedGeographicFeaturePrep;
-      const maltreatmentTypesList = getMaltreatmentTypeNames(
-        maltreatmentTypesPrep,
-        dataPrep
-      );
-
-      const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
-        dataPrep,
-        geographyPrep,
-        yearPrep,
-        showRatePrep,
-        geoid,
-        maltreatmentTypesPrep
-      );
-
-      const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
-        dataPrep,
-        geographyPrep,
-        yearPrep,
-        showRatePrep,
-        geoid,
-        maltreatmentTypesPrep
-      ).toFixed(0);
-
-      const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
-        maltreatmentTypesPrep,
-        maltreatmentTypesList,
-        maltreatmentTypesDataValues
-      );
-
-      const plotTitle = 'Maltreatment Types';
-      const plotOrientation = 'v';
-      const showPlotLegend = false;
-      const plotXDataLabel = 'Maltreatment Type';
-      const plotXDataAxisType = 'category';
-      const plotYDataLabel = 'Total Number of Cases in Selected County';
-      const plotYDataAxisType = 'linear';
-
-      const plotLayout = getPlotLayout(
-        plotTitle,
-        plotOrientation,
-        showPlotLegend,
-        plotXDataLabel,
-        plotXDataAxisType,
-        plotYDataLabel,
-        plotYDataAxisType
-      );
-
-      const plotData = getPlotDataBars(
-        'maltreatment',
-        maltreatmentTypesDataObject,
-        plotOrientation
-      );
-
-      const plotState = {
-        data: plotData,
-        layout: plotLayout,
-        config: plotConfig
-      };
-
-      const maltreatmentPlotData = {
-        malTypesAggregate: maltreatmentTypesDataAggregate,
-        malTypesList: maltreatmentTypesList,
-        malPlotState: plotState
-      };
-
-      return maltreatmentPlotData;
-    };
-
-    const maltreatmentPlotData = prepMaltreatmentPlotData(
-      selectedGeographicFeature,
-      maltreatmentTypes,
-      data,
-      geography,
-      year,
-      showRate
-    );
-
-    /***********************/
-    // NEW SERVER-SIDE CODE.
-    const protxMaltreatmntDistribution = useSelector(
+    const protxMaltreatmentDistribution = useSelector(
       state => state.protxMaltreatmentDistribution
     );
-    console.log(protxMaltreatmntDistribution);
 
     const dispatch = useDispatch();
 
-    useEffect(
-      () => {
-        if (selectedGeographicFeature) {
-          dispatch({
-            type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
-            payload: {
-              // area: geography,
-              // selectedArea: selectedGeographicFeature,
-              // variable: observedFeature,
-              // unit: showRate ? 'percent' : 'count'
-            }
-          });
-        }
-      },
-      [
-        //   mapType,
-        //   geography,
-        //   observedFeature,
-        //   selectedGeographicFeature,
-        //   showRate
-      ]
-    );
+    useEffect(() => {
+      if (selectedGeographicFeature) {
+        dispatch({
+          type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
+          payload: {
+            selectedArea: selectedGeographicFeature,
+            variable: observedFeature
+          }
+        });
+      }
+    }, [observedFeature, selectedGeographicFeature]);
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
-      // if (protxMaltreatmentDistribution.error) {
-      //   return (
-      //     <div className="data-error-message">
-      //       There was a problem loading the data.
-      //     </div>
-      //   );
-      // }
+      if (protxMaltreatmentDistribution.error) {
+        return (
+          <div className="data-error-message">
+            There was a problem loading the data.
+          </div>
+        );
+      }
 
-      // if (protxMaltreatmentDistribution.loading) {
-      //   return (
-      //     <div className="loading-spinner">
-      //       <LoadingSpinner />
-      //     </div>
-      //   );
-      // }
+      if (protxMaltreatmentDistribution.loading) {
+        return (
+          <div className="loading-spinner">
+            <LoadingSpinner />
+          </div>
+        );
+      }
 
-      const plotState = maltreatmentPlotData.malPlotState;
-      // const plotState = protxMaltreatmentDistribution.data;
+      const plotState = protxMaltreatmentDistribution.data;
 
       return (
         <div className="maltreatment-chart">
@@ -338,11 +223,9 @@ function MainChart({
                 geography={geography}
                 selectedGeographicFeature={selectedGeographicFeature}
                 maltreatmentTypes={maltreatmentTypes}
-                maltreatmentPlotAggregate={
-                  maltreatmentPlotData.malTypesAggregate
-                }
-                maltreatmentTypesList={maltreatmentPlotData.malTypesList}
                 showRate={showRate}
+                year={year}
+                data={data}
               />
               <MainPlot plotState={plotState} />
               <ChartInstructions currentReportType="hidden" />

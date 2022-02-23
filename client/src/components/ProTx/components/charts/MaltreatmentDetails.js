@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {
   getFipsIdName,
   capitalizeString,
-  getMaltreatmentLabel
+  getMaltreatmentLabel,
+  getMaltreatmentTypeNames,
+  getMaltreatmentAggregatedValue
 } from '../shared/dataUtils';
 import './PlotDetails.css';
 
@@ -11,13 +13,25 @@ function MaltreatmentDetails({
   geography,
   selectedGeographicFeature,
   maltreatmentTypes,
-  maltreatmentPlotAggregate,
-  maltreatmentTypesList,
-  showRate
+  showRate,
+  year,
+  data
 }) {
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
   const maltreatmentLabel = getMaltreatmentLabel(maltreatmentTypes, showRate);
   const geographyLabel = capitalizeString(geography);
+  const maltreatmentTypesList = getMaltreatmentTypeNames(
+    maltreatmentTypes,
+    data
+  );
+  const maltreatmentTypesAggregatedValue = getMaltreatmentAggregatedValue(
+    data,
+    geography,
+    year,
+    showRate,
+    selectedGeographicFeature,
+    maltreatmentTypes
+  ).toFixed(0);
 
   return (
     <>
@@ -38,7 +52,8 @@ function MaltreatmentDetails({
               {maltreatmentLabel}
             </span>
             <span className="plot-details-section-selected-value">
-              {maltreatmentPlotAggregate}
+              {/* {maltreatmentPlotAggregate} */}
+              {maltreatmentTypesAggregatedValue}
             </span>
           </div>
         </div>
@@ -69,9 +84,10 @@ MaltreatmentDetails.propTypes = {
   geography: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  maltreatmentPlotAggregate: PropTypes.string.isRequired,
-  maltreatmentTypesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  showRate: PropTypes.bool.isRequired
+  showRate: PropTypes.bool.isRequired,
+  year: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object.isRequired
 };
 
 export default MaltreatmentDetails;

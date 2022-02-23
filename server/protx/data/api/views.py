@@ -53,7 +53,6 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
-# maltrt_query = '''
 MALTREATMENT_QUERY = '''
 SELECT
     d.VALUE,
@@ -77,21 +76,6 @@ WHERE d.GEOTYPE = "{area}" AND
     d.MALTREATMENT_NAME IN ({variable}) AND
     d.units = "{units}";
 '''
-
-# ten-color qualitative palette from colorbrewer2
-# maltrt_palette = {
-MALTREATMENT_PALETTE = {
-    'Abandonment': '#a6cee3',
-    'Emotional abuse': '#1f78b4',
-    'Labor trafficking': '#b2df8a',
-    'Medical neglect': '#33a02c',
-    'Neglectful supervision': '#fb9a99',
-    'Physical abuse': '#e31a1c',
-    'Physical neglect': '#fdbf6f',
-    'Refusal to accept parental responsibility': '#ff7f00',
-    'Sexual abuse': '#cab2d6',
-    'Sex trafficing': '#6a3d9a'
-}
 
 cooks_db = '/protx-data/cooks.db'
 resources_db = '/protx-data/resources.db'
@@ -257,11 +241,9 @@ def get_demographics_distribution_plot_data(request, area, geoid, variable, unit
 @ ensure_csrf_cookie
 def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit):
     """Get maltreatment distribution data for plotting
-
     """
     logger.info("Getting maltreatment plot data for {} {} {} {}".format(area, geoid, variable, unit))
-    # Need Maltreatment solution implemented here.
-    result = maltreatment.maltreatment_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
+    result = maltreatment.maltreatment_plot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 
