@@ -125,11 +125,10 @@ function ChartInstructions({ currentReportType }) {
   if (currentReportType === 'hidden') {
     return (
       <div className="report-instructions-hidden">
-        Note: Left-clicking on the globe icon{' '}
-        <span className="icon icon-globe report-instructions-icon-globe" />{' '}
-        (located in the top-left corner of the map) will reset the map zoom
-        level to the default (the entire state of Texas) and display the
-        instructions again.
+        Left-click the globe icon{' '}
+        <span className="icon icon-globe report-instructions-icon-globe" /> in
+        the top-left corner of the map to clear the current region selection,
+        center on Texas and display the instructions again.
       </div>
     );
   }

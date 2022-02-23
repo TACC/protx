@@ -72,8 +72,8 @@ function MaltreatmentDetails({
         </div>
       </div>
       <div className="plot-details-summary">
-        Note: All graphs are showing data for calendar years 2011-2019, not
-        fiscal or academic years.
+        All graphs are showing data for calendar years 2011-2019, not fiscal or
+        academic years.
       </div>
     </>
   );
