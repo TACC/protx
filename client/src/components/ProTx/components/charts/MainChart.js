@@ -194,7 +194,7 @@ function MainChart({
     )}`;
 
     useEffect(() => {
-      if (selectedGeographicFeature) {
+      if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
         dispatch({
           type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
           payload: {
