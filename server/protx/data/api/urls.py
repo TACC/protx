@@ -18,7 +18,7 @@ urlpatterns = [
     url('display/', views.get_display, name='data'),
 
     url('maltreatment/', views.get_maltreatment, name='data'),
-    path('maltreatment-plot-distribution/<area>/<selectedArea>/<variable>/<unit>/<malTypes>/', views.get_maltreatment_distribution_plot_data, name='data'),
+    path('maltreatment-plot-distribution/', views.get_maltreatment_distribution_plot_data, name='data'),
 
     url('resources/', views.get_resources, name='data')
 ]

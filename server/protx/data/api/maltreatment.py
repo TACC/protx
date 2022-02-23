@@ -3,6 +3,10 @@ import json
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
+import logging
+
+logger = logging.getLogger(__name__)
+
 # from protx.data.api.utils.plotly_figures import maltrt_stacked_bar
 
 db_name = '/protx-data/cooks.db'
@@ -102,18 +106,18 @@ def maltrt_stacked_bar(maltrt_data_dict):
     return fig
 
 
-def maltreatment_plot_figure(area, selectedArea, variable, unit, malTypes):
-    maltreatmentTypes = malTypes.split(",")
-    separator = '", "'
-    noBraces = '"' + separator.join(maltreatmentTypes) + '"'
-
+def maltreatment_plot_figure(area, geoid, variables, unit):
+    # Variables is still hardcoded
+    print(variables)
+    logger.info("Selected maltreatment variables are: {}".format(variables))
     user_select_data = {
         'area': area,
-        'focal_area': selectedArea,
+        'focal_area': geoid,
         'units': unit,
-        'variable': noBraces
+        'variable': variables # '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
     }
 
-    maltrt_data = query_return(user_select_data, db_name)
+    db_conn = sqlite3.connect(db_name)
+    maltrt_data = query_return(user_select_data, db_conn)
     plot_figure = maltrt_stacked_bar(maltrt_data)
     return json.loads(plot_figure.to_json())

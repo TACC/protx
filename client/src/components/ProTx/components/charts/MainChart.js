@@ -198,26 +198,18 @@ function MainChart({
     )}`;
 
     useEffect(() => {
-      if (selectedGeographicFeature) {
+      if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
         dispatch({
           type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
           payload: {
-            area: geography,
-            selectedArea: selectedGeographicFeatureNameComplete,
-            variable: observedFeature,
-            unit: showRate ? 'percent' : 'count',
-            malTypes: maltreatmentTypes
+            geography,
+            selectedGeographicFeature,
+            maltreatmentTypes,
+            showRate
           }
         });
       }
-    }, [
-      mapType,
-      geography,
-      observedFeature,
-      selectedGeographicFeatureNameComplete,
-      showRate,
-      maltreatmentTypes
-    ]);
+    }, [geography, selectedGeographicFeature, maltreatmentTypes, showRate]);
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
       if (protxMaltreatmentDistribution.error) {
