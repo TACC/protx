@@ -53,28 +53,23 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
-MALTREATMENT_QUERY = '''
+MALTREATMENT_QUERY = "SELECT * FROM maltreatment d WHERE d.GEOTYPE='county'"
+
+MALTREATMENT_MIN_MAX_QUERY = '''
 SELECT
-    d.VALUE,
-    d.GEOID,
     d.GEOTYPE,
-    d.MALTREATMENT_NAME,
+    d.UNITS,
     d.YEAR,
-    d.UNITS as count_or_pct,
-    g.DISPLAY_TEXT as geo_display,
-    u.UNITS as units,
-    u.DISPLAY_TEXT as units_display
-FROM maltreatment d
-LEFT JOIN display_geotype g ON
-    g.GEOID = d.GEOID AND
-    g.GEOTYPE = d.GEOTYPE AND
-    g.YEAR = d.YEAR
-JOIN display_data u ON
-    d.MALTREATMENT_NAME = u.NAME
-WHERE d.GEOTYPE = "{area}" AND
-    g.DISPLAY_TEXT = "{focal_area}" AND
-    d.MALTREATMENT_NAME IN ({variable}) AND
-    d.units = "{units}";
+    d.DEMOGRAPHICS_NAME,
+    MIN(d.value) AS MIN,
+    MAX(d.value) AS MAX
+FROM demographics d
+WHERE d.GEOTYPE='county'
+GROUP BY
+    d.GEOTYPE,
+    d.UNITS,
+    d.YEAR,
+    d.DEMOGRAPHICS_NAME;
 '''
 
 cooks_db = '/protx-data/cooks.db'
@@ -88,7 +83,7 @@ ANALYTICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"
 
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
-MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOID"]
+MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
 
 def create_dict(data, level_keys):
@@ -166,7 +161,6 @@ def get_analytics_cached():
         result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
-    # return JsonResponse({"data": {}, "meta": {}})
 
 
 @ onboarded_required
@@ -206,13 +200,10 @@ def get_maltreatment_cached():
 
     with engine.connect() as connection:
         result = connection.execute(MALTREATMENT_QUERY)
-        print(result)
-        # data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
+        data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
 
-        # result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
-        # meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
-        data = {}
-        meta = {}
+        result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
+        meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
 
@@ -239,11 +230,11 @@ def get_demographics_distribution_plot_data(request, area, geoid, variable, unit
 
 @ onboarded_required
 @ ensure_csrf_cookie
-def get_maltreatment_distribution_plot_data(request, area, selectedArea, variable, unit, malTypes):
+def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit, malTypes):
     """Get maltreatment distribution data for plotting
     """
-    logger.info("Getting maltreatment plot data for {} {} {} {} {}".format(area, selectedArea, variable, unit, malTypes))
-    result = maltreatment.maltreatment_plot_figure(area=area, selectedArea=selectedArea, variable=variable, unit=unit, malTypes=malTypes)
+    logger.info("Getting maltreatment plot data for {} {} {} {} {}".format(area, geoid, variable, unit, malTypes))
+    result = maltreatment.maltreatment_plot_figure(area=area, geoid=geoid, variable=variable, unit=unit, malTypes=malTypes)
     return JsonResponse({"result": result})
 
 
