@@ -38,7 +38,7 @@ join display_data u on
     d.MALTREATMENT_NAME = u.NAME
 where d.GEOTYPE = "{area}" and
     g.DISPLAY_TEXT = "{focal_area}" and
-    d.MALTREATMENT_NAME in ({variable}) and
+    d.MALTREATMENT_NAME in ({variables}) and
     d.units = "{units}";
 '''
 
@@ -48,7 +48,7 @@ def query_return(user_selection, db_conn, palette=maltrt_palette):
     # don't show percents when user has selected all maltreatment types
     # todo: move this sanity check to elsewhere in processing?
     # if user_selection['units'] == 'percent':
-    #     assert user_selection['variable'] == '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
+    #     assert user_selection['variables'] == '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
 
     # query user input (return all units, regardless of user selection)
     # query template defined in global namespace
@@ -98,18 +98,14 @@ def maltrt_stacked_bar(maltrt_data_dict):
     return fig
 
 
-def maltreatment_plot_figure(area, geoid, variable, unit, malTypes):
-    maltreatmentTypes = malTypes.split(",")
-    separator = '", "'
-    noBraces = '"' + separator.join(maltreatmentTypes) + '"'
-
+def maltreatment_plot_figure(area, selectedArea, geoid, variables, unit):
+    logger.info("Selected maltreatment variables are: {}".format(variables))
     user_select_data = {
         'area': area,
-        'focal_area': geoid,
+        'focal_area': selectedArea,  # geoid,
         'units': unit,
-        'variable': noBraces
+        'variables': ','.join(['"{}"'.format(v) for v in variables])
     }
-
     db_conn = sqlite3.connect(db_name)
     maltrt_data = query_return(user_select_data, db_conn)
     db_conn.close()

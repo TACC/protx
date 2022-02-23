@@ -2,6 +2,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from sqlalchemy import create_engine
 import logging
+import json
 
 from protx.data.api import analytics
 from protx.data.api import demographics
@@ -53,23 +54,23 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
-MALTREATMENT_QUERY = "SELECT * FROM maltreatment d WHERE d.GEOTYPE='county'"
+MALTREATMENT_QUERY = "SELECT * FROM maltreatment"
 
 MALTREATMENT_MIN_MAX_QUERY = '''
 SELECT
-    d.GEOTYPE,
-    d.UNITS,
-    d.YEAR,
-    d.MALTREATMENT_NAME,
-    MIN(d.value) AS MIN,
-    MAX(d.value) AS MAX
-FROM maltreatment d
-WHERE d.GEOTYPE='county'
+    m.GEOTYPE,
+    m.UNITS,
+    m.YEAR,
+    m.MALTREATMENT_NAME,
+    MIN(m.value) as MIN,
+    MAX(m.value) as MAX
+FROM maltreatment m
+WHERE m.GEOTYPE='county'
 GROUP BY
-    d.GEOTYPE,
-    d.UNITS,
-    d.YEAR,
-    d.MALTREATMENT_NAME;
+    m.GEOTYPE,
+    m.UNITS,
+    m.YEAR,
+    m.MALTREATMENT_NAME;
 '''
 
 cooks_db = '/protx-data/cooks.db'
@@ -151,25 +152,23 @@ def get_analytics(request):
 def get_analytics_cached():
     """Get analytics data
     """
-    # TODO: Wire up data query.
     engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
 
     with engine.connect() as connection:
         result = connection.execute(ANALYTICS_QUERY)
         data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
-
         result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_demographics(request):
     return get_demographics_cached()
 
 
-@ memoize_db_results(db_file=demographics.db_name)
+@memoize_db_results(db_file=demographics.db_name)
 def get_demographics_cached():
     """Get demographics data
 
@@ -179,19 +178,18 @@ def get_demographics_cached():
     with engine.connect() as connection:
         result = connection.execute(DEMOGRAPHICS_QUERY)
         data = create_dict(result, level_keys=DEMOGRAPHICS_JSON_STRUCTURE_KEYS)
-
         result = connection.execute(DEMOGRAPHICS_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=DEMOGRAPHICS_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_maltreatment(request):
     return get_maltreatment_cached()
 
 
-@ memoize_db_results(db_file=maltreatment.db_name)
+@memoize_db_results(db_file=maltreatment.db_name)
 def get_maltreatment_cached():
     """Get maltreatment data
 
@@ -201,14 +199,13 @@ def get_maltreatment_cached():
     with engine.connect() as connection:
         result = connection.execute(MALTREATMENT_QUERY)
         data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
-
         result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get analytics distribution data for plotting
     """
@@ -217,28 +214,33 @@ def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
     return JsonResponse({"result": result})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
+@onboarded_required
+@ensure_csrf_cookie
 def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
     """
-    # TODO: Wire up correct figure rendering method.
     logger.info("Getting demographic plot data for {} {} {} {}".format(area, geoid, variable, unit))
     result = demographics.demographics_simple_lineplot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
     return JsonResponse({"result": result})
 
 
-@ onboarded_required
-@ ensure_csrf_cookie
-def get_maltreatment_distribution_plot_data(request, area, geoid, variable, unit, malTypes):
+@onboarded_required
+@ensure_csrf_cookie
+def get_maltreatment_distribution_plot_data(request):
     """Get maltreatment distribution data for plotting
     """
-    logger.info("Getting maltreatment plot data for {} {} {} {} {}".format(area, geoid, variable, unit, malTypes))
-    result = maltreatment.maltreatment_plot_figure(area=area, geoid=geoid, variable=variable, unit=unit, malTypes=malTypes)
+    body = json.loads(request.body)
+    area = body["area"]
+    selectedArea = body["selectedArea"]
+    geoid = body["geoid"]
+    variables = body["variables"]
+    unit = body["unit"]
+    logger.info("Getting maltreatment plot data for {} {} {} on the variables: {}".format(area, selectedArea, unit, variables))  # geoid
+    result = maltreatment.maltreatment_plot_figure(area=area, selectedArea=selectedArea, geoid=geoid, variables=variables, unit=unit)
     return JsonResponse({"result": result})
 
 
-@ onboarded_required
+@onboarded_required
 def get_display(request):
     """Get display information data
     """
@@ -258,7 +260,7 @@ def get_display(request):
         return JsonResponse({"variables": result})
 
 
-@ onboarded_required
+@onboarded_required
 def get_resources(request):
     """Get display information data
     """

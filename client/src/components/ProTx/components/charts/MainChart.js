@@ -200,17 +200,16 @@ function MainChart({
           payload: {
             area: geography,
             selectedArea: selectedGeographicFeatureNameComplete,
-            variable: observedFeature,
-            unit: showRate ? 'percent' : 'count',
-            malTypes: maltreatmentTypes
+            geoid: selectedGeographicFeature,
+            unit: showRate,
+            variables: maltreatmentTypes
           }
         });
       }
     }, [
-      mapType,
       geography,
-      observedFeature,
       selectedGeographicFeatureNameComplete,
+      selectedGeographicFeature,
       showRate,
       maltreatmentTypes
     ]);

@@ -4,9 +4,6 @@ from protx.data.api import views
 
 app_name = 'protx_api'
 
-"""
-TODO: Distinguish between URL payload arguments for maltreatment and analytics.
-"""
 
 urlpatterns = [
     url('analytics/', views.get_analytics, name='data'),
@@ -18,7 +15,7 @@ urlpatterns = [
     url('display/', views.get_display, name='data'),
 
     url('maltreatment/', views.get_maltreatment, name='data'),
-    path('maltreatment-plot-distribution/<area>/<geoid>/<variable>/<unit>/<malTypes>/', views.get_maltreatment_distribution_plot_data, name='data'),
+    path('maltreatment-plot-distribution/', views.get_maltreatment_distribution_plot_data, name='data'),
 
     url('resources/', views.get_resources, name='data')
 ]
