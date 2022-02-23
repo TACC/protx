@@ -35,28 +35,22 @@ GROUP BY
     d.DEMOGRAPHICS_NAME;
 '''
 
-MALTREATMENT_QUERY = '''
+MALTREATMENT_QUERY = "SELECT * FROM maltreatment"
+
+MALTREATMENT_MIN_MAX_QUERY = '''
 SELECT
-    d.VALUE,
-    d.GEOID,
-    d.GEOTYPE,
-    d.MALTREATMENT_NAME,
-    d.YEAR,
-    d.UNITS as count_or_pct,
-    g.DISPLAY_TEXT as geo_display,
-    u.UNITS as units,
-    u.DISPLAY_TEXT as units_display
-FROM maltreatment d
-LEFT JOIN display_geotype g ON
-    g.GEOID = d.GEOID AND
-    g.GEOTYPE = d.GEOTYPE AND
-    g.YEAR = d.YEAR
-JOIN display_data u ON
-    d.MALTREATMENT_NAME = u.NAME
-WHERE d.GEOTYPE = "{area}" AND
-    g.DISPLAY_TEXT = "{focal_area}" AND
-    d.MALTREATMENT_NAME IN ({variable}) AND
-    d.units = "{units}";
+    m.GEOTYPE,
+    m.UNITS,
+    m.YEAR,
+    m.MALTREATMENT_NAME,
+    MIN(m.value) as MIN,
+    MAX(m.value) as MAX
+FROM maltreatment m
+GROUP BY
+    m.GEOTYPE,
+    m.UNITS,
+    m.YEAR,
+    m.MALTREATMENT_NAME;
 '''
 
 cooks_db = '/protx-data/cooks.db'
@@ -69,8 +63,6 @@ SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
 MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "MALTREATMENT_NAME", "GEOID"]
 
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
-
-MALTREATMENT_JSON_STRUCTURE_KEYS = ["GEOID"]
 
 
 def create_dict(data, level_keys):
@@ -165,13 +157,10 @@ def get_maltreatment_cached():
 
     with engine.connect() as connection:
         result = connection.execute(MALTREATMENT_QUERY)
-        print(result)
-        # data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
+        data = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS)
 
-        # result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
-        # meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
-        data = {}
-        meta = {}
+        result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
+        meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
 
 
