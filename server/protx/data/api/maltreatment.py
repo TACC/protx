@@ -3,7 +3,9 @@ import json
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-# from protx.data.api.utils.plotly_figures import maltrt_stacked_bar
+import logging
+
+logger = logging.getLogger(__name__)
 
 db_name = '/protx-data/cooks.db'
 
@@ -41,23 +43,17 @@ where d.GEOTYPE = "{area}" and
 '''
 
 
-def query_return(user_selection, db_name, palette=maltrt_palette):
+def query_return(user_selection, db_conn, palette=maltrt_palette):
 
     # don't show percents when user has selected all maltreatment types
     # todo: move this sanity check to elsewhere in processing?
     # if user_selection['units'] == 'percent':
     #     assert user_selection['variable'] == '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
 
-    # Connect to database.
-    db_conn = sqlite3.connect(db_name)
-
     # query user input (return all units, regardless of user selection)
     # query template defined in global namespace
     maltrt_query_fmt = maltrt_query.format(**user_selection)
     maltrt_data = pd.read_sql_query(maltrt_query_fmt, db_conn)
-
-    # Close database connection.
-    db_conn.close()
 
     # extract years in dataset
     years = sorted(maltrt_data['YEAR'].unique())
@@ -114,6 +110,8 @@ def maltreatment_plot_figure(area, geoid, variable, unit, malTypes):
         'variable': noBraces
     }
 
-    maltrt_data = query_return(user_select_data, db_name)
+    db_conn = sqlite3.connect(db_name)
+    maltrt_data = query_return(user_select_data, db_conn)
+    db_conn.close()
     plot_figure = maltrt_stacked_bar(maltrt_data)
     return json.loads(plot_figure.to_json())
