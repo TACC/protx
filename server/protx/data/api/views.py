@@ -206,7 +206,7 @@ def get_maltreatment_cached():
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
+def get_analytics_plot_data(request, area, geoid, variable, unit):
     """Get analytics distribution data for plotting
     """
     logger.info("Getting analytics plot data for {} {} {} {}".format(area, geoid, variable, unit))
@@ -216,7 +216,7 @@ def get_analytics_distribution_plot_data(request, area, geoid, variable, unit):
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
+def get_demographics_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
     """
     logger.info("Getting demographic plot data for {} {} {} {}".format(area, geoid, variable, unit))
@@ -226,7 +226,7 @@ def get_demographics_distribution_plot_data(request, area, geoid, variable, unit
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_maltreatment_distribution_plot_data(request):
+def get_maltreatment_plot_data(request):
     """Get maltreatment distribution data for plotting
     """
     body = json.loads(request.body)
@@ -267,7 +267,7 @@ def get_resources(request):
     return get_resources_cached()
 
 
-@ memoize_db_results(db_file=resources_db)
+@memoize_db_results(db_file=resources_db)
 def get_resources_cached():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
