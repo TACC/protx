@@ -35,9 +35,6 @@ function MainChart({
     const dispatch = useDispatch();
 
     useEffect(() => {
-      if (observedFeature === 'maltreatment') {
-        return;
-      }
       if (selectedGeographicFeature) {
         dispatch({
           type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
