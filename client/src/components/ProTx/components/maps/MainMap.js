@@ -85,7 +85,11 @@ function MainMap({
 
   /** Handle changes in zoom and show resources when zoomed into map
    */
-  const handleZoom = (newZoomLevel, currentMap, currentLayerControl) => {
+  const handleZoom = (
+    newZoomLevel,
+    currentMap,
+    currentLayerControl
+  ) => {
     const previousZoomLevel = refZoomLevel.current;
     const zoomTransitionOccurred =
       (newZoomLevel < RESOURCE_ZOOM_LEVEL &&
