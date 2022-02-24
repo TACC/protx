@@ -48,7 +48,6 @@ import { watchUsers } from './users.sagas';
 import { watchSiteSearch } from './siteSearch.sagas';
 import {
   watchProtx,
-  watchProtxAnalyticsDistribution,
   watchProtxDemographicsDistribution,
   watchProtxMaltreatmentDistribution
 } from './protx.sagas';
@@ -100,7 +99,6 @@ export default function* rootSaga() {
     watchUsers(),
     watchSiteSearch(),
     watchProtx(),
-    watchProtxAnalyticsDistribution(),
     watchProtxDemographicsDistribution(),
     watchProtxMaltreatmentDistribution()
   ]);

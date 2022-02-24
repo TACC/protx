@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 import logging
 import json
 
-from protx.data.api import analytics
 from protx.data.api import demographics
 from protx.data.api import maltreatment
 from protx.data.api.decorators import onboarded_required, memoize_db_results
@@ -15,24 +14,6 @@ logger = logging.getLogger(__name__)
 
 # TODO single engine for django instance
 
-ANALYTICS_QUERY = "SELECT * FROM analytics d WHERE d.GEOTYPE='county'"
-
-ANALYTICS_MIN_MAX_QUERY = '''
-SELECT
-    d.GEOTYPE,
-    d.UNITS,
-    d.YEAR,
-    d.DEMOGRAPHICS_NAME,
-    MIN(d.value) AS MIN,
-    MAX(d.value) AS MAX
-FROM demographics d
-WHERE d.GEOTYPE='county'
-GROUP BY
-    d.GEOTYPE,
-    d.UNITS,
-    d.YEAR,
-    d.DEMOGRAPHICS_NAME;
-'''
 
 # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135
 DEMOGRAPHICS_QUERY = "SELECT * FROM demographics d WHERE d.GEOTYPE='county'"
@@ -79,8 +60,6 @@ resources_db = '/protx-data/resources.db'
 SQLALCHEMY_DATABASE_URL = 'sqlite:///{}'.format(cooks_db)
 
 SQLALCHEMY_RESOURCES_DATABASE_URL = 'sqlite:///{}'.format(resources_db)
-
-ANALYTICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
 DEMOGRAPHICS_JSON_STRUCTURE_KEYS = ["GEOTYPE", "YEAR", "DEMOGRAPHICS_NAME", "GEOID"]
 
@@ -202,16 +181,6 @@ def get_maltreatment_cached():
         result = connection.execute(MALTREATMENT_MIN_MAX_QUERY)
         meta = create_dict(result, level_keys=MALTREATMENT_JSON_STRUCTURE_KEYS[:-1])
         return JsonResponse({"data": data, "meta": meta})
-
-
-@onboarded_required
-@ensure_csrf_cookie
-def get_analytics_plot_data(request, area, geoid, variable, unit):
-    """Get analytics distribution data for plotting
-    """
-    logger.info("Getting analytics plot data for {} {} {} {}".format(area, geoid, variable, unit))
-    result = analytics.analytics_plot_figure(area=area, geoid=geoid, variable=variable, unit=unit)
-    return JsonResponse({"result": result})
 
 
 @onboarded_required

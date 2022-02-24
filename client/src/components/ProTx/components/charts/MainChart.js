@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { LoadingSpinner } from '_common';
 import ChartInstructions from './ChartInstructions';
+import AnalyticsDetails from './AnalyticsDetails';
+import PredictiveFeaturesTable from './PredictiveFeaturesTable';
 import DemographicsDetails from './DemographicsDetails';
 import MaltreatmentDetails from './MaltreatmentDetails';
-import PredictiveFeaturesTable from './PredictiveFeaturesTable';
-import AnalyticsDetails from './AnalyticsDetails';
 import MainPlot from './MainPlot';
 import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
 import './MainChart.css';
@@ -23,57 +23,15 @@ function MainChart({
   showRate,
   showInstructions
 }) {
-  /***********************/
-  /** ANALYTICS PLOT    **/
-  /***********************/
-
+  // ANALYTICS PLOT.
   if (chartType === 'analytics') {
-    const protxAnalyticsDistribution = useSelector(
-      state => state.protxAnalyticsDistribution
-    );
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-      if (selectedGeographicFeature) {
-        dispatch({
-          type: 'FETCH_PROTX_ANALYTICS_DISTRIBUTION',
-          payload: {
-            area: geography,
-            selectedArea: selectedGeographicFeature,
-            variable: observedFeature,
-            unit: showRate ? 'percent' : 'count'
-          }
-        });
-      }
-    }, [
-      mapType,
-      geography,
-      observedFeature,
-      selectedGeographicFeature,
-      showRate
-    ]);
-
     if (selectedGeographicFeature && observedFeature) {
-      if (protxAnalyticsDistribution.error) {
-        return (
-          <div className="data-error-message">
-            There was a problem loading the data.
-          </div>
-        );
-      }
-
-      if (protxAnalyticsDistribution.loading) {
-        return (
-          <div className="loading-spinner">
-            <LoadingSpinner />
-          </div>
-        );
-      }
-
-      const plotState = protxAnalyticsDistribution.data;
-
       const showPlot = false; // Hide the plot while in dev.
+
+      const plotState = {
+        data: [{ type: 'bar', x: [1, 2, 3], y: [1, 3, 2] }],
+        layout: { title: { text: 'Analytics' } }
+      };
 
       return (
         <div className="predictive-features-chart">
@@ -101,10 +59,7 @@ function MainChart({
     }
   }
 
-  /***********************/
-  /** DEMOGRAPHICS PLOT **/
-  /***********************/
-
+  // DEMOGRAPHICS PLOT.
   if (chartType === 'demographics') {
     const protxDemographicsDistribution = useSelector(
       state => state.protxDemographicsDistribution
@@ -171,10 +126,7 @@ function MainChart({
     }
   }
 
-  /***********************/
-  /** MALTEATMENT PLOT  **/
-  /***********************/
-
+  // MALTEATMENT PLOT.
   if (chartType === 'maltreatment') {
     /**
      * TODO: Use geoid value instead of selectedArea string value on backend.
@@ -260,10 +212,7 @@ function MainChart({
     }
   }
 
-  /***********************/
-  /** PLOT INSTRUCTIONS **/
-  /***********************/
-
+  // PLOT INSTRUCTIONS.
   return (
     <div className="main-chart">
       {showInstructions && <ChartInstructions currentReportType={chartType} />}

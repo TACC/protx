@@ -7,7 +7,6 @@ app_name = 'protx_api'
 
 urlpatterns = [
     url('analytics/', views.get_analytics, name='data'),
-    path('analytics-plot/<area>/<geoid>/<variable>/<unit>/', views.get_analytics_plot_data, name='data'),
 
     url('demographics/', views.get_demographics, name='data'),
     path('demographics-plot/<area>/<geoid>/<variable>/<unit>/', views.get_demographics_plot_data, name='data'),

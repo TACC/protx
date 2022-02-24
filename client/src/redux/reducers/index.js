@@ -22,7 +22,6 @@ import { users } from './users.reducers';
 import siteSearch from './siteSearch.reducers';
 import {
   protx,
-  protxAnalyticsDistribution,
   protxDemographicsDistribution,
   protxMaltreatmentDistribution
 } from './protx.reducers';
@@ -51,7 +50,6 @@ export default combineReducers({
   users,
   siteSearch,
   protx,
-  protxAnalyticsDistribution,
   protxDemographicsDistribution,
   protxMaltreatmentDistribution
 });
