@@ -53,7 +53,7 @@ export function* fetchProtxDemographicsDistribution(action) {
   yield put({ type: 'PROTX_DEMOGRAPHICS_DISTRIBUTION_INIT' });
   try {
     const data = yield call(fetchUtil, {
-      url: `/api/protx/demographics-plot/${action.payload.area}/${action.payload.selectedArea}/${action.payload.variable}/${action.payload.unit}/`
+      url: `/api/protx/demographics-plot-distribution/${action.payload.area}/${action.payload.selectedArea}/${action.payload.variable}/${action.payload.unit}/`
     });
     yield put({
       type: 'PROTX_DEMOGRAPHICS_DISTRIBUTION_SUCCESS',
@@ -72,7 +72,7 @@ export function* fetchProtxMaltreatmentDistribution(action) {
   yield put({ type: 'PROTX_MALTREATMENT_DISTRIBUTION_INIT' });
   try {
     const data = yield call(fetchUtil, {
-      url: `/api/protx/maltreatment-plot/`,
+      url: `/api/protx/maltreatment-plot-distribution/`,
       headers: {
         'Content-Type': 'application/json'
       },

@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 # TODO single engine for django instance
 
-
 # Support county and tract for https://jira.tacc.utexas.edu/browse/COOKS-135
 DEMOGRAPHICS_QUERY = "SELECT * FROM demographics d WHERE d.GEOTYPE='county'"
 
@@ -124,21 +123,7 @@ def create_dict(data, level_keys):
 @onboarded_required
 @ensure_csrf_cookie
 def get_analytics(request):
-    return get_analytics_cached()
-
-
-@memoize_db_results(db_file=analytics.db_name)
-def get_analytics_cached():
-    """Get analytics data
-    """
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
-
-    with engine.connect() as connection:
-        result = connection.execute(ANALYTICS_QUERY)
-        data = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS)
-        result = connection.execute(ANALYTICS_MIN_MAX_QUERY)
-        meta = create_dict(result, level_keys=ANALYTICS_JSON_STRUCTURE_KEYS[:-1])
-        return JsonResponse({"data": data, "meta": meta})
+    return {}
 
 
 @onboarded_required
@@ -185,7 +170,7 @@ def get_maltreatment_cached():
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_demographics_plot_data(request, area, geoid, variable, unit):
+def get_demographics_distribution_plot_data(request, area, geoid, variable, unit):
     """Get demographics distribution data for plotting
     """
     logger.info("Getting demographic plot data for {} {} {} {}".format(area, geoid, variable, unit))
@@ -195,7 +180,7 @@ def get_demographics_plot_data(request, area, geoid, variable, unit):
 
 @onboarded_required
 @ensure_csrf_cookie
-def get_maltreatment_plot_data(request):
+def get_maltreatment_distribution_plot_data(request):
     """Get maltreatment distribution data for plotting
     """
     body = json.loads(request.body)
@@ -236,7 +221,7 @@ def get_resources(request):
     return get_resources_cached()
 
 
-@memoize_db_results(db_file=resources_db)
+@ memoize_db_results(db_file=resources_db)
 def get_resources_cached():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:

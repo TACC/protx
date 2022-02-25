@@ -123,6 +123,8 @@ function DashboardDisplay() {
           path={`${protxRoute}/analytics`}
           render={() => {
             setMapType('observedFeatures');
+            // Year is fixed to 10 years of data.
+            setYear('2019');
             // Currently restricted to county data.
             setGeography('county');
             // Do not show the rate.
