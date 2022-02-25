@@ -221,7 +221,7 @@ def get_resources(request):
     return get_resources_cached()
 
 
-@ memoize_db_results(db_file=resources_db)
+@memoize_db_results(db_file=resources_db)
 def get_resources_cached():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
