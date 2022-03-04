@@ -72,7 +72,7 @@ def query_return(user_selection, db_conn, palette=maltrt_palette):
     return {'coords': coords, 'data': maltrt_wide, 'colors': palette}
 
 
-def maltrt_stacked_bar(maltrt_data_dict):
+def maltrt_stacked_bar(maltrt_data_dict, unit_selected):
 
     data_coords = maltrt_data_dict['coords']
     data = maltrt_data_dict['data']
@@ -91,6 +91,13 @@ def maltrt_stacked_bar(maltrt_data_dict):
 
     fig = go.Figure(data=fig_data)
     fig.update_layout(barmode='stack')
+
+    if unit_selected == 'count':
+        fig.update_yaxes(title_text="Aggregated Totals")
+    if unit_selected == 'percent':
+        fig.update_yaxes(title_text="Percent of Total")
+    if unit_selected == 'rates_per_100k_under17':
+        fig.update_yaxes(title_text="Rate per 100K")
 
     # to deduplicate the legend, from https://stackoverflow.com/questions/26939121/how-to-avoid-duplicate-legend-labels-in-plotly-or-pass-custom-legend-labels
     names = set()
@@ -112,8 +119,9 @@ def maltreatment_plot_figure(area, selectedArea, geoid, variables, unit):
         'units': unit,
         'variables': ','.join(['"{}"'.format(v) for v in variables])
     }
+    # print(unit)
     db_conn = sqlite3.connect(db_name)
     maltrt_data = query_return(user_select_data, db_conn)
     db_conn.close()
-    plot_figure = maltrt_stacked_bar(maltrt_data)
+    plot_figure = maltrt_stacked_bar(maltrt_data, unit)
     return json.loads(plot_figure.to_json())

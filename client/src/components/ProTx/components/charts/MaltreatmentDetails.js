@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {
   getFipsIdName,
   capitalizeString,
-  getMaltreatmentLabel,
-  getMaltreatmentTypeNames,
-  getMaltreatmentAggregatedValue
+  getMaltreatmentTypeNames
 } from '../shared/dataUtils';
 import './PlotDetails.css';
 
@@ -18,20 +16,12 @@ function MaltreatmentDetails({
   data
 }) {
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-  const maltreatmentLabel = getMaltreatmentLabel(maltreatmentTypes, showRate);
+
   const geographyLabel = capitalizeString(geography);
   const maltreatmentTypesList = getMaltreatmentTypeNames(
     maltreatmentTypes,
     data
   );
-  const maltreatmentTypesAggregatedValue = getMaltreatmentAggregatedValue(
-    data,
-    geography,
-    year,
-    showRate,
-    selectedGeographicFeature,
-    maltreatmentTypes
-  ).toFixed(0);
 
   return (
     <>
@@ -43,16 +33,6 @@ function MaltreatmentDetails({
             </span>
             <span className="plot-details-section-selected-value">
               {fipsIdValue} {geographyLabel}
-            </span>
-          </div>
-        </div>
-        <div className="plot-details-section">
-          <div className="plot-details-section-selected">
-            <span className="plot-details-section-selected-label">
-              {maltreatmentLabel}
-            </span>
-            <span className="plot-details-section-selected-value">
-              {maltreatmentTypesAggregatedValue}
             </span>
           </div>
         </div>

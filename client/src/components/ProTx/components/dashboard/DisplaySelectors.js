@@ -6,8 +6,13 @@ import MaltreatmentSelector from './MaltreatmentSelector';
 import { OBSERVED_FEATURES_TOP_FIELDS, SUPPORTED_YEARS } from '../data/meta';
 import './DisplaySelectors.module.scss';
 
-/* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
-function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
+/* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps). */
+function RateSelector({
+  valueLabelRadioBtn0,
+  valueLabelRadioBtn1,
+  showRate,
+  setShowRate
+}) {
   return (
     <div styleName="radio-container">
       <div className="radio-container-element">
@@ -21,7 +26,7 @@ function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
             checked={showRate}
             onChange={() => setShowRate(true)}
           />
-          {rateLabel}
+          {valueLabelRadioBtn0}
         </label>
       </div>
       <div className="radio">
@@ -35,7 +40,7 @@ function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
             checked={!showRate}
             onChange={() => setShowRate(false)}
           />
-          {nonRateLabel}
+          {valueLabelRadioBtn1}
         </label>
       </div>
     </div>
@@ -43,8 +48,8 @@ function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
 }
 
 RateSelector.propTypes = {
-  rateLabel: PropTypes.string.isRequired,
-  nonRateLabel: PropTypes.string.isRequired,
+  valueLabelRadioBtn0: PropTypes.string.isRequired,
+  valueLabelRadioBtn1: PropTypes.string.isRequired,
   showRate: PropTypes.bool.isRequired,
   setShowRate: PropTypes.func.isRequired
 };
@@ -77,9 +82,9 @@ function DisplaySelectors({
 }) {
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
-  const rateLabel =
-    mapType === 'maltreatment' ? 'Rate per 100K children' : 'Percentages';
-  const nonRateLabel = 'Totals';
+  const valueLabelRadioBtn0 = 'Percentages';
+  const valueLabelRadioBtn1 =
+    mapType === 'maltreatment' ? 'Rate per 100K children' : 'Totals';
   const display = useSelector(state => state.protx.data.display);
 
   const changeShowRate = newShowRate => {
@@ -138,8 +143,8 @@ function DisplaySelectors({
         <div styleName="control">
           <span styleName="label">Value</span>
           <RateSelector
-            rateLabel={rateLabel}
-            nonRateLabel={nonRateLabel}
+            valueLabelRadioBtn0={valueLabelRadioBtn0}
+            valueLabelRadioBtn1={valueLabelRadioBtn1}
             showRate={showRate}
             setShowRate={changeShowRate}
           />
