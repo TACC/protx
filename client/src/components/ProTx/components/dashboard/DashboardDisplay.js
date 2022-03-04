@@ -60,8 +60,8 @@ function DashboardDisplay() {
           setGeography={setGeography}
           setMaltreatmentTypes={setMaltreatmentTypes}
           setObservedFeature={setObservedFeature}
-          setYear={setYear}
-          setShowRate={setShowRate}
+          setYear={setYear} // Set to null under demographics.
+          setShowRate={setShowRate} // Set to null in Analytics view.
         />
         <div className="display-layout-root">
           <div className="display-layout-map">
