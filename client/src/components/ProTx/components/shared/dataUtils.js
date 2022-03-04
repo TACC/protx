@@ -127,6 +127,11 @@ const getMaltreatmentMetaData = (
       meta = { min: Math.min(...values), max: Math.max(...values) };
     }
   }
+  if (meta.max < 100.0000001 && meta.min > 99.9999999) {
+    // quick fix for https://github.com/TACC/protx/pull/97
+    meta.max = 100;
+    meta.min = 100;
+  }
   return meta;
 };
 
