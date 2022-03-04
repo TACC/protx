@@ -96,7 +96,7 @@ def maltrt_stacked_bar(maltrt_data_dict, unit_selected):
         fig.update_yaxes(title_text="Aggregated Totals")
     if unit_selected == 'percent':
         fig.update_yaxes(title_text="Percent of Total")
-    if unit_selected == 'rates_per_100k_under17':
+    if unit_selected == 'rate_per_100k_under17':
         fig.update_yaxes(title_text="Rate per 100K")
 
     # to deduplicate the legend, from https://stackoverflow.com/questions/26939121/how-to-avoid-duplicate-legend-labels-in-plotly-or-pass-custom-legend-labels
