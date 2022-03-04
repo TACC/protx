@@ -10,19 +10,6 @@ const capitalizeString = string => {
 };
 
 /**
- *
- * @param {*} targetValue
- * @returns
- */
-const cleanValue = targetValue => {
-  if (targetValue) {
-    const result = targetValue - Math.floor(targetValue) !== 0;
-    if (result) return `${targetValue.toFixed(2)} %`;
-  }
-  return targetValue;
-};
-
-/**
  * Compare an observedFeature's valueType with valueType and return  true if same type (i.e. percent type or non-percent type)
  *
  * This is not a valueType direct comparison as we are really considering things as being
@@ -327,24 +314,6 @@ const getMaltreatmentLabel = (maltreatmentTypes, showRate) => {
   return maltreatmentTypes.length > 1 ? 'Aggregated Count' : 'Count';
 };
 
-/**
- *
- * @param {*} typesDataArray
- * @returns
- */
-const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
-  const newMaltreatmentDataObject = [];
-  for (let i = 0; i < codeArray.length; i += 1) {
-    const dataObject = {};
-    dataObject.code = codeArray[i];
-    dataObject.name = nameArray[i];
-    dataObject.value = valueArray[i];
-    dataObject.highlight = false;
-    newMaltreatmentDataObject.push(dataObject);
-  }
-  return newMaltreatmentDataObject;
-};
-
 /** Get display label for selected observed feature
  *
  * @param selectedObservedFeatureCode:str code of feature
@@ -356,44 +325,14 @@ const getObservedFeaturesLabel = (selectedObservedFeatureCode, data) => {
   ).DISPLAY_TEXT;
 };
 
-/**
- *
- * @param {*} selectedObservedFeatureCode
- * @returns {valueType: string}
- */
-const getObservedFeatureValueType = (selectedObservedFeatureCode, data) => {
-  const units = data.display.variables.find(
-    f => selectedObservedFeatureCode === f.NAME
-  ).UNITS;
-  return units.charAt(0).toUpperCase() + units.slice(1);
-};
-
-/**
- *
- * @param {*} typesDataArray
- * @returns
- */
-const getPredictiveFeaturesDataObject = () => {
-  const newPredictiveFeaturesDataObject = [];
-
-  //
-
-  return newPredictiveFeaturesDataObject;
-};
-
 export {
   capitalizeString,
-  cleanValue,
   compareSimplifiedValueType,
   getMetaData,
   getObservedFeatureValue,
   getMaltreatmentAggregatedValue,
   getFipsIdName,
   getMaltreatmentTypeNames,
-  getMaltreatmentSelectedValues,
   getMaltreatmentLabel,
-  getMaltreatmentTypesDataObject,
-  getObservedFeaturesLabel,
-  getObservedFeatureValueType,
-  getPredictiveFeaturesDataObject
+  getObservedFeaturesLabel
 };
