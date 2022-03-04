@@ -11,9 +11,24 @@ import './DashboardDisplay.module.scss';
 function DashboardDisplay() {
   // Map type and selected types (i.e. geography, year etc)
   // TODO: control of this state should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
+
+  const PRESELECTED_MALTREATMENT_CATEGORIES = [
+    'ABAN',
+    'EMAB',
+    'LBTR',
+    'MDNG',
+    'NSUP',
+    'PHAB',
+    'PHNG',
+    'RAPR',
+    'SXAB',
+    'SXTR'
+  ];
   const [mapType, setMapType] = useState('maltreatment');
   const [geography, setGeography] = useState('county');
-  const [maltreatmentTypes, setMaltreatmentTypes] = useState(['ABAN']);
+  const [maltreatmentTypes, setMaltreatmentTypes] = useState(
+    PRESELECTED_MALTREATMENT_CATEGORIES
+  );
   const [observedFeature, setObservedFeature] = useState('CROWD');
   const [year, setYear] = useState('2019');
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
