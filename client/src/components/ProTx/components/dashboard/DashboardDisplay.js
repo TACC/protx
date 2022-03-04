@@ -45,7 +45,7 @@ function DashboardDisplay() {
 
   // Get systems and any other initial data we need from the backend.
   useEffect(() => {
-    if (mapType === 'matreatment') {
+    if (mapType === 'maltreatment') {
       // maltreatment only has county data.
       setGeography('county');
       setUnit('percent');
