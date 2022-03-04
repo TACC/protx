@@ -6,8 +6,7 @@ import './MaltreatmentSelector.css';
 const MaltreatmentSelector = ({
   selectedTypes,
   setSelectedTypes,
-  variables,
-  showRate
+  variables, unit
 }) => {
   const [selected, setSelected] = useState([]);
 
@@ -25,6 +24,8 @@ const MaltreatmentSelector = ({
       if (f.NAME === 'ALL') {
         return false;
       }
+      // todo, check with kelly if needed
+      const showRate = unit === 'percent' || unit === 'rate_per_100k_under17';
       if (showRate && f.DISPLAY_MALTREATMENT_RATE) {
         return true;
       }
@@ -83,7 +84,7 @@ const MaltreatmentSelector = ({
 
 MaltreatmentSelector.propTypes = {
   variables: PropTypes.arrayOf(PropTypes.object).isRequired,
-  showRate: PropTypes.bool.isRequired,
+  unit: PropTypes.string.isRequired,
   selectedTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedTypes: PropTypes.func.isRequired
 };

@@ -82,7 +82,7 @@ export function* fetchProtxMaltreatmentDistribution(action) {
         selectedArea: action.payload.selectedArea,
         geoid: action.payload.geoid,
         variables: action.payload.variables,
-        unit: action.payload.unit ? 'percent' : 'count'
+        unit: action.payload.unit
       })
     });
     yield put({

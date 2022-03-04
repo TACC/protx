@@ -10,9 +10,14 @@ import './DisplaySelectors.module.scss';
 function RateSelector({
   valueLabelRadioBtn0,
   valueLabelRadioBtn1,
-  showRate,
-  setShowRate
+  valueRadioBtn0,
+  valueRadioBtn1,
+  value,
+  setValue
 }) {
+
+  const isButton0Selected = value === valueRadioBtn0;
+  const isButton1Selected = value === valueRadioBtn1;
   return (
     <div styleName="radio-container">
       <div className="radio-container-element">
@@ -23,8 +28,8 @@ function RateSelector({
             type="radio"
             value="percent"
             styleName="radio-button"
-            checked={showRate}
-            onChange={() => setShowRate(true)}
+            checked={isButton0Selected}
+            onChange={() => setValue(valueRadioBtn0)}
           />
           {valueLabelRadioBtn0}
         </label>
@@ -35,10 +40,10 @@ function RateSelector({
           <input
             className="radio-button"
             type="radio"
-            value="total"
+            value={valueRadioBtn1}
             styleName="radio-button"
-            checked={!showRate}
-            onChange={() => setShowRate(false)}
+            checked={isButton1Selected}
+            onChange={() => setValue(valueRadioBtn1)}
           />
           {valueLabelRadioBtn1}
         </label>
@@ -50,8 +55,10 @@ function RateSelector({
 RateSelector.propTypes = {
   valueLabelRadioBtn0: PropTypes.string.isRequired,
   valueLabelRadioBtn1: PropTypes.string.isRequired,
-  showRate: PropTypes.bool.isRequired,
-  setShowRate: PropTypes.func.isRequired
+  valueRadioBtn0: PropTypes.string.isRequired,
+  valueRadioBtn1: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
 };
 
 /**
@@ -72,12 +79,12 @@ function DisplaySelectors({
   maltreatmentTypes,
   observedFeature,
   year,
-  showRate,
+  unit,
   setGeography,
   setMaltreatmentTypes,
   setObservedFeature,
   setYear,
-  setShowRate,
+  setUnit,
   limitToTopObservedFeatureFields
 }) {
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
@@ -85,25 +92,28 @@ function DisplaySelectors({
   const valueLabelRadioBtn0 = 'Percentages';
   const valueLabelRadioBtn1 =
     mapType === 'maltreatment' ? 'Rate per 100K children' : 'Totals';
+  const valueRadioBtn0 = 'percent';
+  const valueRadioBtn1 =
+    mapType === 'maltreatment' ? 'rate_per_100k_under17' : 'count';
   const display = useSelector(state => state.protx.data.display);
 
-  const changeShowRate = newShowRate => {
+  const changeUnit = newUnit => {
     if (mapType === 'observedFeatures') {
       // check to see if we also need to switch the variable if it doesn't a count or percentage
       // that would be needed.
       const current = display.variables.find(f => f.NAME === observedFeature);
-      if (newShowRate && current.DISPLAY_DEMOGRAPHIC_RATE === 0) {
+      if (newUnit && current.DISPLAY_DEMOGRAPHIC_RATE === 0) {
         setObservedFeature(
           display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_RATE === 1).NAME
         );
       }
-      if (!newShowRate && current.DISPLAY_DEMOGRAPHIC_COUNT === 0) {
+      if (!newUnit && current.DISPLAY_DEMOGRAPHIC_COUNT === 0) {
         setObservedFeature(
           display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_COUNT === 1).NAME
         );
       }
     }
-    setShowRate(newShowRate);
+    setUnit(newUnit);
   };
 
   return (
@@ -139,14 +149,16 @@ function DisplaySelectors({
           </optgroup>
         </DropdownSelector>
       </div>
-      {setShowRate && (
+      {setUnit && (
         <div styleName="control">
           <span styleName="label">Value</span>
           <RateSelector
+            value={unit}
             valueLabelRadioBtn0={valueLabelRadioBtn0}
             valueLabelRadioBtn1={valueLabelRadioBtn1}
-            showRate={showRate}
-            setShowRate={changeShowRate}
+            valueRadioBtn0={valueRadioBtn0}
+            valueRadioBtn1={valueRadioBtn1}
+            setValue={changeUnit}
           />
         </div>
       )}
@@ -154,7 +166,7 @@ function DisplaySelectors({
         <div styleName="control">
           <span styleName="label">Type</span>
           <MaltreatmentSelector
-            showRate={showRate}
+            unit={unit}
             variables={display.variables}
             selectedTypes={maltreatmentTypes}
             setSelectedTypes={setMaltreatmentTypes}
@@ -184,10 +196,13 @@ function DisplaySelectors({
                     if (limitToTopObservedFeatureFields) {
                       return OBSERVED_FEATURES_TOP_FIELDS.includes(f.NAME);
                     }
-                    if (showRate && f.DISPLAY_DEMOGRAPHIC_RATE) {
+                    if (
+                      unit === 'rate_per_100k_under17' &&
+                      f.DISPLAY_DEMOGRAPHIC_RATE
+                    ) {
                       return true;
                     }
-                    if (!showRate && f.DISPLAY_DEMOGRAPHIC_COUNT) {
+                    if (unit === 'count' && f.DISPLAY_DEMOGRAPHIC_COUNT) {
                       return true;
                     }
                     return false;
@@ -227,19 +242,19 @@ DisplaySelectors.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-  showRate: PropTypes.bool.isRequired,
+  unit: PropTypes.string.isRequired,
   setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
   setYear: PropTypes.func,
-  setShowRate: PropTypes.func,
+  setUnit: PropTypes.func,
   limitToTopObservedFeatureFields: PropTypes.bool
 };
 
 DisplaySelectors.defaultProps = {
   setGeography: null,
   setYear: null,
-  setShowRate: null,
+  setUnit: null,
   limitToTopObservedFeatureFields: false
 };
 

@@ -33,7 +33,7 @@ function DashboardDisplay() {
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
   );
-  const [showRate, setShowRate] = useState(true);
+  const [unit, setUnit] = useState('count');
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const protxRoute = '/protx';
@@ -42,6 +42,20 @@ function DashboardDisplay() {
   useEffect(() => {
     dispatch({ type: 'FETCH_PROTX' });
   }, []);
+
+  // Get systems and any other initial data we need from the backend.
+  useEffect(() => {
+    if (mapType === 'matreatment') {
+      // maltreatment only has county data.
+      setGeography('county');
+      setUnit('percent');
+    } else {
+      // observedFeatures (i.e. Demographic Features) and analytics
+      setYear('2019'); // observedFeatures (i.e. Demographic Features) only has 2019 data.
+      setGeography('county');
+      setUnit('count');
+    }
+  }, [mapType]);
 
   if (error) {
     return (
@@ -68,8 +82,6 @@ function DashboardDisplay() {
           path={`${protxRoute}/maltreatment`}
           render={() => {
             setMapType('maltreatment');
-            // maltreatment only has county data.
-            setGeography('county');
             return (
               <>
                 <DisplaySelectors
@@ -78,11 +90,11 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
-                  showRate={showRate}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
-                  setShowRate={setShowRate}
+                  setUnit={setUnit}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -92,7 +104,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
-                      showRate={showRate}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -109,7 +121,7 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showRate={showRate}
+                      unit={unit}
                       showInstructions
                     />
                   </div>
@@ -121,8 +133,6 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/demographics`}
           render={() => {
-            // observedFeatures (i.e. Demographic Features) only has 2019 data.
-            setYear('2019');
             setMapType('observedFeatures');
             return (
               <>
@@ -132,10 +142,10 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
-                  showRate={showRate}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
-                  setShowRate={setShowRate}
+                  setUnit={setUnit}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -145,7 +155,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
-                      showRate={showRate}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -162,7 +172,7 @@ function DashboardDisplay() {
                       year="2019"
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showRate={showRate}
+                      unit={unit}
                       showInstructions
                     />
                   </div>
@@ -175,9 +185,6 @@ function DashboardDisplay() {
           path={`${protxRoute}/analytics`}
           render={() => {
             setMapType('observedFeatures');
-            setYear('2019');
-            setGeography('county');
-            setShowRate(false);
             return (
               <>
                 <DisplaySelectors
@@ -186,7 +193,7 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
-                  showRate={showRate}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
@@ -199,7 +206,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
-                      showRate={showRate}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -216,7 +223,7 @@ function DashboardDisplay() {
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showRate={showRate}
+                      unit={unit}
                       showInstructions
                     />
                   </div>
