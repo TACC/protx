@@ -12,7 +12,6 @@ import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
 import './MainChart.css';
 
 function MainChart({
-  mapType,
   chartType,
   geography,
   maltreatmentTypes,
@@ -83,7 +82,6 @@ function MainChart({
         });
       }
     }, [
-      mapType,
       geography,
       observedFeature,
       selectedGeographicFeature,
@@ -221,7 +219,6 @@ function MainChart({
 }
 
 MainChart.propTypes = {
-  mapType: PropTypes.string.isRequired,
   chartType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
