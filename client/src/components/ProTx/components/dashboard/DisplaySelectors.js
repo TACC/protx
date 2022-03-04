@@ -25,7 +25,7 @@ function RateSelector({
           <input
             className="radio-button"
             type="radio"
-            value="percent"
+            value={valueRadioBtn0}
             styleName="radio-button"
             checked={isButton0Selected}
             onChange={() => setValue(valueRadioBtn0)}
