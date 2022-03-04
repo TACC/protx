@@ -77,8 +77,6 @@ function DashboardDisplay() {
                   observedFeature={observedFeature}
                   year={year}
                   showRate={showRate}
-                  // setGeography={setGeography}
-                  setGeography="null"
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
@@ -131,11 +129,8 @@ function DashboardDisplay() {
                   observedFeature={observedFeature}
                   year="2019"
                   showRate={showRate}
-                  // setGeography={setGeography}
-                  setGeography="null"
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
-                  setYear={setYear} // Set to null under demographics.
                   setShowRate={setShowRate}
                 />
                 <div className="display-layout-root">
@@ -185,12 +180,9 @@ function DashboardDisplay() {
                   observedFeature={observedFeature}
                   year="2019"
                   showRate={showRate}
-                  // setGeography={setGeography}
-                  setGeography="null"
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
-                  setShowRate={setShowRate} // Set to null in Analytics view.
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
