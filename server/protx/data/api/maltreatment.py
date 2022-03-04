@@ -91,6 +91,7 @@ def maltrt_stacked_bar(maltrt_data_dict):
 
     fig = go.Figure(data=fig_data)
     fig.update_layout(barmode='stack')
+    fig.update_yaxes(title_text="Percent of Total")
 
     # to deduplicate the legend, from https://stackoverflow.com/questions/26939121/how-to-avoid-duplicate-legend-labels-in-plotly-or-pass-custom-legend-labels
     names = set()
