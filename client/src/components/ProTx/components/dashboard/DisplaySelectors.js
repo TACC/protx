@@ -15,7 +15,6 @@ function RateSelector({
   value,
   setValue
 }) {
-
   const isButton0Selected = value === valueRadioBtn0;
   const isButton1Selected = value === valueRadioBtn1;
   return (

@@ -76,7 +76,7 @@ function MainChart({
             area: geography,
             selectedArea: selectedGeographicFeature,
             variable: observedFeature,
-            unit: unit
+            unit
           }
         });
       }
@@ -151,7 +151,7 @@ function MainChart({
             area: geography,
             selectedArea: selectedGeographicFeatureNameComplete,
             geoid: selectedGeographicFeature,
-            unit: unit,
+            unit,
             variables: maltreatmentTypes
           }
         });

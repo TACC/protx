@@ -6,7 +6,8 @@ import './MaltreatmentSelector.css';
 const MaltreatmentSelector = ({
   selectedTypes,
   setSelectedTypes,
-  variables, unit
+  variables,
+  unit
 }) => {
   const [selected, setSelected] = useState([]);
 
