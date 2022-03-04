@@ -10,8 +10,9 @@ import './DashboardDisplay.module.scss';
 
 function DashboardDisplay() {
   // Map type and selected types (i.e. geography, year etc)
-  // TODO: control of this state should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
-
+  // TODO: control of this state (county, year, feature etc) should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
+  const [mapType, setMapType] = useState('maltreatment');
+  const [geography, setGeography] = useState('county');
   const PRESELECTED_MALTREATMENT_CATEGORIES = [
     'ABAN',
     'EMAB',
@@ -24,8 +25,6 @@ function DashboardDisplay() {
     'SXAB',
     'SXTR'
   ];
-  // const [mapType, setMapType] = useState('maltreatment');
-  // const [geography, setGeography] = useState('county');
   const [maltreatmentTypes, setMaltreatmentTypes] = useState(
     PRESELECTED_MALTREATMENT_CATEGORIES
   );
@@ -34,7 +33,7 @@ function DashboardDisplay() {
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
   );
-  const [showRate, setShowRate] = useState(true);
+  const [unit, setUnit] = useState('count');
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const protxRoute = '/protx';
@@ -43,6 +42,20 @@ function DashboardDisplay() {
   useEffect(() => {
     dispatch({ type: 'FETCH_PROTX' });
   }, []);
+
+  // Get systems and any other initial data we need from the backend.
+  useEffect(() => {
+    if (mapType === 'matreatment') {
+      // maltreatment only has county data.
+      setGeography('county');
+      setUnit('percent');
+    } else {
+      // observedFeatures (i.e. Demographic Features) and analytics
+      setYear('2019'); // observedFeatures (i.e. Demographic Features) only has 2019 data.
+      setGeography('county');
+      setUnit('count');
+    }
+  }, [mapType]);
 
   if (error) {
     return (
@@ -68,31 +81,30 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/maltreatment`}
           render={() => {
+            setMapType('maltreatment');
             return (
               <>
                 <DisplaySelectors
-                  mapType="maltreatment"
-                  geography="county"
+                  mapType={mapType}
+                  geography={geography}
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
-                  showRate={showRate}
-                  // setGeography={setGeography}
-                  setGeography="null"
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
-                  setShowRate={setShowRate}
+                  setUnit={setUnit}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
                     <MainMap
-                      mapType="maltreatment"
-                      geography="county"
+                      mapType={mapType}
+                      geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
-                      showRate={showRate}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -103,14 +115,13 @@ function DashboardDisplay() {
                   <div className="display-layout-chart">
                     <MainChart
                       chartType="maltreatment"
-                      mapType="maltreatment"
-                      geography="county"
+                      geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showRate={showRate}
+                      unit={unit}
                       showInstructions
                     />
                   </div>
@@ -122,31 +133,29 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/demographics`}
           render={() => {
+            setMapType('observedFeatures');
             return (
               <>
                 <DisplaySelectors
-                  mapType="observedFeatures"
-                  geography="county"
+                  mapType={mapType}
+                  geography={geography}
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
-                  year="2019"
-                  showRate={showRate}
-                  // setGeography={setGeography}
-                  setGeography="null"
+                  year={year}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
-                  setYear={setYear} // Set to null under demographics.
-                  setShowRate={setShowRate}
+                  setUnit={setUnit}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
                     <MainMap
-                      mapType="observedFeatures"
-                      geography="county"
+                      mapType={mapType}
+                      geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
-                      year="2019"
-                      showRate={showRate}
+                      year={year}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -157,14 +166,13 @@ function DashboardDisplay() {
                   <div className="display-layout-chart">
                     <MainChart
                       chartType="demographics"
-                      mapType="observedFeatures"
-                      geography="county"
-                      maltreatmentTypes={maltreatmentTypes}
+                      mapType={mapType}
+                      geography={geography}
                       observedFeature={observedFeature}
                       year="2019"
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showRate={showRate}
+                      unit={unit}
                       showInstructions
                     />
                   </div>
@@ -176,31 +184,29 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/analytics`}
           render={() => {
+            setMapType('observedFeatures');
             return (
               <>
                 <DisplaySelectors
-                  mapType="observedFeatures"
-                  geography="county"
+                  mapType={mapType}
+                  geography={geography}
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
-                  year="2019"
-                  showRate={showRate}
-                  // setGeography={setGeography}
-                  setGeography="null"
+                  year={year}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
-                  setShowRate={setShowRate} // Set to null in Analytics view.
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
                     <MainMap
-                      mapType="observedFeatures"
-                      geography="county"
+                      mapType={mapType}
+                      geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
-                      year="2019"
-                      showRate={showRate}
+                      year={year}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -211,14 +217,13 @@ function DashboardDisplay() {
                   <div className="display-layout-chart">
                     <MainChart
                       chartType="analytics"
-                      mapType="observedFeatures"
-                      geography="county"
+                      geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
-                      year="2019"
+                      year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showRate={showRate}
+                      unit={unit}
                       showInstructions
                     />
                   </div>

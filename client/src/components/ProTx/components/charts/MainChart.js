@@ -12,15 +12,13 @@ import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
 import './MainChart.css';
 
 function MainChart({
-  mapType,
   chartType,
   geography,
   maltreatmentTypes,
   observedFeature,
-  year,
   selectedGeographicFeature,
   data,
-  showRate,
+  unit,
   showInstructions
 }) {
   // ANALYTICS PLOT.
@@ -78,17 +76,11 @@ function MainChart({
             area: geography,
             selectedArea: selectedGeographicFeature,
             variable: observedFeature,
-            unit: showRate ? 'percent' : 'count'
+            unit
           }
         });
       }
-    }, [
-      mapType,
-      geography,
-      observedFeature,
-      selectedGeographicFeature,
-      showRate
-    ]);
+    }, [geography, observedFeature, selectedGeographicFeature, unit]);
 
     if (selectedGeographicFeature && observedFeature) {
       if (protxDemographicsDistribution.error) {
@@ -159,7 +151,7 @@ function MainChart({
             area: geography,
             selectedArea: selectedGeographicFeatureNameComplete,
             geoid: selectedGeographicFeature,
-            unit: showRate,
+            unit,
             variables: maltreatmentTypes
           }
         });
@@ -168,7 +160,7 @@ function MainChart({
       geography,
       selectedGeographicFeatureNameComplete,
       selectedGeographicFeature,
-      showRate,
+      unit,
       maltreatmentTypes
     ]);
 
@@ -199,8 +191,6 @@ function MainChart({
                 geography={geography}
                 selectedGeographicFeature={selectedGeographicFeature}
                 maltreatmentTypes={maltreatmentTypes}
-                showRate={showRate}
-                year={year}
                 data={data}
               />
               <MainPlot plotState={plotState} />
@@ -221,16 +211,14 @@ function MainChart({
 }
 
 MainChart.propTypes = {
-  mapType: PropTypes.string.isRequired,
   chartType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
-  showRate: PropTypes.bool.isRequired,
+  unit: PropTypes.string.isRequired,
   showInstructions: PropTypes.bool
 };
 

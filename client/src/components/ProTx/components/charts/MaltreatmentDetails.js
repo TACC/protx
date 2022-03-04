@@ -11,8 +11,6 @@ function MaltreatmentDetails({
   geography,
   selectedGeographicFeature,
   maltreatmentTypes,
-  showRate,
-  year,
   data
 }) {
   const fipsIdValue = getFipsIdName(selectedGeographicFeature);
@@ -63,8 +61,6 @@ MaltreatmentDetails.propTypes = {
   geography: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  showRate: PropTypes.bool.isRequired,
-  year: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
 };
