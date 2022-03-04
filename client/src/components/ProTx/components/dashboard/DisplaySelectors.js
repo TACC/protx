@@ -195,10 +195,7 @@ function DisplaySelectors({
                     if (limitToTopObservedFeatureFields) {
                       return OBSERVED_FEATURES_TOP_FIELDS.includes(f.NAME);
                     }
-                    if (
-                      unit === 'rate_per_100k_under17' &&
-                      f.DISPLAY_DEMOGRAPHIC_RATE
-                    ) {
+                    if (unit === 'percent' && f.DISPLAY_DEMOGRAPHIC_RATE) {
                       return true;
                     }
                     if (unit === 'count' && f.DISPLAY_DEMOGRAPHIC_COUNT) {
