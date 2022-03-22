@@ -4,32 +4,58 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
 import DisplaySelectors from './DisplaySelectors';
 import MainMap from '../maps/MainMap';
-import MaltreatmentChart from '../charts/MaltreatmentChart';
-import ObservedFeaturesChart from '../charts/ObservedFeaturesChart';
-import PredictiveFeaturesChart from '../charts/PredictiveFeaturesChart';
+import MainChart from '../charts/MainChart';
 import './DashboardDisplay.css';
 import './DashboardDisplay.module.scss';
 
 function DashboardDisplay() {
   // Map type and selected types (i.e. geography, year etc)
-  // TODO: control of this state should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
+  // TODO: control of this state (county, year, feature etc) should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
   const [mapType, setMapType] = useState('maltreatment');
   const [geography, setGeography] = useState('county');
-  const [maltreatmentTypes, setMaltreatmentTypes] = useState(['ABAN']);
+  const PRESELECTED_MALTREATMENT_CATEGORIES = [
+    'ABAN',
+    'EMAB',
+    'LBTR',
+    'MDNG',
+    'NSUP',
+    'PHAB',
+    'PHNG',
+    'RAPR',
+    'SXAB',
+    'SXTR'
+  ];
+  const [maltreatmentTypes, setMaltreatmentTypes] = useState(
+    PRESELECTED_MALTREATMENT_CATEGORIES
+  );
   const [observedFeature, setObservedFeature] = useState('CROWD');
   const [year, setYear] = useState('2019');
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
   );
-  const [showRate, setShowRate] = useState(true);
+  const [unit, setUnit] = useState('count');
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const protxRoute = '/protx';
 
-  // Get systems and any other initial data we need from the backend
+  // Get systems and any other initial data we need from the backend.
   useEffect(() => {
     dispatch({ type: 'FETCH_PROTX' });
   }, []);
+
+  // Get systems and any other initial data we need from the backend.
+  useEffect(() => {
+    if (mapType === 'maltreatment') {
+      // maltreatment only has county data.
+      setGeography('county');
+      setUnit('percent');
+    } else {
+      // observedFeatures (i.e. Demographic Features) and analytics
+      setYear('2019'); // observedFeatures (i.e. Demographic Features) only has 2019 data.
+      setGeography('county');
+      setUnit('count');
+    }
+  }, [mapType]);
 
   if (error) {
     return (
@@ -56,8 +82,6 @@ function DashboardDisplay() {
           path={`${protxRoute}/maltreatment`}
           render={() => {
             setMapType('maltreatment');
-            // maltreatment only has county data.
-            setGeography('county');
             return (
               <>
                 <DisplaySelectors
@@ -66,12 +90,11 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
-                  showRate={showRate}
-                  setGeography={setGeography}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
-                  setShowRate={setShowRate}
+                  setUnit={setUnit}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -81,7 +104,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
-                      showRate={showRate}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -90,15 +113,15 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    <MaltreatmentChart
-                      mapType={mapType}
+                    <MainChart
+                      chartType="maltreatment"
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
-                      showRate={showRate}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                      unit={unit}
                       showInstructions
                     />
                   </div>
@@ -110,8 +133,6 @@ function DashboardDisplay() {
         <Route
           path={`${protxRoute}/demographics`}
           render={() => {
-            // observedFeatures (i.e. Demographic Features) only has 2019 data.
-            setYear('2019');
             setMapType('observedFeatures');
             return (
               <>
@@ -121,11 +142,10 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
-                  showRate={showRate}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
-                  setGeography={setGeography}
-                  setShowRate={setShowRate}
+                  setUnit={setUnit}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -134,8 +154,8 @@ function DashboardDisplay() {
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
-                      showRate={showRate}
                       year={year}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -144,13 +164,15 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    <ObservedFeaturesChart
+                    <MainChart
+                      chartType="demographics"
                       mapType={mapType}
                       geography={geography}
                       observedFeature={observedFeature}
+                      year="2019"
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
-                      showRate={showRate}
+                      unit={unit}
                       showInstructions
                     />
                   </div>
@@ -163,9 +185,6 @@ function DashboardDisplay() {
           path={`${protxRoute}/analytics`}
           render={() => {
             setMapType('observedFeatures');
-            setYear('2019');
-            setGeography('county');
-            setShowRate(false);
             return (
               <>
                 <DisplaySelectors
@@ -174,10 +193,10 @@ function DashboardDisplay() {
                   maltreatmentTypes={maltreatmentTypes}
                   observedFeature={observedFeature}
                   year={year}
-                  showRate={showRate}
+                  unit={unit}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
-                  limitToTopObservedFeatureFields
+                  setYear={setYear}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -187,7 +206,7 @@ function DashboardDisplay() {
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
-                      showRate={showRate}
+                      unit={unit}
                       data={data}
                       selectedGeographicFeature={selectedGeographicFeature}
                       setSelectedGeographicFeature={
@@ -196,14 +215,15 @@ function DashboardDisplay() {
                     />
                   </div>
                   <div className="display-layout-chart">
-                    <PredictiveFeaturesChart
-                      mapType={mapType}
+                    <MainChart
+                      chartType="analytics"
                       geography={geography}
                       maltreatmentTypes={maltreatmentTypes}
                       observedFeature={observedFeature}
                       year={year}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
+                      unit={unit}
                       showInstructions
                     />
                   </div>

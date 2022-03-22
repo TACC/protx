@@ -42,7 +42,7 @@ function MainMap({
   maltreatmentTypes,
   observedFeature,
   year,
-  showRate,
+  unit,
   data,
   selectedGeographicFeature,
   setSelectedGeographicFeature
@@ -85,11 +85,7 @@ function MainMap({
 
   /** Handle changes in zoom and show resources when zoomed into map
    */
-  const handleZoom = (
-    newZoomLevel,
-    currentMap,
-    currentLayerControl
-  ) => {
+  const handleZoom = (newZoomLevel, currentMap, currentLayerControl) => {
     const previousZoomLevel = refZoomLevel.current;
     const zoomTransitionOccurred =
       (newZoomLevel < RESOURCE_ZOOM_LEVEL &&
@@ -193,7 +189,7 @@ function MainMap({
         year,
         observedFeature,
         maltreatmentTypes,
-        showRate
+        unit
       );
 
       const intervalColorScale = meta ? new IntervalColorScale(meta) : null;
@@ -202,7 +198,7 @@ function MainMap({
       if (intervalColorScale) {
         const label =
           mapType === 'maltreatment'
-            ? getMaltreatmentLabel(maltreatmentTypes, showRate)
+            ? getMaltreatmentLabel(maltreatmentTypes, unit)
             : getObservedFeaturesLabel(observedFeature, data);
 
         const newLegend = L.control({ position: 'bottomright' });
@@ -229,7 +225,7 @@ function MainMap({
     geography,
     maltreatmentTypes,
     year,
-    showRate,
+    unit,
     map,
     texasOutlineLayer
   ]);
@@ -336,7 +332,7 @@ function MainMap({
               geoid,
               observedFeature,
               maltreatmentTypes,
-              showRate
+              unit
             );
           }
         },
@@ -373,7 +369,7 @@ function MainMap({
               clickedGeographicFeature,
               observedFeature,
               maltreatmentTypes,
-              showRate
+              unit
             ),
             color: 'black',
             weight: 2.0,
@@ -408,7 +404,7 @@ function MainMap({
             selectedGeographicFeature,
             observedFeature,
             maltreatmentTypes,
-            showRate
+            unit
           ),
           color: 'black',
           weight: 2.0,
@@ -433,7 +429,7 @@ function MainMap({
     observedFeature,
     maltreatmentTypes,
     year,
-    showRate,
+    unit,
     layersControl,
     map
   ]);
@@ -447,7 +443,7 @@ MainMap.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-  showRate: PropTypes.bool.isRequired,
+  unit: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types

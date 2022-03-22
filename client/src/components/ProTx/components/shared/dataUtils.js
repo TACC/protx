@@ -10,19 +10,6 @@ const capitalizeString = string => {
 };
 
 /**
- *
- * @param {*} targetValue
- * @returns
- */
-const cleanValue = targetValue => {
-  if (targetValue) {
-    const result = targetValue - Math.floor(targetValue) !== 0;
-    if (result) return `${targetValue.toFixed(2)} %`;
-  }
-  return targetValue;
-};
-
-/**
  * Compare an observedFeature's valueType with valueType and return  true if same type (i.e. percent type or non-percent type)
  *
  * This is not a valueType direct comparison as we are really considering things as being
@@ -77,18 +64,15 @@ const getObservedFeaturesMetaData = (
   geography,
   year,
   observedFeature,
-  showRate
+  unit
 ) => {
-  const selectedType = showRate ? 'percent' : 'count';
   const hasValues =
     geography in data.observedFeaturesMeta &&
     year in data.observedFeaturesMeta[geography] &&
     observedFeature in data.observedFeaturesMeta[geography][year] &&
-    selectedType in data.observedFeaturesMeta[geography][year][observedFeature];
+    unit in data.observedFeaturesMeta[geography][year][observedFeature];
   if (hasValues) {
-    return data.observedFeaturesMeta[geography][year][observedFeature][
-      selectedType
-    ];
+    return data.observedFeaturesMeta[geography][year][observedFeature][unit];
   }
   return null;
 };
@@ -99,7 +83,7 @@ const getObservedFeaturesMetaData = (
  * @param {String} geography
  * @param {Number} year
  * @param Array<{String}> maltreatmentTypes
- * @param {bool} showRate
+ * @param {String} valueType
  * @returns {Object} meta data (min, max)
  */
 const getMaltreatmentMetaData = (
@@ -107,7 +91,7 @@ const getMaltreatmentMetaData = (
   geography,
   year,
   maltreatmentTypes,
-  showRate
+  valueType
 ) => {
   // maltreatment data is derived from data as
   // it is based on the list of selected maltreatment types
@@ -126,9 +110,7 @@ const getMaltreatmentMetaData = (
     maltreatmentTypes.forEach(malType => {
       if (malType in yearDataSet) {
         Object.entries(yearDataSet[malType]).forEach(([geoid, countInfo]) => {
-          const value = showRate
-            ? countInfo.rate_per_100k_under17
-            : countInfo.count;
+          const value = countInfo[valueType];
           if (value) {
             if (geoid in aggregrateValues) {
               aggregrateValues[geoid] += value;
@@ -145,6 +127,11 @@ const getMaltreatmentMetaData = (
       meta = { min: Math.min(...values), max: Math.max(...values) };
     }
   }
+  if (meta.max < 100.0000001 && meta.min > 99.9999999) {
+    // quick fix for https://github.com/TACC/protx/pull/97
+    meta.max = 100;
+    meta.min = 100;
+  }
   return meta;
 };
 
@@ -156,7 +143,7 @@ const getMaltreatmentMetaData = (
  * @param {Number} year
  * @param {String} observedFeature
  * @param Array<{String}> maltreatmentTypes
- * @param {boolean} showRate
+ * @param {String} unit
  * @returns {Object} meta data (min, max)
  */
 const getMetaData = (
@@ -166,7 +153,7 @@ const getMetaData = (
   year,
   observedFeature,
   maltreatmentTypes,
-  showRate
+  unit
 ) => {
   const meta =
     mapType === 'observedFeatures'
@@ -175,15 +162,9 @@ const getMetaData = (
           geography,
           year,
           observedFeature,
-          showRate
+          unit
         )
-      : getMaltreatmentMetaData(
-          data,
-          geography,
-          year,
-          maltreatmentTypes,
-          showRate
-        );
+      : getMaltreatmentMetaData(data, geography, year, maltreatmentTypes, unit);
   return meta;
 };
 
@@ -194,7 +175,7 @@ const getMetaData = (
  * @param {Number} year
  * @param {Number} geoid
  * @param {String} observedFeature
- * @param {boolean} showRate
+ * @param {boolean} unit
  * @returns {Number} value (null if no value exists)
  */
 const getObservedFeatureValue = (
@@ -203,17 +184,16 @@ const getObservedFeatureValue = (
   year,
   geoid,
   observedFeature,
-  showRate
+  unit
 ) => {
   const dataSet = data.observedFeatures[geography];
-  const valueType = showRate ? 'percent' : 'count';
   const hasElementAndProperty =
     year in dataSet &&
     observedFeature in dataSet[year] &&
     geoid in dataSet[year][observedFeature] &&
-    valueType in dataSet[year][observedFeature][geoid];
+    unit in dataSet[year][observedFeature][geoid];
   const featureValue = hasElementAndProperty
-    ? dataSet[year][observedFeature][geoid][valueType]
+    ? dataSet[year][observedFeature][geoid][unit]
     : null;
   return featureValue;
 };
@@ -231,7 +211,7 @@ const getMaltreatmentAggregatedValue = (
   data,
   geography,
   year,
-  showRate,
+  valueType,
   geoid,
   maltreatmentTypes
 ) => {
@@ -240,7 +220,6 @@ const getMaltreatmentAggregatedValue = (
   let value = 0;
   if (hasYearAndGeography) {
     maltreatmentTypes.forEach(malType => {
-      const valueType = showRate ? `rate_per_100k_under17` : `count`;
       if (
         malType in data.maltreatment[geography][year] &&
         geoid in data.maltreatment[geography][year][malType] &&
@@ -277,72 +256,20 @@ const getMaltreatmentTypeNames = (maltreatmentTypeCodes, data) => {
 };
 
 /**
- * Get array of values for the selected maltreatment types for a feature
- * @param {Object} data
- * @param {String} geography
- * @param {Number} year
- * @param {Number} geoid
- * @param Array<{String}> maltreatmentTypes
- * @returns Array<{Number}> of values
- */
-const getMaltreatmentSelectedValues = (
-  data,
-  geography,
-  year,
-  showRate,
-  geoid,
-  maltreatmentTypes
-) => {
-  const hasYearAndGeography =
-    geography in data.maltreatment && year in data.maltreatment[geography];
-  const valuesArray = [];
-  if (hasYearAndGeography) {
-    maltreatmentTypes.forEach(malType => {
-      let value = 0; // Revisit this supposition about missing data values later with Kelly.
-      const valueType = showRate ? `rate_per_100k_under17` : `count`;
-      if (
-        malType in data.maltreatment[geography][year] &&
-        geoid in data.maltreatment[geography][year][malType] &&
-        valueType in data.maltreatment[geography][year][malType][geoid]
-      ) {
-        value = data.maltreatment[geography][year][malType][geoid][valueType];
-      }
-      valuesArray.push(value);
-    });
-  }
-  return valuesArray;
-};
-
-/**
  * Get label for selected maltreatment types
  * @param Array<{String}> maltreatmentTypes
- * @param <bool> showRate
+ * @param <String> unit
  */
-const getMaltreatmentLabel = (maltreatmentTypes, showRate) => {
-  if (showRate) {
+const getMaltreatmentLabel = (maltreatmentTypes, unit) => {
+  if (unit === 'percent') {
+    return 'Percent';
+  }
+  if (unit === 'rate_per_100k_under17') {
     return maltreatmentTypes.length > 1
       ? 'Aggregated rate per 100K children'
       : 'Rate per 100K children';
   }
   return maltreatmentTypes.length > 1 ? 'Aggregated Count' : 'Count';
-};
-
-/**
- *
- * @param {*} typesDataArray
- * @returns
- */
-const getMaltreatmentTypesDataObject = (codeArray, nameArray, valueArray) => {
-  const newMaltreatmentDataObject = [];
-  for (let i = 0; i < codeArray.length; i += 1) {
-    const dataObject = {};
-    dataObject.code = codeArray[i];
-    dataObject.name = nameArray[i];
-    dataObject.value = valueArray[i];
-    dataObject.highlight = false;
-    newMaltreatmentDataObject.push(dataObject);
-  }
-  return newMaltreatmentDataObject;
 };
 
 /** Get display label for selected observed feature
@@ -356,44 +283,14 @@ const getObservedFeaturesLabel = (selectedObservedFeatureCode, data) => {
   ).DISPLAY_TEXT;
 };
 
-/**
- *
- * @param {*} selectedObservedFeatureCode
- * @returns {valueType: string}
- */
-const getObservedFeatureValueType = (selectedObservedFeatureCode, data) => {
-  const units = data.display.variables.find(
-    f => selectedObservedFeatureCode === f.NAME
-  ).UNITS;
-  return units.charAt(0).toUpperCase() + units.slice(1);
-};
-
-/**
- *
- * @param {*} typesDataArray
- * @returns
- */
-const getPredictiveFeaturesDataObject = () => {
-  const newPredictiveFeaturesDataObject = [];
-
-  //
-
-  return newPredictiveFeaturesDataObject;
-};
-
 export {
   capitalizeString,
-  cleanValue,
   compareSimplifiedValueType,
   getMetaData,
   getObservedFeatureValue,
   getMaltreatmentAggregatedValue,
   getFipsIdName,
   getMaltreatmentTypeNames,
-  getMaltreatmentSelectedValues,
   getMaltreatmentLabel,
-  getMaltreatmentTypesDataObject,
-  getObservedFeaturesLabel,
-  getObservedFeatureValueType,
-  getPredictiveFeaturesDataObject
+  getObservedFeaturesLabel
 };

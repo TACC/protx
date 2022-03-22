@@ -2,129 +2,62 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { LoadingSpinner } from '_common';
-import {
-  getMaltreatmentTypeNames,
-  getMaltreatmentSelectedValues,
-  getMaltreatmentAggregatedValue,
-  getMaltreatmentTypesDataObject,
-  getPredictiveFeaturesDataObject
-} from '../shared/dataUtils';
-import {
-  plotConfig,
-  getPlotLayout,
-  getPlotDataBars
-} from '../shared/plotUtils';
 import ChartInstructions from './ChartInstructions';
+import AnalyticsDetails from './AnalyticsDetails';
+import PredictiveFeaturesTable from './PredictiveFeaturesTable';
 import DemographicsDetails from './DemographicsDetails';
 import MaltreatmentDetails from './MaltreatmentDetails';
-import PredictiveFeaturesTable from './PredictiveFeaturesTable';
-import AnalyticsDetails from './AnalyticsDetails';
 import MainPlot from './MainPlot';
+import { getFipsIdName, capitalizeString } from '../shared/dataUtils';
 import './MainChart.css';
 
 function MainChart({
-  mapType,
   chartType,
   geography,
   maltreatmentTypes,
   observedFeature,
-  year,
   selectedGeographicFeature,
   data,
-  showRate,
+  unit,
   showInstructions
 }) {
-  /***********************/
-  /** ANALYTICS PLOT    **/
-  /***********************/
-
+  // ANALYTICS PLOT.
   if (chartType === 'analytics') {
-    const prepPredictiveFeaturesPlotData = () => {
-      const newPredictiveFeaturesDataObject = getPredictiveFeaturesDataObject();
-
-      // Transform the response from the query into the required object structure for the plot.
-      const predictiveFeaturesDataObject = [];
-
-      const axisCategories = [
-        'category',
-        'linear',
-        'log',
-        'date',
-        'multicategory',
-        '-'
-      ];
-
-      const plotTitle = 'Predictive Features';
-      const plotOrientation = 'v';
-      const showPlotLegend = true;
-      const plotXDataLabel = 'X DATA LABEL';
-      const plotXDataAxisType = axisCategories[1];
-      const plotYDataLabel = 'Y DATA LABEL';
-      const plotYDataAxisType = axisCategories[1];
-
-      const plotLayout = getPlotLayout(
-        plotTitle,
-        plotOrientation,
-        showPlotLegend,
-        plotXDataLabel,
-        plotXDataAxisType,
-        plotYDataLabel,
-        plotYDataAxisType
-      );
-
-      const plotData = getPlotDataBars(
-        'predictive',
-        predictiveFeaturesDataObject,
-        plotOrientation
-      );
+    if (selectedGeographicFeature && observedFeature) {
+      const showPlot = false; // Hide the plot while in dev.
 
       const plotState = {
-        data: plotData,
-        layout: plotLayout,
-        config: plotConfig,
-        raw: newPredictiveFeaturesDataObject
+        data: [{ type: 'bar', x: [1, 2, 3], y: [1, 3, 2] }],
+        layout: { title: { text: 'Analytics' } }
       };
 
-      const predictiveFeaturesPlotData = {
-        predictiveFeaturesPlotState: plotState
-      };
-
-      return predictiveFeaturesPlotData;
-    };
-
-    const predictiveFeaturesPlotData = prepPredictiveFeaturesPlotData();
-    const plotState = predictiveFeaturesPlotData.predictiveFeaturesPlotState;
-    const showPlot = false; // Hide the plot while its still a work-in-progress.
-
-    return (
-      <div className="predictive-features-chart">
-        <div className="predictive-features-plot">
-          <div className="predictive-features-plot-layout">
-            <PredictiveFeaturesTable
-              selectedGeographicFeature={selectedGeographicFeature}
-            />
-            {showPlot && (
-              <>
-                <AnalyticsDetails
-                  geography={geography}
-                  observedFeature={observedFeature}
-                  selectedGeographicFeature={selectedGeographicFeature}
-                  data={data}
-                />
-                <MainPlot plotState={plotState} />
-              </>
-            )}
-            <ChartInstructions currentReportType="hidden" />
+      return (
+        <div className="predictive-features-chart">
+          <div className="predictive-features-plot">
+            <div className="predictive-features-plot-layout">
+              <PredictiveFeaturesTable
+                selectedGeographicFeature={selectedGeographicFeature}
+              />
+              {showPlot && (
+                <>
+                  <AnalyticsDetails
+                    geography={geography}
+                    observedFeature={observedFeature}
+                    selectedGeographicFeature={selectedGeographicFeature}
+                    data={data}
+                  />
+                  <MainPlot plotState={plotState} />
+                </>
+              )}
+              <ChartInstructions currentReportType="hidden" />
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
-  /***********************/
-  /** DEMOGRAPHICS PLOT **/
-  /***********************/
-
+  // DEMOGRAPHICS PLOT.
   if (chartType === 'demographics') {
     const protxDemographicsDistribution = useSelector(
       state => state.protxDemographicsDistribution
@@ -138,22 +71,16 @@ function MainChart({
       }
       if (selectedGeographicFeature) {
         dispatch({
-          type: 'FETCH_PROTX_DEMOGRAPHIC_DISTRIBUTION',
+          type: 'FETCH_PROTX_DEMOGRAPHICS_DISTRIBUTION',
           payload: {
             area: geography,
             selectedArea: selectedGeographicFeature,
             variable: observedFeature,
-            unit: showRate ? 'percent' : 'count'
+            unit
           }
         });
       }
-    }, [
-      mapType,
-      geography,
-      observedFeature,
-      selectedGeographicFeature,
-      showRate
-    ]);
+    }, [geography, observedFeature, selectedGeographicFeature, unit]);
 
     if (selectedGeographicFeature && observedFeature) {
       if (protxDemographicsDistribution.error) {
@@ -191,103 +118,71 @@ function MainChart({
     }
   }
 
-  /***********************/
-  /** MALTEATMENT PLOT  **/
-  /***********************/
-
+  // MALTEATMENT PLOT.
   if (chartType === 'maltreatment') {
-    // Dummy state data to make the empty plot render.
-    let protxMaltreatmentDistribution = {};
-
-    const prepMaltreatmentPlotData = (
-      selectedGeographicFeaturePrep,
-      maltreatmentTypesPrep,
-      dataPrep,
-      geographyPrep,
-      yearPrep,
-      showRatePrep
-    ) => {
-      const geoid = selectedGeographicFeaturePrep;
-      const maltreatmentTypesList = getMaltreatmentTypeNames(
-        maltreatmentTypesPrep,
-        dataPrep
-      );
-
-      const maltreatmentTypesDataValues = getMaltreatmentSelectedValues(
-        dataPrep,
-        geographyPrep,
-        yearPrep,
-        showRatePrep,
-        geoid,
-        maltreatmentTypesPrep
-      );
-
-      const maltreatmentTypesDataAggregate = getMaltreatmentAggregatedValue(
-        dataPrep,
-        geographyPrep,
-        yearPrep,
-        showRatePrep,
-        geoid,
-        maltreatmentTypesPrep
-      ).toFixed(0);
-
-      const maltreatmentTypesDataObject = getMaltreatmentTypesDataObject(
-        maltreatmentTypesPrep,
-        maltreatmentTypesList,
-        maltreatmentTypesDataValues
-      );
-
-      const plotTitle = 'Maltreatment Types';
-      const plotOrientation = 'v';
-      const showPlotLegend = false;
-      const plotXDataLabel = 'Maltreatment Type';
-      const plotXDataAxisType = 'category';
-      const plotYDataLabel = 'Total Number of Cases in Selected County';
-      const plotYDataAxisType = 'linear';
-
-      const plotLayout = getPlotLayout(
-        plotTitle,
-        plotOrientation,
-        showPlotLegend,
-        plotXDataLabel,
-        plotXDataAxisType,
-        plotYDataLabel,
-        plotYDataAxisType
-      );
-
-      const plotData = getPlotDataBars(
-        'maltreatment',
-        maltreatmentTypesDataObject,
-        plotOrientation
-      );
-
-      const plotState = {
-        data: plotData,
-        layout: plotLayout,
-        config: plotConfig
-      };
-
-      const maltreatmentPlotData = {
-        malTypesAggregate: maltreatmentTypesDataAggregate,
-        malTypesList: maltreatmentTypesList,
-        malPlotState: plotState
-      };
-
-      return maltreatmentPlotData;
-    };
-
-    protxMaltreatmentDistribution = prepMaltreatmentPlotData(
-      selectedGeographicFeature,
-      maltreatmentTypes,
-      data,
-      geography,
-      year,
-      showRate
+    /**
+     * TODO: Use geoid value instead of selectedArea string value on backend.
+     * Description: The python maltreatment code on the backend renders the plot off the selectedArea string value instead of the geoid value.
+     * Note: we are passing the geoid to the back end already.
+     * Currently we pass along a munged string for the selectedArea (by looking up the geoid and appending the capitalized geogrpahy type with a space) to be used as the key value in the plotly rendering code.
+     * This is the way Kelly coded it.
+     * We should review the plotly server-side code and identify a way to use the geoid value rather than pass the munged string value for selectedArea.
+     * NOTE: We should identify a phased process for integrating a new plot from jupyter into the portal api so it is less intensive per sprint, makes more manageable PRs and helps WMA manage development  expectations better.
+     **/
+    const selectedGeographicFeatureName = getFipsIdName(
+      selectedGeographicFeature
     );
 
-    const plotState = protxMaltreatmentDistribution;
+    const selectedGeographicFeatureNameComplete = `${selectedGeographicFeatureName} ${capitalizeString(
+      geography
+    )}`;
+
+    const protxMaltreatmentDistribution = useSelector(
+      state => state.protxMaltreatmentDistribution
+    );
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
+        dispatch({
+          type: 'FETCH_PROTX_MALTREATMENT_DISTRIBUTION',
+          payload: {
+            area: geography,
+            selectedArea: selectedGeographicFeatureNameComplete,
+            geoid: selectedGeographicFeature,
+            unit,
+            variables: maltreatmentTypes
+          }
+        });
+      }
+    }, [
+      geography,
+      selectedGeographicFeatureNameComplete,
+      selectedGeographicFeature,
+      unit,
+      maltreatmentTypes
+    ]);
 
     if (selectedGeographicFeature && maltreatmentTypes.length !== 0) {
+      if (protxMaltreatmentDistribution.error) {
+        return (
+          <div className="data-error-message">
+            There was a problem loading the data.
+          </div>
+        );
+      }
+
+      if (protxMaltreatmentDistribution.loading) {
+        return (
+          <div className="loading-spinner">
+            <LoadingSpinner />
+          </div>
+        );
+      }
+
+      const plotState = protxMaltreatmentDistribution.data;
+
       return (
         <div className="maltreatment-chart">
           <div className="maltreatment-types-plot">
@@ -296,11 +191,9 @@ function MainChart({
                 geography={geography}
                 selectedGeographicFeature={selectedGeographicFeature}
                 maltreatmentTypes={maltreatmentTypes}
-                maltreatmentPlotAggregate={plotState.malTypesAggregate}
-                maltreatmentTypesList={plotState.malTypesList}
-                showRate={showRate}
+                data={data}
               />
-              <MainPlot plotState={plotState.malPlotState} />
+              <MainPlot plotState={plotState} />
               <ChartInstructions currentReportType="hidden" />
             </div>
           </div>
@@ -309,10 +202,7 @@ function MainChart({
     }
   }
 
-  /***********************/
-  /** PLOT INSTRUCTIONS **/
-  /***********************/
-
+  // PLOT INSTRUCTIONS.
   return (
     <div className="main-chart">
       {showInstructions && <ChartInstructions currentReportType={chartType} />}
@@ -321,16 +211,14 @@ function MainChart({
 }
 
 MainChart.propTypes = {
-  mapType: PropTypes.string.isRequired,
   chartType: PropTypes.string.isRequired,
   geography: PropTypes.string.isRequired,
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
-  showRate: PropTypes.bool.isRequired,
+  unit: PropTypes.string.isRequired,
   showInstructions: PropTypes.bool
 };
 

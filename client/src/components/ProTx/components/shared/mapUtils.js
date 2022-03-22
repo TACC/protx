@@ -28,7 +28,7 @@ const getFeatureStyle = (
   geoid,
   observedFeature,
   maltreatmentTypes,
-  showRate
+  unit
 ) => {
   let fillColor;
   if (mapType === 'observedFeatures') {
@@ -38,7 +38,7 @@ const getFeatureStyle = (
       year,
       geoid,
       observedFeature,
-      showRate
+      unit
     );
     if (featureValue && colorScale) {
       fillColor = colorScale.getColor(featureValue);
@@ -48,7 +48,7 @@ const getFeatureStyle = (
       data,
       geography,
       year,
-      showRate,
+      unit,
       geoid,
       maltreatmentTypes
     );

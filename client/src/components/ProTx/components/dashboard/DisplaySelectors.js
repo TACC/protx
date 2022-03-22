@@ -6,8 +6,17 @@ import MaltreatmentSelector from './MaltreatmentSelector';
 import { OBSERVED_FEATURES_TOP_FIELDS, SUPPORTED_YEARS } from '../data/meta';
 import './DisplaySelectors.module.scss';
 
-/* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps) */
-function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
+/* Radio buttons for types of values to display in dropdown (see COOKS-110 for next steps). */
+function RateSelector({
+  valueLabelRadioBtn0,
+  valueLabelRadioBtn1,
+  valueRadioBtn0,
+  valueRadioBtn1,
+  value,
+  setValue
+}) {
+  const isButton0Selected = value === valueRadioBtn0;
+  const isButton1Selected = value === valueRadioBtn1;
   return (
     <div styleName="radio-container">
       <div className="radio-container-element">
@@ -16,12 +25,12 @@ function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
           <input
             className="radio-button"
             type="radio"
-            value="percent"
+            value={valueRadioBtn0}
             styleName="radio-button"
-            checked={showRate}
-            onChange={() => setShowRate(true)}
+            checked={isButton0Selected}
+            onChange={() => setValue(valueRadioBtn0)}
           />
-          {rateLabel}
+          {valueLabelRadioBtn0}
         </label>
       </div>
       <div className="radio">
@@ -30,12 +39,12 @@ function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
           <input
             className="radio-button"
             type="radio"
-            value="total"
+            value={valueRadioBtn1}
             styleName="radio-button"
-            checked={!showRate}
-            onChange={() => setShowRate(false)}
+            checked={isButton1Selected}
+            onChange={() => setValue(valueRadioBtn1)}
           />
-          {nonRateLabel}
+          {valueLabelRadioBtn1}
         </label>
       </div>
     </div>
@@ -43,10 +52,12 @@ function RateSelector({ rateLabel, nonRateLabel, showRate, setShowRate }) {
 }
 
 RateSelector.propTypes = {
-  rateLabel: PropTypes.string.isRequired,
-  nonRateLabel: PropTypes.string.isRequired,
-  showRate: PropTypes.bool.isRequired,
-  setShowRate: PropTypes.func.isRequired
+  valueLabelRadioBtn0: PropTypes.string.isRequired,
+  valueLabelRadioBtn1: PropTypes.string.isRequired,
+  valueRadioBtn0: PropTypes.string.isRequired,
+  valueRadioBtn1: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
 };
 
 /**
@@ -58,7 +69,7 @@ RateSelector.propTypes = {
  *    (and user can't switch between value types like between percent/total)
  * Note:
  * Maltreatment data is available at the county level.
- * Demographic Features only has 2019 data
+ * Demographic Features only has 2019 data.
  *
  */
 function DisplaySelectors({
@@ -67,38 +78,41 @@ function DisplaySelectors({
   maltreatmentTypes,
   observedFeature,
   year,
-  showRate,
+  unit,
   setGeography,
   setMaltreatmentTypes,
   setObservedFeature,
   setYear,
-  setShowRate,
+  setUnit,
   limitToTopObservedFeatureFields
 }) {
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
-  const rateLabel =
-    mapType === 'maltreatment' ? 'Rate per 100K children' : 'Percentages';
-  const nonRateLabel = 'Totals';
+  const valueLabelRadioBtn0 = 'Percentages';
+  const valueLabelRadioBtn1 =
+    mapType === 'maltreatment' ? 'Rate per 100K children' : 'Totals';
+  const valueRadioBtn0 = 'percent';
+  const valueRadioBtn1 =
+    mapType === 'maltreatment' ? 'rate_per_100k_under17' : 'count';
   const display = useSelector(state => state.protx.data.display);
 
-  const changeShowRate = newShowRate => {
+  const changeUnit = newUnit => {
     if (mapType === 'observedFeatures') {
       // check to see if we also need to switch the variable if it doesn't a count or percentage
       // that would be needed.
       const current = display.variables.find(f => f.NAME === observedFeature);
-      if (newShowRate && current.DISPLAY_DEMOGRAPHIC_RATE === 0) {
+      if (newUnit && current.DISPLAY_DEMOGRAPHIC_RATE === 0) {
         setObservedFeature(
           display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_RATE === 1).NAME
         );
       }
-      if (!newShowRate && current.DISPLAY_DEMOGRAPHIC_COUNT === 0) {
+      if (!newUnit && current.DISPLAY_DEMOGRAPHIC_COUNT === 0) {
         setObservedFeature(
           display.variables.find(f => f.DISPLAY_DEMOGRAPHIC_COUNT === 1).NAME
         );
       }
     }
-    setShowRate(newShowRate);
+    setUnit(newUnit);
   };
 
   return (
@@ -134,14 +148,16 @@ function DisplaySelectors({
           </optgroup>
         </DropdownSelector>
       </div>
-      {setShowRate && (
+      {setUnit && (
         <div styleName="control">
           <span styleName="label">Value</span>
           <RateSelector
-            rateLabel={rateLabel}
-            nonRateLabel={nonRateLabel}
-            showRate={showRate}
-            setShowRate={changeShowRate}
+            value={unit}
+            valueLabelRadioBtn0={valueLabelRadioBtn0}
+            valueLabelRadioBtn1={valueLabelRadioBtn1}
+            valueRadioBtn0={valueRadioBtn0}
+            valueRadioBtn1={valueRadioBtn1}
+            setValue={changeUnit}
           />
         </div>
       )}
@@ -149,7 +165,7 @@ function DisplaySelectors({
         <div styleName="control">
           <span styleName="label">Type</span>
           <MaltreatmentSelector
-            showRate={showRate}
+            unit={unit}
             variables={display.variables}
             selectedTypes={maltreatmentTypes}
             setSelectedTypes={setMaltreatmentTypes}
@@ -179,10 +195,10 @@ function DisplaySelectors({
                     if (limitToTopObservedFeatureFields) {
                       return OBSERVED_FEATURES_TOP_FIELDS.includes(f.NAME);
                     }
-                    if (showRate && f.DISPLAY_DEMOGRAPHIC_RATE) {
+                    if (unit === 'percent' && f.DISPLAY_DEMOGRAPHIC_RATE) {
                       return true;
                     }
-                    if (!showRate && f.DISPLAY_DEMOGRAPHIC_COUNT) {
+                    if (unit === 'count' && f.DISPLAY_DEMOGRAPHIC_COUNT) {
                       return true;
                     }
                     return false;
@@ -222,19 +238,19 @@ DisplaySelectors.propTypes = {
   maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-  showRate: PropTypes.bool.isRequired,
+  unit: PropTypes.string.isRequired,
   setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
   setYear: PropTypes.func,
-  setShowRate: PropTypes.func,
+  setUnit: PropTypes.func,
   limitToTopObservedFeatureFields: PropTypes.bool
 };
 
 DisplaySelectors.defaultProps = {
   setGeography: null,
   setYear: null,
-  setShowRate: null,
+  setUnit: null,
   limitToTopObservedFeatureFields: false
 };
 

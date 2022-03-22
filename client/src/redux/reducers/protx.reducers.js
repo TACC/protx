@@ -38,20 +38,52 @@ export function protxDemographicsDistribution(
   action
 ) {
   switch (action.type) {
-    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_INIT':
+    case 'PROTX_DEMOGRAPHICS_DISTRIBUTION_INIT':
       return {
         ...initialDemographicsDistributionState,
         loading: true
       };
-    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_SUCCESS':
+    case 'PROTX_DEMOGRAPHICS_DISTRIBUTION_SUCCESS':
       return {
         ...state,
         data: action.payload.data,
         loading: false
       };
-    case 'PROTX_DEMOGRAPHIC_DISTRIBUTION_FAILURE':
+    case 'PROTX_DEMOGRAPHICS_DISTRIBUTION_FAILURE':
       return {
         ...initialDemographicsDistributionState,
+        error: true
+      };
+    default:
+      return state;
+  }
+}
+
+export const initialMaltreatmentDistributionState = {
+  loading: true,
+  error: false,
+  data: null
+};
+
+export function protxMaltreatmentDistribution(
+  state = initialMaltreatmentDistributionState,
+  action
+) {
+  switch (action.type) {
+    case 'PROTX_MALTREATMENT_DISTRIBUTION_INIT':
+      return {
+        ...initialMaltreatmentDistributionState,
+        loading: true
+      };
+    case 'PROTX_MALTREATMENT_DISTRIBUTION_SUCCESS':
+      return {
+        ...state,
+        data: action.payload.data,
+        loading: false
+      };
+    case 'PROTX_MALTREATMENT_DISTRIBUTION_FAILURE':
+      return {
+        ...initialMaltreatmentDistributionState,
         error: true
       };
     default:

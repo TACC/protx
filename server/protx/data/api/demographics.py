@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from protx.data.api.utils.plotly_figures import timeseries_lineplot
 
+
 db_name = '/protx-data/cooks.db'
 
 
@@ -34,7 +35,6 @@ def hist_to_bar(vector, range_vals, bins):
 
 
 def pearson_kurtosis(x):
-
     sigma = np.std(x)
     mean = np.mean(x)
     deviation = x - mean

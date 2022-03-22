@@ -3,23 +3,21 @@ import PropTypes from 'prop-types';
 import {
   getFipsIdName,
   capitalizeString,
-  getMaltreatmentTypeNames
+  getObservedFeaturesLabel
 } from '../shared/dataUtils';
 import './PlotDetails.css';
 
-function MaltreatmentDetails({
+function DemographicsDetails({
   geography,
+  observedFeature,
   selectedGeographicFeature,
-  maltreatmentTypes,
   data
 }) {
-  const fipsIdValue = getFipsIdName(selectedGeographicFeature);
-
-  const geographyLabel = capitalizeString(geography);
-  const maltreatmentTypesList = getMaltreatmentTypeNames(
-    maltreatmentTypes,
-    data
+  const observedFeaturesLabel = getObservedFeaturesLabel(observedFeature, data);
+  const selectedGeographicFeatureName = getFipsIdName(
+    selectedGeographicFeature
   );
+  const geographyType = capitalizeString(geography);
 
   return (
     <>
@@ -30,21 +28,17 @@ function MaltreatmentDetails({
               FIPS: {selectedGeographicFeature}
             </span>
             <span className="plot-details-section-selected-value">
-              {fipsIdValue} {geographyLabel}
+              {selectedGeographicFeatureName} {geographyType}
             </span>
           </div>
         </div>
         <div className="plot-details-section">
           <div className="plot-details-section-selected">
             <span className="plot-details-section-selected-label">
-              Current Aggregation:{'  '}
+              Selected Feature:
             </span>
-            <span className="plot-details-section-selected-value-list">
-              {maltreatmentTypesList.map(type => (
-                <span className="details-list-item" key={type}>
-                  {type}
-                </span>
-              ))}
+            <span className="plot-details-section-selected-value">
+              {observedFeaturesLabel}
             </span>
           </div>
         </div>
@@ -57,12 +51,12 @@ function MaltreatmentDetails({
   );
 }
 
-MaltreatmentDetails.propTypes = {
+DemographicsDetails.propTypes = {
   geography: PropTypes.string.isRequired,
+  observedFeature: PropTypes.string.isRequired,
   selectedGeographicFeature: PropTypes.string.isRequired,
-  maltreatmentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired
 };
 
-export default MaltreatmentDetails;
+export default DemographicsDetails;
