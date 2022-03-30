@@ -48,12 +48,12 @@ function DashboardDisplay() {
     if (mapType === 'maltreatment') {
       // maltreatment only has county data.
       setGeography('county');
-      setUnit('percent');
+      setUnit('count');
     } else {
       // observedFeatures (i.e. Demographic Features) and analytics
       setYear('2019'); // observedFeatures (i.e. Demographic Features) only has 2019 data.
       setGeography('county');
-      setUnit('count');
+      setUnit('percent');
     }
   }, [mapType]);
 
