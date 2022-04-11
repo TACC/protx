@@ -293,7 +293,20 @@ function MainMap({
 
       const newResourceLayers = [];
       const currentZoom = map.getZoom();
-      Object.keys(resourcesClusterGroups).forEach(naicsCode => {
+
+      const resourcesClusterGroupsSorted = Object.keys(resourcesClusterGroups).sort((a, b) => {
+        const matchingMetaA = resourcesMeta.find(
+          r => r.NAICS_CODE === parseInt(a, 10)
+        );
+
+        const matchingMetaB = resourcesMeta.find(
+          r => r.NAICS_CODE === parseInt(b, 10)
+        );
+
+        return matchingMetaA.DESCRIPTION.localeCompare(matchingMetaB.DESCRIPTION);
+      })
+
+      resourcesClusterGroupsSorted.forEach(naicsCode => {
         const markersClusterGroup = resourcesClusterGroups[naicsCode];
         const matchingMeta = resourcesMeta.find(
           r => r.NAICS_CODE === parseInt(naicsCode, 10)
