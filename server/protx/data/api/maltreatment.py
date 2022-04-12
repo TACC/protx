@@ -11,18 +11,18 @@ db_name = '/protx-data/cooks.db'
 
 # ten-color qualitative palette from colorbrewer2
 maltrt_palette = {
-    'Abandonment': '#a6cee3',
-    'Emotional abuse': '#1f78b4',
-    'Labor trafficking': '#b2df8a',
-    'Labor trafficing': '#b2df8a',
-    'Medical neglect': '#33a02c',
-    'Neglectful supervision': '#fb9a99',
-    'Physical abuse': '#e31a1c',
-    'Physical neglect': '#fdbf6f',
-    'Refusal to accept parental responsibility': '#ff7f00',
-    'Sexual abuse': '#cab2d6',
-    'Sex trafficing': '#6a3d9a',
-    'Sex trafficking': '#6a3d9a'
+    'Abandonment': '#001E2E',
+    'Emotional abuse': '#003b5c',
+    'Labor trafficking': '#007396',
+    'Labor trafficing': '#41748d',
+    'Medical neglect': '#bbdde6',
+    'Neglectful supervision': '#69dbc8',
+    'Physical abuse': '#007a53',
+    'Physical neglect': '#a9c47f',
+    'Refusal to accept parental responsibility': '#d4ec8e',
+    'Sexual abuse': '#EAF6C7',
+    'Sex trafficing': '#e9df97',
+    'Sex trafficking': '#898d8d'
 }
 
 
