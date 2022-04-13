@@ -294,7 +294,9 @@ function MainMap({
       const newResourceLayers = [];
       const currentZoom = map.getZoom();
 
-      const resourcesClusterGroupsSorted = Object.keys(resourcesClusterGroups).sort((a, b) => {
+      const resourcesClusterGroupsSorted = Object.keys(
+        resourcesClusterGroups
+      ).sort((a, b) => {
         const matchingMetaA = resourcesMeta.find(
           r => r.NAICS_CODE === parseInt(a, 10)
         );
@@ -303,8 +305,10 @@ function MainMap({
           r => r.NAICS_CODE === parseInt(b, 10)
         );
 
-        return matchingMetaA.DESCRIPTION.localeCompare(matchingMetaB.DESCRIPTION);
-      })
+        return matchingMetaA.DESCRIPTION.localeCompare(
+          matchingMetaB.DESCRIPTION
+        );
+      });
 
       resourcesClusterGroupsSorted.forEach(naicsCode => {
         const markersClusterGroup = resourcesClusterGroups[naicsCode];
