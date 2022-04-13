@@ -117,17 +117,17 @@ img.leaflet-marker-icon {
 /* circles */
 .marker-cluster-small,
 .marker-cluster-small div {
-    background-color: #CCCCCC99;
+    background-color: #CCCCCC99 !important;
 }
 
 .marker-cluster-medium,
 .marker-cluster-medium div {
-    background-color: #66666699;
-    color: #FFFFFF;
+    background-color: #66666699 !important;
+    color: #FFFFFF !important;
 }
 
 .marker-cluster-large,
 .marker-cluster-large div {
-    background-color: #33333399;
-    color: #FFFFFF;
+    background-color: #33333399 !important;
+    color: #FFFFFF !important;
 }
