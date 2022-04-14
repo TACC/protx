@@ -94,23 +94,23 @@ def get_bin_edges(query_return_df, label_template):
         return edges_threshold, bar_centers_threshold, label_fmt_threshold
 
 
-subplot_mapping_aes = {
-    'people': {
-        'AGE17': {'col': 1, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#636EFA'},
-        'GROUPQ': {'col': 2, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#EF553B'},
-        'NOHSDP': {'col': 3, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#00CC96'},
-        'POV': {'col': 4, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#AB63FA'}
-    },
-    'hh': {
-        'SNGPNT': {'col': 6, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#FFA15A'}
-    },
-    'hu': {
-        'CROWD': {'col': 8, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#19D3F3'}
-    },
-    'dollars': {
-        'PCI': {'col': 10, 'range': None, 'label_fmt': currency, 'color': '#FF6692'}
-    }
-}
+# subplot_mapping_aes = {
+#     'people': {
+#         'AGE17': {'col': 1, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#636EFA'},
+#         'GROUPQ': {'col': 2, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#EF553B'},
+#         'NOHSDP': {'col': 3, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#00CC96'},
+#         'POV': {'col': 4, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#AB63FA'}
+#     },
+#     'hh': {
+#         'SNGPNT': {'col': 6, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#FFA15A'}
+#     },
+#     'hu': {
+#         'CROWD': {'col': 8, 'range': (0, 100), 'label_fmt': not_currency, 'color': '#19D3F3'}
+#     },
+#     'dollars': {
+#         'PCI': {'col': 10, 'range': None, 'label_fmt': currency, 'color': '#FF6692'}
+#     }
+# }
 
 # ## Demographics demo: response to user selection, time series
 #
