@@ -111,6 +111,17 @@ def timeseries_lineplot(line_data):
         rangemode="tozero"
     )
     fig.update_traces(connectgaps=True)
+    fig.update_layout(
+        yaxis = dict(
+            titlefont=dict(size=18),
+            tickfont=dict(size=16)
+        ),
+        legend = dict(
+            font=dict(size=16),
+            traceorder='normal'
+        ),
+        xaxis = dict(tickfont=dict(size=16))
+    )
 
     return(fig)
 
@@ -244,10 +255,13 @@ def timeseries_histogram(hist_data):
         ticktext=hist_data['fig_aes']['bar_labels'],  # same for all plots, so use the last value returned in graph generation loop
     )
     fig.update_yaxes(
-        range=hist_data['fig_aes']['yrange']
+        range=hist_data['fig_aes']['yrange'],
+        tickfont=dict(size=16)
     )
 
     fig.update_xaxes(
-        range=hist_data['fig_aes']['xrange']
+        range=hist_data['fig_aes']['xrange'],
+        tickfont=dict(size=16)
     )
+
     return(fig)
