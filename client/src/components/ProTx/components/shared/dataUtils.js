@@ -298,7 +298,7 @@ const getMapLegendLabel = (
     return getMaltreatmentLabel(maltreatmentTypes, unit);
   }
   // For demographics (i.e. observed feature)
-  const suffix = unit === `percent` ? ' (Percent)' : ' (Total)';
+  const suffix = unit === `percent` ? ' (Percentages)' : ' (Totals)';
   return getObservedFeaturesLabel(observedFeature, data) + suffix;
 };
 
