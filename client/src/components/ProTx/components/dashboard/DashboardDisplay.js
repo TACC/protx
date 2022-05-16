@@ -28,7 +28,7 @@ function DashboardDisplay() {
   const [maltreatmentTypes, setMaltreatmentTypes] = useState(
     PRESELECTED_MALTREATMENT_CATEGORIES
   );
-  const [observedFeature, setObservedFeature] = useState('CROWD');
+  const [observedFeature, setObservedFeature] = useState('AGE17');
   const [year, setYear] = useState('2019');
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
