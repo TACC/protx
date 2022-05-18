@@ -17,11 +17,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
-import {
-  getMetaData,
-  getMaltreatmentLabel,
-  getObservedFeaturesLabel
-} from '../shared/dataUtils';
+import { getMetaData, getMapLegendLabel } from '../shared/dataUtils';
 import getFeatureStyle from '../shared/mapUtils';
 import IntervalColorScale from '../shared/colorsUtils';
 
@@ -196,10 +192,13 @@ function MainMap({
       setColorScale(intervalColorScale);
 
       if (intervalColorScale) {
-        const label =
-          mapType === 'maltreatment'
-            ? getMaltreatmentLabel(maltreatmentTypes, unit)
-            : getObservedFeaturesLabel(observedFeature, data);
+        const label = getMapLegendLabel(
+          mapType,
+          maltreatmentTypes,
+          observedFeature,
+          unit,
+          data
+        );
 
         const newLegend = L.control({ position: 'bottomright' });
 
