@@ -254,8 +254,11 @@ function MainMap({
             const matchingMeta = resourcesMeta.find(
               r => r.NAICS_CODE === parseInt(point.NAICS_CODE, 10)
             );
-            if (matchingMeta.DESCRIPTION === 'Child and Youth Services' || matchingMeta.DESCRIPTION === 'Cook Children\'s Locations') {
-            // if (point.NAICS_CODE === 9999 || point.NAICS_CODE === 6241) {
+            if (
+              matchingMeta.DESCRIPTION === 'Child and Youth Services' ||
+              matchingMeta.DESCRIPTION === "Cook Children's Locations"
+            ) {
+              // if (point.NAICS_CODE === 9999 || point.NAICS_CODE === 6241) {
               resourcesClusterGroups[point.NAICS_CODE].addTo(map);
             }
           }
