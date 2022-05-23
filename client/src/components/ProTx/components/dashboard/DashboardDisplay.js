@@ -13,6 +13,7 @@ function DashboardDisplay() {
   // TODO: control of this state (county, year, feature etc) should be moved to redux/sagas (https://jira.tacc.utexas.edu/browse/COOKS-55)
   const [mapType, setMapType] = useState('maltreatment');
   const [geography, setGeography] = useState('county');
+  const defaultYear = '2020';
   const PRESELECTED_MALTREATMENT_CATEGORIES = [
     'ABAN',
     'EMAB',
@@ -29,7 +30,7 @@ function DashboardDisplay() {
     PRESELECTED_MALTREATMENT_CATEGORIES
   );
   const [observedFeature, setObservedFeature] = useState('CROWD');
-  const [year, setYear] = useState('2019');
+  const [year, setYear] = useState(defaultYear);
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
   );
@@ -51,7 +52,7 @@ function DashboardDisplay() {
       setUnit('rate_per_100k_under17');
     } else {
       // observedFeatures (i.e. Demographic Features) and analytics
-      setYear('2019'); // observedFeatures (i.e. Demographic Features) only has 2019 data.
+      setYear(defaultYear); // observedFeatures (i.e. Demographic Features) only has 2019 data.
       setGeography('county');
       setUnit('percent');
     }
@@ -169,7 +170,7 @@ function DashboardDisplay() {
                       mapType={mapType}
                       geography={geography}
                       observedFeature={observedFeature}
-                      year="2019"
+                      year={defaultYear}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
                       unit={unit}
