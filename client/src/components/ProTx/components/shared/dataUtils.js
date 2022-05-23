@@ -283,6 +283,25 @@ const getObservedFeaturesLabel = (selectedObservedFeatureCode, data) => {
   ).DISPLAY_TEXT;
 };
 
+/** Get display label for map
+ *
+ * @returns string
+ */
+const getMapLegendLabel = (
+  mapType,
+  maltreatmentTypes,
+  observedFeature,
+  unit,
+  data
+) => {
+  if (mapType === 'maltreatment') {
+    return getMaltreatmentLabel(maltreatmentTypes, unit);
+  }
+  // For demographics (i.e. observed feature)
+  const suffix = unit === `percent` ? ' (Percentages)' : ' (Totals)';
+  return getObservedFeaturesLabel(observedFeature, data) + suffix;
+};
+
 export {
   capitalizeString,
   compareSimplifiedValueType,
@@ -292,5 +311,6 @@ export {
   getFipsIdName,
   getMaltreatmentTypeNames,
   getMaltreatmentLabel,
-  getObservedFeaturesLabel
+  getObservedFeaturesLabel,
+  getMapLegendLabel
 };
