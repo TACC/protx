@@ -96,7 +96,12 @@ function MainMap({
       if (newZoomLevel >= RESOURCE_ZOOM_LEVEL) {
         currentLayerControl.expand();
         refResourceLayers.current.forEach(resourceLayer => {
-          currentMap.addLayer(resourceLayer.layer);
+          if (
+            resourceLayer.label === 'Child and Youth Services' ||
+            resourceLayer.label === "Cook Children's Locations"
+          ) {
+            currentMap.addLayer(resourceLayer.layer);
+          }
         });
       } else {
         currentLayerControl.collapse();
@@ -251,16 +256,6 @@ function MainMap({
             resourcesClusterGroups[point.NAICS_CODE] = L.markerClusterGroup({
               showCoverageOnHover: false
             });
-            const matchingMeta = resourcesMeta.find(
-              r => r.NAICS_CODE === parseInt(point.NAICS_CODE, 10)
-            );
-            if (
-              matchingMeta.DESCRIPTION === 'Child and Youth Services' ||
-              matchingMeta.DESCRIPTION === "Cook Children's Locations"
-            ) {
-              // if (point.NAICS_CODE === 9999 || point.NAICS_CODE === 6241) {
-              resourcesClusterGroups[point.NAICS_CODE].addTo(map);
-            }
           }
 
           const marker = L.marker(L.latLng(point.LATITUDE, point.LONGITUDE), {
