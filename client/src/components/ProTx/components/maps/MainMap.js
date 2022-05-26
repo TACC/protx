@@ -92,7 +92,12 @@ function MainMap({
       if (newZoomLevel >= RESOURCE_ZOOM_LEVEL) {
         currentLayerControl.expand();
         refResourceLayers.current.forEach(resourceLayer => {
-          currentMap.addLayer(resourceLayer.layer);
+          if (
+            resourceLayer.label === 'Child and Youth Services' ||
+            resourceLayer.label === "Cook Children's Locations"
+          ) {
+            currentMap.addLayer(resourceLayer.layer);
+          }
         });
       } else {
         currentLayerControl.collapse();
