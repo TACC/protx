@@ -51,8 +51,7 @@ function DashboardDisplay() {
       setGeography('county');
       setUnit('rate_per_100k_under17');
     } else {
-      // observedFeatures (i.e. Demographic Features) and analytics
-      setYear(DEFAULT_YEAR); // observedFeatures (i.e. Demographic Features) only has 2019 data.
+      setYear(DEFAULT_YEAR);
       setGeography('county');
       setUnit('percent');
     }

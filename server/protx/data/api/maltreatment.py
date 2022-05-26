@@ -22,7 +22,7 @@ maltrt_palette = {
     'Sex trafficking': '#eaf6c7'
 }
 
-""" 
+"""
 TODO: Lookup the {focal_value} string value using the geoid value instead of passing the selectedArea string vaalue from the client. The {focal_value}is used as the DISPLAY_TEXT in the query.
 """
 
@@ -138,7 +138,6 @@ def maltreatment_plot_figure(area, selectedArea, geoid, variables, unit):
         'units': unit,
         'variables': ','.join(['"{}"'.format(v) for v in variables])
     }
-    print(user_select_data)
     db_conn = sqlite3.connect(db_name)
     maltrt_data = query_return(user_select_data, db_conn)
     db_conn.close()
