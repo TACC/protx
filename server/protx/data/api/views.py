@@ -1,5 +1,5 @@
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, StreamingHttpResponse
 from sqlalchemy import create_engine
 import logging
 import json
@@ -228,38 +228,44 @@ def get_resources(request):
 _DESIRED_FIELDS = ["NAME", "CITY", "STATE", "POSTAL_CODE", "PHONE", "WEBSITE",
                   "NAICS_CODE", "LATITUDE", "LONGITUDE"]
 
+
+class Echo:
+    """An object that implements just the write method of the file-like
+    interface.
+    """
+    def write(self, value):
+        """Write the value by returning it, instead of storing in a buffer."""
+        return value
+
+
 @onboarded_required
 def download_resources(request):
     """Get display information data
     """
-    connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="protx_geospatial")
-    query = "select * from texas_counties where texas_counties.geo_id='48113'" # dallas county
-    df = geopandas.GeoDataFrame.from_postgis(query, connection, geom_col='geom')
+    def generate_csv_rows():
+        # header row
+        yield _DESIRED_FIELDS
 
-    response = HttpResponse(content_type='text/csv')
+        connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="protx_geospatial")
+        query = "select * from texas_counties where texas_counties.geo_id='48113'" # dallas county
+        df = geopandas.GeoDataFrame.from_postgis(query, connection, geom_col='geom')
+        resources_result, _ = get_resources_and_display()
+
+        for r in resources_result:
+            long = r["LONGITUDE"]
+            lat = r["LATITUDE"]
+            if lat and long:  # some resources are missing position
+                point = shapely.geometry.Point(long, lat)
+                if df.contains(point).any():
+                    yield [r[key] for key in _DESIRED_FIELDS]
+
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    response = StreamingHttpResponse(
+        (writer.writerow(row) for row in generate_csv_rows()),
+        content_type="text/csv",
+    )
     response['Content-Disposition'] = 'attachment; filename="export.csv"'
-
-    # TODO: should this be StreamingHttpResponse?
-
-    resources_result, _ = get_resources_and_display()
-
-    selected_geographic_resources = []
-
-    for r in resources_result:
-        long = r["LONGITUDE"]
-        lat = r["LATITUDE"]
-        if lat and long:  # some resources are missing position
-            point = shapely.geometry.Point(long, lat)
-            if df.contains(point).any():
-                selected_geographic_resources.append(r)
-
-    if selected_geographic_resources:
-        writer = csv.writer(response)
-        # write header
-        writer.writerow(_DESIRED_FIELDS)
-        for r in selected_geographic_resources:
-            writer.writerow([r[key] for key in _DESIRED_FIELDS])
-
     return response
 
 @memoize_db_results(db_file=resources_db)
