@@ -233,7 +233,7 @@ function DisplaySelectors({
 
       {selectedGeographicFeature && (
         <Button
-          href="/api/protx/download"
+          href={`/api/protx/download/${geography}/${selectedGeographicFeature}/`}
           download
         >
           <i className="icon-download" /> <span>Download</span>

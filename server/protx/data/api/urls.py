@@ -17,6 +17,6 @@ urlpatterns = [
     path('maltreatment-plot-distribution/', views.get_maltreatment_distribution_plot_data, name='data'),
 
     url('resources/', views.get_resources, name='data'),
-    url('download/', views.download_resources, name='data')
+    path('download/<area>/<geoid>/', views.download_resources, name='data')
 
 ]

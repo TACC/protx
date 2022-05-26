@@ -239,15 +239,19 @@ class Echo:
 
 
 @onboarded_required
-def download_resources(request):
+def download_resources(request, area, geoid):
     """Get display information data
     """
+    if area != "county":
+        # currently assuming county and query is hardcoded for "texas_counties"
+        raise ApiException("Only downloading counties is supported")
+
     def generate_csv_rows():
         # header row
         yield _DESIRED_FIELDS
 
         connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="protx_geospatial")
-        query = "select * from texas_counties where texas_counties.geo_id='48113'" # dallas county
+        query = "select * from texas_counties where texas_counties.geo_id='{}'".format(geoid)
         df = geopandas.GeoDataFrame.from_postgis(query, connection, geom_col='geom')
         resources_result, _ = get_resources_and_display()
 
@@ -267,6 +271,7 @@ def download_resources(request):
     )
     response['Content-Disposition'] = 'attachment; filename="export.csv"'
     return response
+
 
 @memoize_db_results(db_file=resources_db)
 def get_resources_and_display():
