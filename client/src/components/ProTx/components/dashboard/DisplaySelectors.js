@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { DropdownSelector } from '_common';
+import { Button } from 'reactstrap';
 import MaltreatmentSelector from './MaltreatmentSelector';
 import { OBSERVED_FEATURES_TOP_FIELDS, SUPPORTED_YEARS } from '../data/meta';
 import './DisplaySelectors.module.scss';
@@ -79,6 +80,7 @@ function DisplaySelectors({
   observedFeature,
   year,
   unit,
+  selectedGeographicFeature,
   setGeography,
   setMaltreatmentTypes,
   setObservedFeature,
@@ -228,6 +230,15 @@ function DisplaySelectors({
           ))}
         </DropdownSelector>
       </div>
+
+      {selectedGeographicFeature && (
+        <Button
+          href="/api/protx/download"
+          download
+        >
+          <i className="icon-download" /> <span>Download</span>
+        </Button>
+      )}
     </div>
   );
 }
@@ -239,6 +250,7 @@ DisplaySelectors.propTypes = {
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
+  selectedGeographicFeature: PropTypes.string.isRequired,
   setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,

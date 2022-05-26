@@ -91,6 +91,7 @@ function DashboardDisplay() {
                   observedFeature={observedFeature}
                   year={year}
                   unit={unit}
+                  selectedGeographicFeature={selectedGeographicFeature}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
@@ -143,6 +144,7 @@ function DashboardDisplay() {
                   observedFeature={observedFeature}
                   year={year}
                   unit={unit}
+                  selectedGeographicFeature={selectedGeographicFeature}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setUnit={setUnit}
@@ -194,6 +196,7 @@ function DashboardDisplay() {
                   observedFeature={observedFeature}
                   year={year}
                   unit={unit}
+                  selectedGeographicFeature={selectedGeographicFeature}
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
