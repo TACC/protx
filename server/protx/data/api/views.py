@@ -1,14 +1,17 @@
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from sqlalchemy import create_engine
 import logging
 import json
+import csv
+import geopandas
+import psycopg2
+import shapely
 
 from protx.data.api import demographics
 from protx.data.api import maltreatment
 from protx.data.api.decorators import onboarded_required, memoize_db_results
 from portal.exceptions.api import ApiException
-
 
 logger = logging.getLogger(__name__)
 
@@ -189,8 +192,10 @@ def get_maltreatment_distribution_plot_data(request):
     geoid = body["geoid"]
     variables = body["variables"]
     unit = body["unit"]
-    logger.info("Getting maltreatment plot data for {} {} {} on the variables: {}".format(area, selectedArea, unit, variables))  # geoid
-    result = maltreatment.maltreatment_plot_figure(area=area, selectedArea=selectedArea, geoid=geoid, variables=variables, unit=unit)
+    logger.info("Getting maltreatment plot data for {} {} {} on the variables: {}".format(area, selectedArea, unit,
+                                                                                          variables))  # geoid
+    result = maltreatment.maltreatment_plot_figure(area=area, selectedArea=selectedArea, geoid=geoid,
+                                                   variables=variables, unit=unit)
     return JsonResponse({"result": result})
 
 
@@ -220,9 +225,45 @@ def get_resources(request):
     """
     return get_resources_cached()
 
+_DESIRED_FIELDS = ["NAME", "CITY", "STATE", "POSTAL_CODE", "PHONE", "WEBSITE",
+                  "NAICS_CODE", "LATITUDE", "LONGITUDE"]
+
+@onboarded_required
+def download_resources(request):
+    """Get display information data
+    """
+    connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="protx_geospatial")
+    query = "select * from texas_counties where texas_counties.geo_id='48113'" # dallas county
+    df = geopandas.GeoDataFrame.from_postgis(query, connection, geom_col='geom')
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="export.csv"'
+
+    # TODO: should this be StreamingHttpResponse?
+
+    resources_result, _ = get_resources_and_display()
+
+    selected_geographic_resources = []
+
+    for r in resources_result:
+        long = r["LONGITUDE"]
+        lat = r["LATITUDE"]
+        if lat and long:  # some resources are missing position
+            point = shapely.geometry.Point(long, lat)
+            if df.contains(point).any():
+                selected_geographic_resources.append(r)
+
+    if selected_geographic_resources:
+        writer = csv.writer(response)
+        # write header
+        writer.writerow(_DESIRED_FIELDS)
+        for r in selected_geographic_resources:
+            writer.writerow([r[key] for key in _DESIRED_FIELDS])
+
+    return response
 
 @memoize_db_results(db_file=resources_db)
-def get_resources_cached():
+def get_resources_and_display():
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
         resources = connection.execute("SELECT * FROM business_locations")
@@ -233,4 +274,10 @@ def get_resources_cached():
         display_result = []
         for m in meta:
             display_result.append(dict(m))
+    return resources_result, display_result
+
+
+@memoize_db_results(db_file=resources_db)
+def get_resources_cached():
+    resources_result, display_result = get_resources_and_display()
     return JsonResponse({"resources": resources_result, "display": display_result})
