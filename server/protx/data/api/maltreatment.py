@@ -22,7 +22,7 @@ maltrt_palette = {
     'Sex trafficking': '#eaf6c7'
 }
 
-""" 
+"""
 TODO: Lookup the {focal_value} string value using the geoid value instead of passing the selectedArea string vaalue from the client. The {focal_value}is used as the DISPLAY_TEXT in the query.
 """
 
@@ -39,17 +39,22 @@ join display_data u on
     d.MALTREATMENT_NAME = u.NAME
 where d.GEOTYPE = "{area}" and
     g.DISPLAY_TEXT = "{focal_area}" and
-    d.MALTREATMENT_NAME in ({variable}) and
+    d.MALTREATMENT_NAME in ({variables}) and
     d.units = "{units}";
 '''
 
 
 def query_return(user_selection, db_conn, palette=maltrt_palette):
-    # don't show percents when user has selected all maltreatment types
-    # todo: move this sanity check to elsewhere in processing?
+    # TODO: move this sanity check to elsewhere in processing?
     if user_selection['units'] == 'percent':
-        assert user_selection[
-                   'variable'] == '"ABAN", "EMAB", "MDNG", "NSUP", "PHAB", "PHNG", "RAPR", "SXAB", "SXTR", "LBTR"'
+        try:
+            assert user_selection['variables'] == '"ABAN","EMAB","LBTR","MDNG","NSUP","PHAB","PHNG","RAPR","SXAB","SXTR"'
+        except:
+            print("Assertion error on percent Type selection. Auto-selecting all categories.")
+            user_selection['variables'] = '"ABAN","EMAB","LBTR","MDNG","NSUP","PHAB","PHNG","RAPR","SXAB","SXTR"'
+
+    # TODO: when Value is set to Percentages, auto-select all categories in the Type drop-down menu.
+    # TODO: After the selection is updated, make sure the Map properly reflect all categories selected.
 
     # query user input (return all units, regardless of user selection)
     # query template defined in global namespace
@@ -133,9 +138,8 @@ def maltreatment_plot_figure(area, selectedArea, geoid, variables, unit):
         'units': unit,
         'variables': ','.join(['"{}"'.format(v) for v in variables])
     }
-    # print(unit)
     db_conn = sqlite3.connect(db_name)
     maltrt_data = query_return(user_select_data, db_conn)
     db_conn.close()
-    plot_figure = maltrt_stacked_bar(maltrt_data, unit)
+    plot_figure = maltrt_stacked_bar(maltrt_data)
     return json.loads(plot_figure.to_json())

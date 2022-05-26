@@ -87,8 +87,7 @@ def get_bin_edges(query_return_df, label_template):
         bar_centers_threshold = bar_centers[0: len(edges_threshold) + 1]
 
         # update the bar labels
-        label_fmt_threshold = [label_template(edges_threshold[i - 1], edges_threshold[i]) for i in
-                               range(1, len(edges_threshold))]
+        label_fmt_threshold = [label_template(edges_threshold[i - 1], edges_threshold[i]) for i in range(1, len(edges_threshold))]
 
         return edges_threshold, bar_centers_threshold, label_fmt_threshold
 
