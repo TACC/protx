@@ -45,17 +45,6 @@ where d.GEOTYPE = "{area}" and
 
 
 def query_return(user_selection, db_conn, palette=maltrt_palette):
-    # TODO: move this sanity check to elsewhere in processing?
-    if user_selection['units'] == 'percent':
-        try:
-            assert user_selection['variables'] == '"ABAN","EMAB","LBTR","MDNG","NSUP","PHAB","PHNG","RAPR","SXAB","SXTR"'
-        except:
-            print("Assertion error on percent Type selection. Auto-selecting all categories.")
-            user_selection['variables'] = '"ABAN","EMAB","LBTR","MDNG","NSUP","PHAB","PHNG","RAPR","SXAB","SXTR"'
-
-    # TODO: when Value is set to Percentages, auto-select all categories in the Type drop-down menu.
-    # TODO: After the selection is updated, make sure the Map properly reflect all categories selected.
-
     # query user input (return all units, regardless of user selection)
     # query template defined in global namespace
     maltrt_query_fmt = maltrt_query.format(**user_selection)
