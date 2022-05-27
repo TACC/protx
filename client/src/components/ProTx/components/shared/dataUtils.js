@@ -125,6 +125,9 @@ const getMaltreatmentMetaData = (
     const values = Object.values(aggregrateValues).map(x => +x);
     if (values.length) {
       meta = { min: Math.min(...values), max: Math.max(...values) };
+    } else {
+      // no values were found
+      return null;
     }
   }
   if (meta.max < 100.0000001 && meta.min > 99.9999999) {
