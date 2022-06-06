@@ -25,11 +25,12 @@ function DashboardDisplay() {
     'SXAB',
     'SXTR'
   ];
+  const DEFAULT_YEAR = '2020';
   const [maltreatmentTypes, setMaltreatmentTypes] = useState(
     PRESELECTED_MALTREATMENT_CATEGORIES
   );
-  const [observedFeature, setObservedFeature] = useState('CROWD');
-  const [year, setYear] = useState('2019');
+  const [observedFeature, setObservedFeature] = useState('AGE17');
+  const [year, setYear] = useState(DEFAULT_YEAR);
   const [selectedGeographicFeature, setSelectedGeographicFeature] = useState(
     ''
   );
@@ -50,8 +51,7 @@ function DashboardDisplay() {
       setGeography('county');
       setUnit('rate_per_100k_under17');
     } else {
-      // observedFeatures (i.e. Demographic Features) and analytics
-      setYear('2019'); // observedFeatures (i.e. Demographic Features) only has 2019 data.
+      setYear(DEFAULT_YEAR);
       setGeography('county');
       setUnit('percent');
     }
@@ -171,7 +171,7 @@ function DashboardDisplay() {
                       mapType={mapType}
                       geography={geography}
                       observedFeature={observedFeature}
-                      year="2019"
+                      year={DEFAULT_YEAR}
                       selectedGeographicFeature={selectedGeographicFeature}
                       data={data}
                       unit={unit}

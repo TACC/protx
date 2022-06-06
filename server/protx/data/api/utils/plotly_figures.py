@@ -6,7 +6,28 @@
   - https://github.com/TACC/protx-db/blob/main/notebooks/Simple_and_Detailed_Demo.ipynb
 """
 from plotly.subplots import make_subplots
+from plotly.colors import n_colors
 import plotly.graph_objects as go
+
+
+def wrap_text(text):
+    if len(text) > 25:
+        text_template = '{}{}{}'
+        split_disp = text.split(' ')
+        new_disp = split_disp[0]
+        newline_count = 0
+        for word in split_disp[1:]:
+            if (len(new_disp) >= 25) & (newline_count == 0):
+                separator = '<br>'
+                newline_count = 1
+            else:
+                separator = ' '
+            new_disp = text_template.format(new_disp, separator, word)
+
+        return new_disp
+
+    else:
+        return text
 
 
 def timeseries_lineplot(line_data):
@@ -19,16 +40,17 @@ def timeseries_lineplot(line_data):
     pluralize = {'county': 'counties', 'tract': 'census tracts'}
     fmt_units = pluralize[line_data['fig_aes']['geotype']]
 
-    # number of years to cover: always 2011-2019 (for now)
-    years = [i for i in range(2011, 2020)]
+    # number of years to cover: always 2011-2020 (for now)
+    years = [i for i in range(2011, 2021)]
 
     # measure to use
-    variable = line_data['fig_aes']['label_units']
     center = line_data['fig_aes']['center']
     if center == 'median':
         data = [line_data['years'][y]['median'] for y in years]
     else:
         data = [line_data['years'][y]['mean'] for y in years]
+    variable = line_data['fig_aes']['label_units']
+    legend_name = wrap_text(f'{variable}, statewide {center}')
 
     # make a plot with all the panels
     fig = make_subplots(rows=1, cols=1, x_title='')
@@ -41,7 +63,7 @@ def timeseries_lineplot(line_data):
         go.Scatter(
             y=data,
             x=years,
-            name=f'{variable}, statewide {center}',
+            name=legend_name,
             showlegend=True,
             mode='lines+markers',
             marker_size=10,
@@ -89,6 +111,17 @@ def timeseries_lineplot(line_data):
         rangemode="tozero"
     )
     fig.update_traces(connectgaps=True)
+    fig.update_layout(
+        yaxis = dict(
+            titlefont=dict(size=18),
+            tickfont=dict(size=16)
+        ),
+        legend = dict(
+            font=dict(size=16),
+            traceorder='normal'
+        ),
+        xaxis = dict(tickfont=dict(size=16))
+    )
 
     return(fig)
 
@@ -103,8 +136,8 @@ def timeseries_histogram(hist_data):
     pluralize = {'county': 'counties', 'tract': 'census tracts'}
     fmt_units = pluralize[hist_data['fig_aes']['geotype']]
 
-    # number of years to cover: always 2011-2019 (for now)
-    years = [i for i in range(2011, 2020)]
+    # number of years to cover: always 2011-2020 (for now)
+    years = [i for i in range(2011, 2021)]
 
     # make a plot with all the panels
     fig = make_subplots(
@@ -222,10 +255,13 @@ def timeseries_histogram(hist_data):
         ticktext=hist_data['fig_aes']['bar_labels'],  # same for all plots, so use the last value returned in graph generation loop
     )
     fig.update_yaxes(
-        range=hist_data['fig_aes']['yrange']
+        range=hist_data['fig_aes']['yrange'],
+        tickfont=dict(size=16)
     )
 
     fig.update_xaxes(
-        range=hist_data['fig_aes']['xrange']
+        range=hist_data['fig_aes']['xrange'],
+        tickfont=dict(size=16)
     )
+
     return(fig)
