@@ -225,8 +225,9 @@ def get_resources(request):
     """
     return get_resources_cached()
 
+
 _DESIRED_FIELDS = ["NAME", "CITY", "STATE", "POSTAL_CODE", "PHONE", "WEBSITE",
-                  "NAICS_CODE", "LATITUDE", "LONGITUDE"]
+                   "NAICS_CODE", "LATITUDE", "LONGITUDE"]
 
 
 class Echo:
