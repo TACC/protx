@@ -40,6 +40,10 @@ function MainMap({
   year,
   unit,
   data,
+  map,
+  setMap,
+  resourceLayers,
+  setResourceLayers,
   selectedGeographicFeature,
   setSelectedGeographicFeature
 }) {
@@ -51,9 +55,7 @@ function MainMap({
   // Leaflet related layers, controls, and map
   const [legendControl, setLegendControl] = useState(null);
   const [layersControl, setLayersControl] = useState(null);
-  const [resourceLayers, setResourceLayers] = useState(null);
   const [texasOutlineLayer, setTexasOutlineLayer] = useState(null);
-  const [map, setMap] = useState(null);
   const [colorScale, setColorScale] = useState(null);
   const [selectedGeoid, setSelectedGeoid] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(6);
@@ -328,6 +330,7 @@ function MainMap({
           map.addLayer(markersClusterGroup);
         }
         newResourceLayers.push({
+          naicsCode,
           label: layerLabel,
           layer: markersClusterGroup
         });
@@ -468,7 +471,13 @@ MainMap.propTypes = {
   selectedGeographicFeature: PropTypes.string.isRequired,
   setSelectedGeographicFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  map: PropTypes.object.isRequired,
+  setMap: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  resourceLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setResourceLayers: PropTypes.func.isRequired
 };
 
 export default MainMap;

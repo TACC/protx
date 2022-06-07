@@ -243,6 +243,8 @@ class Echo:
 def download_resources(request, area, geoid):
     """Get display information data
     """
+    selected_naics_codes = request.GET.getlist("naicsCode")
+
     if area != "county":
         # currently assuming county and query is hardcoded for "texas_counties"
         raise ApiException("Only downloading counties is supported")
@@ -254,7 +256,7 @@ def download_resources(request, area, geoid):
         connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="protx_geospatial")
         query = "select * from texas_counties where texas_counties.geo_id='{}'".format(geoid)
         df = geopandas.GeoDataFrame.from_postgis(query, connection, geom_col='geom')
-        resources_result, _ = get_resources_and_display()
+        resources_result, _ = get_resources_and_display(naics_codes=selected_naics_codes)
 
         for r in resources_result:
             long = r["LONGITUDE"]
@@ -275,10 +277,20 @@ def download_resources(request, area, geoid):
 
 
 @memoize_db_results(db_file=resources_db)
-def get_resources_and_display():
+def get_resources_and_display(naics_codes=None):
+    """
+    Get resources and related metadata
+
+    if naics_codes, then limit the resources returned to those
+    that have a NAICS_CODE in naics_codes
+    """
     engine = create_engine(SQLALCHEMY_RESOURCES_DATABASE_URL, connect_args={'check_same_thread': False})
     with engine.connect() as connection:
-        resources = connection.execute("SELECT * FROM business_locations")
+        resource_query = "SELECT * FROM business_locations"
+        if naics_codes:
+            resource_query += " r WHERE r.NAICS_CODE IN ({})".format(','.join(['"{}"'.format(code) for code in naics_codes]))
+
+        resources = connection.execute(resource_query)
         resources_result = []
         for r in resources:
             resources_result.append(dict(r))

@@ -86,7 +86,8 @@ function DisplaySelectors({
   setObservedFeature,
   setYear,
   setUnit,
-  limitToTopObservedFeatureFields
+  limitToTopObservedFeatureFields,
+  downloadResources
 }) {
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
@@ -232,10 +233,7 @@ function DisplaySelectors({
       </div>
 
       {selectedGeographicFeature && (
-        <Button
-          href={`/api/protx/download/${geography}/${selectedGeographicFeature}/`}
-          download
-        >
+        <Button onClick={downloadResources} download>
           <i className="icon-download" /> <span>Download</span>
         </Button>
       )}
@@ -256,7 +254,8 @@ DisplaySelectors.propTypes = {
   setObservedFeature: PropTypes.func.isRequired,
   setYear: PropTypes.func,
   setUnit: PropTypes.func,
-  limitToTopObservedFeatureFields: PropTypes.bool
+  limitToTopObservedFeatureFields: PropTypes.bool,
+  downloadResources: PropTypes.func.isRequired
 };
 
 DisplaySelectors.defaultProps = {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { stringify } from 'query-string';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionMessage, LoadingSpinner } from '_common';
@@ -35,6 +36,9 @@ function DashboardDisplay() {
     ''
   );
   const [unit, setUnit] = useState('count');
+  const [map, setMap] = useState(null);
+  const [resourceLayers, setResourceLayers] = useState(null);
+
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(state => state.protx);
   const protxRoute = '/protx';
@@ -56,6 +60,22 @@ function DashboardDisplay() {
       setUnit('percent');
     }
   }, [mapType]);
+
+  const handleDownloadResources = () => {
+    if (map && resourceLayers) {
+      const selectedResourcesNaicsCode = resourceLayers
+        .filter(r => {
+          return map.hasLayer(r.layer);
+        })
+        .map(r => r.naicsCode);
+      const typeQuery = stringify({
+        naicsCode: selectedResourcesNaicsCode
+      });
+
+      const downloadResourceHref = `/api/protx/download/${geography}/${selectedGeographicFeature}?${typeQuery}`;
+      window.open(downloadResourceHref);
+    }
+  };
 
   if (error) {
     return (
@@ -96,6 +116,7 @@ function DashboardDisplay() {
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
                   setUnit={setUnit}
+                  downloadResources={handleDownloadResources}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -111,6 +132,10 @@ function DashboardDisplay() {
                       setSelectedGeographicFeature={
                         setSelectedGeographicFeature
                       }
+                      map={map}
+                      setMap={setMap}
+                      resourceLayers={resourceLayers}
+                      setResourceLayers={setResourceLayers}
                     />
                   </div>
                   <div className="display-layout-chart">
@@ -148,6 +173,7 @@ function DashboardDisplay() {
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setUnit={setUnit}
+                  downloadResources={handleDownloadResources}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -163,6 +189,10 @@ function DashboardDisplay() {
                       setSelectedGeographicFeature={
                         setSelectedGeographicFeature
                       }
+                      map={map}
+                      setMap={setMap}
+                      resourceLayers={resourceLayers}
+                      setResourceLayers={setResourceLayers}
                     />
                   </div>
                   <div className="display-layout-chart">
@@ -200,6 +230,7 @@ function DashboardDisplay() {
                   setMaltreatmentTypes={setMaltreatmentTypes}
                   setObservedFeature={setObservedFeature}
                   setYear={setYear}
+                  downloadResources={handleDownloadResources}
                 />
                 <div className="display-layout-root">
                   <div className="display-layout-map">
@@ -215,6 +246,10 @@ function DashboardDisplay() {
                       setSelectedGeographicFeature={
                         setSelectedGeographicFeature
                       }
+                      map={map}
+                      setMap={setMap}
+                      resourceLayers={resourceLayers}
+                      setResourceLayers={setResourceLayers}
                     />
                   </div>
                   <div className="display-layout-chart">
