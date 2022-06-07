@@ -7,6 +7,7 @@ import csv
 import geopandas
 import psycopg2
 import shapely
+from datetime import datetime
 
 from protx.data.api import demographics
 from protx.data.api import maltreatment
@@ -249,13 +250,16 @@ def download_resources(request, area, geoid):
         # currently assuming county and query is hardcoded for "texas_counties"
         raise ApiException("Only downloading counties is supported")
 
+    connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="protx_geospatial")
+    query = "select * from texas_counties where texas_counties.geo_id='{}'".format(geoid)
+    county_dataframe = geopandas.GeoDataFrame.from_postgis(query, connection, geom_col='geom')
+    county_name = county_dataframe.iloc[0]["name"]
+    connection.close()
+
     def generate_csv_rows():
         # header row
         yield _DESIRED_FIELDS
 
-        connection = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="protx_geospatial")
-        query = "select * from texas_counties where texas_counties.geo_id='{}'".format(geoid)
-        df = geopandas.GeoDataFrame.from_postgis(query, connection, geom_col='geom')
         resources_result, _ = get_resources_and_display(naics_codes=selected_naics_codes)
 
         for r in resources_result:
@@ -263,7 +267,7 @@ def download_resources(request, area, geoid):
             lat = r["LATITUDE"]
             if lat and long:  # some resources are missing position
                 point = shapely.geometry.Point(long, lat)
-                if df.contains(point).any():
+                if county_dataframe.contains(point).any():
                     yield [r[key] for key in _DESIRED_FIELDS]
 
     pseudo_buffer = Echo()
@@ -272,7 +276,11 @@ def download_resources(request, area, geoid):
         (writer.writerow(row) for row in generate_csv_rows()),
         content_type="text/csv",
     )
-    response['Content-Disposition'] = 'attachment; filename="export.csv"'
+
+    # datetime object containing current date and time
+    timestamp = datetime.now().strftime("%d_%m_%Y_%H_%M")
+    filename = f"{county_name}_{area}_resources_{timestamp}.csv"
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
     return response
 
 
