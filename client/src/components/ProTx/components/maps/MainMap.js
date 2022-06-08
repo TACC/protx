@@ -473,11 +473,15 @@ MainMap.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  map: PropTypes.object.isRequired,
+  map: PropTypes.object,
   setMap: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  resourceLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  resourceLayers: PropTypes.arrayOf(PropTypes.object),
   setResourceLayers: PropTypes.func.isRequired
+};
+
+MainMap.defaultProps = {
+  map: null,
+  resourceLayers: null
 };
 
 export default MainMap;
