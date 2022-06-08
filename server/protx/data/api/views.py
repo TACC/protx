@@ -227,14 +227,14 @@ def get_resources(request):
     return get_resources_cached()
 
 
-_DESIRED_FIELDS = ["NAME", "CITY", "STATE", "POSTAL_CODE", "PHONE", "WEBSITE",
-                   "NAICS_CODE", "LATITUDE", "LONGITUDE"]
+_DESIRED_FIELDS = ["NAME", "CITY", "STATE", "POSTAL_CODE", "PHONE", "WEBSITE", "LATITUDE", "LONGITUDE", "NAICS_CODE"]
 
 
 class Echo:
     """An object that implements just the write method of the file-like
     interface.
     """
+
     def write(self, value):
         """Write the value by returning it, instead of storing in a buffer."""
         return value
@@ -258,9 +258,11 @@ def download_resources(request, area, geoid):
 
     def generate_csv_rows():
         # header row
-        yield _DESIRED_FIELDS
+        yield _DESIRED_FIELDS + ["NAICS_DESCRIPTION"]
 
-        resources_result, _ = get_resources_and_display(naics_codes=selected_naics_codes)
+        resources_result, display_result = get_resources_and_display(naics_codes=selected_naics_codes)
+
+        naics_to_description = {d["NAICS_CODE"]: d["DESCRIPTION"] for d in display_result}
 
         for r in resources_result:
             long = r["LONGITUDE"]
@@ -268,7 +270,8 @@ def download_resources(request, area, geoid):
             if lat and long:  # some resources are missing position
                 point = shapely.geometry.Point(long, lat)
                 if county_dataframe.contains(point).any():
-                    yield [r[key] for key in _DESIRED_FIELDS]
+                    row = [r[key] for key in _DESIRED_FIELDS] + [naics_to_description[r["NAICS_CODE"]]]
+                    yield row
 
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)
@@ -296,7 +299,8 @@ def get_resources_and_display(naics_codes=None):
     with engine.connect() as connection:
         resource_query = "SELECT * FROM business_locations"
         if naics_codes:
-            resource_query += " r WHERE r.NAICS_CODE IN ({})".format(','.join(['"{}"'.format(code) for code in naics_codes]))
+            resource_query += " r WHERE r.NAICS_CODE IN ({})".format(
+                ','.join(['"{}"'.format(code) for code in naics_codes]))
 
         resources = connection.execute(resource_query)
         resources_result = []
