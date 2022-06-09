@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { DropdownSelector } from '_common';
+import { Button } from 'reactstrap';
 import MaltreatmentSelector from './MaltreatmentSelector';
 import { OBSERVED_FEATURES_TOP_FIELDS, SUPPORTED_YEARS } from '../data/meta';
 import './DisplaySelectors.module.scss';
@@ -79,12 +80,14 @@ function DisplaySelectors({
   observedFeature,
   year,
   unit,
+  selectedGeographicFeature,
   setGeography,
   setMaltreatmentTypes,
   setObservedFeature,
   setYear,
   setUnit,
-  limitToTopObservedFeatureFields
+  limitToTopObservedFeatureFields,
+  downloadResources
 }) {
   const disableGeography = mapType === 'maltreatment' || setGeography === null;
   const disabledYear = mapType === 'observedFeatures' || setYear == null;
@@ -228,6 +231,12 @@ function DisplaySelectors({
           ))}
         </DropdownSelector>
       </div>
+
+      {selectedGeographicFeature && (
+        <Button onClick={downloadResources} download>
+          <i className="icon-download" /> <span>Download</span>
+        </Button>
+      )}
     </div>
   );
 }
@@ -239,12 +248,14 @@ DisplaySelectors.propTypes = {
   observedFeature: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
+  selectedGeographicFeature: PropTypes.string.isRequired,
   setGeography: PropTypes.func,
   setMaltreatmentTypes: PropTypes.func.isRequired,
   setObservedFeature: PropTypes.func.isRequired,
   setYear: PropTypes.func,
   setUnit: PropTypes.func,
-  limitToTopObservedFeatureFields: PropTypes.bool
+  limitToTopObservedFeatureFields: PropTypes.bool,
+  downloadResources: PropTypes.func.isRequired
 };
 
 DisplaySelectors.defaultProps = {
