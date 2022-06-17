@@ -233,8 +233,8 @@ function DisplaySelectors({
       </div>
 
       {selectedGeographicFeature && (
-        <Button onClick={downloadResources} download>
-          <i className="icon-download" /> <span>Download</span>
+        <Button onClick={downloadResources} color="primary" size="sm" styleName="download-btn" download>
+          Download
         </Button>
       )}
     </div>

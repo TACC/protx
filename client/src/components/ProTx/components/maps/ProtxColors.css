@@ -3,6 +3,7 @@
 /* Portal Variable Overwrites */
 #react-root {
     --global-color-accent--normal: #924e8c;
+    --global-color-accent--weak: #924e8c80;
 }
 
 /* CHOROPLETH MAP */
